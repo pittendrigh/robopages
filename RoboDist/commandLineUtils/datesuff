@@ -1,0 +1,5 @@
+#!/bin/sh
+
+tmp=`date | awk '{print $2, "_", $3, "_", $6}' | sed 's/ //g'`
+echo "_$tmp"
+

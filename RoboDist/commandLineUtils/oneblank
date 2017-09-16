@@ -1,0 +1,17 @@
+#!/usr/bin/perl  -i
+
+$flag=0;
+
+while (<>)
+{
+	if (/[\S]+/) #if text
+	{
+     print;
+     $flag=0;
+   }
+   else #if blank 
+   {
+   print if $flag < 1;
+   $flag++;
+   }
+}

@@ -1,0 +1,8 @@
+#!/usr/bin/perl
+
+while(<>)
+{
+chop;
+print $_, "\n" if !($last eq $_);
+$last = $_;
+}

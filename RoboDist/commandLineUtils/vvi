@@ -1,0 +1,12 @@
+#!/bin/bash
+
+mode=555
+if [[ -n "$2" ]]
+then
+mode=$2
+fi
+
+chmod +w $1
+vi $1
+chmod $mode $1
+

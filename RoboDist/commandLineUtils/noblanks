@@ -1,0 +1,6 @@
+#!/usr/bin/perl -i.bak
+while(<>)
+{
+s/^[\n]*[ ]*[\t]*[\r]*//;
+print unless /^$/;
+}

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+me=`whoami`
+
+sudo chown -R $me.$me ./*
+
+sudo chmod -R 755 ./*
+
+for dir in `find . -name LOGS`
+do
+sudo chmod -R 777 $dir
+done
+
+sudo chmod -R 775 ~/public_html/Uploads

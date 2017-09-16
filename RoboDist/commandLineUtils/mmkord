@@ -1,0 +1,160 @@
+#!/usr/bin/perl
+
+use Cwd;
+use File::Basename;
+use MIME::Types qw(by_suffix by_mediatype import_mime_types);
+
+sub getLinkType
+{
+   $ppath=shift;
+   $ffile=basename $ppath;
+   ($suffix = $ffile) =~ s/^.*\.//;
+   $ret = 'link';
+   if($suffix eq 'htm'){ 
+        $ret  = 'fragment'
+   } elsif ($suffix eq 'gif'){ $ret = 'image'}
+   elsif ($suffix eq 'jpg'){ $ret = 'image'}
+   elsif ($suffix eq 'png'){ $ret = 'image'}
+   elsif ($suffix eq 'txt'){ $ret = 'text'}
+   elsif ($suffix eq 'url'){ $ret = 'url'}
+   ##elsif ( -d "$ppath" ){ $ret = 'dir'}
+   
+   return $ret;
+}
+
+
+sub stripsuffix
+{
+   my $file = shift; 
+	 my $base;
+	 ($base = $file) =~ s/\..*$//;
+	 ($base = $base) =~ s/^.*\+//;
+	 ($base = $base) =~ s/_-//g;
+	 return $base;
+}
+
+($wherePath = shift) =~ s://:/:g; 
+if($wherePath eq '.')
+{
+  $wherePath = getcwd;
+}
+
+($whereUrl = $wherePath) =~ s:^.*fragments/::;
+($whereUrl = $whereUrl) =~ s:^.*fragments::;
+$whereUrl .= '/';
+$wherePath .= '/';
+$whereUrl='' if $whereUrl eq '/';
+#print "wherePath: ", $wherePath, "\n whereUrl: ", $whereUrl, "\n"; exit;
+#print "wherePath: ", $wherePath, "\n whereUrl: ", $whereUrl, "\n"; 
+
+($dirlinks = $wherePath."dirlinks") =~ s://:/:g;
+open FILE, ">$dirlinks" or die "error on open $dirlinks \n";
+
+opendir(DIR, $wherePath);
+@files = readdir(DIR);
+closedir(DIR);
+
+
+%filehash;
+%linktypehash;
+foreach $file (@files)
+{
+	if ($file eq "." || $file eq ".." || $file eq "dirlinks" || $file =~ /archive/ || $file eq 'pee'){
+			next;
+	}
+        next if $file =~ 'dirlinks';
+        next if $file =~ 'frag';
+        next if $file =~ 'svn';
+        next if $file =~/.cap/;
+        next if !($file =~ /\./) && !( -d $wherePath . $file );
+
+        ($path = $whereUrl.$file) =~ s://:/:g;
+        #$path = $whereUrl.$file;
+    	$filehash{$path} = $file; 
+
+        if ( -d $wherePath . $file )
+        { 
+           $linktypehash{$path} = 'dir'; 
+        }
+        else 
+        { 
+           $linkType = getLinkType($file);  
+           ##echo "$file is $linkType"
+           $linktypehash{$whereUrl . $file} = $linkType; 
+        }
+        
+}
+
+my $onlineplanshref='';
+my $onlineplanslabel='';
+
+my $indexdalink='';
+foreach $k (sort(keys %filehash)) 
+{
+   my $menuType='int';
+   if(basename($filehash{$k}) =~ /online-plans/ || basename($filehash{$k}) =~ /slideshow/) 
+   {
+      $onlineplanshref = $k;
+      $label = basename($filehash{$k});
+      $onlineplanslabel = $label;
+    
+      my $dalink;
+    
+      if ($k =~ /slideshow/)
+      {
+         ($slideshowHref = $onlineplanshref) =~ s:slideshow::;
+         $slideshowHref = '?page=' . $slideshowHref ;
+         $slideshowHref .= '&amp;main-content=slideshow';
+         $dalink = $slideshowHref.'::'.$label."::".$menuType. "::link::\n";
+        
+         print $dalink;
+         print FILE $dalink;
+      } 
+      elsif ($k =~ /index.htm/)
+      {
+           $indexdalink = "?page=".$onlineplanshref.'::'.$label."::".$menuType."::dir::\n";
+      }
+      else { 
+          $dalink = "?page=".$onlineplanshref.'::'.$label."::".$menuType."::dir::\n";
+          print $dalink;
+          print FILE $dalink;
+      }
+   }
+}
+
+
+foreach $k (sort(keys %filehash)) 
+{
+        next if basename($filehash{$k}) =~ /online-plans/;
+        next if basename($filehash{$k}) =~ /slideshow/;
+        next if basename($filehash{$k}) =~ /index.htm/;
+	$label = $filehash{$k};
+        $linkType = $linktypehash{$k};
+
+        $menuType= 'int';
+        $menuType='chp' if $linkType eq 'dir';
+        $menuType='ext' if $linkType =~ /http:/;
+
+        $base = basename($linktypehash{$k});
+        ($suffix = $base) =~ s/^.*\.//;
+        @robotypes = qw(int chp ext fragment image dir);
+        my ($mime_type, $encoding) = by_suffix(basename($linktypehash{$k}));
+        my $dalink;
+        if($suffix)
+        {
+            if(grep $_ eq $suffix, @robotypes){ 
+   	        $dalink = "?page=".$k.'::'.$label."::" . $menuType. "::". $linkType . "::\n";
+            } else{
+   	        $dalink = 'fragments/' . $k.'::'.$label."::" . $menuType. "::". $linkType . "::\n";
+            }
+        }
+ 
+	print $dalink;
+	print FILE $dalink;
+}
+	print $indexdalink;
+	print FILE $indexdalink;
+
+close FILE;
+
+`goo`

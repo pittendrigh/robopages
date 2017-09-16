@@ -1,0 +1,16 @@
+<h1> Installing into a unix file system public_html directory </h1>
+
+In the main index.php include and instantiate dirCrawler.class.php instead of robopages.php <br/><br/>
+Then edit conf/dirLStart.conf.ini<br/>
+<br/>
+<b>include_once("dirCrawler.class.php");</b><br/>
+//include_once("robopages.php");<br/>
+<br/>
+<b>$page = new dirCrawler(); </b>><br/>
+//$page = new robopages()<br/>
+<br/>
+<br/>
+echo $page->startHTML($title);<br/>
+echo $page->crawl();<br/>
+echo dirCrawler::endHTML();<br/>
+<br/>

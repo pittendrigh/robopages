@@ -1,0 +1,10 @@
+#!/usr/bin/perl -i
+
+$to = pop @ARGV;
+$from = pop @ARGV;
+
+while(<>)
+{
+  s/$from/$to/g;
+  print $_;
+}
