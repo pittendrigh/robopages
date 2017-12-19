@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <cssfiles>
+        <file>css/robo.css</file>
+        <file>css/dropdowns.css</file>
+    </cssfiles>
+    <bodycontent>
+        <div klass="container text-center" id="headerbanner" src="container" >
+            <div id="hbanner" src="file" />
+            <div klass="navbar" id="bottombannerlinks" src="file" />
+        </div>
+        <div klass="container" id="wrapper" src="container" >
+              <div klass="navbar" id="mkBreadcrumbs" src="mkBreadcrumbs" />
+              <div id="contactForm" src="contactus" />   
+        </div> 
+        <div id="footer" src="file" />   
+    </bodycontent>
+</layout>
