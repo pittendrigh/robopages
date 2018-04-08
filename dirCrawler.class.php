@@ -60,21 +60,18 @@ class dirCrawler {
 
         if (isset($_GET['layout'])) {
             $this->definitionfile = 'layouts/' . $_GET['layout'] . '.xml';
-        } 
+        }
         //else if (isset($sys_layout)) { $this->definitionfile = 'layouts/' . $sys_layout . '.xml'; }
-
         // first if below and first else could conflict.  Tough. We use the if
         if (isset($_GET['layout']) && file_exists("layouts/" . $_GET['layout'] . '.xml')) {
             $this->definitionFile = 'layouts/' . $_GET['layout'] . '.xml';
-        }
-        else if (@stat($_SESSION['currentDirPath'].'/layout')){
-             $line = file($_SESSION['currentDirPath'].'/layout');
-             $this->definitionFile = 'layouts/' . trim($line[0]) . '.xml';
-        }
-        else if (isset($_GET['page'])) {
+        } else if (@stat($_SESSION['currentDirPath'] . '/layout')) {
+            $line = file($_SESSION['currentDirPath'] . '/layout');
+            $this->definitionFile = 'layouts/' . trim($line[0]) . '.xml';
+        } else if (isset($_GET['page'])) {
             $dirlayoutLines = file("conf/dirlayouts.ini");
             $dlcnt = count($dirlayoutLines);
-            //  page=Driftboats/honky-dory/honkey-dory-online-plans
+
             /* .....we want everything from Fly-Tying down?
               Fly-Tying/Sandy-Pittendrigh/BestOf|roboBucket
               Bugs|roboBucket
@@ -97,7 +94,7 @@ class dirCrawler {
             }
         }
 
-       // echo 'end of dirCrawler determineLayout: <b style="color: green;">', $this->definitionFile, "</b><br/>";
+        // echo 'end of dirCrawler determineLayout: <b style="color: green;">', $this->definitionFile, "</b><br/>";
     }
 
     function init() {
@@ -196,7 +193,8 @@ class dirCrawler {
         }
 
 
-        $ret .= $plugin->getOutput($divid);
+        if (isset($plugin) && $plugin != null)
+            $ret .= $plugin->getOutput($divid);
 
         return $ret;
     }
@@ -284,7 +282,7 @@ class dirCrawler {
 
 
         //echo "divid: ", $divid, " divsrc: [", $divsrc, "]<br/>";
-
+        $plugin = '';
         switch ($divsrc) {
             case 'wrapper':
                 $ret .= "\n" . '<' . $elementName . ' id="wrapper">';
@@ -304,13 +302,12 @@ class dirCrawler {
             default:
                 if ($divattrLbl == 'klass')
                     $ret .= "\n" . '<' . $elementName . ' class="' . $divid . '">';
-                else
-                {
+                else {
                     // else there might be klass="xxx" and id="yyy"
 
                     $ret .= "\n" . '<' . $elementName;
-                    if(isset($divklass) && $divklass != null)
-                      $ret .= ' class="' . $divklass . '" ';
+                    if (isset($divklass) && $divklass != null)
+                        $ret .= ' class="' . $divklass . '" ';
                     $ret .= ' id="' . $divid . '">';
                 }
 
@@ -322,13 +319,13 @@ class dirCrawler {
                  */
                 $plugin = new $divsrc();
                 //echo $divid, " on ", $divsrc, "<br/>";
-                $dbg = $this->assembleContent($plugin, $divsrcs, $divid);
-                $ret .= $dbg;
+                //$dbg = $this->assembleContent($plugin, $divsrcs, $divid);
                 break;
         }
         foreach ($adiv->children() as $adivchild) {
             $ret .= $this->doBlocksXML($adivchild);
         }
+        $ret .= $this->assembleContent($plugin, $divsrcs, $divid);
         $ret .= '</' . $elementName . '>';
         return $ret;
     }
@@ -452,40 +449,14 @@ class dirCrawler {
         return ($ret);
     }
 
-    function getTitle()
-    {
-      $title='';
-      $titleTest = $_SESSION['currentDirPath'] . 'roboresources/title';
-
-      if(@stat($titleTest)){
-        //echo "titleTest: " , $titleTest, "<br/>";
-        $title = @file_get_contents($titleTest);
-      }
-      else if (isset($_GET['page']))
-      {
-         if(strstr(basename($_GET['page']), "index"))
-         { 
-            $title = dirname($_GET['page']);
-            //echo "GET title1: ", $title, "<br/>";
-         }else{
-            $title = str_replace('/', ' ', staticRoboUtils::stripSuffix(basename($_GET['page'])));
-            //echo "GET title2: ", $title, "<br/>";
-         }
-      }
-
-      if(!isset($title))
-            $title = 'Robopages'; 
-
-      //echo " &nbsp; &nbsp; ", $title, "<br/>";
-      return $title;
-    }
-
     function startHTML() {
         global $sys_title;
         $title = $sys_title;
 
-        $title = $this->getTitle();
-$ret = <<<ENDO
+        if (isset($_GET['page']) && !strpos($_GET['page'], "index"))
+            $title = str_replace('/', ' ', staticRoboUtils::stripSuffix($_SESSION['currentDirUrl']));
+
+        $ret = <<<ENDO
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -495,8 +466,9 @@ $ret = <<<ENDO
   <meta property="og:title"   content="DIY drift boat building" />
   <meta property="og:url"   content="http://montana-riverboats.com" />
   <meta name="verify-admitad" content="68d3884360" />
+  <title> 
 ENDO;
-$ret .= '<title>'.  $title . "</title>";
+        $ret .= $title . "</title>";
 
         $ret .= $this->mkExtraHead();
 
@@ -528,13 +500,12 @@ $ret .= '<title>'.  $title . "</title>";
 
     function mkExtraHead() {
         global $sys_defd, $sys_defk;
-        $metadef = '';
         $ret = $keyswords = $metadef = $metakeys = '';
         if (isset($sys_defd))
             $metadef .= $sys_defd;
 
-        if(isset($_GET['page']))
-           $metadef .= ' -- ' . $_GET['page'];
+        if (isset($_GET['page']))
+            $metadef .= ' -- ' . $_GET['page'];
 
         if (isset($sys_defk))
             $metakeys .= $sys_defk;
