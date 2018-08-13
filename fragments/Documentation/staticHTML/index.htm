@@ -1,0 +1,27 @@
+<h1> Robopages is also a static HTML generator</h1>
+Robopages can now produce static rather than dynamic HTML. Static output includes relative links so the HTML can be place anywhere in or under any Apache DOCUMENT_ROOT.<br/>
+<br/>
+<b>1) Edit conf/globals.php</b> so $sys_static_mode=TRUE;<br/>
+<br/>
+<b> 2)</b> 
+When in static mode robopages still creates dynamic output and then, for each page edits the dynamic output so all URLs (links and images) are changed to static, relative links.  Static output is placed in getcwd() . '/Pages/ and then writes the static version to the local file system.'  
+<br/>
+<br/>
+This should be done on localhost and then copied up to the real server. 
+<br/>
+It is possible to get static generation to work properly on a remote server but it isn't a good idea.  In order for robopages to create static output the web server process needs to have write permission access to the file system. This should only be done on a local desktop copy of the website instead of on the server.  Developing on localhost is a good idea no matter what. Once the static output is created, on the desktop, it can be copied up to the server.<br/>
+<br/>
+<b>Steps on localhost.</b> Let's say we are working in /var/www/html/Robotest:<br/>
+<br/>
+cd /var/www/html/Robotest (where index.php lives).<br/>
+mkdir Pages<br/>
+chmod -R 777 Pages<br/>
+<br/>
+edit conf/globals.php as outlined above.<br/>
+<br/>
+Then type 'cd' in the terminal window to return to your home directory. Then invoke every page in succession with:<br/>
+<b>wget -r localhost --accept-regex Robotest</b><br/>
+<br/>
+Now look inside /var/www/html/Robotest/Pages/<br/>
+<br/>
+Now zip up or tar up the contents of Pages and copy it up to the server
