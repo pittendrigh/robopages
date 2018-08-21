@@ -6,7 +6,7 @@
  ini_set("display_errors", 1);
 
  include_once("conf/globals.php");
- require_once("staticRoboUtils.php");
+ require_once("StaticRoboUtils.php");
  require_once("plugins/roboMimeTyper.php");
 
  $plugins = file("conf/plugins.ini");
@@ -127,7 +127,7 @@
    {
      global $sys_layout;
 
-     staticRoboUtils::getpostClean();
+     StaticRoboUtils::getpostClean();
      $this->determineLayout();
 
      if (isset($_GET['dbg']))
@@ -452,7 +452,7 @@
      }
 
      $_SESSION['currentDisplay'] = preg_replace(":^\/:", '', $_SESSION['currentDisplay']);
-     $_SESSION['currentDirPath'] = staticRoboUtils::fixPath($_SESSION['currentDirPath']);
+     $_SESSION['currentDirPath'] = StaticRoboUtils::fixPath($_SESSION['currentDirPath']);
 
 
      if ($this->dbg)
@@ -527,7 +527,7 @@
      $title = $sys_title;
      if (isset($_GET['robopage']) && !strpos($_GET['robopage'], "index"))
      {
-       $title = str_replace('/', ' ', staticRoboUtils::stripSuffix($_GET['robopage']));
+       $title = str_replace('/', ' ', StaticRoboUtils::stripSuffix($_GET['robopage']));
        //echo $title, "<br/>";
      }
 
@@ -606,7 +606,7 @@ ENDO;
        {
          if ($file != '.' && $file != '..' && !strstr($file, 'index') && !strstr($file, 'roboresources'))
          {
-           $keyword = preg_replace(":_|-:", ' ', staticRoboUtils::stripSuffix($file));
+           $keyword = preg_replace(":_|-:", ' ', StaticRoboUtils::stripSuffix($file));
            $keywords .= ',' . $keyword;
          }
        }
@@ -650,7 +650,7 @@ ENDO;
      }
 
      // now check for page-specific overrides
-     $fileBase = staticRoboUtils::stripSuffix(basename($_SESSION['currentDisplay']));
+     $fileBase = StaticRoboUtils::stripSuffix(basename($_SESSION['currentDisplay']));
      if (@stat($_SESSION['currentDirPath'] . 'roboresources/metakeys-' . $fileBase))
      {
        $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metakeys-' . $fileBase);

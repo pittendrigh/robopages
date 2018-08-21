@@ -5,15 +5,26 @@
  class staticDomDrone extends domDrone
  {
 
-
-/*
-  debugging echos below left for now--perhaps turned into a logging function at some later date
-*/
+   function roboLogit($msg)
+   {
+     //echo "roboLogit ", htmlentities($msg), "<br/>";
+     $fp = fopen("/tmp/robolog.log", "a");
+     fwrite($fp, $msg . "\n");
+     chmod("/tmp/robolog.log", 0777);
+     fclose($fp);
+   }
 
    function copyDirContents($source, $dest)
    {
+
      if (is_dir($source))
      {
+       if (!@stat($dest))
+       {
+         mkdir($dest, 0777);
+         chmod($dest, 0777);
+       }
+
        $indexFlag = 0;
        $dir_handle = opendir($source);
        while ($file = readdir($dir_handle))
@@ -21,12 +32,11 @@
          if ($file[0] == '.')
            continue;
 
-         $suffix = strtolower(staticRoboUtils::getSuffix(basename($file)));
+         $suffix = strtolower(StaticRoboUtils::getSuffix(basename($file)));
          $allowed = array("css", "html", "txt", "jpg", "png", "gif", "zip", "tgz");
-
-         if (in_array($suffix, $allowed))
+         if (in_array($suffix, $allowed) && !is_dir($source . $file))
          {
-           //echo "copying: ", $file, " to " , $dest, "<br/>";
+           //$this->roboLogit("copyDirContents copy: " . $source . '/'. $file . " to: ". $dest . '/' . $file);
            copy($source . '/' . $file, $dest . '/' . $file);
          }
        }
@@ -38,7 +48,7 @@
      $indexFlag = 0;
      $allowed = array("css", "html", "txt", "jpg", "png", "gif", "zip", "tgz");
 
-     //echo "copyDirRecursively($source, $dest) <br/>";
+     //$this->roboLogit("copyDirRecursively($source, $dest)");
      if (is_dir($source))
      {
        $dir_handle = opendir($source);
@@ -50,44 +60,34 @@
            {
              if (!is_dir($dest . "/" . $file))
              {
-               if (!@stat($dest . "/" . $file, 0777))
-               {
-                 mkdir($dest . "/" . $file, 0777);
-                 chmod($dest . "/" . $file, 0777);
-               }
+               mkdir($dest . "/" . $file, 0777);
+               chmod($dest . "/" . $file, 0777);
              }
-             $this->copyDirRecursively($source . "/" . $file, $dest . "/" . $file);
+             $this->copyDirRecursively($source . '/' . $file, $dest . '/' . $file);
            } else
            {
-             if ($file == 'index.htm')
-               $indexFlag++;
+             $suffix = strtolower(StaticRoboUtils::getSuffix(basename($file)));
 
-             $suffix = strtolower(staticRoboUtils::getSuffix(basename($file)));
-
+             //if($suffix != 'htm')
              if (in_array($suffix, $allowed))
+             {
+               $this->roboLogit("copyDirRecursively copy: " . $source . '/' . $file . " to: " . $dest . '/' . $file);
                copy($source . '/' . $file, $dest . '/' . $file);
-
-             chmod($dest . "/" . $file, 0777);
-           }
-           if ($indexFlag == 0)
-           {
-             // something like PIC_4469_Avocet.jpg gets turned into a default display page in robopages
-             // from $_SESSION['currentDisplay'] .....
-             // how do we turn that into an index.htm
-             // .....or do we do that somewhere else???
-             // ah, this is only a possible problem if getcwd() . '/' . $_GET['robopage'] is_dir
+               chmod($dest . "/" . $file, 0777);
+             }
            }
          }
        }
        closedir($dir_handle);
      } else
      {
+       // grep -i actionItem *php ....ever go here? Log this at some point
        copy($source, $dest);
        chmod($dest, 0777);
      }
    }
 
-   function EchoStatic($ddata, $mode)
+   function Echostatic($ddata, $mode)
    {
      global $sys_static_location;
 
@@ -103,14 +103,11 @@
      {
        $needIndexHtmlFile = FALSE;
      }
-
-     // grep -iH actionItem *php this NEEDS changed?  Make $sys_static_location a full path
-     // pointing to OUTSIDE the currently executing index.php directory.
-     //$staticDirPath = $sys_static_location . $_SESSION['currentDirUrl'];
-     $staticDirPath = getcwd() . '/Pages/';
+     $staticDirPath = getcwd() . '/Pages/' . $_SESSION['currentDirUrl'];
 
      // perhaps there are hand edited links in the data that need to be converted 
      $data = preg_replace('/\?robopage=|index.php\?robopage=/', '', $ddata);
+     //echo "data: ", htmlentities($data), "<br/>";
 
 
      if (!@stat($staticDirPath))
@@ -119,25 +116,29 @@
        chmod($staticDirPath, 0777);
      }
 
-     // this copies only allowed files (no *.htm)
+     // this copies only allowed files (no *.htm) grep -iH actionItem *php
+     // .....need an @stat step or strategy to do this only once per file? 
      $this->copyDirContents($_SESSION['currentDirPath'], $staticDirPath);
 
-     if (@stat($_SESSION['currentDirPath'] . 'roboresources'))
+     //if (@stat($_SESSION['currentDirPath'] . 'roboresources'))
+     if (1 > 0)
      {
 
-       if (!@stat($staticDirPath . 'roboresources'))
+       //if (!@stat($staticDirPath . 'roboresources'))
+       if (1 > 0)
        {
          @mkdir($staticDirPath . 'roboresources', 0777);
          @chmod($staticDirPath . 'roboresources', 0777);
-         $this->copyDirRecursively($_SESSION['currentDirPath'] . '/roboresources/', $staticDirPath . 'roboresources');
+         $this->copyDirRecursively($_SESSION['currentDirPath'] . 'roboresources/', $staticDirPath . 'roboresources');
        }
      }
 
 
-     $file = $_SESSION['currentDisplay'] == null ? 'index.html' : staticRoboUtils::stripSuffix($_SESSION['currentDisplay']) . '.html';
+     $file = $_SESSION['currentDisplay'] == null ? 'index.html' : StaticRoboUtils::stripSuffix($_SESSION['currentDisplay']) . '.html';
 
      $filepath = $staticDirPath . $file;
 
+     //$this->roboLogit( "EchoStatic filepath: " . $filepath);
      $fp = fopen($filepath, $mode);
      fwrite($fp, $data);
      fclose($fp);
@@ -156,8 +157,10 @@
    {
      $ret = '';
 
-     //echo "dotsUp someUrl: ", $someUrl, "<br/>";
+     //$this->roboLogit( "dotsUp someUrl: ". $someUrl);
      $tmpArr = explode("/", $someUrl);
+     // hack 
+     //$tmpArr = array_slice($tmpArr,1);
 
      foreach ($tmpArr as $val)
      {
@@ -172,7 +175,6 @@
      return $ret;
    }
 
-   //hhhhhref
    function relativeHref($dynamicDestUrl)
    {
      $ret = $dynamicDestUrl;
@@ -180,7 +182,6 @@
 
      if (strstr($dynamicDestUrl, "http:"))
        return $dynamicDestUrl;
-
 
      // insure not slash at the end of $dynamicDestUrl
      if (substr($dynamicDestUrl, -1) == '/')
@@ -207,6 +208,8 @@
      $newDest = implode('/', $destUrlSequence);
 
      $ret = $newDots . $newDest;
+
+     $this->roboLogit("relativeHref ret: " . $ret);
      return $ret;
    }
 
@@ -272,18 +275,23 @@
 
      foreach ($links as $alink)
      {
-       $href = $alink->getAttribute('href');
+       // grep -i actionItem *php
+       // removing $_SESSION['prgrmUrlRoot'] is for the special case of the
+       // one href that does not have ?robopage= ...which is the "home" link
+       // this is a hard-coded robopages hack. Perhaps there is a better way.
+       // in the mean time this seems to work
+       $href = str_replace($_SESSION['prgrmUrlRoot'], '', $alink->getAttribute('href'));
        $label = $alink->nodeValue;
 
-       if (strstr($href, 'robopage='))
+       if (strstr($href, 'robopage=') || strstr($href, "index.php"))
        {
          $aMungedHref = $this->relativeHref(preg_replace("/^.*=/", '', $href));
          if (strstr($href, "."))
          {
-           $aMungedHref = staticRoboUtils::stripSuffix($aMungedHref) . ".html";
+           $aMungedHref = StaticRoboUtils::stripSuffix($aMungedHref) . ".html";
          }
          $alink->setAttribute("href", $aMungedHref);
-         //echo "alink->getAttribute(href): ", $alink->getAttribute("href"), "<br/><br/>";
+         $this->roboLogit($label . ": alink->getAttribute(href): " . $alink->getAttribute("href"));
        }
      }
 
@@ -294,7 +302,7 @@
 
        $aMungedSrc = $this->relativeSrc($imgSrc);
        $anImg->setAttribute("src", $aMungedSrc);
-       //echo "anImg->getAttribute(src): ", $anImg->getAttribute("src"), "<br/><br/>";
+       //$this->roboLogit("anImg->getAttribute(src): " . $anImg->getAttribute("src")) ;
      }
 
 
@@ -309,21 +317,32 @@
 
      if ((isset($sys_static_mode) && $sys_static_mode == TRUE))
      {
-       //@mkdir($sys_static_location . 'css', 0777);
-       //@mkdir($sys_static_location . 'systemimages', 0777);
-       @mkdir(getcwd() . '/Pages', 0777);
-       @mkdir(getcwd() . '/Pages/css', 0777);
-       @mkdir(getcwd() . '/Pages/systemimages', 0777);
+       if (!@stat(getcwd() . '/Pages'))
+         @mkdir(getcwd() . '/Pages', 0777);
 
-       $this->copyDirContents(getcwd() . '/css', getcwd() . '/Pages/css');
-       $this->copyDirContents(getcwd() . '/systemimages', getcwd() . '/Pages/systemimages');
 
+       if (!@stat(getcwd() . '/Pages/css'))
+       {
+         @mkdir(getcwd() . '/Pages/css', 0777);
+         $this->copyDirContents(getcwd() . '/css', getcwd() . '/Pages/css');
+       }
+
+       if (!@stat(getcwd() . '/Pages/js'))
+       {
+         @mkdir(getcwd() . '/Pages/js', 0777);
+         $this->copyDirContents(getcwd() . '/js', getcwd() . '/Pages/js');
+       }
+       if (!@stat(getcwd() . '/Pages/systemimages'))
+       {
+         @mkdir(getcwd() . '/Pages/systemimages', 0777);
+         $this->copyDirContents(getcwd() . '/systemimages', getcwd() . '/Pages/systemimages');
+       }
 
        for ($i = 0; $i < $this->divcnt; $i++)
        {
          $data = $this->divs[$this->topLevelDivNames[$i]];
          $data = $this->mungeRobopageLinks($data);
-         $this->EchoStatic($data, "a");
+         $this->Echostatic($data, "a");
        }
      }
    }

@@ -1,0 +1,22 @@
+<h3> Epub3 on the Server </h3>
+
+You can now create epub3 (but not yet epub2) files with an editor like Sigil. Copy that file to somewhere under the DOCUMENT_ROOT of your server. Then edit conf/dirlayouts.ini and away it goes.<br/>
+<br/>
+Hyphothetical set of steps:<br/>
+scp my.epub3 to your home directory on the server<br/>
+ssh to the server.<br/>
+<br/>
+cd /var/www/html/myrobopages/conf<br/>
+vi dirlayouts.ini<br/>
+....make a line in dirlayouts.ini as follows:<br/>
+Ebook|book<br/>
+<br/>
+cd /var/www/html/myrobopages/fragments<br/>
+mkdir Ebook<br/>
+cd Ebook<br/>
+cp ~/my.epub3 .<br/>
+unzip my.epub3<br/>
+<br/>
+The contents of my.epub3 should show up in your browser, complete with a table of contents.<br/>
+The current TOC doesn't collapse into an icon and then expand back full size yet.  Perhaps eventually.<br/>
+It works as it is and I have a lot going on. It's only a few lines of Javascript to make that happen.<br/>
