@@ -2,7 +2,7 @@
 
 include_once("conf/globals.php");
 
-class staticRoboUtils {
+class StaticRoboUtils {
 
     static function fixPageEqualParm($tentativelink) {
         $tentativelink = preg_replace(":^\/:", "", $tentativelink);
@@ -12,7 +12,7 @@ class staticRoboUtils {
     }
 
     static function getFilesOptions($dir, $filter = null) {
-        $farry = staticRoboUtils::getFilesList($dir, $filter);
+        $farry = StaticRoboUtils::getFilesList($dir, $filter);
         $opstr = '';
         foreach (array_keys($farry) as $akey) {
             $opstr .= '<option  value="' . $akey . '">' . $akey . '</option>';
@@ -83,7 +83,7 @@ class staticRoboUtils {
     }
 
     static function mkLabel($str) {
-        $base = staticRoboUtils::stripSuffix(basename($str));
+        $base = StaticRoboUtils::stripSuffix(basename($str));
         //$ret = trim(preg_replace('/-|_/', ' ', $base));
         //$ret = trim(preg_replace('/-/', ' ', $base));
         //$ret = preg_replace("^[^_]*_", '', $base);
@@ -160,7 +160,7 @@ class staticRoboUtils {
     }
 
     public static function mkImageLabel($str) {
-        $ret = staticRoboUtils::stripSuffix($str);
+        $ret = StaticRoboUtils::stripSuffix($str);
         $ret = preg_replace('/-|_/', ' ', $ret);
         return $ret;
     }
@@ -195,9 +195,9 @@ class staticRoboUtils {
                 if (substr($_GET['page'], 0, 1) == '/')
                     $_GET['page'][0] = '';
                 if (substr($_GET['page'], 0, 1) == '.')
-                    staticRoboUtils::ouch("get dots");
+                    StaticRoboUtils::ouch("get dots");
                 else if (strstr($_GET['page'], '..'))
-                    staticRoboUtils::ouch("embeded get dots");
+                    StaticRoboUtils::ouch("embeded get dots");
                 else if (substr($_GET['page'], 0, 5) == 'admin')
                     unset($_GET['page']);
             }
@@ -209,11 +209,11 @@ class staticRoboUtils {
                     $_GET['page'][0] = '';
 
                 if (substr($_POST['page'], 0, 1) == '/')
-                    staticRoboUtils::ouch("post slash");
+                    StaticRoboUtils::ouch("post slash");
                 else if (substr($_POST['page'], 0, 1) == '.')
-                    staticRoboUtils::ouch("post dots");
+                    StaticRoboUtils::ouch("post dots");
                 else if (strstr($_POST['page'], '..') == '.')
-                    staticRoboUtils::ouch("embeded post dots");
+                    StaticRoboUtils::ouch("embeded post dots");
                 else if (substr($_POST['page'], 0, 5) == 'admin')
                     unset($_POST['page']);
             }
