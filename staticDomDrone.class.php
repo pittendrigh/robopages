@@ -82,7 +82,7 @@
      } else
      {
        // grep -i actionItem *php ....ever go here? Log this at some point
-       copy($source, $dest);
+       @copy($source, $dest);
        chmod($dest, 0777);
      }
    }

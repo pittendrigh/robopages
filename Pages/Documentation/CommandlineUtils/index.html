@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119784292-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-119784292-1');
+</script>
+
+  <META http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <META name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <META property="og:type"   content="website" />
+  <META property="og:title"   content="Documentation CommandlineUtils" />
+  <META property="og:url"   content="" />
+  <META	property="og:image" content="" />
+  <META name="google-site-verification" content="VfbG9hUocSivEqxyvW52qCqrjyRZGGZidif018AEMrw" />
+<title>Documentation CommandlineUtils</title>
+
+<META name="description" content="Robopages -- A CMS with layouts defined in XML  CommandlineUtils"/>
+<META name="keywords" content="keyword1,keyword2,keyword3,Documentation,CommandlineUtils"/>
+
+<link rel="stylesheet" type="text/css" href="../../css/robo.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/dropdowns.css"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+</head> 
+
+<body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="headerbanner">
+<div id="hbanner"></div>
+<div id="bottombannerlinks"><h1 class="hbanner"> Robopages </h1>
+<div class="dropdown nav navbar">
+  <a href="/">Home </a>
+           <div class="dropdown-content">
+               <!-- <a href="?layout=flows">River Flows</a> -->
+               <a href="http://flies.montana-riverboats.com">Western Fly Archive</a>
+               <a href="http://flies.montana-riverboats.com/?page=Bugs">Bugs</a>
+               <a href="http://flies.montana-riverboats.com/?page=Birds">Birds</a>
+           </div>
+</div>
+<div class="dropdown nav navbar">
+      <a href="http://montana-riverboats.com/?page=Driftboats">Boat-Plans </a>  
+           <div class="dropdown-content">
+               <a href="?page=Honky-Dory">Honky Dory Plans</a>
+               <a href="?page=Beavertail">Beavertail Plans</a>
+               <a href="?page=Buffalo-Boat">Buffalo Boat Plans</a>
+               <a href="?page=Dayak">Dayak Plans</a>
+           </div>
+</div>
+      <a href="?layout=contactus"> Contact-us  </a>  
+</div></div></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="main-content">
+<div id="mkBreadcrumbs"><a href="../../index.html"></a><b class="nav"><a class="breadcrumbs" href="../../index.html"><b>..(home)</b>/</a><a href="..html">Documentation/</a><a href=".html">CommandlineUtils</a></b></div>
+<div id="main-disp">
+<div id="toc"><p class="robonav">
+<a href="mkthumbs.html">Mkthumbs </a>
+</p><p class="robonav">
+<a href="index.html">Index </a>
+</p></div>I administer robopages sites with scp and ssh. <br>
+For most administration chores I ssh into the server and run various bash and perl command line tools.<br>
+There are no admin.php like scripts for hackers to exploit.
+<br><br>
+Anyone who feels the need for a point-and-click administration GUI could install phpMyAdmin.  Without phpMyAdmin you don't have to make the file system writable to the web server process.  
+<br><br>
+
+You will need <b>imagemagick</b> and various perl libraries including: <br><b>Image::Size<br>
+    CWD<br>
+    File::Basename<br>
+    MIME::Types <br></b>
+Use <b>sudo yum search/install</b> or <b>sudo apt-cache search/sudo apt-get install</b> or <b>sudo perl -MCPAN -eshell</b> to find and install the perl libraries above.
+
+<h1> Robopage Utilities </h1>
+<b>mkslideshow:</b> (makes a slideshow work but does not generate thumbnail navigation, creates symlinks in roboresources/slideshow)<br><b>mkthumbs:</b> (makes thumbnails and slideshows for this directory only, in the hidden dirs roboresources/thumbs and roboresources/slideshow)<br><b>recursiveslides:</b> (a recursive wrapper around mkthumbs) <br><b>resize.pl:</b> (resizes images) 
+<p style="margin-left: 2em;">
+    for file in `find . | egrep -i  "jpg|gif|png"`<br>
+    do<br>
+    &nbsp; &nbsp; resize.pl $file 500<br>
+    &nbsp; &nbsp; sleep 1 #### give resize.pl enough time to run before looping<br>
+    done
+</p>
+<b>vvi: </b>(vi running as root, with sudo)<br><b>fragfix:</b>  (recursive file permission changer, from the current directory on down)<br><b>mkord:</b>  <br><p style="margin-left: 2em;">
+    mkord is a recursive wrapper around mmkord. <br>
+    mmkord works on the current directory only. 
+    Use with caution (always make backups bofore anything, no matter what)
+</p>
+<b>mmkord:</b> 
+<p style="margin-left: 2em;">
+    mmkord calls 
+    creates a dirlinks file in any given directory, which orders the links created by plugins/dynamicNavigation.php. After running the script and creating the dirlinks file you can edit it to rearrange the link ordering. Any files found in said directory not specified in the dirlinks file are appended to the displayed links by plugins/dynamicNavigation.php<br></p>
+<b>rrepstr: </b> 
+<p style="margin-left: 2em;">
+    for file in `find . -name "*htm"`<br>
+    do<br>
+    &nbsp; &nbsp;   rrepstr $file JPG jpg &gt; /tmp/pee<br>
+    &nbsp; &nbsp;  cp /tmp/pee $file<br>
+    done
+</p>
+
+<b>datesuff</b>  Generates a string similar to <b>_Sep_16_2017</b> based on today's date 
+</div></div></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="footer"><a href="https://sourceforge.net/projects/robopages/">powered by Robopages</a>
+</div></body></html>
+
+</body></html>
