@@ -248,7 +248,7 @@
      for ($i = 0; $i < $cnt; $i++)
      {
        $adir = $currentUrlSequence[$i];
-       if (strstr($dynamicImgDestUrl, $adir))
+       if ($dynamicImgDestUrl != null  && $adir != null && strstr($dynamicImgDestUrl, $adir))
        {
          $dotsArray = array_slice($dotsArray, 1);
          $dbg = implode("/", $destUrlSequence);
