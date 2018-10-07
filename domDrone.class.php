@@ -420,10 +420,10 @@
        $_SESSION['currentDirPath'] = $_SESSION['prgrmDocRoot'];
        $_SESSION['currentDirUrl'] = '';
        $_SESSION['currentClickDirUrl'] = $_SESSION['prgrmUrlRoot'] . 'fragments/';
-     } else
+     } 
+     else
      {
        // there is a $_GET['robopage'], which might point to a directory
-       //echo "ab<br/>";
        $pget = isset($_GET['robopage']) ? $_GET['robopage'] : '';
        if (@is_dir($_SESSION['prgrmDocRoot'] . $pget))
          $pget .= '/';
@@ -455,9 +455,22 @@
      $_SESSION['currentDirPath'] = StaticRoboUtils::fixPath($_SESSION['currentDirPath']);
 
 
+     $title = '';
+     if(dirname($_SESSION['currentDirUrl']) != '')
+	 $title = dirname($_SESSION['currentDirUrl']);
+
+     if(isset($title[0]) && $title[0] == '.')
+	$title = '';   
+     $title .= $_SESSION['currentDisplay'];
+
+     $_SESSION['title']  = preg_replace("/^.*_/","",$title );
+     $_SESSION['title'] = staticRoboUtils::stripSuffix($_SESSION['title']);
+
      if ($this->dbg)
        $this->dbg();
+ 
    }
+ 
 
    function printDivs()
    {
@@ -517,31 +530,29 @@
 
    function startHTML($sstatic_mode)
    {
-     global $sys_title, $sys_nofollow, $sys_ogimage, $sys_ogurl;
+     global $sys_nofollow, $sys_ogimage, $sys_ogurl;
 
      $static_mode = $sstatic_mode;
-     // make default title, hope to override that a few lines later
-     // $sys_title becomes munged $_GET['robopage'] if isset $_GET['robopage']
-     // then becomes contents of possible but not guarnteed override files
-     // 
-     $title = $sys_title;
-     if (isset($_GET['robopage']) && !strpos($_GET['robopage'], "index"))
+
+     // default title from last two parts of the QUERY_STRING as 
+     // basename($_SESSION['currentDirUrl']) . '-'- . $_SESSION['currentDisplay']
+     $title = $_SESSION['title'];
+
+     // now prepend to exising default title if a page directory-wide title file is present
+     if (@stat($_SESSION['currentDirPath'] . 'roboresources/title')) 
      {
-       $title = str_replace('/', ' ', StaticRoboUtils::stripSuffix($_GET['robopage']));
-       //echo $title, "<br/>";
+       $title = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/title') . '-' . $title;
      }
 
-     if (@stat($_SESSION['currentDirPath'] . 'roboresources/title'))
-       $title = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/title');
-
+     // now override and replace the title if a page specific title is present
      if (@stat($_SESSION['currentDirPath'] . 'roboresources/title-' . basename($_SESSION['currentDisplay'])))
      {
-       $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title-' . basename($_SESSION['currentDisplay']);
+       $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title-' . $_SESSION['currentDisplay'];
        $title = file_get_contents($overridefile);
      }
      $title = trim(preg_replace("/-|_/", " ", $title));
 
-     //<META name="verify-admitad" content="68d3884360" />
+     //<META name="verify-admitad" content="xxxx" />
 
      $ret = '';
      $ret .= <<<ENDO
