@@ -44,7 +44,7 @@ ENDO;
 
    function handleForm()
    {
-     // grep -iH actionItem fix this with an is_image function later
+     // grep -iHn actionItem fix this with an is_image function later
      // assume a slideshow dir has symlinks to images only, for now
      // assuming good input now!
 
@@ -227,6 +227,11 @@ ENDO;
    {
      $ret = '';
      $ret .= @file_get_contents($_SESSION['currentDirPath'] . $_SESSION['currentDisplay']);
+     // grep -iHn actionItem *php the following a bit ugly. Perhaps better to map book.xml to an inherited class
+     if(isset($_SESSION['layout']) && strstr($_SESSION['layout'], 'book'))
+     {
+           $ret = preg_replace('/src=\"/',"src=\"/fragments/".$_SESSION['opfDirUrl'].'/',$ret);
+     }
      return $ret;
    }
 

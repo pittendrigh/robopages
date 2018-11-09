@@ -167,7 +167,7 @@
 
            // not the childHref you want the value from the manifest hash
            $href = $this->pathKludge . '/' . $hashedHref . '#' . $rightSide;
-           $url = '?page=' . $_SESSION['currentDirUrl'] . '&subPath=' . $href;
+           $url = '?robopage=' . $_SESSION['currentDirUrl'] . '&subPath=' . $href;
 
            //$ret .= '<li><a href="'.$url.'">' . $basenameHref . '</a></li>';
            $ret .= '<li><a href="' . $url . '">' . $child . '</a></li>';

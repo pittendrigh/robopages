@@ -121,6 +121,7 @@
 
 
      // echo 'end of dirCrawler determineLayout: <b style="color: green;">', $this->definitionFile, "</b><br/>";
+     $_SESSION['layout'] = StaticRoboUtils::stripSuffix(basename($this->definitionFile));
    }
 
    function init()
@@ -582,10 +583,10 @@ ENDO;
      $ret .= "\n";
 
      // set conf/globals.php $sys_nofollow=TRUE for test subdomains  
-     /*
+     
        if(isset($sys_nofollow) && $sys_nofollow == TRUE)
        $ret .= '<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">';
-      */
+     
      $ret .= $this->mkExtraHead();
      $ret .= $this->createCSSLinks($static_mode);
      $ret .= $this->createJSLinks($static_mode);
