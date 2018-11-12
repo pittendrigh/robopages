@@ -20,7 +20,6 @@
 
  class domDrone
  {
-
    public $mimer;
    protected $definitionFile;
    protected $topLeveDivNames;
@@ -40,24 +39,32 @@
      $this->readDefinitionFile();
    }
 
-   function dbg()
+   function init()
    {
-     print "definitionFile: " . $this->definitionFile . "<br/>";
+     global $sys_layout;
 
-     while (list($k, $v) = each($_SESSION))
-     {
-       print "$k s= $v<br/>";
-     }
-     print "<br/><br/>";
-     while (list($k, $v) = each($_GET))
-     {
-       print "$k gg= $v<br/>";
-     }
-     print "<br/><br/>";
-     while (list($k, $v) = each($_POST))
-     {
-       print "$k p= $v<br/>";
-     }
+     //set a default layout right away. It may be modified later
+     if(!isset($sys_layout) || $sys_layout == null)
+        $this->definitionFile = "layouts/robo.xml";
+     else
+         $this->definitionFile = 'layouts/' .$sys_layout.'.xml';
+
+     //echo " 1 definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
+     StaticRoboUtils::getpostClean();
+
+     // we have a default layout already. But it might get modified in determineLayout()
+     //$this->determineLayout();
+
+     if (isset($_GET['dbg']))
+       $this->dbg = 1;
+
+     $_SESSION['prgrmDocRoot'] = getcwd() . '/fragments/';
+
+     $_SESSION['prgrmUrlRoot'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', getcwd() . '/');
+
+     $this->setPathAndUrlParms();
+     // we have a default layout already. But it might get modified in determineLayout()
+     $this->determineLayout();
    }
 
    function determineLayout()
@@ -65,6 +72,7 @@
      global $sys_layout;
 
      $this->definitionFile = 'layouts/robo.xml';
+     //echo "definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
      if (isset($sys_layout) && $sys_layout != null)
        $this->definitionFile = 'layouts/' . $sys_layout . '.xml';
 
@@ -95,6 +103,7 @@
          if (strstr($test, $akey))
          {
            $this->definitionFile = 'layouts/' . $this->dirlayouts[$akey] . '.xml';
+          //echo " dirlaouts definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
          }
        }
      }
@@ -104,42 +113,30 @@
      if (@stat($_SESSION['currentDirPath'] . 'roboresources/layout'))
      {
        $this->definitionFile = 'layouts/' . trim(file_get_contents($_SESSION['currentDirPath'] . 'roboresources/layout')) . '.xml';
+      //echo " &nbsp; &nbsp; layout file! ". $_SESSION['currentDirPath']. "roboresources/layout: ", $this->definitionFile, " " . __LINE__.'<br/>';
      }
 
      // perhaps a page-specific override exists, which takes precedence
      // ...this would also override conf/layouts.ini
      if (@stat($_SESSION['currentDirPath'] . 'roboresources/' . $_GET['robopage'] . '-layout'))
      {
-       $this->definitionFile = 'layouts/' . trim(file_get_contents($_SESSION['currentDirPath'] . 'roboresources/' . $_GET['robopage'] . '-layout')) . '.xml';
+       $this->definitionFile = 'layouts/' . trim(file_get_contents($_SESSION['currentDirPath'] 
+            . 'roboresources/' . $_GET['robopage'] . '-layout')) . '.xml';
+      //echo "definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
      }
 
      // perhaps $_GET['layout'] exists, which takes precedence over all the above
      if (isset($_GET['layout']) && file_exists("layouts/" . $_GET['layout'] . '.xml'))
      {
        $this->definitionFile = 'layouts/' . $_GET['layout'] . '.xml';
+       //echo "definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
      }
 
 
-     // echo 'end of dirCrawler determineLayout: <b style="color: green;">', $this->definitionFile, "</b><br/>";
+     //echo 'end of dirCrawler determineLayout: <b style="color: green;">', $this->definitionFile, "</b><br/>";
      $_SESSION['layout'] = StaticRoboUtils::stripSuffix(basename($this->definitionFile));
    }
 
-   function init()
-   {
-     global $sys_layout;
-
-     StaticRoboUtils::getpostClean();
-     $this->determineLayout();
-
-     if (isset($_GET['dbg']))
-       $this->dbg = 1;
-
-     $_SESSION['prgrmDocRoot'] = getcwd() . '/fragments/';
-
-     $_SESSION['prgrmUrlRoot'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', getcwd() . '/');
-
-     $this->setPathAndUrlParms();
-   }
 
    function processXMLCSSLines()
    {
@@ -217,7 +214,7 @@
      $ret = '';
 
      $ret .= $str; // default value
-     // echo "str: ", $str, "<br/>";
+     //echo "str: ", $str, "<br/>";
 
      /* $str comes from XML attribute src="string"
        Might be src="file" (indicating the HTML source would come from plugins/file.php)
@@ -278,7 +275,7 @@
      $divklass = trim($adiv[@klass]);
      $divsrc = $divsrcs = 'file';
 
-     //echo $divid, " dirCrawler doBlocksXML definitionFile: <b>", $this->definitionFile, "</b><br/>";
+    //echo " &nbsp; doBlock: ", $divid, " dirCrawler doBlocksXML definitionFile: <b>", $this->definitionFile, "</b><br/>";
      if (isset($adiv[@src]))
      {
        $divsrc = $this->getPluginName(trim($adiv[@src]));
@@ -430,7 +427,7 @@
          $pget .= '/';
 
        $test_is_dirpath = $_SESSION['prgrmDocRoot'] . $pget;
-       //echo "test_is_dirpath: ", $test_is_dirpath, "<br/>";
+      //echo "test_is_dirpath: ", $test_is_dirpath, "<br/>";
        if (@is_dir($test_is_dirpath))
        {
          //echo "abc<br/>";
@@ -442,7 +439,7 @@
          //    $pget .= '/';
        } else
        { // is a _GET['robopage'] that points to a leaf level file
-         //echo "abcd<br/>";
+        //echo "abcd<br/>";
          $test_dirname = dirname($_GET['robopage']) == '.' ? '' : dirname($pget) . '/';
          $test_dirname = $test_dirname == '/' ? '' : $test_dirname;
          $_SESSION['currentDisplay'] = '/' . basename($_GET['robopage']);
@@ -590,7 +587,7 @@ ENDO;
      $ret .= $this->mkExtraHead();
      $ret .= $this->createCSSLinks($static_mode);
      $ret .= $this->createJSLinks($static_mode);
-     $ret .= "\n" . '<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />';
+     $ret .= "\n" . '<link rel="icon" href="/favicon.ico" type="image/ico" />';
      $ret .= "\n" . '</head> ' . "\n\n" . '<body>' . "\n";
      $ret .= <<<ENDO
 <div id="fb-root"></div>
@@ -679,6 +676,26 @@ ENDO;
      $ret .= '<META name="keywords" content="' . $metakeys . '"/>' . "\n";
 
      return $ret;
+   }
+
+   function dbg()
+   {
+     print " --definitionFile: " . $this->definitionFile . "<br/>";
+
+     while (list($k, $v) = each($_SESSION))
+     {
+       print "$k s= $v<br/>";
+     }
+     print "<br/><br/>";
+     while (list($k, $v) = each($_GET))
+     {
+       print "$k gg= $v<br/>";
+     }
+     print "<br/><br/>";
+     while (list($k, $v) = each($_POST))
+     {
+       print "$k p= $v<br/>";
+     }
    }
 
  }

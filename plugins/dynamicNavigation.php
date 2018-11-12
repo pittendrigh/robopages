@@ -5,6 +5,12 @@
  include_once("Link.php");
  include_once("plugin.php");
 
+/*
+** grep -i actionItem *php 
+** Can we redirect to layout=gallery if more than 10 links?
+** perhaps during gatherlinks()
+*/
+
  class dynamicNavigation extends plugin
  {
 
@@ -29,6 +35,7 @@
      $this->gatherLinks();
    }
 
+/*
    function hasIndexImg($link, $mode = null)
    {
      $ret = '';
@@ -63,29 +70,49 @@
 
      return $ret;
    }
+*/
+
+   function thumbMemer($img, $label)
+   {
+     $ret = '';
+     $ret = "\n\n". '<div class="thumbMeme">';
+     $ret .= '<p class="thumb">' . $img . '</p>'; 
+     $ret .= '<p class="thumblbl">' . $label . '</p>';
+
+     $ret .= '</div>' . "\n";
+     return $ret;
+   }
+
 
    function mkLink($link, $linkTargetType)
    {
      global $sys_thumb_links;
+     $ret = "\n" . '<div class="'.get_class($this).'">';
+     //$ret = "\n" . '<div>';
+     // $ret = '';
 
+     //echo "incoming linkTargetType: ", $linkTargetType, "<br/>";
+
+     /* 
+     ** mkLink receives a Link object $link
+     ** mkLink munges the default $link->label if else if else else until the last line 
+     ** where the hyperlink is assembled and then returned (after munging the label)
+     */
+
+     // get a default linklbl
      $linklbl = staticRoboUtils::mkLabel($link->label);
-     $ret = '';
 
-     //echo "linkTargetType: ", $linkTargetType, "<br/>";
+
      if ($linkTargetType == 'dir')
      {
-       $indexImageTest = $this->hasIndexImg($link);
-
-       if ($indexImageTest != null)
-       {
-         $linklbl = $linklbl . '<br/>' . $indexImageTest;
-       } else
-         $linklbl = '<img class="robonav icon" src="' . $_SESSION["prgrmUrlRoot"] . 'systemimages/folder.png" alt="folder"/>' . $linklbl;
+         $linklbl = '<img class="'.get_parent_class($this) .' icon" src="' . $_SESSION["prgrmUrlRoot"] . 'systemimages/folder.png" alt="folder"/>'. "&nbsp;"  . $linklbl ;
      }
-     //else if ($linkTargetType == 'image' && $sys_thumb_links && strstr($link->href, 'robopage=')) {
+
+     // grep -iH actionItem *php which of the follwing ifs?
+     //else if ($linkTargetType == 'image' && $sys_thumb_links && strstr($link->href, 'robopage=')) 
      else if ($linkTargetType == 'image' && $sys_thumb_links)
      {
-       $page = $linkTargetType = '';
+       //$linkTargetType = ''; ??????????????????
        $query = parse_url($link->href, PHP_URL_QUERY);
        parse_str($query, $parms);
        if (isset($parms['robopage']))
@@ -93,22 +120,18 @@
          $base = basename($parms['robopage']);
          $tpath = $_SESSION['currentDirPath'] . 'roboresources/thumbs/tn-' . $base;
 
-         if (@stat($tpath))
-           $linklbl = $linklbl . '<br/><img src="' . $_SESSION['currentClickDirUrl'] . "roboresources/thumbs/tn-" . $base . '" alt="' . $linklbl . '"/>';
+         if (@stat($tpath)) 
+         {
+           $thumb = '<img src="' . $_SESSION['currentClickDirUrl'] . "roboresources/thumbs/tn-" . $base . '" alt="' . $linklbl . '"/>';
+           $linklbl = $this->thumbMemer($thumb,$linklbl);    
+        }
        }
      }
-     else if ($linkTargetType == 'file')
-     {
-       $possibleThumb = $this->hasIndexImg($link, "file");
-       $linklbl = $linklbl . $possibleThumb;
 
-       //echo htmlentities($linklbl), "<br/>";
-     }
 
      $ret .= "\n" . '<a href="' . $link->href . '">' . $linklbl . ' </a>' . "\n";
-
-     //$ret = '<p style="clear: both;"> &nbsp; </p>' . $ret;
-     return $ret;
+     return $ret . '</div>';
+     //return $ret;
    }
 
    function getOutput($divid)
@@ -120,15 +143,14 @@
      $indexHref = '';
 
 
-     $ret = $class = '';
-     $lbl = '';
+     $ret = '';
 
      $cnt = count($this->linkshash);
 
      if (!$slideshowFlag && @stat($_SESSION['currentDirPath'] . 'roboresources/slideshow'))
      {
        $slideshowFlag = TRUE;
-       $ret .= '<p class="robonav"><a class="slideshow" href="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=slideshow">Slideshow</a></p>';
+       $ret .= "\n" . '<a class="slideshow" href="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=slideshow">Slideshow</a>' . "\n";
      }
 
      $dcnt = count($this->dirKeys);
@@ -141,7 +163,7 @@
        $link = $this->linkshash[$akey];
        if ($link != null && !strstr($link->href, "slideshow"))
        {
-         $ret .= '<p class="robonav">' . $this->mkLink($link, "dir") . '</p>';
+         $ret .= "\n" . $this->mkLink($link, "dir") . "\n";
        }
      }
 
@@ -157,23 +179,21 @@
        }
        $link = $this->linkshash[$akey];
        if ($link != null && !strstr($link->href, "slideshow"))
-         $ret .= '<p class="robonav">' . $this->mkLink($link, "file") . '</p>';
+         $ret .= "\n" . $this->mkLink($link, "file") . "\n";
      }
 
      for ($i = 0; $i < $icnt; $i++)
      {
        $akey = $this->imageKeys[$i];
        $link = $this->linkshash[$akey];
-       $ret .= '<p class="robonav">' . $this->mkLink($link, 'image') . '</p>';
+       $ret .= "\n" . $this->mkLink($link, 'image') . "\n";
      }
 
      if ($indexFlag)
      {
-       $ret .= '<p class="robonav">' . $this->mkLink($indexLink, "file") . '</p>';
+       $ret .= "\n". $this->mkLink($indexLink, "file") . "\n";
      }
 
-     // if ($cnt > 0)
-     //    $ret .= '</ul>';
      return $ret;
    }
 
@@ -184,7 +204,7 @@
    }
 
    // here we read the optional and maybe non-existant dirlinks file
-   // href::label::optionalGuiHint
+   // href::label::optionalGuiHnint
    // ?robopage=Driftboats::Boats::dir
    function read_dirlinks_file()
    {
@@ -196,6 +216,7 @@
        for ($j = 0; $j < $dirlinksCnt; $j++)
        {
          $aline = $lines[$j];
+         //echo $aline, "<br/>";
          $file = $ordered_hrefKey = '';
          $tokens = explode("::", $aline);
 
@@ -236,7 +257,7 @@
      }
    }
 
-   // grep -iH "actionItem" *php
+   // grep -iHn "actionItem" *php
    // A now deleted file might leave a link in dirlinks, which is preserved in this system.
    // !!!!  need to add a stat somewhere?
    //

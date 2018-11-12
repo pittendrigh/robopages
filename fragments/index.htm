@@ -1,0 +1,28 @@
+<h4> Latest Features </h4>
+Robopages can now produce (optional) static output.  The details are in the documentation.  Robopages can also display Epub3 files on the server, as HTML, with no javascript required. Just unzip the epub3 file on the server, inside the DOCUMENT_ROOT and then edit a config file. Away it goes.
+
+<h4> Mission Statement </h4>
+Robopages is supposed to be a small footprint rapid-application CMS without graphical or content complexity limitations of any kind, geared primarily toward unix-savvy developers. Most Content Management Systems seek to make development "easier" for non-professionals.  Robopages concedes that market, targeting high-end professionals instead. This does not mean Robopages is difficult. Quite the contrary. If you are familiar with ssh, scp, bash, sed, perl, php, css and most of all with terminal windows and the keyboard, you can mock up a complex website faster--with Robopages--than with any other system. Robopages, among other things, seeks to limit the use of databases as much as possible.  
+
+<h4> Groundrule Assumptions</h4>
+Most website pages consist of repetative boilerplate HTML fragments (headers, footers and repeated navigation lists) combined with one or two (but usually one) main display area whose content is sometimes but not always complex enough to require help from a database server. Shopping carts, blogs and discussion forums need to be serviced by backend database systems. So far so good. But making database queries to find CSS files, javascript codes and repetative boilerplate HTML is like driving and 18 wheeled tractor trailer truck to the corner grocery store when all you need is a quart of milk.
+
+<img src="_ROBOPATH_Birds/PIC_4469_Avocet.jpg" alt="PIC_4469_Avocet.jpg"/>
+<h4>Layouts</h4>
+Robopages is a rapid application way to quickly mock up a site and to make <i>continuous</i> structural and content modifications--until you get what you want. Once visually complete you want you may or may not want to export it into a more cumbersome system like Drupal or Wordpress. Any layout is possible. There are no restrictions. There is no faster way to develop a new layout and to fine tune the content for a proposed new website.
+<br/><br/>
+Layouts are defined by editing an XML file in layouts/*.xml and by editing or adding CSS. Dynamic content must be generated from a plugin module in the plugins directory. Existing plugins include (file.php, contactus.php, mkBreadcrumbs.php and a few others as examples.
+<br/><br/>
+The simplest plugin module is file.php which sucks in the contents of an html fragment file.  Html fragments, images and downloadable files can be arranged in an organized system of nested file directories. 
+
+<h4>Plugins</h1> The boilerplate look and feel of the website is determined by an XML layout file combined with its matching CSS. Once the boilerplate is defined content can be added quickly and easily. If you make use of the dynamicNavigation.php and flexyFileContent.php plugins, no links need to be edited and very little work needs to done in order to add new pages. If you upload a file it automatically becomes part of the website. 
+<br/><br/>
+Robopages' plugins operate on a per-block element level. The XML mentioned in the paragraph above defines the ID names of the major block elements of a page, their tree-like nesting structure and the plugin class that supplies their dynamic contents.
+<br/><br/>
+After unpacking the zip file you do need to make the conf directory writable by the webserver. If you want to install robopages in a public_html home directory on a unix system you will have to navigate through several extra steps--as outlined in the documentation.
+<br/><br/>
+The following is robo.xml, the layout definition that results in the current page:
+<br/><br/>
+<div style="font-size: 1.3vw; border:2px solid black; background:#ffffff; margin: 1em; padding: 1em;">
+    `$path="layouts/robo.xml"; echo @highlight_file($path);` 
+</div>

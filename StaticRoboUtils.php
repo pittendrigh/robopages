@@ -83,11 +83,14 @@ class StaticRoboUtils {
     }
 
     static function mkLabel($str) {
+        $suffix = StaticRoboUtils::getSuffix($str);
         $base = StaticRoboUtils::stripSuffix(basename($str));
-        //$ret = trim(preg_replace('/-|_/', ' ', $base));
-        //$ret = trim(preg_replace('/-/', ' ', $base));
-        //$ret = preg_replace("^[^_]*_", '', $base);
+
         $ret = preg_replace(":^.*_:", '', $base);
+        $images = array("jpg","gif","png");
+  
+        if(!in_array($suffix, $images) && $suffix != null)
+           $ret .= '.' . $suffix;
         return ($ret);
     }
 

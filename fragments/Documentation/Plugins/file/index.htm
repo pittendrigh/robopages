@@ -1,0 +1,21 @@
+<div>
+
+    <h3> file.php </h3>
+    The simlest plugin to make use of is file.php.  In robopages all content is supplied generated on a per block element basis, and all such content must come from a plugin.php class in the plugins directory. The simplest plugin is plugins/file.php, which sucks in the contents of any html fragment file found anywhere underneath the ../fragments directory.
+    <br/><br/>
+    For instance, an incoming URL such as ?page=Boats/Driftboats/Boat-building.htm would cause the base class robopages.php to read the default XML page definition file in the ../layouts directory.  Each block level element in the XML is generated on the fly.  for 
+    <br/><br/>
+    <span style="font-weight: bold; color: red;">
+        &lt;div id="footer" src="file" /&gt; 
+    </span>
+
+    <br/><br/>
+    the system system would search the <b>fragments/Boats/Driftboats/</b> directory for a file fragment named footer.frag.  If no such file is found the system would then search one more time in the boilerplate directory, looking for fragments/hidden/footer.frag. This two-part search allows the developer to make custom, per-page footers when needed, while falling back on repeated boilerplate contents more often than not.
+
+    <br/><br/>
+    Html file fragments are handy.  But they aren't the only way to make content. 
+    <br/>
+    &lt;div id="breadcrumbs" src="mkBreadcrumbs" /&gt; 
+    <br/>
+    The line above, found in robo.xml, creates a division whose ID is 'breadcrumbs' and whose content comes from plugins/mkBreadcrumbs.php
+

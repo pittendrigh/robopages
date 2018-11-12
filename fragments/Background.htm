@@ -1,0 +1,12 @@
+<h1> Robopages Background </h1>
+
+I spent several years developing a seemingly endless collection of instructional websites including introductory tutorials for Bash Programming, HTML Development and Introductory PHP coding as well as various how to build a boat websites. And too many others to list all at once. Rapid development with database oriented content management systems was far too cumbersome.<br/>
+<br/>
+I'm not arguing those systems (Drupal, Wordpress etc) aren't well suited to production websites with dynamic content, such as shopping carts blogs and discussion forums. For truly dynamic content database systems are essential. But they are not well suited to the rapid development and continual editing of image galleries and mostly static text-book-like content.  
+<br/> <br/>
+Robopages content can be generated from custom-written PHP plugins of any kind (talk to a database, generate forms, generate an image gallery, whatever). But static, seldom changing content (seldom changing once initial development is finished) usually comes from HTML file fragments distributed throughout a hierarchical file system.  Page content can be edited on the fly with bash perl sed and awk.  Chapter-like page group directories can be moved from here to there in a hierarchical file structure without any programming changes. Dynamically generated navigation goes along for the ride. Boilerplate for banners and footers can be changed with an ssh login and vi or emacs, without any annoyingly slow and cumbersome POST form database inserts. <br/>
+<br/>
+CSS and XML defined layouts can be edited directly from the keyboard.  Any layout is possible.  Content is mapped from file to block elements in the HTML be hand editing page configuration XML files.  Hierarcical XML elements provide id="element name" information and src="content-source-codes" on a per block element basis.  plugins/file.php (sucking in HTML fragment files) is the most commonly used.  These codes come with a half a dozen or so other plugins, for generating links, thumbnail images, contact email forms, etc.  New plugins all inherit from an abstract plugin named plugin.php.<br/>
+<br/>
+Robopages allows content development, content structure, navigation structure and CSS styling to happen quickly. Once done you can then migrate to Drupal, PHPCake or what ever.  But you don't have to.  I have run (still do) dozens of production websites on robopages.<br/>
+<br/>

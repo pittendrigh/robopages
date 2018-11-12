@@ -1,0 +1,13 @@
+<h1> flexyFileContent </h1>
+The flexyFileContent plugin is a bit like a hotrod gallery script. This plugin examines the content of the current $_SESSION['subDirFilePath'] directory. Note too that any attempt to trick the flexyFileContent plugin into examining any files or directories not found underneath the fragments subdirectory will fail.
+<br/><br/>
+For each file and subdirectory found in the current subDirFilePath the system uses mimetypehandler.class.php to see if this is an allowed file type. If so a default display is attempted. <br/>
+if the current URL is <b>?page=fishing/Lures/LazyIke.jpg </b> the system will (for the block level element that uses this plugin) will display that image. Further, if the current subDirFilePath also contains an optional file named LazyIke.cap, the contents of <b>fragments/fishing/Lures/LazyIke.cap</b> will be placed below that image, as an image caption.<br/>
+
+<br/>
+Any fragment files in the current subDirFilePath with a *.htm file name suffix will be treated as an HTML fragment, displayed as is inside the current division.
+<br/> <br/>
+Text fragment files (such as LazyIke.txt) are similar. But for each line the text file a &lt;br/&gt;> line break will be tacked on to the end of each display line. 
+<br/> <br/>
+Special display handling for a new file type, perhaps for something like programming codes, does not yet exist. Providing it would require developer additions to mime_types.ini, mimetypehandler.class.php and to plugins/flexyFileContent.php
+<br/> <br/>
