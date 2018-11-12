@@ -199,7 +199,7 @@ ENDO;
      $caption = $this->getCaption();
 
      $src = preg_replace('://[\/]*:', '/', $_SESSION['currentClickDirUrl'] . $_SESSION['currentDisplay']);
-     $ret .= '<b>' . ucfirst(staticRoboUtils::mkLabel($_SESSION['currentDisplay'])) . '</b>';
+     $ret .= '<p><b>' . ucfirst(staticRoboUtils::mkLabel($_SESSION['currentDisplay'])) . '</b></p>';
      $imgtag = '<img class="main-image" src="' . $src . '" alt="' . $_SESSION['currentDisplay'] . '" />';
      //$ret .= htmlentities($imgtag);
 

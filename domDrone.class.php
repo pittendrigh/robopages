@@ -52,9 +52,6 @@
      //echo " 1 definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
      StaticRoboUtils::getpostClean();
 
-     // we have a default layout already. But it might get modified in determineLayout()
-     //$this->determineLayout();
-
      if (isset($_GET['dbg']))
        $this->dbg = 1;
 
@@ -63,6 +60,7 @@
      $_SESSION['prgrmUrlRoot'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', getcwd() . '/');
 
      $this->setPathAndUrlParms();
+
      // we have a default layout already. But it might get modified in determineLayout()
      $this->determineLayout();
    }
