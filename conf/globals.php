@@ -11,5 +11,5 @@
  $sys_show_suffixes = TRUE;
  $sys_thumb_links = TRUE;
  $sys_main_content_div_id = 'main-content';
- $sys_static_mode = TRUE;
+ $sys_static_mode = FALSE;
 ?>
