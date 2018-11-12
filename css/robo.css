@@ -1,68 +1,59 @@
-html, body 
 {
     width: 100%;
     height: 100%;
-    margin: 0;
     padding: 0;
-    position: relative;
 }
-body {  background: $efefff; } 
 
+body {  background: #ffffff; } 
+
+a { color: #660000;  text-decoration: none;}
 a:hover 
 {
     color: #663333; 
     text-decoration: underline;
 }
 
-#wrapper
-{
-    margin: 1em;
-}
+h1.hbanner {font-size: 90%;}
 
 #user_manage { margin: 1em;}
 
 #headerbanner
 {
-    /* color: #004d80; */
-    /* color: white; */
-    /* text-shadow: 1px 1px 1px #aaaaff;  */
-    /* background: #72008f; */
-    /* border-bottom: 1px solid #004d80; */
-    padding: 0.5em;
-    background: url(/systemimages/bclouds.png) ;
-    margin: 0;
-}
+  background: #efefef;
+  padding: 0.5em 0 ; 
+  margin: 0;
 
-#main-disp {float: left; padding: 1em;  max-width: 70%; width: auto;}
+  width: auto; 
+  margin: 0 auto;
+}
 
 #main-content
 {
     float: left;
-    height: auto;
-    min-height: 100%;
-    margin: 0px auto;
-    padding: 1em;
+     width: auto;
+    margin: 0;
+    padding: 2em;
 }
-
-img { float: left; max-width: 50%; margin: 1%; }
+#main-content img {float: left; margin: width: 20em;}
 
 
 #footer
 {
-    clear: both;
-    color: #4848ff;
-    padding: 1em;
-    margin-left: 1em;
-    border-top: 1px solid #2222aa; 
-    max-height: 6em;
+  clear: both;
+  color: #4848ff;
+  padding: 1em;
+  margin-left: 1em;
+  border-top: 1px solid #2222aa; 
+  max-height: 6em;
 }
 
 #footer a{
-    color: #efefff;
-    text-shadow: 1px 1px 1px #000000;
+  color: #efefff;
+  text-shadow: 1px 1px 1px #000000;
 }
+
 #footer a:hover{
-    text-decoration: none;
+  text-decoration: none;
 }
 
 #user_manage, #bottombannerlinks {
@@ -75,23 +66,20 @@ img { float: left; max-width: 50%; margin: 1%; }
 
 #user_manage, #bottombannerlinks a
 {
-    /* color: #002b60; */
-    color: black;
-    text-decoration: none;
-    font-weight: bold; 
-    /* text-shadow: 1px 1px 1px black; */
+  color: black;
+  text-decoration: none;
+  font-weight: bold; 
 }
 
-#bottombannerlinks a{ font-size: 2vw; }
-#user_manage a{ font-size: 1vw; }
+ #bottombannerlinks a{ font-size: 2vw; }
+ #user_manage a{ font-size: 1vw; }
 
 #user_manage, #bottombannerlinks a:hover { text-decoration: underline; }
-#user_manage, #mkBreadcrumbs a { color: #cc2244; text-shadow: 1px 1px 1px #ffffff;}
+#user_manage, #mkBreadcrumbs a { font-size: 70%; color: #cc2244; margin: 0; padding: 0;}
 
 #mkBreadcrumbs 
 {
     min-height: 1.5em;
-    margin: 1em;
 }
 
 
@@ -102,80 +90,65 @@ img { float: left; max-width: 50%; margin: 1%; }
 
 #cse { width: 59%; }
 
-#dynamicNavigation 
+.folderlbl { float: left; margin: 1em 0 0 0; }
+
+div.thumbMeme { margin: 0 auto; padding: 0; }
+p.thumb { margin: 0 auto; padding: 0; }
+p.thumb img { margin: 0 auto; padding: 0; }
+p.thumblbl { clear: both; margin: 0; padding: 0; text-align: center;}
+
+
+.dynamicNavigation
 {
-    margin-right: 1em;
-    padding: 1em;
-    float: left;
-    font-size: 90%;
-    max-width: 30%;
-    /* background: #aaaacc; */ 
+  clear: both; 
+  margin: 0.5em 0 0.5em 0;
+  padding: 0;
 }
 
-#robonav{
-    position: relative;
-    float: left; 
-    background: #efefef; 
-    padding: 1em; 
-    margin: 0.25em 0.5em 0.25em 0.25em;
-    width: auto;
-    max-width: 20%;
-    height: auto;
-    min-height: 100%;
-    font-size: 80%;
-}
 
-p.robonav
+.dynamicNavigation img 
 {
-    float: left;
-    text-align: left;
-    width: 8em;
-    height: 6em;
-    margin: 0.25em;
-    text-align: left;
+  margin: 0 auto;
+  padding: 0;
 }
 
-.robonav img 
-{
-    max-width: 50%; 
-    float: left; 
-}
-
-p.robonav a 
+div.dynamicNavigation a 
 {
     display: block;
-    width: 100%;
     color: #cc2244;
-    text-shadow: 1px 1px 1px #ffffff;
     font-weight: bold;
     text-decoration: none;
-    margin: 0;
     padding: 0;
 }
 
-.robonav a:hover 
+div.dynamicNavigation a:hover 
 {
     background: #5dade2;
     color: white;
     text-decoration: underline;
 }
 
+div.galleryNavigation { position: relative; float: left; width: 8em; height: 6em; margin: 0.25em;} 
+div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0.25em;}
+div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0; padding: 0; overflow: hidden;}
+div.galleryNavigation a:hover 
+{
+    background: #efefff;}
+    color: black;
+}
 
 a.slideshow
 {
-    display: block;
-    float: left;
+    color: red;
     background: #660000;
-    padding: 1em;
-    color: white!important;
-    max-width: 6em;
-    max-height: 3em;
-    border: 1px solid transparent;
+    padding: 0.25em; 
+    margin: 0.25em; 
+    border: 1px solid green;
 }
 
 a.slideshow:hover
 {
-    color: red;
+ color: red;
 }
 
 #slideshow
@@ -185,7 +158,6 @@ a.slideshow:hover
     padding: 1em;
     border: 1px solid transparent;
 }
-#slideshow img { margin: auto;} 
 
 #slidebox{
     position: relative;
@@ -198,64 +170,44 @@ a.slideshow:hover
 #slidebox img {display: block; margin: auto; padding:0; border: 1px solid transparent;}
 
 #arcade {
-    width: 90%;
+  width: 70%;
+  margin: 1em;
 }
+#arcade img { margin: 1em; }
 
-#currentSlideImg 
-{
-    overflow: hidden !important;
-}
-
-#thumbsContainer 
-{
-    clear: both;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow: hidden;
-}
-
-.thumbContainer 
-{
-    overflow: hidden;
-    position: relative;
-    width: 3em;
-    height: 3em;
-    float: left;
-    padding: 0;
-    margin: 0;
-    border-right: 1px solid transparent;
-}
+#currentAradeImg { width: 60%;  }
+#currentSlideImg { width: auto; } 
 
 
 a.ninetyPct { 
-    font-size: 80%;
-    /* text-shadow: #000022 1px 1px 1px; */
-    text-decoration: none;
+ font-size: 80%;
+ /* text-shadow: #000022 1px 1px 1px; */
+ text-decoration: none;
 }
 a.ninetyPct:hover { 
-    text-decoration: underline;
-    /* text-shadow: #aaaaff 1px 1px 1px; */
+ text-decoration: underline;
+ /* text-shadow: #aaaaff 1px 1px 1px; */
 }
 
-h1 {font-size: 100%; }
+
+h1 {font-size: 110%; }
 h2 {font-size: 95%; }
 h3 {font-size: 00%; }
+
 
 /* phones  */
 @media only screen and (max-device-width: 480px)
 {
-    .robonav img { display: block; clear: both; }
-    #footer{
-        background-image: none;
-        height:2em;
-    }
-    p.robonav{
-        width: 8em;
-        height: 6em;
-    }
-    #main-content img { float: left; display: block; max-width: 50% !important; margin: 0.25em; }
+   #toc {float: left;  width: auto; }
+   #bottombannerlinks {font-size: 120%!important; }
+   #main-content img {float: left;  width: 100%; } 
+   #main-content img.icon {float: left;  width: 2em; } 
+   #main-content .dynamicNavigation {width: 30%; float: left;  margin-bottom: 1em; padding-bottom: 1em;} 
+   img { margin: 0.25em;}
+   
+   #footer{ height:2em; }
 }
+
 #googleSearch {float: left; max-width: 50%;}
 #googleBanner {color: white;}
 
@@ -264,35 +216,30 @@ h3 {font-size: 00%; }
 
 #mkGoogle { max-height: 5em; }
 
+/* div toc contains various div.dynamicNavigation containing links
+** toc width varies by div.dynamicNavigation width
+*/
 #toc {
-    float: left; 
-    background: #efefef; 
-    padding: 1em; 
-    margin: 0.25em 0.5em 0.25em 0.25em;
-    max-width: 35%;
-    width: auto;
-    height: auto;
-    font-size: 80%;
+float: left; 
+width: auto;
+background: #efefef; 
+padding: 0.5em; 
+margin: 0.25em;
 }
 
-#toc ol { display: block; margin: 0; padding: 0; }
-#toc ol li { display: block; clear: both!important; padding: 0; margin: 0.25em 0 0 0; }
 
 #toc a {
-    display: block; 
-    clear: both; 
-    width; 100%; 
-    margin-top: 0.5em;
-    text-decoration: none;
-    color: #660000;
+display: block; 
+/* margin-top: 0.5em; */
+text-decoration: none;
+color: #660000;
 }
 
 #toc a:hover {
 
-    text-decoration: none;
-    color: #440000;
-    background: #cccccc;
+text-decoration: none;
+color: #440000;
+background: #cccccc;
 }
 
-
-.maroon {color: #660000;}
+.clearboth { clear: both;}
