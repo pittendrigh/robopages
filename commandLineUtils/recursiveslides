@@ -4,7 +4,8 @@ here=`pwd`
 
 for dir in `find . -type d | grep -v roboresources`
 do
-  cd $dir
-  mkslides
-  cd $here
+cd $dir
+sudo ~/bin/mkslides
+cd $here
 done
+sudo ~/bin/mkIndys

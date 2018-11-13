@@ -1,0 +1,35 @@
+#!/bin/bash
+
+pwd=`pwd`
+sudo rm -f /tmp/ddelme*
+sudo chmod -R 775 $pwd 
+rm -rf roboresources/pics
+rm -rf roboresources/thumbs
+rm -rf roboresources/slideshow
+
+mkdir -p roboresources/slideshow 
+mkdir roboresources/pics 
+mkdir roboresources/thumbs 
+
+cd roboresources/pics
+for file in `ls ../.. | egrep '(jpg|png|gif)'`
+do
+ext="${file##*.}"
+base=${file%%.*}
+ln -s ../../$file `basename $file`
+done
+cd ../..
+
+
+cd roboresources/slideshow
+for file in `ls ../.. | egrep '(jpg|png|gif)'`
+do
+ext="${file##*.}"
+base=${file%%.*}
+ln -s ../../$file `basename $file`
+done
+cd ../..
+
+~/bin/picthumbs
+rm -rf thumbs
+

@@ -7,8 +7,8 @@ for ddir in `find . -type d`
 	  dir=${ddir#*.}
   	  dir=$cwd/${dir#/}
 		test=`basename $dir`
-		if [[ "$test" != ""  &&  "$test" != "slideshow" &&  "$test" != "archive"   &&   "$test" != "pics"   &&   "$test" != "thumbs" && !"$test" =~ "svn" ]] ; then
-		~/bin/mmkord $dir
+		if [[ "$test" != ""  &&  "$test" != "slideshow" &&  "$test" != "roboresources"   &&   "$test" != "pics"   &&   "$test" != "thumbs" && !"$test" =~ "svn" ]] ; then
+		/home/spittendrigh/bin/mmkord $dir
 		fi
 	done
 

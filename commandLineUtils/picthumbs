@@ -10,12 +10,13 @@ echo
 for file in `ls $where/roboresources/pics | egrep '(jpg|gif|png)'`
   do
    if [[ ! "$file" =~ "tn-" ]]; then
-      echo "$where"/roboresources/thumbs
-      echo
+      #echo "$where"/roboresources/thumbs
+      #echo
       mkdir -p $where/roboresources/thumbs 2>/dev/null
       convert $file -auto-orient -thumbnail 100x90 -unsharp 0x.5  /tmp/ddelme.jpg
       cp /tmp/ddelme.jpg $where/roboresources/thumbs/tn-`basename $file`
-      echo "cp /tmp/ddelme.jpg $where/roboresources/thumbs/tn-`basename $file`"
+      #cp /tmp/ddelme.jpg $where/roboresources/thumbs/tn-index.jpg
+      #echo "cp /tmp/ddelme.jpg $where/roboresources/thumbs/tn-`basename $file`"
    fi
 done
 

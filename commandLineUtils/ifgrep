@@ -1,7 +1,0 @@
-#!/bin/sh
-
-T=`grep $1 $2`
-
-if [ "$T" ]; then
-echo  $2 
-fi

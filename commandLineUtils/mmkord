@@ -48,7 +48,7 @@ $whereUrl='' if $whereUrl eq '/';
 #print "wherePath: ", $wherePath, "\n whereUrl: ", $whereUrl, "\n"; 
 
 ($dirlinks = $wherePath."dirlinks") =~ s://:/:g;
-open FILE, ">$dirlinks" or die "error on open $dirlinks \n";
+##open FILE, ">$dirlinks" or die "error on open $dirlinks \n";
 
 opendir(DIR, $wherePath);
 @files = readdir(DIR);
@@ -59,7 +59,7 @@ closedir(DIR);
 %linktypehash;
 foreach $file (@files)
 {
-	if ($file eq "." || $file eq ".." || $file eq "dirlinks" || $file =~ /archive/ || $file eq 'pee'){
+	if ($file eq "." || $file eq ".." || $file eq "dirlinks" || $file =~ /roboresources/ || $file eq 'pee'){
 			next;
 	}
         next if $file =~ 'dirlinks';
@@ -108,7 +108,7 @@ foreach $k (sort(keys %filehash))
          $dalink = $slideshowHref.'::'.$label."::".$menuType. "::link::\n";
         
          print $dalink;
-         print FILE $dalink;
+         ##print FILE $dalink;
       } 
       elsif ($k =~ /index.htm/)
       {
@@ -117,7 +117,7 @@ foreach $k (sort(keys %filehash))
       else { 
           $dalink = "?page=".$onlineplanshref.'::'.$label."::".$menuType."::dir::\n";
           print $dalink;
-          print FILE $dalink;
+          ##print FILE $dalink;
       }
    }
 }
@@ -150,11 +150,11 @@ foreach $k (sort(keys %filehash))
         }
  
 	print $dalink;
-	print FILE $dalink;
+	##print FILE $dalink;
 }
 	print $indexdalink;
-	print FILE $indexdalink;
+	##print FILE $indexdalink;
 
-close FILE;
+##close FILE;
 
 `goo`
