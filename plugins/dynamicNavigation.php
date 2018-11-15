@@ -88,31 +88,17 @@
    {
      global $sys_thumb_links;
      $ret = "\n" . '<div class="'.get_class($this).'">';
-     //$ret = "\n" . '<div>';
-     // $ret = '';
-
-     //echo "incoming linkTargetType: ", $linkTargetType, "<br/>";
-
-     /* 
-     ** mkLink receives a Link object $link
-     ** mkLink munges the default $link->label if else if else else until the last line 
-     ** where the hyperlink is assembled and then returned (after munging the label)
-     */
 
      // get a default linklbl
      $linklbl = staticRoboUtils::mkLabel($link->label);
 
-
      if ($linkTargetType == 'dir')
      {
-         $linklbl = '<img class="'.get_parent_class($this) .' icon" src="' . $_SESSION["prgrmUrlRoot"] . 'systemimages/folder.png" alt="folder"/>'. "&nbsp;"  . $linklbl ;
+         $linklbl = '<img class="'.get_parent_class($this) .' icon" src="' . $_SESSION["prgrmUrlRoot"] . 'systemimages/folder.png" alt="folder"/>'
+          . '<p class="dnavLbl">' . $linklbl . '</p>' ;
      }
-
-     // grep -iH actionItem *php which of the follwing ifs?
-     //else if ($linkTargetType == 'image' && $sys_thumb_links && strstr($link->href, 'robopage=')) 
      else if ($linkTargetType == 'image' && $sys_thumb_links)
      {
-       //$linkTargetType = ''; ??????????????????
        $query = parse_url($link->href, PHP_URL_QUERY);
        parse_str($query, $parms);
        if (isset($parms['robopage']))
@@ -127,8 +113,6 @@
         }
        }
      }
-
-
      $ret .= "\n" . '<a href="' . $link->href . '">' . $linklbl . ' </a>' . "\n";
      return $ret . '</div>';
      //return $ret;
@@ -150,7 +134,7 @@
      if (!$slideshowFlag && @stat($_SESSION['currentDirPath'] . 'roboresources/slideshow'))
      {
        $slideshowFlag = TRUE;
-       $ret .= "\n" . '<a class="slideshow" href="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=slideshow">Slideshow</a>' . "\n";
+       $ret .= "\n" . '<div class="galleryNavigation"><a class="slideshow" href="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
      }
 
      $dcnt = count($this->dirKeys);
