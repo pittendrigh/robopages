@@ -10,11 +10,9 @@
             <div id="hbanner" src="file" />
             <div id="bottombannerlinks" src="file" />
         </div>
-        <div id="main-content" src="container" >
-              <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
-              <div id="galleryNavigation" src="galleryNavigation" >   
-                   <div id="main-disp" src="flexyFileContent" />   
-              </div>
+        <div id="primary-display" src="container" >
+            <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+            <div id="page-content" src="flexyFileContent,galleryNavigation" />   
         </div> 
         <div id="footer" src="file" />   
     </bodycontent>

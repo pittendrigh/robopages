@@ -1,26 +1,26 @@
 <?php
 
- @session_start();
- include_once("plugin.php");
- include_once("conf/globals.php");
+@session_start();
+include_once("plugin.php");
+include_once("conf/globals.php");
 
- class arcade extends plugin
- {
+class arcade extends plugin
+{
 
-   var $slideShowPath;
-   var $slideShowUrl;
-   var $interval;
-   var $slidesNameString;
+    var $slideShowPath;
+    var $slideShowUrl;
+    var $interval;
+    var $slidesNameString;
 
-   function __construct()
-   {
-     
-   }
+    function __construct()
+    {
+        
+    }
 
-   function mkJS()
-   {
+    function mkJS()
+    {
 
-     $ret = '
+        $ret = '
     <!-- lazy load slideShow -- one image at a time until they\'re all in -->
     <script type="text/javascript">
 
@@ -110,78 +110,78 @@
 
     </script>';
 
-     return $ret;
-   }
+        return $ret;
+    }
 
-   function is_image($file)
-   {
-     $ret = FALSE;
-     if (stristr($file, '.jpg') || stristr($file, '.jpeg') || stristr($file, '.gif') || stristr($file, '.png')
-     )
-     {
-       $ret = TRUE;
-     }
+    function is_image($file)
+    {
+        $ret = FALSE;
+        if (stristr($file, '.jpg') || stristr($file, '.jpeg') || stristr($file, '.gif') || stristr($file, '.png')
+        )
+        {
+            $ret = TRUE;
+        }
 
-     return $ret;
-   }
+        return $ret;
+    }
 
-   function getImageFilenames($dir)
-   {
+    function getImageFilenames($dir)
+    {
 
-     $ret = '';
+        $ret = '';
 
-     //echo $dir, "<br/>";
-     $_SESSION['firstSlide'] = '';
-     if ($dir_handle = @opendir($dir))
-     {
-       while (($file = readdir($dir_handle)) != false)
-       {
-         if ($file != '.' && $file != '..')
-         {
-           //echo $file, "<br/>"; 
-           if ($this->is_image($file))
-           {
-             $dbg = ',' . $_SESSION['currentClickDirUrl'] . 'roboresources/arcade/' . $file;
-             $_SESSION['firstSlide'] = $file;
-             $ret .= $dbg;
-           }
-         }
-       }
-       closedir($dir_handle);
-     }
-     $this->slidesNameString = $ret;
-     return $ret;
-   }
+        //echo $dir, "<br/>";
+        $_SESSION['firstSlide'] = '';
+        if ($dir_handle = @opendir($dir))
+        {
+            while (($file = readdir($dir_handle)) != false)
+            {
+                if ($file != '.' && $file != '..')
+                {
+                    //echo $file, "<br/>"; 
+                    if ($this->is_image($file))
+                    {
+                        $dbg = ',' . $_SESSION['currentClickDirUrl'] . 'roboresources/arcade/' . $file;
+                        $_SESSION['firstSlide'] = $file;
+                        $ret .= $dbg;
+                    }
+                }
+            }
+            closedir($dir_handle);
+        }
+        $this->slidesNameString = $ret;
+        return $ret;
+    }
 
-   function getOutput($divid)
-   {
-     global $sys_interval;
-     $ret = '';
+    function getOutput($divid)
+    {
+        global $sys_interval;
+        $ret = '';
 
-     if (isset($sys_interval))
-       $this->interval = $sys_interval;
-     else if (!isset($this->interval))
-       $this->interval = 1000;
+        if (isset($sys_interval))
+            $this->interval = $sys_interval;
+        else if (!isset($this->interval))
+            $this->interval = 1000;
 
-     $this->slideShowPath = $_SESSION['currentDirPath'] . 'roboresources/arcade/';
-     $this->slideShowUrl = $_SESSION['currentClickDirUrl'] . 'roboresources/arcade/';
-     $this->getImageFilenames($this->slideShowPath);
+        $this->slideShowPath = $_SESSION['currentDirPath'] . 'roboresources/arcade/';
+        $this->slideShowUrl = $_SESSION['currentClickDirUrl'] . 'roboresources/arcade/';
+        $this->getImageFilenames($this->slideShowPath);
 
-     $ret .= $this->mkJS();
-     $imgNames = explode(",", $this->slidesNameString);
-     $stop = count($imgNames);
+        $ret .= $this->mkJS();
+        $imgNames = explode(",", $this->slidesNameString);
+        $stop = count($imgNames);
 
-     $ret .= '<p id="Dbg"> &nbsp; </p>';
+        $ret .= '<p id="Dbg"> &nbsp; </p>';
 
-     $ret .= '<img id="currentSlideImg" src="' . $_SESSION['currentClickDirUrl'] . 'roboresources/arcade/' . $_SESSION['firstSlide'] . '" alt="arcade photo" />';
-
-
-     $ret .= '<script type="text/javascript"> rollNow(); </script>';
+        $ret .= '<img id="currentSlideImg" src="' . $_SESSION['currentClickDirUrl'] . 'roboresources/arcade/' . $_SESSION['firstSlide'] . '" alt="arcade photo" />';
 
 
-     return ($ret);
-   }
+        $ret .= '<script type="text/javascript"> rollNow(); </script>';
 
- }
+
+        return ($ret);
+    }
+
+}
 
 ?>

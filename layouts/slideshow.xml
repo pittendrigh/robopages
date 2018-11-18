@@ -10,8 +10,8 @@
             <div id="bottombannerlinks" src="file" />
         </div>
         <div id="slidewhow-content" src="container" >
-              <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
-              <div id="slideshow" src="lazyLoadSlideshow"/>   
+            <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+            <div id="slideshow" src="lazyLoadSlideshow"/>   
         </div> 
         <div id="footer" src="file" />   
     </bodycontent>

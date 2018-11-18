@@ -1,16 +1,16 @@
 <?php
 
- @session_start();
+@session_start();
 
- class roboPather
- {
+class roboPather
+{
 
-   function fixROBOPATHs($str)
-   {
-     $ret = preg_replace("/_ROBOPATH_/", $_SESSION['currentClickDirUrl'], $str);
-     return($ret);
-   }
+    function fixROBOPATHs($str)
+    {
+        $ret = preg_replace("/_ROBOPATH_/", $_SESSION['currentClickDirUrl'], $str);
+        return($ret);
+    }
 
- }
+}
 
 ?>
