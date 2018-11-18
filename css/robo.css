@@ -27,7 +27,7 @@ h1.hbanner {font-size: 90%;}
   margin: 0 auto;
 }
 
-#main-content
+#page-content
 {
     float: left;
     width: 90%;
@@ -35,25 +35,22 @@ h1.hbanner {font-size: 90%;}
     padding: 1em;
 }
 
-img { float: left; }
-#main-content img {float: left; margin: 1em; max-width: 50%;}
+img { float: left; margin: 1em; }
+#page-content img {float: left; margin: 1em; max-width: 50%;}
+
 
 #footer
 {
   clear: both;
-  color: #4848ff;
-  background-color: black;
+  color: black;
+  /* background-color: #cdcdcd; */
   padding: 1em;
-  border-top: 1px solid #2222aa; 
-  border: 1px solid black;
   width: 100%;
   max-height: 6em;
 }
 
-#footer a{
-  color: #efefff;
-  text-decoration: underline;
-}
+#footer a{ text-decoration: none; }
+#footer a:hover{ text-decoration: underline; }
 
 #user_manage, #bottombannerlinks {
     margin: 0;
@@ -87,8 +84,6 @@ img { float: left; }
 
 #cse { width: 59%; }
 
-.folderlbl { float: left; margin: 1em 0 0 0; }
-
 #slideshow
 {
     position: relative;
@@ -120,6 +115,7 @@ h3 {font-size: 00%; }
 #toc {
 float: left; 
 width: auto;
+min-width: 20%;
 height: auto;
 background: #efefef; 
 padding: 0.25em; 
@@ -131,7 +127,7 @@ img.icon {float: left;  width: 1em !important; height: 1em !important!; }
 div.thumbMeme { float: left; width: auto; height: auto; margin: 0 auto; padding: 0; }
 div.thumbMeme:hover {background: #cdcdcd;}
 p.thumb { margin: 0 ; padding: 0; height: auto; }
-p.thumb img { margin: 0; padding: 0; }
+p.thumb img { max-width: 4em !important; margin: 0; padding: 0; }
 p.thumblbl { clear: both; margin: 0; padding: 0;  }
 p.thumblbl:hover {text-decoration: underline; }
 
@@ -140,22 +136,26 @@ div.dynamicNavigation
   clear: both; 
   float:left;
   position: relative;
-  margin: 0;
+  margin: 0.25em 0 0 0;
   width: 100%;
-  height: auto;
 }
+
+.folderLink{position: relative; width: 100%; height: auto; margin: 0; padding: 9; float: left;  }
+.folderImg { float: left; width: 2em; max-width: 3em; margin: 0; padding: 0; }
+.folderImg img { float: left; margin: 0; padding: 0;  max-width:  1em; max-height: 1em; }
+.folderLbl {float: left; width: 70%; height: auto; margin: 0; padding: 0; }
 
 div.dynamicNavigation a
 {
   display: block;
   width: 100%;
-  /* border: 1px solid black;  */
   border: 1px solid transparent;  
   padding: 0;
   margin: 0;
 }
-div.dynamicNavigation a:hover{ background: #cdcdcd; }
 
+
+div.dynamicNavigation a:hover{ background: #cdcdcd; }
 div.galleryNavigation { position: relative; float: left; width: 8em; height: 6em; margin: 0.25em; text-align: center;} 
 div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0.25em;}
 div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
