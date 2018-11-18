@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
 include_once("conf/globals.php");
-require_once("StaticRoboUtils.php");
+require_once("staticRoboUtils.php");
 require_once("plugins/roboMimeTyper.php");
 
 $plugins = file("conf/plugins.ini");
