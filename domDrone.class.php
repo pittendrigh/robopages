@@ -661,9 +661,9 @@ ENDO;
     {
         print " --definitionFile: " . $this->definitionFile . "<br/>";
 
-        while (list($k, $v) = each($_SESSION))
+	foreach(array_keys($_SESSION) as $akey)
         {
-            print "$k s= $v<br/>";
+	    print "$akey s= $_SESSION[$akey] <br/>";
         }
         print "<br/><br/>";
         while (list($k, $v) = each($_GET))
