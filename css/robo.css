@@ -27,16 +27,16 @@ h1.hbanner {font-size: 90%;}
   margin: 0 auto;
 }
 
-#page-content
+#main-content
 {
     float: left;
     width: 90%;
-    margin: 1em;
-    padding: 1em;
+    margin: 0;
+    padding: 0;
 }
 
 img { float: left; margin: 1em; }
-#page-content img {float: left; margin: 1em; max-width: 50%;}
+#main-content img {float: left; margin: 1em; max-width: 50%;}
 
 
 #footer
@@ -84,6 +84,9 @@ img { float: left; margin: 1em; }
 
 #cse { width: 59%; }
 
+a.slideshow{ display: block; height: 1.25em !important; background: #884444; color: white; border: 4px outset #dfdede;}
+a.slideshow:hover{ background: #cdcdcd; color: black; border: 1px solid black;}
+
 #slideshow
 {
     position: relative;
@@ -125,7 +128,7 @@ margin: 0.25em 1em 0.25em 0.25em;
 img.icon {float: left;  width: 1em !important; height: 1em !important!; } 
 
 div.thumbMeme { float: left; width: auto; height: auto; margin: 0 auto; padding: 0; }
-div.thumbMeme:hover {background: #cdcdcd;}
+div.thumbMeme:hover {background: #cdcdcd; border: 1px solid black;}
 p.thumb { margin: 0 ; padding: 0; height: auto; }
 p.thumb img { max-width: 4em !important; margin: 0; padding: 0; }
 p.thumblbl { clear: both; margin: 0; padding: 0;  }
@@ -155,18 +158,21 @@ div.dynamicNavigation a
 }
 
 
-div.dynamicNavigation a:hover{ background: #cdcdcd; }
+div.dynamicNavigation a:hover{ background: #cdcdcd; background: 1px solid black;}
 div.galleryNavigation { position: relative; float: left; width: 8em; height: 6em; margin: 0.25em; text-align: center;} 
 div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0.25em;}
 div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
 div.galleryNavigation a:hover 
 {
-    background: #efefff;}
+    background: #efefff;
+    border: 1px solid black;
     color: black;
 }
 div.galleryNavigationImage { position: relative; float: left; width: 8em; height: 6em; margin: 0.25em;} 
 
 .clearboth { clear: both;}
+
+.specsTbls { padding: 1em; max-width: 40%; float: left;}
 
 /* ============================================*/
 /*
