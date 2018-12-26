@@ -26,6 +26,8 @@ class dynamicNavigation extends plugin
     {
         $this->linkshash = array();
         $this->fileKeys = array();
+        $this->imageKeys = array();
+        $this->dirKeys = array();
         $this->mimer = new roboMimeTyper();
         $this->init();
         $this->gatherLinks();
@@ -140,7 +142,30 @@ class dynamicNavigation extends plugin
         }
 
         // fileKeys was made in the ctor
+        $dcnt = count($this->dirKeys);
+        $icnt = count($this->imageKeys);
         $fcnt = count($this->fileKeys);
+
+
+        for ($i = 0; $i < $dcnt; $i++)
+        {
+            $akey = $this->dirKeys[$i];
+            $link = $this->linkshash[$akey];
+            if ($link != null && !strstr($link->href, "slideshow"))
+            {
+                $ret .= "\n" . $this->mkLink($link) . "\n";
+            }
+        }
+
+        for ($i = 0; $i < $icnt; $i++)
+        {
+            $akey = $this->imageKeys[$i];
+            $link = $this->linkshash[$akey];
+            if ($link != null && !strstr($link->href, "slideshow"))
+            {
+                $ret .= "\n" . $this->mkLink($link) . "\n";
+            }
+        }
 
         for ($i = 0; $i < $fcnt; $i++)
         {
@@ -182,13 +207,18 @@ class dynamicNavigation extends plugin
 
                 $ordered_hrefKey = trim($tokens[0]);
                 $file = $label = trim($tokens[1]);
-                //echo "file: ", $file, " orderedHrefKey: ". $ordered_hrefKey, "<br/>";
 
                 $linkTargetType = $this->mimer->getRoboMimeType($ordered_hrefKey);
                 $linkline = $ordered_hrefKey . "::" . $label . "::$linkTargetType";
-
                 $link = new Link($linkline);
-                $this->fileKeys[] = $ordered_hrefKey;
+
+                if($linkTargetType == 'dir')
+                     $this->fileKeys[] = $ordered_hrefKey;
+                else if ($linkTargetType == 'image')
+                     $this->imageKeys[] = $ordered_hrefKey;
+                else
+                     $this->fileKeys[] = $ordered_hrefKey;
+
                 $this->linkshash[$ordered_hrefKey] = $link;
             }
         }
@@ -268,8 +298,12 @@ class dynamicNavigation extends plugin
                         $rline = $hrefKey . '::' . $file . "::$linkTargetType";
                         $link = new Link($rline);
                         $this->linkshash[$hrefKey] = $link;
-                        //echo "stuffing: ", $hrefKey, "<br/>";
-                        $this->fileKeys[] = $hrefKey;
+                        if ($linkTargetType == 'dir')
+                            $this->dirKeys[] = $hrefKey;
+                        else if ($linkTargetType == 'image')
+                            $this->imageKeys[] = $hrefKey;
+                        else
+                            $this->fileKeys[] = $hrefKey;
                     }
                 }
             }
