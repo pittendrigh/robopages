@@ -115,7 +115,8 @@ h3 {font-size: 00%; }
 
 #mkGoogle { max-height: 5em; }
 
-#toc {
+#toc
+{
 float: left; 
 width: auto;
 min-width: 20%;
@@ -124,6 +125,10 @@ background: #efefef;
 padding: 0.25em; 
 margin: 0.25em 1em 0.25em 0.25em;
 }
+
+#toc a {display: block; clear: both; border: 1px solid transparent;}  
+
+p.tocLabel { text-align: center; background: #dddddd;}
 
 img.icon {float: left;  width: 1em !important; height: 1em !important!; } 
 
@@ -134,13 +139,14 @@ p.thumb img { max-width: 4em !important; margin: 0; padding: 0; }
 p.thumblbl { clear: both; margin: 0; padding: 0;  }
 p.thumblbl:hover {text-decoration: underline; }
 
-div.dynamicNavigation
+.dynamicNavigation
 {
   clear: both; 
   float:left;
   position: relative;
   margin: 0.25em 0 0 0;
   width: 100%;
+  max-width: 3em;
 }
 
 .folderLink{position: relative; width: 100%; height: auto; margin: 0; padding: 9; float: left;  }
@@ -148,7 +154,7 @@ div.dynamicNavigation
 .folderImg img { float: left; margin: 0; padding: 0;  max-width:  1em; max-height: 1em; }
 .folderLbl {float: left; width: 70%; height: auto; margin: 0; padding: 0; }
 
-div.dynamicNavigation a
+.dynamicNavigation a
 {
   display: block;
   width: 100%;
@@ -158,16 +164,23 @@ div.dynamicNavigation a
 }
 
 
-div.dynamicNavigation a:hover{ background: #cdcdcd; background: 1px solid black;}
-div.galleryNavigation { position: relative; float: left; width: 8em; height: 6em; margin: 0.25em; text-align: center;} 
-div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0.25em;}
-div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
-div.galleryNavigation a:hover 
-{
-    background: #efefff;
-    border: 1px solid black;
-    color: black;
-}
+.dynamicNavigation a:hover, a:hover { background: #cdcdcd; }
+
+.galleryNavigation { position: relative; float: left; width: 8em; height: 6em; margin: 0.25em; text-align: center;} 
+.imageNav { position: relative; float: left; width: 8em; height: 6em; margin: 0.25em; text-align: center;} 
+
+.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0.25em;}
+.imageNav a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0.25em;}
+
+.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
+.imageNav a img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
+
+
+
+.galleryNavigation a:hover { background: #efefff; border: 1px solid black; color: black; }
+.imagenav a:hover { background: #efefff; border: 1px solid black; color: black; }
+
+
 div.galleryNavigationImage { position: relative; float: left; width: 8em; height: 6em; margin: 0.25em;} 
 
 .clearboth { clear: both;}
