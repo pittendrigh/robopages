@@ -10,7 +10,7 @@ class book extends flexyFileContent
 
     public $bookTOC;
 
-    public function construct()
+    public function __construct()
     {
 
         $this->init();

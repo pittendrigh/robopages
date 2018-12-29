@@ -9,7 +9,7 @@ class plugin implements pluginInterface
 
     protected $selfUrl;
 
-    public function construct()
+    public function __construct()
     {
         $this->init();
     }
