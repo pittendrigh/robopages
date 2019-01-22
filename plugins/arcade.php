@@ -1,16 +1,18 @@
 <?php
-
 @session_start();
 include_once("plugin.php");
 include_once("conf/globals.php");
 
 class arcade extends plugin
 {
-
-    var $slideShowPath;
-    var $slideShowUrl;
-    var $interval;
-    var $slidesNameString;
+    var
+            $slideShowPath;
+    var
+            $slideShowUrl;
+    var
+            $interval;
+    var
+            $slidesNameString;
 
     function __construct()
     {
@@ -183,5 +185,4 @@ class arcade extends plugin
     }
 
 }
-
 ?>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <cssfiles>
+        <file>css/robo.css</file>
+        <file>css/dropdowns.css</file>
+    </cssfiles>
+    <jsfiles>
+        <file>js/jquery-3.3.1.min.js</file>
+        <file>js/tinymce.min.js</file>
+        <file>js/init-tinymce.js</file>
+    </jsfiles>
+    <bodycontent>
+        <div id="wrapper" src="container" >
+            <div id="headerbanner" src="container" >
+                <div id="hbanner" src="file" />
+                <div id="bottombannerlinks" src="file" />
+            </div>
+            <div id="main-content" src="container" >
+                <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+                <div id="stuff" src="RobopageAdmin" />   
+            </div> 
+        </div> 
+    </bodycontent>
+</layout>

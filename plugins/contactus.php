@@ -1,5 +1,4 @@
 <?php
-
 @session_start();
 
 include_once("plugin.php");
@@ -8,10 +7,12 @@ include_once("plugin.php");
 
 class contactus extends plugin
 {
-
-    protected $keys = array();
-    protected $names = array();
-    protected $upload_folder = '/tmp/';
+    protected
+            $keys = array();
+    protected
+            $names = array();
+    protected
+            $upload_folder = '/tmp/';
 
     function __construct()
     {
@@ -29,7 +30,8 @@ class contactus extends plugin
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             $ret .= $this->handleGet();
-        } else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        }
+        else if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $ret .= $this->handlePost();
         }
@@ -192,7 +194,8 @@ class contactus extends plugin
                 //$ret .= '<h1 style="clear: both;">Your return email address is required!</h1>';
                 $ret .= '<h1>Your return email address is required!</h1>';
                 $ret .= '<h2><a href="' . $_SERVER['PHP_SELF'] . '?layout=contactus" >Try again......</a></h2>';
-            } else
+            }
+            else
             {
                 $message = "mailTo: " . wordwrap($_POST['fromaddress'] . "\n" . $_POST['message']);
                 $toAddress = $this->names[$_POST['toName']];
@@ -206,5 +209,4 @@ class contactus extends plugin
     }
 
 }
-
 ?>

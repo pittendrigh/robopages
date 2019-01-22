@@ -1,28 +1,31 @@
 <?php
+@session_start();
+include_once("roboMimeTyper.php");
+include_once("conf/globals.php");
 
- @session_start();
- include_once("roboMimeTyper.php");
- include_once("conf/globals.php");
+class lazyLoadSlideShow extends plugin
+{
+    var
+            $firstSlide;
+    var
+            $slideShowPath;
+    var
+            $slideShowUrl;
+    var
+            $interval;
+    var
+            $slidesNameString;
 
- class lazyLoadSlideShow extends plugin
- {
+    function __construct()
+    {
+        
+    }
 
-   var $firstSlide;
-   var $slideShowPath;
-   var $slideShowUrl;
-   var $interval;
-   var $slidesNameString;
+    function mkButtons()
+    {
 
-   function __construct()
-   {
-     
-   }
-
-   function mkButtons()
-   {
-
-     $intervalDisplay = $this->interval / 1000;
-     $ret = "\n\n" . '
+        $intervalDisplay = $this->interval / 1000;
+        $ret = "\n\n" . '
 <div id="Cntrl">
    <input class="booton" type="button" value="Quit" id="quit" onclick="quit()"/>
    <input class="booton" type="button" value="pause" id="stoggle" onclick="toggle()"/>
@@ -34,13 +37,13 @@
 </div>
                ';
 
-     return $ret;
-   }
+        return $ret;
+    }
 
-   function mkJS()
-   {
+    function mkJS()
+    {
 
-     $ret = '
+        $ret = '
     <script type="text/javascript">
 
        var cnt=-1;
@@ -248,87 +251,86 @@
 
     </script>';
 
-     return $ret;
-   }
+        return $ret;
+    }
 
-   function is_image($file)
-   {
-     $ret = FALSE;
-     if (stristr($file, '.jpg') || stristr($file, '.jpeg') || stristr($file, '.gif') || stristr($file, '.png')
-     )
-     {
-       $ret = TRUE;
-     }
+    function is_image($file)
+    {
+        $ret = FALSE;
+        if (stristr($file, '.jpg') || stristr($file, '.jpeg') || stristr($file, '.gif') || stristr($file, '.png')
+        )
+        {
+            $ret = TRUE;
+        }
 
-     return $ret;
-   }
+        return $ret;
+    }
 
-   function getImageFilenames($dir)
-   {
+    function getImageFilenames($dir)
+    {
 
-     $cnt=0;
-     $ret = '';
-     $slidePaths = array();
+        $cnt = 0;
+        $ret = '';
+        $slidePaths = array();
 
-     if ($dir_handle = opendir($dir))
-     {
-       while (($file = readdir($dir_handle)) != false)
-       {
-         if ($file != '.' && $file != '..')
-         {
-           if ($this->is_image($file))
-           {
-               $slidePaths[$cnt] = $file;
-               $cnt++;
-           }
-         }
-       }
-     }
-     closedir($dir_handle);
+        if ($dir_handle = opendir($dir))
+        {
+            while (($file = readdir($dir_handle)) != false)
+            {
+                if ($file != '.' && $file != '..')
+                {
+                    if ($this->is_image($file))
+                    {
+                        $slidePaths[$cnt] = $file;
+                        $cnt++;
+                    }
+                }
+            }
+        }
+        closedir($dir_handle);
 
-     sort($slidePaths,SORT_NATURAL | SORT_FLAG_CASE);
-     for($i=0; $i<$cnt; $i++)
-     {
-       $val = $slidePaths[$i];
-       $slidePaths[$i]= $_SESSION['currentClickDirUrl'] . 'roboresources/slideshow/' .  $val;
-     }
+        sort($slidePaths, SORT_NATURAL | SORT_FLAG_CASE);
+        for ($i = 0; $i < $cnt; $i++)
+        {
+            $val = $slidePaths[$i];
+            $slidePaths[$i] = $_SESSION['currentClickDirUrl'] . 'roboresources/slideshow/' . $val;
+        }
 
-     $this->firstSlide = $slidePaths[0];
-     $this->slidesNameString = implode(",",$slidePaths);
-     return $this->slidesNameString;
-   }
+        $this->firstSlide = $slidePaths[0];
+        $this->slidesNameString = implode(",", $slidePaths);
+        return $this->slidesNameString;
+    }
 
-   function getOutput($divid = null)
-   {
-     global $sys_interval;
-     $ret = '';
+    function getOutput($divid = null)
+    {
+        global $sys_interval;
+        $ret = '';
 
-     if (isset($sys_interval))
-       $this->interval = $sys_interval;
-     else if (!isset($this->interval))
-       $this->interval = 1000;
+        if (isset($sys_interval))
+            $this->interval = $sys_interval;
+        else if (!isset($this->interval))
+            $this->interval = 1000;
 
-     $this->slideShowPath = $_SESSION['currentDirPath'] . 'roboresources/slideshow/';
+        $this->slideShowPath = $_SESSION['currentDirPath'] . 'roboresources/slideshow/';
 
-     $this->slideShowUrl = $_SESSION['currentClickDirUrl'] . 'roboresources/slideshow/';
-     $this->getImageFilenames($this->slideShowPath);
+        $this->slideShowUrl = $_SESSION['currentClickDirUrl'] . 'roboresources/slideshow/';
+        $this->getImageFilenames($this->slideShowPath);
 
-     $ret .= $this->mkJS();
+        $ret .= $this->mkJS();
 
-     $ret .= $this->mkButtons();
+        $ret .= $this->mkButtons();
 
-     $ret .= '<script type="text/javascript"> rollNow(); </script>';
+        $ret .= '<script type="text/javascript"> rollNow(); </script>';
 
-     $ret .= '<p id="Dbg" style="margin: 0.5em 0 0 0; padding: 0;"><b>'
-         . staticRoboUtils::mkLabel(basename(staticRoboUtils::stripSuffix($this->firstSlide)))
-         . '</b></p> <img id="currentSlideImg" src="' . $this->firstSlide . '" alt="' . basename($this->firstSlide)
-         . '" /> ';
+        $ret .= '<p id="Dbg" style="margin: 0.5em 0 0 0; padding: 0;"><b>'
+                . StaticRoboUtils::mkLabel(basename(StaticRoboUtils::stripSuffix($this->firstSlide)))
+                . '</b></p> <img id="currentSlideImg" src="' . $this->firstSlide . '" alt="' . basename($this->firstSlide)
+                . '" /> ';
 
 
 
-     return ($ret);
-   }
+        return ($ret);
+    }
 
- }
-
+}
 ?>

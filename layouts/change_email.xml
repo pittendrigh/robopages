@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <cssfiles>
+        <file>css/robo.css</file>
+        <file>css/dropdowns.css</file>
+    </cssfiles>
+    <bodycontent>
+
+        <div id="banner" src="file" > 
+            <div id="bottombannerlinks" src="file" />
+        </div>
+
+        <div id="main-content" src="mkBreadcrumbs,dynamicNavigation,user_manage:file,change_email"/>
+    </bodycontent>
+</layout>

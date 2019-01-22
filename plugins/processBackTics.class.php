@@ -1,5 +1,4 @@
 <?php
-
 @session_start();
 
 // ...
@@ -40,5 +39,4 @@ class processBackTics
     }
 
 }
-
 ?>

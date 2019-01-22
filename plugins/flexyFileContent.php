@@ -1,8 +1,8 @@
 <?php
-
+include_once("roboPather.class.php");
 include_once("Link.php");
 include_once("processBackTics.class.php");
-include_once("roboPather.class.php");
+//include_once("upload.php");
 include_once("roboMimeTyper.php");
 
 @session_start();
@@ -12,8 +12,8 @@ include_once("plugin.php");
 
 class flexyFileContent extends plugin
 {
-
-    var $mimer;
+    var
+            $mimer;
 
     function __construct()
     {
@@ -67,7 +67,8 @@ ENDO;
                 if (isset($_POST['next']))
                 {
                     $idx = $currentIdx + 1;
-                } else
+                }
+                else
                 {
                     $idx = $currentIdx - 1;
                 }
@@ -86,7 +87,7 @@ ENDO;
         $headerlink .= "&idx=$idx";
 
         if (isset($headerlink) && $headerlink != '')
-            header("location: $headerlink");
+            @header("location: $headerlink");
     }
 
     function getOutput($divid)
@@ -96,8 +97,6 @@ ENDO;
         $ret = $linkTargetType = '';
 
 
-        //$ret .= $this->mkNextPrevButtons();
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $ret .= $this->handleForm();
@@ -106,6 +105,7 @@ ENDO;
         $linkTargetType = "unknown";
         if (@stat($tentativeDisplayFile))
             $linkTargetType = $this->mimer->getRoboMimeType($tentativeDisplayFile);
+        //else echo "bad stat: ", $tentativeDisplayFile. "<br/>"; 
 
         if ($linkTargetType == 'unknown')
         {
@@ -120,6 +120,12 @@ ENDO;
                 break;
             case "image":
                 $ret .= $this->mkImageArea();
+                break;
+            case "pdf":
+                $ret .= $this->mkPDFArea();
+                break;
+            case "iframe":
+                $ret .= $this->mkIframeArea();
                 break;
             case "text":
                 $ret .= $this->mkTextArea();
@@ -159,7 +165,7 @@ ENDO;
     function getCaption()
     {
         $ret = $caption = '';
-        $base = staticRoboUtils::stripSuffix($_SESSION['currentDisplay']);
+        $base = StaticRoboUtils::stripSuffix($_SESSION['currentDisplay']);
         $capfile = $_SESSION['currentDirPath'] . '/' . $base . ".cap";
         $caption = @file_get_contents($capfile);
         if ($caption != null)
@@ -183,12 +189,28 @@ ENDO;
         return $ret;
     }
 
+    function mkPDFArea()
+    {
+        $ret = $src = $filePath = '';
+        $filePath = $_SESSION['currentDirPath'] . $_SESSION['currentDisplay'];
+        $ret .= '<a style="text-decoration: underline;" href="' . $filePath . '" download> (Download ' . $_SESSION['currentDisplay'] . ')</a>';
+
+        $src = $_SESSION['currentClickDirUrl'] . $_SESSION['currentDisplay'];
+        $ret .= <<<ENDO
+<object data="$src" type="application/pdf" style="margin:0; padding:0; width: 100%; min-height: 30em;">
+        alt : <a href="$src">$src</a>
+    </object>
+ENDO;
+
+        return $ret;
+    }
+
     function mkIframeArea()
     {
         $ret = $src = '';
-        $src = $_SESSION['currentClickDirUrl'] . $_SESSION['currentDisplay'];
-
-        $ret = '<iframe src="' . $src . '"></iframe>';
+        $srcFile = $_SESSION['currentDirPath'] . $_SESSION['currentDisplay'];
+        $src = file_get_contents($srcFile);
+        $ret = '<iframe src="' . $src . '" style="margin:0; padding:0; width: 100%; min-height: 30em;"></iframe>';
         return $ret;
     }
 
@@ -199,7 +221,7 @@ ENDO;
         $caption = $this->getCaption();
 
         $src = preg_replace('://[\/]*:', '/', $_SESSION['currentClickDirUrl'] . $_SESSION['currentDisplay']);
-        $ret .= '<p><b>' . ucfirst(staticRoboUtils::mkLabel($_SESSION['currentDisplay'])) . '</b></p>';
+        $ret .= '<p><b>' . ucfirst(StaticRoboUtils::mkLabel($_SESSION['currentDisplay'])) . '</b></p>';
         $imgtag = '<img class="main-image" src="' . $src . '" alt="' . $_SESSION['currentDisplay'] . '" />';
         //$ret .= htmlentities($imgtag);
 
@@ -243,5 +265,4 @@ ENDO;
     }
 
 }
-
 ?>

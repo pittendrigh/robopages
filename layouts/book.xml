@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <cssfiles>
+        <file>css/robo.css</file>
+        <file>css/dropdowns.css</file>
+    </cssfiles>
+    <jsfiles>
+    </jsfiles>
+    <bodycontent>
+        <div id="headerbanner" src="container" >
+
+            <div id="hbanner" src="file" />
+            <div id="facebooker" src="banner" />
+            <div id="bottombannerlinks" src="file" />
+        </div>
+        <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+        <div id="main-content" >   
+            <div id="book" src="book" /> 
+        </div>
+    </bodycontent>
+</layout>

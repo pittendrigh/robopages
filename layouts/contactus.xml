@@ -9,13 +9,12 @@
         <file>js/bootstrap.min.js</file>
     </jsfiles>
     <bodycontent>
-        <div klass="container text-center" id="headerbanner" src="container" >
-            <div klass="navbar" id="bottombannerlinks" src="file" />
+        <div id="headerbanner" src="container" >
+            <div id="bottombannerlinks" src="file" />
         </div>
-        <div klass="container" id="primary-display" src="container" >
-            <div klass="navbar" id="mkBreadcrumbs" src="mkBreadcrumbs" />
-            <div id="flexyfileContent" src="contactus" />   
-        </div> <!-- end primary-display -->
-        <div id="footer" src="file" />   
+        <div id="main-content" src="container" >
+            <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+            <div id="main-content" src="contactus" />   
+        </div> <!-- end main-content -->
     </bodycontent>
 </layout>

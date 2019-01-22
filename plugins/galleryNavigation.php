@@ -1,5 +1,4 @@
 <?php
-
 @session_start();
 include_once("conf/globals.php");
 include_once("Link.php");
@@ -25,7 +24,7 @@ class galleryNavigation extends dynamicNavigation
             $testPath = $_SESSION['currentDirPath'] . $base . '/roboresources/thumbs/' . $thumbName;
             if ($mode != null && $mode == 'file')
             {
-                $thumbName = 'tn-' . staticRoboUtils::stripSuffix(basename($parms['robopage'])) . '.jpg';
+                $thumbName = 'tn-' . StaticRoboUtils::stripSuffix(basename($parms['robopage'])) . '.jpg';
                 $testPath = $_SESSION['currentDirPath'] . 'roboresources/thumbs/' . $thumbName;
                 $thumbUrl = $_SESSION['currentClickDirUrl'] . 'roboresources/thumbs/' . $thumbName;
             }
@@ -47,10 +46,10 @@ class galleryNavigation extends dynamicNavigation
         $ret .= '<a href="' . $link->href . '">';
 
         // get a default linklbl
-        $linklbl = staticRoboUtils::mkLabel($link->label);
+        $linklbl = StaticRoboUtils::mkLabel($link->label);
 
         $linkTargetType = $link->linkTargetType;
-        
+
         if ($linkTargetType == 'dir')
         {
 
@@ -59,8 +58,9 @@ class galleryNavigation extends dynamicNavigation
             if ($indexImageTest != null)
             {
                 $linklbl = $linklbl . '<br/>' . $indexImageTest;
-            } else
-                $linklbl = "\n" . '<img class="' . get_parent_class($this) . ' icon" src="' . $_SESSION["prgrmUrlRoot"] . 'systemimages/folder.png" alt="folder"/>' . $linklbl;
+            }
+            else
+                $linklbl = "\n" . '<img class="icon" src="' . $_SESSION["prgrmUrlRoot"] . 'systemimages/folder.png" alt="folder"/>' . $linklbl;
         }
 
         // grep -iH actionItem *php which of the follwing ifs?
@@ -88,6 +88,6 @@ class galleryNavigation extends dynamicNavigation
         $ret .= '</div>';
         return $ret;
     }
-}
 
+}
 ?>

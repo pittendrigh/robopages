@@ -1,5 +1,4 @@
 <?php
-
 @session_start();
 
 include_once("flexyFileContent.php");
@@ -7,10 +6,11 @@ include_once("bookTOC.php");
 
 class book extends flexyFileContent
 {
+    public
+            $bookTOC;
 
-    public $bookTOC;
-
-    public function __construct()
+    public
+            function __construct()
     {
 
         $this->init();
@@ -32,9 +32,9 @@ class book extends flexyFileContent
             // ??? grep -H actionitem *php 
             $queryPath = $_SESSION['currentDisplay'];
         }
-        $pageKey = basename($queryPath);
-        //echo "mkNext working with pageKey ", $pageKey, "<br/>";
-        $navigationNode = @$this->bookTOC->basename2NodeHash[$pageKey];
+        $robopageKey = basename($queryPath);
+        //echo "mkNext working with robopageKey ", $robopageKey, "<br/>";
+        $navigationNode = @$this->bookTOC->basename2NodeHash[$robopageKey];
         if (isset($navigationNode) && $navigationNode != null)
         {
             //$navigationNode->dbg();
@@ -42,7 +42,7 @@ class book extends flexyFileContent
             $prevHref = $navigationNode->prevUrl;
             $nextHref = $navigationNode->nextUrl;
             $gotoHref = '';
-            if (isset($_POST['nextpage']))
+            if (isset($_POST['nextrobopage']))
                 $gotoHref = $nextHref;
             else
                 $gotoHref = $prevHref;
@@ -52,8 +52,8 @@ class book extends flexyFileContent
             $nextUrl = '?robopage=' . $_SESSION['currentDirUrl'] . '&amp;subPath=' . $_SESSION['pathKludge'] . '/' . $nextHref;
             $prevUrl = '?robopage=' . $_SESSION['currentDirUrl'] . '&amp;subPath=' . $_SESSION['pathKludge'] . '/' . $prevHref;
 
-            $ret .= '<a href="' . $prevUrl . '"><input type="button" value="prev page"/></a>';
-            $ret .= "&nbsp; &nbsp;" . '<a href="' . $nextUrl . '"><input type="button" value="next page"/></a>';
+            $ret .= '<a href="' . $prevUrl . '"><input type="button" value="prev robopage"/></a>';
+            $ret .= "&nbsp; &nbsp;" . '<a href="' . $nextUrl . '"><input type="button" value="next robopage"/></a>';
         }
 
         return ($ret);
@@ -61,12 +61,12 @@ class book extends flexyFileContent
 
     function handleForm()
     {
-        $pageKey = basename($_GET['subPath']);
-        $navigationNode = $this->bookTOC->basename2NodeHash[$pageKey];
+        $robopageKey = basename($_GET['subPath']);
+        $navigationNode = $this->bookTOC->basename2NodeHash[$robopageKey];
         $prevHref = $navigationNode->prevUrl;
         $nextHref = $navigationNode->nextUrl;
         $gotoHref = '';
-        if (isset($_POST['nextpage']))
+        if (isset($_POST['nextrobopage']))
             $gotoHref = $nextHref;
         else
             $gotoHref = $prefHref;
@@ -114,5 +114,4 @@ class book extends flexyFileContent
     }
 
 }
-
 ?>

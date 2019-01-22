@@ -1,5 +1,4 @@
 <?php
-
 @session_start();
 
 include_once("conf/globals.php");
@@ -7,13 +6,18 @@ include_once("Link.php");
 
 class navigationNode
 {
-
-    public $prevUrl;
-    public $nextUrl;
-    public $thisUrl;
-    public $prevId;
-    public $nextId;
-    public $thisId;
+    public
+            $prevUrl;
+    public
+            $nextUrl;
+    public
+            $thisUrl;
+    public
+            $prevId;
+    public
+            $nextId;
+    public
+            $thisId;
 
     function __construct()
     {
@@ -37,15 +41,22 @@ class navigationNode
 
 class bookTOC
 {
-
-    public $pathKludge;
-    public $opfDirPath;
-    public $opfDirUrl;
-    public $opfFilePath;
-    public $tocFilePath;
-    public $id2UrlHash;
-    public $basename2UrlHash;
-    public $basename2NodeHash;
+    public
+            $pathKludge;
+    public
+            $opfDirPath;
+    public
+            $opfDirUrl;
+    public
+            $opfFilePath;
+    public
+            $tocFilePath;
+    public
+            $id2UrlHash;
+    public
+            $basename2UrlHash;
+    public
+            $basename2NodeHash;
 
     function __construct()
     {
@@ -176,7 +187,8 @@ class bookTOC
                 {
                     echo "error on basename2UrlHash[$hrefKey] and/or $childHref <br/>";
                 }
-            } else if ($child->getName() == 'ol')
+            }
+            else if ($child->getName() == 'ol')
             {
                 $ret .= $this->processOl($child);
             }
@@ -245,5 +257,4 @@ class bookTOC
     }
 
 }
-
 ?>

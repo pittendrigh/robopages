@@ -1,5 +1,4 @@
 <?php
-
 @session_start();
 
 class roboPather
@@ -12,5 +11,4 @@ class roboPather
     }
 
 }
-
 ?>

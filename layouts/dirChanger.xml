@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <cssfiles>
+        <file>css/robo.css</file>
+        <file>css/dropdowns.css</file>
+    </cssfiles>
+    <bodycontent>
+      
+        <div id="wrapper" src="container" >
+            <div id="headerbanner" src="container" >
+                <div id="hbanner" src="file" />
+                <div id="bottombannerlinks" src="file" />
+            </div>
+            <div id="main-content" src="container" >
+                <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+                <div id="stuff" src="dirChanger" />   
+            </div> 
+        </div> 
+    </bodycontent>
+</layout>

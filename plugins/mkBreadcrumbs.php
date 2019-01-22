@@ -1,5 +1,4 @@
 <?php
-
 @session_start();
 include_once("plugin.php");
 
@@ -59,5 +58,4 @@ class mkBreadcrumbs extends plugin
     }
 
 }
-
 ?>

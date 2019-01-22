@@ -1,5 +1,4 @@
 <?php
-
 include_once("plugin.php");
 
 class pluginnotfound extends plugin

@@ -1,5 +1,4 @@
 <?php
-
 @session_start();
 include_once("plugin.php");
 include_once("processBackTics.class.php");
@@ -24,7 +23,8 @@ class file extends plugin
         if (@stat($lclSrc))
         {
             $ret = file_get_contents($lclSrc);
-        } else if (@stat($defaultSrc))
+        }
+        else if (@stat($defaultSrc))
         {
             $ret = file_get_contents($defaultSrc);
         }
@@ -41,7 +41,6 @@ class file extends plugin
     }
 
 }
-
 /*
   RE> processBackTics() above.
   a default boilerplate fragment file like

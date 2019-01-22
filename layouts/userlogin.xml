@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <cssfiles>
+        <file>css/robo.css</file>
+        <file>css/dropdowns.css</file>
+    </cssfiles>
+    <jsfiles>
+    </jsfiles>
+    <bodycontent>
+        <div klass="container text-center" id="headerbanner" src="container" >
+            <div klass="navbar" id="bottombannerlinks" src="file" />
+        </div>
+        <div klass="container" id="main-content" src="container" >
+            <div klass="navbar" id="mkBreadcrumbs" src="mkBreadcrumbs" />
+            <div id="flexyfileContent" src="userlogin" />   
+        </div> <!-- end main-content -->
+        <div id="footer" src="file" />   
+    </bodycontent>
+</layout>

@@ -1,10 +1,8 @@
 <?php
-
 @session_start();
 
 class roboMimeTyper
 {
-
     protected $robobMimeTypesHash;
 
     function __construct()
@@ -36,10 +34,11 @@ class roboMimeTyper
         if (is_dir($teststr))
         {
             $ret = 'dir';
-        } else
+        }
+        else
         {
             $teststr = basename($teststr);
-            $suffix = strtolower(staticRoboUtils::getSuffix($teststr));
+            $suffix = strtolower(StaticRoboUtils::getSuffix($teststr));
             //echo "suffix: ", $suffix, "<br/>";
             if (isset($this->roboMimeTypesHash[$suffix]))
             {
@@ -47,8 +46,8 @@ class roboMimeTyper
             }
         }
 
-        //if($ret == "unknown")
-        //echo " $ret on $teststring<br/>";
+        //if($ret == "unknown") echo "ouch:  $ret on $teststring<br/>";
+        //else echo " &nbsp; roboMimeTyper returns $ret on $teststring<br/>";
         return trim($ret);
     }
 
@@ -77,5 +76,4 @@ class roboMimeTyper
     }
 
 }
-
 ?>
