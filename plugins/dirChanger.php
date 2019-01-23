@@ -18,7 +18,7 @@ class dirChanger extends plugin
 
         for ($i = 0; $i < $slashCnt; $i++)
         {
-            $ret .= ' &nbsp; ';
+            $ret .= ' &nbsp; &nbsp; ';
         }
 
         return $ret;
