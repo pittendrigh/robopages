@@ -6,8 +6,9 @@
     </cssfiles>
     <jsfiles>
         <file>js/jquery.min.js</file>
-        <file>js/tinymce/js/tinymce/tinymce.min.js</file>
-        <file>js/tinymce/js/tinymce/plugins/image/plugin.min.js</file>
+        <file>js/tinymce/tinymce.min.js</file>
+        <file>js/tinymce/plugins/imagetools/plugin.min.js</file>
+        <file>js/tinymce/plugins/image/plugin.min.js</file>
         <file>js/init-tinymce.js</file>
     </jsfiles>
     <bodycontent>
