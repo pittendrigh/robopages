@@ -66,8 +66,11 @@ ENDO;
         //else{ StaticRoboUtils::dbgSession(); }
         $ret .= '<h4> Editing: ' . $file . '</h4>';
 
-        //if ($contents == null && strstr($file, '.html'))
-        //    $contents = trim($this->defaultHTML());
+        $js1 = '<script type="text/javascript" src="js/jquery.min.js"></script>' . "\n";
+        $js2 = '<script type="text/javascript" src="js/tinymce.min.js"></script>'. "\n";
+        $js3 = '<script type="text/javascript" src="js/init-tinymce.js"></script>'."\n";
+
+        $ret .= $js1 . $js2 . $js3;
         $ret .= '<textarea name="contents" class="tinymce">';
 
         $ret .= $contents;
@@ -117,9 +120,10 @@ ENDO;
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['mode'] == 'SaveFile')
         {
             $this->SaveFile();
-            $robopage=$_GET['robopage'];
+            $robopage = $_GET['robopage'];
+
             $ret = <<<ENDO
-<button><a href="?robopage-$robopage&amp;layout=nerd">Saved! &lt;-- Back to the Admin Screen </a></button> 
+        <a href="?robopage=$robopage&amp;layout=nerd"><button>Saved! -- back to the admin screen</button></a>
 ENDO;
         }
         else
