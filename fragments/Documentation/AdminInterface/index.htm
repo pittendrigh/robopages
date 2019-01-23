@@ -22,11 +22,19 @@ The admin interface does a recursive chmod -R 755 to make it writable during the
 If the user remembers to click the Logout button it chmods back to 555 when done.<br/>
 <br/>
 Authentication is files based.  Look for RobopagePasswords.php in the plugins directory.<br/>
+the RobopagePasswords.php file has the form usename:md5password:nimda, where nimda (admin backwards) <br/>
+is hard-coded. <br/> 
+someuser:f265fbe0b5c26eb2716d3b168ea60614:nimba<br/>`
 <br/>
 Further documentation will follow eventually. Are there any users other than me?<br/>
 I have a half a dozen robopages sites, now going on over a decade.<br/>
 And I have the one amateur user who uses RobopageAdmin.php, and upload.php, edit.php, imgResize.php etc.<br/>
 <br/>
-The upload mechanism is open source codes from Github.  I have not credited him yet. I wil..<br/>
+The upload mechanism is open source codes from Github.  I have not credited him yet. I will..<br/>
 <br/>
-Any l <br/>
+<h3> How to do it</h3>
+got to the conf directory. copy RobopageAdminPlugins.ini onto plugins.ini<br.>
+edit the plugins/RobopagePasswds.php file appropriately.<br.>
+There is no "login" link in the codes. You have point a browser at the document root<br.>
+and then manually add ?layout=nerd to see a login screen.<br.>
+Click the logout button as you leave.<br.>
