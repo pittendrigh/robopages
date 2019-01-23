@@ -117,8 +117,9 @@ ENDO;
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['mode'] == 'SaveFile')
         {
             $this->SaveFile();
+            $robopage=$_GET['robopage'];
             $ret = <<<ENDO
-        <a   href="index.php?layout=nerd">ssSaved!</a> -- back to the admin screen
+<button><a href="?robopage-$robopage&amp;layout=nerd">Saved! &lt;-- Back to the Admin Screen </a></button> 
 ENDO;
         }
         else
