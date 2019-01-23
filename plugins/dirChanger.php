@@ -10,9 +10,13 @@ class dirChanger extends plugin
     function indent($path)
     {
         $ret = '';
-        //$path = StaticRoboUtils::fixPath($path);
+        $path = StaticRoboUtils::fixPath($path);
+        $path = preg_replace("/^.*fragments\//","",$path);        
         $slashCnt = substr_count($path, '/');
-        for ($i = 4; $i < $slashCnt; $i++)
+    // if(strstr($path,'Conservation') || strstr($path,'Kestrels'))
+     //   echo $slashCnt, " :: ", $path, "<br/>";
+
+        for ($i = 0; $i < $slashCnt; $i++)
         {
             $ret .= ' &nbsp; ';
         }
@@ -25,34 +29,29 @@ class dirChanger extends plugin
         $ret = '';
         $baseRoboUrl = preg_replace('/^.*?fragments\//', '', $path);
         $baseRoboUrl = StaticRoboUtils::fixPath($baseRoboUrl);
-        //if (substr($baseRoboUrl, -1) == '/')
-        //$baseRoboUrl = substr($baseRoboUrl, 0, strlen($baseRoboUrl) - 1);
+
         $iterator = new DirectoryIterator($path);
         foreach ($iterator as $fileinfo)
         {
             if ($fileinfo->isDir() && !$fileinfo->isDot())
             {
-                $label = $fileinfo->getFilename() != '.' ? $fileinfo->getFilename() : '';
+                $hLink='';
+                $label = $fileinfo->getFilename();
+                $newPath = StaticRoboUtils::fixPath($path. '/' . $label);
                 if (substr($label, 0, 1) == '/')
                     $label = substr($label, 1);
-                if (!isset($_GET['robopage']) || $_GET['robopage'] == '' || $_GET['robopage'] == null)
-                {
-                    $hLink = '<a href="?robopage=' . $label . '&amp;layout=nerd">' . $label . '</a><br/>';
-                }
-                else
-                {
+                 if(strstr($baseRoboUrl . $label,"roboresources"))
+                 {
+                    $hLink = '<a href="?robopage=' . $baseRoboUrl . '/' . $label 
+                         . '&amp;layout=nerd"><span class="smallfont">' . $label . '</span></a><br/>';
+                 }
+                 else
+                 {
                     $hLink = '<a href="?robopage=' . $baseRoboUrl . '/' . $label . '&amp;layout=nerd">' . $label . '</a><br/>';
-                }
-                $ret .= $this->indent($path) . $hLink;
-                $test = $fileinfo->getFilename();
-                if (isset($test) && $test[0] != '.')
-                {
-                    $dbg = StaticRoboUtils::fixPath($this->doDir($path . '/' . $fileinfo->getFilename()));
-                    if ($dbg != '')
-                    {
-                        $ret .= $dbg;
-                    }
-                }
+                 }
+                $ret .= $this->indent($newPath);
+                $ret .= $hLink;
+                $ret .= $this->doDir($newPath);
             }
             $ret .= "\n";
         }
@@ -84,8 +83,10 @@ class dirChanger extends plugin
         $ret .= '<p style="color: black;"> Working directory: <b>' . $currentDisplayPath . "</b></p>";
         $ret .= '<p> Subdirectories </p>';
 
-        //echo "  .......start here mf<br/>";
-        $ret .= $this->doDir($_SESSION['currentDirPath']);
+        $startPath = $_SESSION['prgrmDocRoot'];
+        if(isset($_SESSION['currentDirUrl']))
+         $startPath  .= $_SESSION['currentDirUrl'];
+        $ret .= $this->doDir($startPath);
 
         return $ret;
     }
