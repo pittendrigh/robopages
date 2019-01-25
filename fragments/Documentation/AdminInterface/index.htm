@@ -14,6 +14,9 @@ I'm not making any promises as to it's security as of today.<br/>
 I do have one user using it.<br/>
 <br/>
 Once I get it cleaned up enough I'll spend some time working on security issues.<br/>
+The various action="?layout=nerd" method="post" forms need to make more use of md5 tokens,etc.<br/>
+Right now it works and it's safe because only one site in the universe uses it.  And no one else knows.<br/>
+Better security will happen in time<br/>
 <br/>
 To make this work you have to chown -R apache.apache the fragments directory.<br/>
 You may have to chmod -R 555 too if it's on a virtual dedicated server.<br/>
