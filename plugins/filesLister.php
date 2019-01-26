@@ -12,7 +12,7 @@ class filesLister
         $cnt = 0;
         $filePaths = array();
 
-        $path = $_SESSION['currentDirUrl'] ;
+        $path = ltrim(rtrim($_SESSION['currentDirUrl'], '/'),'/');
         if($path == '' || $path == '/')
             $path = 'root directory';
         $ret = '<br/><span class="small"><b>Downloadable Files in ' . $path . ':</b><br/>';
@@ -39,6 +39,7 @@ class filesLister
                       $format++;
                       if($format % 4 == 0) $ret .= ' <br/> ';
                       $afile = $filePaths[$i];
+                      //echo $afile, "...<br/>";
                       $robopage = str_replace($_SESSION['prgrmDocRoot'],'',$afile);
                       $downloadLabel = basename($afile);
                       $alink = <<<ENDO
@@ -48,7 +49,7 @@ ENDO;
                        $ret .= $alink;
 
         }
-      return $ret . '<span>';
+      return $ret . '</span>';
     }
 
 
