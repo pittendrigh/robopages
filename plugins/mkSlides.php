@@ -13,7 +13,6 @@ class mkSlides extends plugin
         {
             $ret = TRUE;
         }
-
         return $ret;
     }
 
@@ -53,14 +52,13 @@ class mkSlides extends plugin
         $destDir = $_SESSION['currentDirPath'] . 'roboresources/slideshow/';
         foreach ($imgPaths as $aPath)
         {
-            //echo $aPath. '<br/>';
+            $ret .=  $aPath. '<br/>';
             $inBasename = $aPath;
             $inPath = $inDir . $aPath;
             $outBasename = $inBasename;
             $outPath = $destDir . $outBasename;
-            // destroy dir slideshow...........:
-            //echo "doIt($inPath, $outPath, 700) <br/>"; 
-            $imgResizer->doIt($inPath, $outPath, 700);
+            // destroy and remake dir slideshow?
+            $imgResizer->doIt($inPath, $outPath, 500);
         }
 
         return $ret;
