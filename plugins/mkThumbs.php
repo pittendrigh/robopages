@@ -1,21 +1,17 @@
 <?php
-include_once("dynamicNavigation.php");
+
+//include_once("dynamicNavigation.php");
 include_once("plugin.php");
 
 if (@stat("../conf/globals.php"))
     include_once("conf/globals.php");
 
-class mkThumbs
+class mkThumbs extends plugin
 {
-    var $src;
-    var $dest;
-    var $width;
-    var $default_width = 150;
-    var $files;
 
     function __construct()
     {
-        //@mkdir($_SESSION['currentDirPath'] . 'roboresources', 0755);
+        @mkdir($_SESSION['currentDirPath'] . 'roboresources', 0755);
         @mkdir($_SESSION['currentDirPath'] . 'roboresources/pics', 0755);
         @mkdir($_SESSION['currentDirPath'] . 'roboresources/thumbs', 0755);
     }
@@ -43,18 +39,16 @@ class mkThumbs
             }
         }
         closedir($dir_handle);
-
         sort($slidePaths, SORT_NATURAL | SORT_FLAG_CASE);
 
         return $slidePaths;
     }
 
-    // should be using roboMimeTyper  grep -i actionitem *php
+    // should be using roboMimeTyper? Why?  grep -i actionitem *php
     function is_image($file)
     {
         $ret = FALSE;
-        if (stristr($file, '.jpg') || stristr($file, '.jpeg') || stristr($file, '.gif') || stristr($file, '.png')
-        )
+        if (stristr($file, '.jpg') || stristr($file, '.jpeg') || stristr($file, '.gif') || stristr($file, '.png'))
         {
             $ret = TRUE;
         }
@@ -68,8 +62,6 @@ class mkThumbs
     {
         $ret = '';
         $imgPaths = $this->getImageFilenames($_SESSION['currentDirPath']);
-        @mkdir($_SESSION['currentDirPath'] . 'roboresources/slideshow');
-        @mkdir($_SESSION['currentDirPath'] . 'roboresources/pics');
         $imgResizer = new imgResizer();
         $inDir = $_SESSION['currentDirPath'];
         $destDir = $_SESSION['currentDirPath'] . 'roboresources/thumbs/';
@@ -89,9 +81,10 @@ class mkThumbs
         return $ret;
     }
 
-    function getOutput('')
+    function getOutput($x)
     {
       global $sys_width;
+      $ret='';
 
       if(isset($sys_width) && $sys_width != null)
           $width = $sys_width;
@@ -102,5 +95,4 @@ class mkThumbs
       $ret .= $this->make_thumbs($width);
       return $ret;
     }
-
 }
