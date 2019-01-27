@@ -19,7 +19,7 @@
             </div>
             <div id="main-content" src="container" >
                 <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
-                <div id="stuff" src="dirlinks" />   
+                <div id="stuff" src="mkThumbs" />   
             </div> 
         </div> 
     </bodycontent>

@@ -38,179 +38,179 @@ class upload
      * Class version
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $version;
+    protected $version;
     /**
      * Uploaded file name
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_src_name;
+    protected $file_src_name;
     /**
      * Uploaded file name body (i.e. without extension)
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_src_name_body;
+    protected $file_src_name_body;
     /**
      * Uploaded file name extension
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_src_name_ext;
+    protected $file_src_name_ext;
     /**
      * Uploaded file MIME type
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_src_mime;
+    protected $file_src_mime;
     /**
      * Uploaded file size, in bytes
      *
      * @access public
-     * @var double
+     * @protected double
      */
-    var $file_src_size;
+    protected $file_src_size;
     /**
      * Holds eventual PHP error code from $_FILES
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_src_error;
+    protected $file_src_error;
     /**
      * Uloaded file name, including server path
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_src_pathname;
+    protected $file_src_pathname;
     /**
      * Uloaded file name temporary copy
      *
      * @access private
-     * @var string
+     * @protected string
      */
-    var $file_src_temp;
+    protected $file_src_temp;
     /**
      * Destination file name
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_dst_path;
+    protected $file_dst_path;
     /**
      * Destination file name
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_dst_name;
+    protected $file_dst_name;
     /**
      * Destination file name body (i.e. without extension)
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_dst_name_body;
+    protected $file_dst_name_body;
     /**
      * Destination file extension
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_dst_name_ext;
+    protected $file_dst_name_ext;
     /**
      * Destination file name, including path
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_dst_pathname;
+    protected $file_dst_pathname;
     /**
      * Source image width
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_src_x;
+    protected $image_src_x;
     /**
      * Source image height
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_src_y;
+    protected $image_src_y;
     /**
      * Source image color depth
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_src_bits;
+    protected $image_src_bits;
     /**
      * Number of pixels
      *
      * @access public
-     * @var long
+     * @protected long
      */
-    var $image_src_pixels;
+    protected $image_src_pixels;
     /**
      * Type of image (png, gif, jpg or bmp)
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $image_src_type;
+    protected $image_src_type;
     /**
      * Destination image width
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_dst_x;
+    protected $image_dst_x;
     /**
      * Destination image height
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_dst_y;
+    protected $image_dst_y;
     /**
      * Destination image type (png, gif, jpg or bmp)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_dst_type;
+    protected $image_dst_type;
     /**
      * Supported image formats
      *
      * @access private
-     * @var array
+     * @protected array
      */
-    var $image_supported;
+    protected $image_supported;
     /**
      * Flag to determine if the source file is an image
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $file_is_image;
+    protected $file_is_image;
     /**
      * Flag set after instanciating the class
      *
      * Indicates if the file has been uploaded properly
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $uploaded;
+    protected $uploaded;
     /**
      * Flag stopping PHP upload checks
      *
@@ -222,68 +222,68 @@ class upload
      * Warning: for uploads, this flag MUST be set to false for security reason
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $no_upload_check;
+    protected $no_upload_check;
     /**
      * Flag set after calling a process
      *
      * Indicates if the processing, and copy of the resulting file went OK
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $processed;
+    protected $processed;
     /**
      * Holds eventual error message in plain english
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $error;
+    protected $error;
     /**
      * Holds an HTML formatted log
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $log;
-    // overiddable processing variables
+    protected $log;
+    // overiddable processing protectediables
     /**
-     * Set this variable to replace the name body (i.e. without extension)
+     * Set this protectediable to replace the name body (i.e. without extension)
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_new_name_body;
+    protected $file_new_name_body;
     /**
-     * Set this variable to append a string to the file name body
+     * Set this protectediable to append a string to the file name body
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_name_body_add;
+    protected $file_name_body_add;
     /**
-     * Set this variable to prepend a string to the file name body
+     * Set this protectediable to prepend a string to the file name body
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_name_body_pre;
+    protected $file_name_body_pre;
     /**
-     * Set this variable to change the file extension
+     * Set this protectediable to change the file extension
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $file_new_name_ext;
+    protected $file_new_name_ext;
     /**
-     * Set this variable to format the filename (spaces changed to _)
+     * Set this protectediable to format the filename (spaces changed to _)
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $file_safe_name;
+    protected $file_safe_name;
     /**
      * Forces an extension if the source file doesn't have one
      *
@@ -291,79 +291,79 @@ class upload
      * Otherwise, a .txt extension will be chosen
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $file_force_extension;
+    protected $file_force_extension;
     /**
-     * Set this variable to false if you don't want to check the MIME against the allowed list
+     * Set this protectediable to false if you don't want to check the MIME against the allowed list
      *
-     * This variable is set to true by default for security reason
+     * This protectediable is set to true by default for security reason
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $mime_check;
+    protected $mime_check;
     /**
-     * Set this variable to false in the init() function if you don't want to check the MIME
+     * Set this protectediable to false in the init() function if you don't want to check the MIME
      * with Fileinfo PECL extension. On some systems, Fileinfo is known to be buggy, and you
      * may want to deactivate it in the class code directly.
      *
      * You can also set it with the path of the magic database file.
-     * If set to true, the class will try to read the MAGIC environment variable
+     * If set to true, the class will try to read the MAGIC environment protectediable
      *   and if it is empty, will default to the system's default
      * If set to an empty string, it will call finfo_open without the path argument
      *
-     * This variable is set to true by default for security reason
+     * This protectediable is set to true by default for security reason
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $mime_fileinfo;
+    protected $mime_fileinfo;
     /**
-     * Set this variable to false in the init() function if you don't want to check the MIME
+     * Set this protectediable to false in the init() function if you don't want to check the MIME
      * with UNIX file() command
      *
-     * This variable is set to true by default for security reason
+     * This protectediable is set to true by default for security reason
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $mime_file;
+    protected $mime_file;
     /**
-     * Set this variable to false in the init() function if you don't want to check the MIME
+     * Set this protectediable to false in the init() function if you don't want to check the MIME
      * with the magic.mime file
      *
      * The function mime_content_type() will be deprecated,
-     * and this variable will be set to false in a future release
+     * and this protectediable will be set to false in a future release
      *
-     * This variable is set to true by default for security reason
+     * This protectediable is set to true by default for security reason
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $mime_magic;
+    protected $mime_magic;
     /**
-     * Set this variable to false in the init() function if you don't want to check the MIME
+     * Set this protectediable to false in the init() function if you don't want to check the MIME
      * with getimagesize()
      *
      * The class tries to get a MIME type from getimagesize()
      * If no MIME is returned, it tries to guess the MIME type from the file type
      *
-     * This variable is set to true by default for security reason
+     * This protectediable is set to true by default for security reason
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $mime_getimagesize;
+    protected $mime_getimagesize;
     /**
-     * Set this variable to false if you don't want to turn dangerous scripts into simple text files
+     * Set this protectediable to false if you don't want to turn dangerous scripts into simple text files
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $no_script;
+    protected $no_script;
     /**
-     * Set this variable to true to allow automatic renaming of the file
+     * Set this protectediable to true to allow automatic renaming of the file
      * if the file already exists
      *
      * Default value is true
@@ -375,50 +375,50 @@ class upload
      * Note that this option doesn't have any effect if {@link file_overwrite} is true
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $file_auto_rename;
+    protected $file_auto_rename;
     /**
-     * Set this variable to true to allow automatic creation of the destination
+     * Set this protectediable to true to allow automatic creation of the destination
      * directory if it is missing (works recursively)
      *
      * Default value is true
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $dir_auto_create;
+    protected $dir_auto_create;
     /**
-     * Set this variable to true to allow automatic chmod of the destination
+     * Set this protectediable to true to allow automatic chmod of the destination
      * directory if it is not writeable
      *
      * Default value is true
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $dir_auto_chmod;
+    protected $dir_auto_chmod;
     /**
-     * Set this variable to the default chmod you want the class to use
+     * Set this protectediable to the default chmod you want the class to use
      * when creating directories, or attempting to write in a directory
      *
      * Default value is 0755 (without quotes)
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $dir_chmod;
+    protected $dir_chmod;
     /**
-     * Set this variable tu true to allow overwriting of an existing file
+     * Set this protectediable tu true to allow overwriting of an existing file
      *
      * Default value is false, so no files will be overwritten
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $file_overwrite;
+    protected $file_overwrite;
     /**
-     * Set this variable to change the maximum size in bytes for an uploaded file
+     * Set this protectediable to change the maximum size in bytes for an uploaded file
      *
      * Default value is the value <i>upload_max_filesize</i> from php.ini
      *
@@ -426,22 +426,22 @@ class upload
      * The available options are K (for Kilobytes), M (for Megabytes) and G (for Gigabytes)
      *
      * @access public
-     * @var double
+     * @protected double
      */
-    var $file_max_size;
+    protected $file_max_size;
     /**
-     * Set this variable to true to resize the file if it is an image
+     * Set this protectediable to true to resize the file if it is an image
      *
-     * You will probably want to set {@link image_x} and {@link image_y}, and maybe one of the ratio variables
+     * You will probably want to set {@link image_x} and {@link image_y}, and maybe one of the ratio protectediables
      *
      * Default value is false (no resizing)
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $image_resize;
+    protected $image_resize;
     /**
-     * Set this variable to convert the file if it is an image
+     * Set this protectediable to convert the file if it is an image
      *
      * Possibles values are : ''; 'png'; 'jpeg'; 'gif'; 'bmp'
      *
@@ -449,38 +449,38 @@ class upload
      * If {@link resize} is true, {@link convert} will be set to the source file extension
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $image_convert;
+    protected $image_convert;
     /**
-     * Set this variable to the wanted (or maximum/minimum) width for the processed image, in pixels
+     * Set this protectediable to the wanted (or maximum/minimum) width for the processed image, in pixels
      *
      * Default value is 150
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_x;
+    protected $image_x;
     /**
-     * Set this variable to the wanted (or maximum/minimum) height for the processed image, in pixels
+     * Set this protectediable to the wanted (or maximum/minimum) height for the processed image, in pixels
      *
      * Default value is 150
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_y;
+    protected $image_y;
     /**
-     * Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
+     * Set this protectediable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
      *
      * Default value is false
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $image_ratio;
+    protected $image_ratio;
     /**
-     * Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
+     * Set this protectediable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
      *
      * The image will be resized as to fill the whole space, and excedent will be cropped
      *
@@ -491,11 +491,11 @@ class upload
      * Default value is false
      *
      * @access public
-     * @var mixed
+     * @protected mixed
      */
-    var $image_ratio_crop;
+    protected $image_ratio_crop;
     /**
-     * Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
+     * Set this protectediable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
      *
      * The image will be resized to fit entirely in the space, and the rest will be colored.
      * The default color is white, but can be set with {@link image_default_color}
@@ -507,11 +507,11 @@ class upload
      * Default value is false
      *
      * @access public
-     * @var mixed
+     * @protected mixed
      */
-    var $image_ratio_fill;
+    protected $image_ratio_fill;
     /**
-     * Set this variable to a number of pixels so that {@link image_x} and {@link image_y} are the best match possible
+     * Set this protectediable to a number of pixels so that {@link image_x} and {@link image_y} are the best match possible
      *
      * The image will be resized to have approximatively the number of pixels
      * The aspect ratio wil be conserved
@@ -519,29 +519,29 @@ class upload
      * Default value is false
      *
      * @access public
-     * @var mixed
+     * @protected mixed
      */
-    var $image_ratio_pixels;
+    protected $image_ratio_pixels;
     /**
-     * Set this variable to calculate {@link image_x} automatically , using {@link image_y} and conserving ratio
+     * Set this protectediable to calculate {@link image_x} automatically , using {@link image_y} and conserving ratio
      *
      * Default value is false
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $image_ratio_x;
+    protected $image_ratio_x;
     /**
-     * Set this variable to calculate {@link image_y} automatically , using {@link image_x} and conserving ratio
+     * Set this protectediable to calculate {@link image_y} automatically , using {@link image_x} and conserving ratio
      *
      * Default value is false
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $image_ratio_y;
+    protected $image_ratio_y;
     /**
-     * (deprecated) Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y},
+     * (deprecated) Set this protectediable to keep the original size ratio to fit within {@link image_x} x {@link image_y},
      * but only if original image is bigger
      *
      * This setting is soon to be deprecated. Instead, use {@link image_ratio} and {@link image_no_enlarging}
@@ -549,11 +549,11 @@ class upload
      * Default value is false
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $image_ratio_no_zoom_in;
+    protected $image_ratio_no_zoom_in;
     /**
-     * (deprecated) Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y},
+     * (deprecated) Set this protectediable to keep the original size ratio to fit within {@link image_x} x {@link image_y},
      * but only if original image is smaller
      *
      * Default value is false
@@ -561,103 +561,103 @@ class upload
      * This setting is soon to be deprecated. Instead, use {@link image_ratio} and {@link image_no_shrinking}
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $image_ratio_no_zoom_out;
+    protected $image_ratio_no_zoom_out;
     /**
      * Cancel resizing if the resized image is bigger than the original image, to prevent enlarging
      *
      * Default value is false
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $image_no_enlarging;
+    protected $image_no_enlarging;
     /**
      * Cancel resizing if the resized image is smaller than the original image, to prevent shrinking
      *
      * Default value is false
      *
      * @access public
-     * @var bool
+     * @protected bool
      */
-    var $image_no_shrinking;
+    protected $image_no_shrinking;
     /**
-     * Set this variable to set a maximum image width, above which the upload will be invalid
+     * Set this protectediable to set a maximum image width, above which the upload will be invalid
      *
      * Default value is null
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_max_width;
+    protected $image_max_width;
     /**
-     * Set this variable to set a maximum image height, above which the upload will be invalid
+     * Set this protectediable to set a maximum image height, above which the upload will be invalid
      *
      * Default value is null
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_max_height;
+    protected $image_max_height;
     /**
-     * Set this variable to set a maximum number of pixels for an image, above which the upload will be invalid
+     * Set this protectediable to set a maximum number of pixels for an image, above which the upload will be invalid
      *
      * Default value is null
      *
      * @access public
-     * @var long
+     * @protected long
      */
-    var $image_max_pixels;
+    protected $image_max_pixels;
     /**
-     * Set this variable to set a maximum image aspect ratio, above which the upload will be invalid
+     * Set this protectediable to set a maximum image aspect ratio, above which the upload will be invalid
      *
      * Note that ratio = width / height
      *
      * Default value is null
      *
      * @access public
-     * @var float
+     * @protected float
      */
-    var $image_max_ratio;
+    protected $image_max_ratio;
     /**
-     * Set this variable to set a minimum image width, below which the upload will be invalid
+     * Set this protectediable to set a minimum image width, below which the upload will be invalid
      *
      * Default value is null
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_min_width;
+    protected $image_min_width;
     /**
-     * Set this variable to set a minimum image height, below which the upload will be invalid
+     * Set this protectediable to set a minimum image height, below which the upload will be invalid
      *
      * Default value is null
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_min_height;
+    protected $image_min_height;
     /**
-     * Set this variable to set a minimum number of pixels for an image, below which the upload will be invalid
+     * Set this protectediable to set a minimum number of pixels for an image, below which the upload will be invalid
      *
      * Default value is null
      *
      * @access public
-     * @var long
+     * @protected long
      */
-    var $image_min_pixels;
+    protected $image_min_pixels;
     /**
-     * Set this variable to set a minimum image aspect ratio, below which the upload will be invalid
+     * Set this protectediable to set a minimum image aspect ratio, below which the upload will be invalid
      *
      * Note that ratio = width / height
      *
      * Default value is null
      *
      * @access public
-     * @var float
+     * @protected float
      */
-    var $image_min_ratio;
+    protected $image_min_ratio;
     /**
      * Compression level for PNG images
      *
@@ -666,18 +666,18 @@ class upload
      * Default value is null (Zlib default)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $png_compression;
+    protected $png_compression;
     /**
      * Quality of JPEG created/converted destination image
      *
      * Default value is 85
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $jpeg_quality;
+    protected $jpeg_quality;
     /**
      * Determines the quality of the JPG image to fit a desired file size
      *
@@ -690,36 +690,36 @@ class upload
      * Default value is null (no calculations)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $jpeg_size;
+    protected $jpeg_size;
     /**
      * Turns the interlace bit on
      *
      * This is actually used only for JPEG images, and defaults to false
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $image_interlace;
+    protected $image_interlace;
     /**
      * Flag set to true when the image is transparent
      *
      * This is actually used only for transparent GIFs
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $image_is_transparent;
+    protected $image_is_transparent;
     /**
      * Transparent color in a palette
      *
      * This is actually used only for transparent GIFs
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $image_transparent_color;
+    protected $image_transparent_color;
     /**
      * Background color, used to paint transparent areas with
      *
@@ -731,9 +731,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var string
+     * @protected string
      */
-    var $image_background_color;
+    protected $image_background_color;
     /**
      * Default color for non alpha-transparent images
      *
@@ -746,16 +746,16 @@ class upload
      * The default color white
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $image_default_color;
+    protected $image_default_color;
     /**
      * Flag set to true when the image is not true color
      *
      * @access public
-     * @var boolean
+     * @protected boolean
      */
-    var $image_is_palette;
+    protected $image_is_palette;
     /**
      * Corrects the image brightness
      *
@@ -764,9 +764,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_brightness;
+    protected $image_brightness;
     /**
      * Corrects the image contrast
      *
@@ -775,9 +775,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_contrast;
+    protected $image_contrast;
     /**
      * Changes the image opacity
      *
@@ -786,9 +786,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_opacity;
+    protected $image_opacity;
     /**
      * Applies threshold filter
      *
@@ -797,9 +797,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_threshold;
+    protected $image_threshold;
     /**
      * Applies a tint on the image
      *
@@ -808,9 +808,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_tint_color;
+    protected $image_tint_color;
     /**
      * Applies a colored overlay on the image
      *
@@ -821,9 +821,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_overlay_color;
+    protected $image_overlay_color;
     /**
      * Sets the opacity for the colored overlay
      *
@@ -834,27 +834,27 @@ class upload
      * Default value is 50
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_overlay_opacity;
+    protected $image_overlay_opacity;
     /**
      * Inverts the color of an image
      *
      * Default value is FALSE
      *
      * @access public
-     * @var boolean;
+     * @protected boolean;
      */
-    var $image_negative;
+    protected $image_negative;
     /**
      * Turns the image into greyscale
      *
      * Default value is FALSE
      *
      * @access public
-     * @var boolean;
+     * @protected boolean;
      */
-    var $image_greyscale;
+    protected $image_greyscale;
     /**
      * Pixelate an image
      *
@@ -863,9 +863,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var integer;
+     * @protected integer;
      */
-    var $image_pixelate;
+    protected $image_pixelate;
     /**
      * Applies an unsharp mask, with alpha transparency support
      *
@@ -874,9 +874,9 @@ class upload
      * Default value is FALSE
      *
      * @access public
-     * @var boolean;
+     * @protected boolean;
      */
-    var $image_unsharp;
+    protected $image_unsharp;
     /**
      * Sets the unsharp mask amount
      *
@@ -887,9 +887,9 @@ class upload
      * Default value is 80
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_unsharp_amount;
+    protected $image_unsharp_amount;
     /**
      * Sets the unsharp mask radius
      *
@@ -903,9 +903,9 @@ class upload
      * Default value is 0.5
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_unsharp_radius;
+    protected $image_unsharp_radius;
     /**
      * Sets the unsharp mask threshold
      *
@@ -916,9 +916,9 @@ class upload
      * Default value is 1
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_unsharp_threshold;
+    protected $image_unsharp_threshold;
     /**
      * Adds a text label on the image
      *
@@ -941,9 +941,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_text;
+    protected $image_text;
     /**
      * Sets the text direction for the text label
      *
@@ -954,9 +954,9 @@ class upload
      * Default value is h (horizontal)
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_text_direction;
+    protected $image_text_direction;
     /**
      * Sets the text color for the text label
      *
@@ -965,9 +965,9 @@ class upload
      * Default value is #FFFFFF (white)
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_text_color;
+    protected $image_text_color;
     /**
      * Sets the text opacity in the text label
      *
@@ -976,9 +976,9 @@ class upload
      * Default value is 100
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_text_opacity;
+    protected $image_text_opacity;
     /**
      * Sets the text background color for the text label
      *
@@ -987,9 +987,9 @@ class upload
      * Default value is null (no background)
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_text_background;
+    protected $image_text_background;
     /**
      * Sets the text background opacity in the text label
      *
@@ -998,9 +998,9 @@ class upload
      * Default value is 100
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_text_background_opacity;
+    protected $image_text_background_opacity;
     /**
      * Sets the text font in the text label
      *
@@ -1010,9 +1010,9 @@ class upload
      * Default value is 5
      *
      * @access public
-     * @var mixed;
+     * @protected mixed;
      */
-    var $image_text_font;
+    protected $image_text_font;
     /**
      * Sets the text font size for TrueType fonts
      *
@@ -1023,9 +1023,9 @@ class upload
      * Default value is 16
      *
      * @access public
-     * @var integer;
+     * @protected integer;
      */
-    var $image_text_size;
+    protected $image_text_size;
     /**
      * Sets the text angle for TrueType fonts
      *
@@ -1037,9 +1037,9 @@ class upload
      * Default value is null (so it is determined by the value of {@link image_text_direction})
      *
      * @access public
-     * @var integer;
+     * @protected integer;
      */
-    var $image_text_angle;
+    protected $image_text_angle;
     /**
      * Sets the text label position within the image
      *
@@ -1057,9 +1057,9 @@ class upload
      * Note that is {@link image_text_x} and {@link image_text_y} are used, this setting has no effect
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_text_position;
+    protected $image_text_position;
     /**
      * Sets the text label absolute X position within the image
      *
@@ -1069,9 +1069,9 @@ class upload
      * Default value is null (so {@link image_text_position} is used)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_text_x;
+    protected $image_text_x;
     /**
      * Sets the text label absolute Y position within the image
      *
@@ -1081,9 +1081,9 @@ class upload
      * Default value is null (so {@link image_text_position} is used)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_text_y;
+    protected $image_text_y;
     /**
      * Sets the text label padding
      *
@@ -1094,9 +1094,9 @@ class upload
      * This setting can be overriden by {@link image_text_padding_x} and {@link image_text_padding_y}
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_text_padding;
+    protected $image_text_padding;
     /**
      * Sets the text label horizontal padding
      *
@@ -1107,9 +1107,9 @@ class upload
      * If set, this setting overrides the horizontal part of {@link image_text_padding}
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_text_padding_x;
+    protected $image_text_padding_x;
     /**
      * Sets the text label vertical padding
      *
@@ -1120,9 +1120,9 @@ class upload
      * If set, his setting overrides the vertical part of {@link image_text_padding}
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_text_padding_y;
+    protected $image_text_padding_y;
     /**
      * Sets the text alignment
      *
@@ -1135,9 +1135,9 @@ class upload
      * Note that this setting is only applicable to GD fonts, and has no effects with TrueType fonts
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_text_alignment;
+    protected $image_text_alignment;
     /**
      * Sets the text line spacing
      *
@@ -1150,9 +1150,9 @@ class upload
      * Note that this setting is only applicable to GD fonts, and has no effects with TrueType fonts
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_text_line_spacing;
+    protected $image_text_line_spacing;
     /**
      * Sets the height of the reflection
      *
@@ -1162,9 +1162,9 @@ class upload
      * Default value is null, no reflection
      *
      * @access public
-     * @var mixed;
+     * @protected mixed;
      */
-    var $image_reflection_height;
+    protected $image_reflection_height;
     /**
      * Sets the space between the source image and its relection
      *
@@ -1175,9 +1175,9 @@ class upload
      * This setting is relevant only if {@link image_reflection_height} is set
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_reflection_space;
+    protected $image_reflection_space;
     /**
      * Sets the initial opacity of the reflection
      *
@@ -1189,18 +1189,18 @@ class upload
      * This setting is relevant only if {@link image_reflection_height} is set
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_reflection_opacity;
+    protected $image_reflection_opacity;
     /**
      * Automatically rotates the image according to EXIF data (JPEG only)
      *
      * Default value is true
      *
      * @access public
-     * @var boolean;
+     * @protected boolean;
      */
-    var $image_auto_rotate;
+    protected $image_auto_rotate;
     /**
      * Flips the image vertically or horizontally
      *
@@ -1209,9 +1209,9 @@ class upload
      * Default value is null (no flip)
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_flip;
+    protected $image_flip;
     /**
      * Rotates the image by increments of 45 degrees
      *
@@ -1220,9 +1220,9 @@ class upload
      * Default value is null (no rotation)
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_rotate;
+    protected $image_rotate;
     /**
      * Crops an image
      *
@@ -1249,9 +1249,9 @@ class upload
      * Default value is null (no cropping)
      *
      * @access public
-     * @var string OR array;
+     * @protected string OR array;
      */
-    var $image_crop;
+    protected $image_crop;
     /**
      * Crops an image, before an eventual resizing
      *
@@ -1260,9 +1260,9 @@ class upload
      * Default value is null (no cropping)
      *
      * @access public
-     * @var string OR array;
+     * @protected string OR array;
      */
-    var $image_precrop;
+    protected $image_precrop;
     /**
      * Adds a bevel border on the image
      *
@@ -1273,9 +1273,9 @@ class upload
      * Default value is null (no bevel)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_bevel;
+    protected $image_bevel;
     /**
      * Top and left bevel color
      *
@@ -1285,9 +1285,9 @@ class upload
      * Default value is #FFFFFF
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_bevel_color1;
+    protected $image_bevel_color1;
     /**
      * Right and bottom bevel color
      *
@@ -1297,9 +1297,9 @@ class upload
      * Default value is #000000
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_bevel_color2;
+    protected $image_bevel_color2;
     /**
      * Adds a single-color border on the outer of the image
      *
@@ -1316,9 +1316,9 @@ class upload
      * Default value is null (no border)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_border;
+    protected $image_border;
     /**
      * Border color
      *
@@ -1328,9 +1328,9 @@ class upload
      * Default value is #FFFFFF
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_border_color;
+    protected $image_border_color;
     /**
      * Sets the opacity for the borders
      *
@@ -1341,9 +1341,9 @@ class upload
      * Default value is 100
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_border_opacity;
+    protected $image_border_opacity;
     /**
      * Adds a fading-to-transparent border on the image
      *
@@ -1359,9 +1359,9 @@ class upload
      * Default value is null (no border)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_border_transparent;
+    protected $image_border_transparent;
     /**
      * Adds a multi-color frame on the outer of the image
      *
@@ -1376,9 +1376,9 @@ class upload
      * Default value is null (no frame)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_frame;
+    protected $image_frame;
     /**
      * Sets the colors used to draw a frame
      *
@@ -1398,9 +1398,9 @@ class upload
      * Default value is '#FFFFFF #999999 #666666 #000000'
      *
      * @access public
-     * @var string OR array;
+     * @protected string OR array;
      */
-    var $image_frame_colors;
+    protected $image_frame_colors;
     /**
      * Sets the opacity for the frame
      *
@@ -1411,9 +1411,9 @@ class upload
      * Default value is 100
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_frame_opacity;
+    protected $image_frame_opacity;
     /**
      * Adds a watermark on the image
      *
@@ -1424,9 +1424,9 @@ class upload
      * Default value is null
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_watermark;
+    protected $image_watermark;
     /**
      * Sets the watermarkposition within the image
      *
@@ -1441,9 +1441,9 @@ class upload
      * Note that is {@link image_watermark_x} and {@link image_watermark_y} are used, this setting has no effect
      *
      * @access public
-     * @var string;
+     * @protected string;
      */
-    var $image_watermark_position;
+    protected $image_watermark_position;
     /**
      * Sets the watermark absolute X position within the image
      *
@@ -1453,9 +1453,9 @@ class upload
      * Default value is null (so {@link image_watermark_position} is used)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_watermark_x;
+    protected $image_watermark_x;
     /**
      * Sets the twatermark absolute Y position within the image
      *
@@ -1465,9 +1465,9 @@ class upload
      * Default value is null (so {@link image_watermark_position} is used)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_watermark_y;
+    protected $image_watermark_y;
     /**
      * Prevents the watermark to be resized up if it is smaller than the image
      *
@@ -1482,9 +1482,9 @@ class upload
      * Default value is true (so the watermark will not be resized up, which is the behaviour most people expect)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_watermark_no_zoom_in;
+    protected $image_watermark_no_zoom_in;
     /**
      * Prevents the watermark to be resized down if it is bigger than the image
      *
@@ -1499,16 +1499,16 @@ class upload
      * Default value is false (so the watermark may be shrinked to fit in the image)
      *
      * @access public
-     * @var integer
+     * @protected integer
      */
-    var $image_watermark_no_zoom_out;
+    protected $image_watermark_no_zoom_out;
     /**
      * List of MIME types per extension
      *
      * @access private
-     * @var array
+     * @protected array
      */
-    var $mime_types;
+    protected $mime_types;
     /**
      * Allowed MIME types
      *
@@ -1518,9 +1518,9 @@ class upload
      * If there is only one MIME type allowed, then it can be a string instead of an array
      *
      * @access public
-     * @var array OR string
+     * @protected array OR string
      */
-    var $allowed;
+    protected $allowed;
     /**
      * Forbidden MIME types
      *
@@ -1531,9 +1531,9 @@ class upload
      * If there is only one MIME type forbidden, then it can be a string instead of an array
      *
      * @access public
-     * @var array OR string
+     * @protected array OR string
      */
-    var $forbidden;
+    protected $forbidden;
     /**
      * Array of translated error messages
      *
@@ -1541,21 +1541,21 @@ class upload
      * Translations can be in separate files, in a lang/ subdirectory
      *
      * @access public
-     * @var array
+     * @protected array
      */
-    var $translation;
+    protected $translation;
     /**
      * Language selected for the translations
      *
      * By default, the language is english ("en_GB")
      *
      * @access public
-     * @var array
+     * @protected array
      */
-    var $lang;
+    protected $lang;
 
     /**
-     * Init or re-init all the processing variables to their default values
+     * Init or re-init all the processing protectediables to their default values
      *
      * This function is called in the constructor, and after each call of {@link process}
      *
@@ -1564,7 +1564,7 @@ class upload
     function init()
     {
 
-        // overiddable variables
+        // overiddable protectediables
         $this->file_new_name_body = null;     // replace the name body
         $this->file_name_body_add = null;     // append to the name body
         $this->file_name_body_pre = null;     // prepend to the name body
@@ -1878,8 +1878,8 @@ class upload
      * The constructor will check if the file has been uploaded in its temporary location, and
      * accordingly will set {@link uploaded} (and {@link error} is an error occurred)
      *
-     * If the file has been uploaded, the constructor will populate all the variables holding the upload
-     * information (none of the processing class variables are used here).
+     * If the file has been uploaded, the constructor will populate all the protectediables holding the upload
+     * information (none of the processing class protectediables are used here).
      * You can have access to information about the file (name, size, MIME type...).
      *
      *
@@ -2301,7 +2301,7 @@ class upload
                                 else
                                 {
                                     $path = getenv('MAGIC');
-                                    $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;MAGIC path is set to ' . $path . ' from MAGIC variable<br />';
+                                    $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;MAGIC path is set to ' . $path . ' from MAGIC protectediable<br />';
                                 }
                             }
                             else
@@ -2566,7 +2566,7 @@ class upload
                 }
             }
 
-            $this->log .= '<b>source variables</b><br />';
+            $this->log .= '<b>source protectediables</b><br />';
             $this->log .= '- You can use all these before calling process()<br />';
             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;file_src_name         : ' . $this->file_src_name . '<br />';
             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;file_src_name_body    : ' . $this->file_src_name_body . '<br />';
@@ -3041,7 +3041,7 @@ class upload
     }
 
     /**
-     * Actually uploads the file, and act on it according to the set processing class variables
+     * Actually uploads the file, and act on it according to the set processing class protectediables
      *
      * This function copies the uploaded file to the given location, eventually performing actions on it.
      * Typically, you can call {@link process} several times for the same file,
@@ -3049,11 +3049,11 @@ class upload
      * The original uploaded file remains intact in its temporary location, so you can use {@link process} several times.
      * You will be able to delete the uploaded file with {@link clean} when you have finished all your {@link process} calls.
      *
-     * According to the processing class variables set in the calling file, the file can be renamed,
+     * According to the processing class protectediables set in the calling file, the file can be renamed,
      * and if it is an image, can be resized or converted.
      *
      * When the processing is completed, and the file copied to its new location, the
-     * processing class variables will be reset to their default value.
+     * processing class protectediables will be reset to their default value.
      * This allows you to set new properties, and perform another {@link process} on the same uploaded file
      *
      * If the function is called with a null or empty argument, then it will return the content of the picture
@@ -3071,7 +3071,7 @@ class upload
         $return_mode = false;
         $return_content = null;
 
-        // clean up dst variables
+        // clean up dst protectediables
         $this->file_dst_path = '';
         $this->file_dst_pathname = '';
         $this->file_dst_name = '';
@@ -3082,7 +3082,7 @@ class upload
         $this->file_max_size = $this->getsize($this->file_max_size);
         $this->jpeg_size = $this->getsize($this->jpeg_size);
 
-        // copy some variables as we need to keep them clean
+        // copy some protectediables as we need to keep them clean
         $file_src_name = $this->file_src_name;
         $file_src_name_body = $this->file_src_name_body;
         $file_src_name_ext = $this->file_src_name_ext;
@@ -3266,7 +3266,7 @@ class upload
         {
             $this->file_dst_path = $server_path;
 
-            // repopulate dst variables from src
+            // repopulate dst protectediables from src
             $this->file_dst_name = $file_src_name;
             $this->file_dst_name_body = $file_src_name_body;
             $this->file_dst_name_ext = $file_src_name_ext;
@@ -3304,7 +3304,7 @@ class upload
                 $this->log .= '- file name safe format<br />';
             }
 
-            $this->log .= '- destination variables<br />';
+            $this->log .= '- destination protectediables<br />';
             if (empty($this->file_dst_path) || is_null($this->file_dst_path))
             {
                 $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;file_dst_path         : n/a<br />';
@@ -4582,15 +4582,15 @@ class upload
                     {
                         if (is_array($this->image_frame_colors))
                         {
-                            $vars = $this->image_frame_colors;
+                            $protecteds = $this->image_frame_colors;
                             $this->log .= '- add frame : ' . implode(' ', $this->image_frame_colors) . '<br />';
                         }
                         else
                         {
                             $this->log .= '- add frame : ' . $this->image_frame_colors . '<br />';
-                            $vars = explode(' ', $this->image_frame_colors);
+                            $protecteds = explode(' ', $this->image_frame_colors);
                         }
-                        $nb = sizeof($vars);
+                        $nb = sizeof($protecteds);
                         $this->image_dst_x = $this->image_dst_x + ($nb * 2);
                         $this->image_dst_y = $this->image_dst_y + ($nb * 2);
                         $tmp = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y);
@@ -4598,7 +4598,7 @@ class upload
                         $opacity = (is_numeric($this->image_frame_opacity) ? (int) (127 - $this->image_frame_opacity / 100 * 127) : 0);
                         for ($i = 0; $i < $nb; $i++)
                         {
-                            list($red, $green, $blue) = $this->getcolors($vars[$i]);
+                            list($red, $green, $blue) = $this->getcolors($protecteds[$i]);
                             $c = imagecolorallocatealpha($tmp, $red, $green, $blue, $opacity);
                             if ($this->image_frame == 1)
                             {
@@ -5545,7 +5545,7 @@ class upload
             $this->log .= '- <b>error</b>: ' . $this->error . '<br />';
         }
 
-        // we reinit all the vars
+        // we reinit all the protecteds
         $this->init();
 
         // we may return the image content

@@ -10,12 +10,12 @@ include_once("conf/globals.php");
 class dirlinks extends dynamicNavigation
 {
     var $mimer;
-    var $dirlinksFilePath;
-    var $lcnt;
+    protected $dirlinksFilePath;
+    protected $lcnt;
 
     function __construct()
     {
-        $this->mimer = new MimetypeHandler();
+        $this->mimer = new roboMimeTyper();
         $this->dirlinksFilePath = $_SESSION['currentDirPath'] . 'dirlinks';
         $this->checkAuthorityCredentials();
         $this->init();
@@ -33,7 +33,6 @@ class dirlinks extends dynamicNavigation
     {
         global $sys_show_suffixes;
 
-
         $lbl = '';
         if ($sys_show_suffixes && strstr($link->href, "robopage="))
         {
@@ -44,15 +43,16 @@ class dirlinks extends dynamicNavigation
         {
             $lbl = $link->label;
         }
-        $ret = '<li style="width: 90%; border: 1px solid green;" src="' . $i . '">';
+        $ret = '<li style="width: auto; border: 1px solid green;" src="' . $i . '">';
         $ret .= $link->href . '::' . $lbl . '</li>' . "\n";
+        //echo htmlentities($ret);
         return($ret);
     }
 
     function writeNewlyOrderedLinks()
     {
+        $ret = '';
         $fp = fopen($this->dirlinksFilePath, "w");
-        //?robopage=rambunctious.jpg::Rambunctious.jpg
 
         $pvals = explode(",", $_POST['new_order']);
         $vcnt = count($pvals);
@@ -63,10 +63,8 @@ class dirlinks extends dynamicNavigation
             $ret .= $pline . "<br/>";
             fwrite($fp, $pline . "\n");
         }
-        fclose($fp);
         chmod($this->dirlinksFilePath, 0777);
-        //echo '<script type="text/javascript"> window.location.reload();</script>';
-        header("Location: ?robopage=" . $_SESSION['currentDirUrl'] . $_SESSION['currentDisplay']);
+        fclose($fp);
     }
 
     function mkFileLine($link)
@@ -89,24 +87,26 @@ class dirlinks extends dynamicNavigation
 
     function mkDirlinksFile()
     {
-        $this->orderedkeys = null;
+        $this->fileKeys = null;
         $this->linkshash = null;
         $this->gatherLinks();
 
-        if (count($this->dirs) > 0)
-            $this->orderedkeys = array_merge($this->dirs, $this->orderedkeys);
+        //if (count($this->dirKeys) > 0)
+         //   $this->fileKeys = array_merge($this->imageKeys,$this->dirKeys, $this->fileKeys);
         unlink($this->dirlinksFilePath);
         $fp = fopen($this->dirlinksFilePath, "w");
 
-        $lcnt = count($this->linkshash);
-        for ($i = 0; $i < $lcnt; $i++)
+        //$lcnt = count($this->fileKeys);
+        //for ($i = 0; $i < $lcnt; $i++)
+        foreach($this->linkshash as $akey)
         {
-            $akey = $this->orderedkeys[$i];
+            //$akey = $this->fileKeys[$i];
             $link = $this->linkshash[$akey];
 
             if ($link != null && $link->href != '')
             {
                 $line = $this->mkFileLine($link);
+                echo $line,"<br/>";
                 fwrite($fp, $line);
             }
         }
@@ -116,19 +116,22 @@ class dirlinks extends dynamicNavigation
 
     function getOutput($divid)
     {
+ 
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['mode'] == 'saveDirlinks')
+        {
+            $this->writeNewlyOrderedLinks();
+            return '<a href="?robopage='. $_GET['robopage'] . '&amp;layout=nerd"> <button>Saved now back to the Admin Screen</button></a>' ;
+        }
+ 
         $this->lcnt = count($this->linkshash);
-        $self = $this->selfUrl;
         $ret = '';
 
         $ret .= <<<ENDO
     <style>
-        section {
-            display: block;
-        }
         .sortable {
             margin: auto;
             padding: 0;
-            width: 310px;
+            width: auto;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
@@ -149,41 +152,54 @@ class dirlinks extends dynamicNavigation
    </style>
 ENDO;
 
+$currentDirUrl = $_SESSION['currentDirUrl'];
+    //<p><button type="button" id="cancel"> Cancel </button></p>
+
         $ret .= <<<zENDO
-<section>
-<form name="form" id="form" action="$self" method="post">
-    <p>$self</p>
-    <p><input type="archive" id="new_order" name="new_order" /> </p>
-    <p><input type="archive" name="mode" value="saveDirlinks"/> </p>
-    <p><button type="button" id="sumbit"> Save this ordering </button></p>
-    <p><button type="button" id="ccancel"> Cancel </button></p>
+   <form action="?robopage=' . $currentDirUrl . '&amp;layout=dirlinks" method="post">
+    <input type="hidden" name="mode" value="saveDirlinks"/>
+    <p><input type="hidden" id="new_order" name="new_order" /> </p>
+    <button type="submit" id="sumbit"> Save this ordering </button>
 </form>
-<h4 style="text-align: center;"> Drag and drop the links below--up and down--using a left mouse click 
+<h4 style="text-align: center;"> 
+Drag and drop the links below--up and down--using a left mouse click 
 <br/>
- Then click Save </h4>
+ Then click Save 
+</h4>
 <ul id="dalist" class="sortable">
 zENDO;
 
-        if (count($this->dirs) > 0)
-            $this->orderedkeys = array_merge($this->dirs, $this->orderedkeys);
-        for ($i = 0; $i < $this->lcnt; $i++)
+        //if (isset($this->dirKeys) && count($this->dirKeys) > 0)
+         //   $this->fileKeys = array_merge($this->dirKeys, $this->fileKeys);
+        //for ($i = 0; $i < $this->lcnt; $i++)
+ $i=0;
+        foreach(array_keys($this->linkshash) as $akey)
         {
-            $akey = $this->orderedkeys[$i];
-            $link = $this->linkshash[$akey];
-
+           // $akey = $link = null;
+           //if(isset($this->fileKeys[$i]))
+            //  $akey = $this->fileKeys[$i];
+            //else 
+             // break;
+/*
+            if(isset($this->linkshash[$akey]))
+                $link = $this->linkshash[$akey];
+            else 
+              break;
+*/
+             //echo "<br/>damn akey: ", $akey, "<br/>";
+             $link = $this->linkshash[$akey];
             if ($link != null && $link->href != '')
             {
                 $dbg = $this->mkLIline($link, $i);
-                //echo htmlentities($dbg) . "<br/>";
                 $ret .= $dbg;
             }
+           $i++;
         }
-
 
         $ret .= <<<mENDO
        </ul>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="jquery.sortable.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.sortable.js"></script>
     <script> $(function() { $('.sortable').sortable(); });</script>
     <script>
         $("#ccancel").click(function() {
@@ -193,7 +209,7 @@ zENDO;
     </script>
     <script>
         $("#sumbit").click(function() {
-            var data = '';
+            protected data = '';
 
             $("#dalist li").each(
                     function(i, el)
@@ -210,7 +226,6 @@ zENDO;
         }
         );
     </script>
-    </section>
 mENDO;
 
         return $ret;

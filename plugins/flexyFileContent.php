@@ -12,7 +12,7 @@ include_once("plugin.php");
 
 class flexyFileContent extends plugin
 {
-    var
+    protected
             $mimer;
 
     function __construct()

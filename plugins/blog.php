@@ -2,27 +2,14 @@
 @session_start();
 include_once("plugin.php");
 
-/*
- * * Design Goals:
- * * There is only one blog /fragments/roboresources/blog/year (perhaps 2018)
- * * blog.php defaults to this year as from current date. &blogYear=2015 can change it
- * * Code still cycles through showing N blogs with earlier and later buttons,
- * * as per what is already here.
- * * Earlier button goes to end of this year? Drop down menu GETS to go to another year?
- */
 
 class blog extends plugin
 {
-    protected
-            $indexedFiles;
-    protected
-            $hashedFiles;
-    protected
-            $blogCnt;
-    protected
-            $mimer;
-    protected
-            $blogFilesDirPath;
+    protected $indexedFiles;
+    protected $hashedFiles;
+    protected $blogCnt;
+    protected $mimer;
+    protected $blogFilesDirPath;
 
     public
             function __construct()
@@ -38,14 +25,15 @@ class blog extends plugin
         parent::init();
     }
 
-    // not used right now...
     function formatDate($str)
     {
+        //echo "format: ", $str, "<br/>";
 
         $bits = explode("-", $str);
         $year = $bits[0];
         $month = $bits[1];
         $day = substr($bits[2], 0, 2);
+
         $darr = array($year, $month, $day);
         return $darr;
     }
@@ -64,39 +52,35 @@ class blog extends plugin
                 {
                     continue;
                 }
-                if (strstr($file, "blog"))
+                $test = basename($file);
+                if (strstr($test, "blog"))
                 {
-                    //if($file == "2015-05-31-13:39:25.blog")
-                    //echo "file: ", $file, "<br/>";
-                    $tmpArr[$file] = $file;
+                    //$tmpArr[$fileCnt] = $file;
+                    $tmpArr[$file] = $fileCnt;
+                    $fileCnt++;
                 }
             }
-        }
-        // get date descending order on files like 2013-06-24-20:19:44.blog
-        natsort($tmpArr);
-        array_reverse($tmpArr);
-
-        $this->indexedFiles = array();
-        $this->blogCnt = count($tmpArr);
-        $cnt = 0;
-        foreach (array_keys($tmpArr) as $ablogFile)
-        {
-
-            // include the path below to see if it's a directory?  Shouldn't be. Doesn't hurt to know
-            $linkTargetType = $this->mimer->getRoboMimeType($this->blogFilesDirPath . $ablogFile);
-            $this->hashedFiles[$ablogFile] = $cnt;
-            //$this->indexedFiles[$cnt] = $ablogFile;
-            $this->indexedFiles[$cnt] = $ablogFile;
-            $cnt++;
-        }
-    }
+         }
+         $this->blogCnt = $fileCnt++;
+         krsort($tmpArr);
+         array_reverse($tmpArr);
+         $i=0;
+         foreach(array_keys($tmpArr) as $ablogFile)
+         { 
+             $this->indexedFiles[$i] = $ablogFile;
+             $this->hashedFiles[$ablogFile] = $i;
+             //echo "[$i] $ablogFile <br/>";
+             $i++;
+         }
+         
+   }
 
     function miniMeme($date, $text)
     {
         $ret = ' 
 <div class="miniMeme">
 <script type="text/javascript">
-var el = document.getElementById(\'miniMeme\');
+protected el = document.getElementById(\'miniMeme\');
 el.style.margin-left = \'-4em\';
 </script>';
 
@@ -151,6 +135,7 @@ el.style.margin-left = \'-4em\';
 
         $stopIdx = $blogStart + $iterations;
 
+
         if (isset($_GET['dbg']))
         {
             echo "this->blogCnt: ", $this->blogCnt, "<br/>";
@@ -159,17 +144,15 @@ el.style.margin-left = \'-4em\';
             echo "stopIdx: ", $stopIdx, "<br/>";
         }
 
+
         $cnt = $blogStart;
         for ($i = $blogStart; $i < $stopIdx; $i++)
         {
             $lcl = '';
             $ablogFile = $this->indexedFiles[$i];
-            //$lcl .= '<h2 class="dadate">' .  str_replace(".blog","",$this->formatDate($ablogFile)) . '</h2>';
             $darr = $this->formatDate($ablogFile);
-            //echo "$darr[0] <br/>"; echo "$darr[1] <br/>"; echo "$darr[2] <br/>";
             $dateMeme = $this->miniMeme($darr[1] . "/" . $darr[2], $darr[0]);
             $lcl .= $dateMeme;
-            //echo "xxxxxxxxxxxxxxxxxxxx: ", htmlentities($dateMeme), "<br/>";
             $lcl .= '<div class="blogEntry">';
             $lcl .= trim(file_get_contents($this->blogFilesDirPath . $ablogFile));
             $lcl .= '</div>' . "\n";
@@ -177,6 +160,7 @@ el.style.margin-left = \'-4em\';
             $buff .= $lcl;
         }
 
+        $top = '<a class="button" href="?robopage=' . $robopage . '&blogStart=0"> Blog Start </a><br/><br/>' . "\n";
         if ($blogStart > 0)
         {
             $cnt = $cnt - (2 * $iterations);
@@ -184,14 +168,15 @@ el.style.margin-left = \'-4em\';
             {
                 $cnt = 0;
             }
-            $newer = '<a class="button" href="?robopage=' . $robopage . '&blogStart=' . $cnt . '"> Newer (move up) </a><br/>' . "\n";
+            $newer = $top . '<a class="button" href="?robopage=' . $robopage . '&blogStart=' . $cnt . '"> Newer (move up) </a><br/>' . "\n";
         }
         if ($stopIdx < $this->blogCnt)
         {
             $older = '<a class="button" href="?robopage=' . $robopage . '&blogStart=' . $stopIdx . '"> Older (move down) </a><br/>' . "\n";
         }
 
-        $ret = $newer . $buff . $older;
+        $ret = $newer . $buff . $older. $top;
+        //$ret = $buff;
         return ($ret );
     }
 

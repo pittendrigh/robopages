@@ -33,6 +33,7 @@ class Link
             $this->linkTargetType = trim($tokens[2]);
         else
             $this->linkTargetType = 'unknown';
+        //$this->dbg();
     }
 
     function dbg()

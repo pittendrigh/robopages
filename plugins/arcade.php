@@ -5,13 +5,13 @@ include_once("conf/globals.php");
 
 class arcade extends plugin
 {
-    var
+    protected
             $slideShowPath;
-    var
+    protected
             $slideShowUrl;
-    var
+    protected
             $interval;
-    var
+    protected
             $slidesNameString;
 
     function __construct()
@@ -26,24 +26,24 @@ class arcade extends plugin
     <!-- lazy load slideShow -- one image at a time until they\'re all in -->
     <script type="text/javascript">
 
-       var cnt=-1;
-       var max=0;
-       var thumbIDX = 0;
+       protected cnt=-1;
+       protected max=0;
+       protected thumbIDX = 0;
      
-       var on = 1;
-       var interval = ' . $this->interval . ';
-       var intervalDisplay = interval/1000;
-       var intervalHandle=null;
-       var namesArray;
-       var name2IDXHash  = new Object();
-       var idx2NameHash  = new Object();
+       protected on = 1;
+       protected interval = ' . $this->interval . ';
+       protected intervalDisplay = interval/1000;
+       protected intervalHandle=null;
+       protected namesArray;
+       protected name2IDXHash  = new Object();
+       protected idx2NameHash  = new Object();
 
        function  rollNow()
        {
-          var str = "' . $this->slidesNameString . '";
+          protected str = "' . $this->slidesNameString . '";
           namesArray = str.split(\',\');
           max = namesArray.length;
-          var name;
+          protected name;
           for (i=0; i<namesArray.length; i++)
           {
                  name = namesArray[i]; 
@@ -59,7 +59,7 @@ class arcade extends plugin
        {
            //if(path == null)
            //   alert(\'path null\');
-           var ret = path.split("/").reverse()[0];
+           protected ret = path.split("/").reverse()[0];
            return (ret);
        }
 
@@ -67,9 +67,9 @@ class arcade extends plugin
        {
         if(on == 1)
         {
-          var dbgObj = document.getElementById(\'Dbg\');
-          var name = namesArray[cnt];
-          var str = \' t: \' + thumbIDX + \' c: \' + cnt ;  
+          protected dbgObj = document.getElementById(\'Dbg\');
+          protected name = namesArray[cnt];
+          protected str = \' t: \' + thumbIDX + \' c: \' + cnt ;  
           if(message == null )
               dbgObj.innerHTML = str; 
           else
@@ -84,14 +84,14 @@ class arcade extends plugin
               cnt++;
               if(cnt >= max)
                     cnt = 0;
-              var imgPath = idx2NameHash[cnt];
+              protected imgPath = idx2NameHash[cnt];
 
-              var foo = cnt;
+              protected foo = cnt;
               thumbIDX = foo % 6; 
-              var thumbName = \'tn-\' + thumbIDX;
+              protected thumbName = \'tn-\' + thumbIDX;
  
-              var thumbObj = document.getElementById(thumbName);
-              var imgObj = document.getElementById(\'currentSlideImg\');
+              protected thumbObj = document.getElementById(thumbName);
+              protected imgObj = document.getElementById(\'currentSlideImg\');
              if(imgPath) 
              {
               dbg(\'<b> \' +baseName(imgPath).replace(/.jpg|.png|.gif/i,"").replace("_"," ").replace("-"," ") + \'</b>\');

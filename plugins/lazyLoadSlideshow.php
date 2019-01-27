@@ -5,15 +5,15 @@ include_once("conf/globals.php");
 
 class lazyLoadSlideShow extends plugin
 {
-    var
+    protected
             $firstSlide;
-    var
+    protected
             $slideShowPath;
-    var
+    protected
             $slideShowUrl;
-    var
+    protected
             $interval;
-    var
+    protected
             $slidesNameString;
 
     function __construct()
@@ -46,27 +46,27 @@ class lazyLoadSlideShow extends plugin
         $ret = '
     <script type="text/javascript">
 
-       var cnt=-1;
-       var max=0;
+       protected cnt=-1;
+       protected max=0;
      
-       var on = 1;
-       var interval = ' . $this->interval . ';
-       var intervalDisplay = interval/1000;
-       var intervalHandle=null;
-       var namesArray;
-       var name2IDXHash  = new Object();
-       var idx2NameHash  = new Object();
+       protected on = 1;
+       protected interval = ' . $this->interval . ';
+       protected intervalDisplay = interval/1000;
+       protected intervalHandle=null;
+       protected namesArray;
+       protected name2IDXHash  = new Object();
+       protected idx2NameHash  = new Object();
 
        function  rollNow()
        {
-          var str = "' . $this->slidesNameString . '";
+          protected str = "' . $this->slidesNameString . '";
          
           namesArray = str.split(\',\');
           namesArray.sort();
           max = namesArray.length;
-          var name;
+          protected name;
           
-          var dbg=document.getElementById(\'Dbg\');
+          protected dbg=document.getElementById(\'Dbg\');
           for (i=0; i<namesArray.length; i++)
           {
                  name = namesArray[i]; 
@@ -92,7 +92,7 @@ class lazyLoadSlideShow extends plugin
        {
            if(path == null)
               alert(\'path null\');
-           var ret = path.split("/").reverse()[0];
+           protected ret = path.split("/").reverse()[0];
            return (ret);
        }
 
@@ -100,8 +100,8 @@ class lazyLoadSlideShow extends plugin
        {
         if(on == 1)
         {
-          var dbgObj = document.getElementById(\'Dbg\');
-          var name = namesArray[cnt];
+          protected dbgObj = document.getElementById(\'Dbg\');
+          protected name = namesArray[cnt];
           if(message == null )
               dbgObj.innerHTML = str; 
           else
@@ -111,7 +111,7 @@ class lazyLoadSlideShow extends plugin
 
        function resetMainImage(obj)
        {
-          var mainPicObj = document.getElementById(\'currentSlideImg\');
+          protected mainPicObj = document.getElementById(\'currentSlideImg\');
           mainPicObj.setAttribute("src", obj.getAttribute("src"));
           //dbg(\'<b> \' +baseName(mainPicObj.src).replace(/.jpg|.png|.gif/i,"").replace("_"," ").replace("-"," ") + \'</b>\');
        }
@@ -121,18 +121,18 @@ class lazyLoadSlideShow extends plugin
        {
            if(on == 1)
            {
-              var picLabel;
+              protected picLabel;
               cnt++;
               if(cnt >= max)
                     cnt = 0;
-              var imgPath = idx2NameHash[cnt];
+              protected imgPath = idx2NameHash[cnt];
 
-              var imgObj = document.getElementById(\'currentSlideImg\');
+              protected imgObj = document.getElementById(\'currentSlideImg\');
            
               if(imgObj && imgPath)
               {
-                 var dbgObj=document.getElementById(\'Dbg\');
-                 var tmpStr = baseName(imgPath.replace(\'.jpg\',\'\'));
+                 protected dbgObj=document.getElementById(\'Dbg\');
+                 protected tmpStr = baseName(imgPath.replace(\'.jpg\',\'\'));
                  tmpStr = tmpStr.substring(tmpStr.lastIndexOf(\'_\')+1);
                  dbgObj.innerHTML = \'<b>\' + tmpStr + \'</b>\';
 
@@ -144,9 +144,9 @@ class lazyLoadSlideShow extends plugin
 
        function nextImage()
        {
-              var picLabel;
+              protected picLabel;
 
-         var btn = document.getElementById(\'stoggle\');
+         protected btn = document.getElementById(\'stoggle\');
          if(on == 1)
          {
             on = 0;
@@ -156,18 +156,18 @@ class lazyLoadSlideShow extends plugin
               cnt++;
               if(cnt >= max)
                     cnt = 0;
-              var imgPath = idx2NameHash[cnt];
+              protected imgPath = idx2NameHash[cnt];
 
  
-              var imgObj = document.getElementById(\'currentSlideImg\');
+              protected imgObj = document.getElementById(\'currentSlideImg\');
 
               if(imgObj != null && imgPath != null && imgPath.length != 0)
               {
                  imgObj.setAttribute("src", imgPath);
               }
                
-              var dbg=document.getElementById(\'Dbg\');
-              var tmpStr = baseName(imgPath.replace(\'.jpg\',\'\'));
+              protected dbg=document.getElementById(\'Dbg\');
+              protected tmpStr = baseName(imgPath.replace(\'.jpg\',\'\'));
               tmpStr = tmpStr.substring(tmpStr.lastIndexOf(\'_\')+1);
               dbg.innerHTML = \'<b>\' + tmpStr + \'</b>\';
        }
@@ -175,12 +175,12 @@ class lazyLoadSlideShow extends plugin
        function prevImage()
        {
 
-              var picLabel;
+              protected picLabel;
               cnt--;
               if(cnt < 0)
                     cnt = max;
-              var imgPath = idx2NameHash[cnt];
-         var btn = document.getElementById(\'stoggle\');
+              protected imgPath = idx2NameHash[cnt];
+         protected btn = document.getElementById(\'stoggle\');
          if(on == 1)
          {
             on = 0;
@@ -188,18 +188,18 @@ class lazyLoadSlideShow extends plugin
          }
 
  
-         var imgObj = document.getElementById(\'currentSlideImg\');
+         protected imgObj = document.getElementById(\'currentSlideImg\');
               imgObj.setAttribute("src", imgPath);
 
-              var dbg=document.getElementById(\'Dbg\');
-              var tmpStr = baseName(imgPath.replace(\'.jpg\',\'\'));
+              protected dbg=document.getElementById(\'Dbg\');
+              protected tmpStr = baseName(imgPath.replace(\'.jpg\',\'\'));
               tmpStr = tmpStr.substring(tmpStr.lastIndexOf(\'_\')+1);
               dbg.innerHTML = \'<b>\' + tmpStr + \'</b>\';
        }
 
       function incInterval()
       {
-         var iobj = document.getElementById("incrementDisplay");
+         protected iobj = document.getElementById("incrementDisplay");
          interval += 2000;
          if(interval > 5000)
          {
@@ -214,7 +214,7 @@ class lazyLoadSlideShow extends plugin
 
       function decInterval()
       {
-         var dobj = document.getElementById("incrementDisplay");
+         protected dobj = document.getElementById("incrementDisplay");
          interval -= 1000;
          if(interval < 1000)
          {
@@ -230,7 +230,7 @@ class lazyLoadSlideShow extends plugin
 
        function toggle()
        {
-         var btn = document.getElementById(\'stoggle\');
+         protected btn = document.getElementById(\'stoggle\');
 
          if(on == 1)
          {

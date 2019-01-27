@@ -7,16 +7,27 @@ include_once("plugin.interface.php");
 class filesLister 
 {
 
-    public function getOutput($divid)
+    public function getOutput($dir)
     {
         $cnt = 0;
         $filePaths = array();
 
-        $path = ltrim(rtrim($_SESSION['currentDirUrl'], '/'),'/');
-        if($path == '' || $path == '/')
-            $path = 'root directory';
-        $ret = '<br/><span class="small"><b>Downloadable Files in ' . $path . ':</b><br/>';
-        if ($dir_handle = opendir($_SESSION['currentDirPath']))
+    $displayPath=$dir;
+    if($dir == null)
+    {
+          $dir = $_SESSION['currentDirPath'];
+          $displayPath = $_SESSION['currentDirPath'];
+          $displayPath = ltrim(rtrim($_SESSION['currentDirUrl'], '/'),'/');
+    }
+ 
+
+        if($displayPath == '' || $displayPath == '/')
+            $displayPath = 'root directory';
+        else
+            $displayPath = str_replace($_SESSION['prgrmDocRoot'],'',$displayPath);
+
+        $ret = '<br/><span class="small"><b> Files in ' . $displayPath . '</b><br/>';
+        if ($dir_handle = opendir($dir))
         {
             while (($file = readdir($dir_handle)) != false)
             {

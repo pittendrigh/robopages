@@ -21,8 +21,8 @@
 
 class SimpleImage
 {
-    var $image;
-    var $image_type;
+    protected $image;
+    protected $image_type;
 
     function load($filename)
     {

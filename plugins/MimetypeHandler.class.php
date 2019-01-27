@@ -10,11 +10,11 @@
 Class MimetypeHandler
 {
     /**
-     * @var array $mimeTypes
+     * @protected array $mimeTypes
      */
     private $mimeTypes = array();
     /**
-     * @var string $mime_ini_location
+     * @protected string $mime_ini_location
      * @desc The location of the ini file that contains the mimetypes
      */
     private $mime_ini_location = "conf/mime_types.ini";
@@ -30,7 +30,7 @@ Class MimetypeHandler
     /**
      * Loads another mime type file
      * 
-     * @var string $mime_ini_location
+     * @protected string $mime_ini_location
      * @return void
      */
     public function loadIni($mime_ini_location)

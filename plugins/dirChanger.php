@@ -78,10 +78,7 @@ class dirChanger extends plugin
         $currentDisplayPath = StaticRoboUtils::fixPath($currentDisplayPath);
         //echo "currentDisplayPath: ", $currentDisplayPath, "<br/>";
 
-        $ret .= '<a href="' . $upUrl . '"><button name="upone" value="upone"> Up One Directory </button></a>';
-
-        $ret .= '<p style="color: black;"> Working directory: <b>' . $currentDisplayPath . "</b></p>";
-        $ret .= '<p> Subdirectories </p>';
+        $ret .= '<a href="' . $upUrl . '"><button name="upone" value="upone"> Up One Directory </button></a><br/>';
 
         $startPath = $_SESSION['prgrmDocRoot'];
         if(isset($_SESSION['currentDirUrl']))
