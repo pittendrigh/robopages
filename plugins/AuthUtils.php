@@ -1,4 +1,6 @@
 <?php
+
+include_once("conf/globals.php");
 include_once("domDrone.class.php");
 include_once("plugin.php");
 
@@ -16,24 +18,6 @@ class AuthUtils extends plugin
       }
      
 
-/*
-    function traffic()
-    {
-        if (isset($_GET['logout']))
-            $this->logout();
-        else if (isset($_POST['mode']) && $_POST['mode'] == 'processLoginForm')
-        {
-            $this->processLoginForm();
-        }
-        else
-        {
-            unset($_SESSION['isLoggedIn']);
-            unset($_SESSION['privilege']);
-            return($this->showLoginForm());
-        }
-    }
-*/
-
     function logout()
     {
         //echo "Auth logout<br/>";
@@ -44,27 +28,48 @@ class AuthUtils extends plugin
         //session_destroy();
     }
 
+function check_hash($pass,$hash)
+{
+    $ret=FALSE;
+      if (password_verify($pass, $hash)) 
+        $ret=TRUE;
+    return $ret;
+}      
 
     function userlogin($username, $password)
     {
+        global $sys_robosauce;
+
+        $robosauce = $sys_robosauce;
+        $password .= $robosauce;
         $ret = FALSE;
         $usernames = array();
         $privileges = array();
         $customdirs = array();
-        $passwdlines = file($this->passwordFile);
-        $passwdlinecnt = count($passwdlines);
-        for ($i = 0; $i < $passwdlinecnt; $i++)
+        $hashlines = file($this->passwordFile);
+        $hashlinecnt = count($hashlines);
+        for ($i = 0; $i < $hashlinecnt; $i++)
         {
-            $tokens = explode(":", trim($passwdlines[$i]));
+            $tokens = explode(":", trim($hashlines[$i]));
             $namekey = trim($tokens[0]);
-            $passwd = trim($tokens[1]);
+            $hash = trim($tokens[1]);
             $privilege = trim($tokens[2]);
 
-            $usernames[$namekey] = $passwd;
+            $usernames[$namekey] = $hash;
             $privileges[$namekey] = $privilege;
         }
 
-        if ($usernames[$username] == $password)
+        //if ($usernames[$username] == $password)
+/*
+if(isset($_SESSION['dbg']) && $_SESSION['dbg'] == 1_
+{
+        echo "namekey: ", $namekey, "<br/>";
+        echo "hash: ", $hash, "<br/>";
+        echo "inpassword: ", $password, "<br/>";
+        echo "privilege: ", $privilege, "<br/>";
+}
+*/
+        if($this->check_hash($password,$hash))
         {
             //echo $username, ".......<br/>";
             $_SESSION['username'] = $username;
@@ -97,7 +102,7 @@ class AuthUtils extends plugin
        <p><b>login name </b>  
        <input type="text" name="username" value="" size="32" maxlength="48" > </p> 
        <p><b>password</b>  
-       <input type="password" name="password" value="" size="12" maxlength="12" > </p>';
+       <input type="password" name="password" value="" size="12" maxlength="32" > </p>';
         $ret .= '<input type="hidden" name="mode" value="processLoginForm">';
         $ret .= '<p><input type="submit" name="submit" value="login"></p> ';
         $ret .= '</form></fieldset>';
@@ -112,7 +117,7 @@ class AuthUtils extends plugin
         //if (isset($_POST['username']))
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            $this->userlogin($_POST['username'], md5($_POST['password']));
+            $this->userlogin($_POST['username'], $_POST['password']);
             if ($this->isAdmin())
             {
                 //echo "wasAdmin ", $this->selfUrl, "<br/>";
@@ -130,7 +135,6 @@ ENDO;
 
     function getOutput($divid)
     {
-//        return $this->traffic();
 
         if (isset($_GET['logout']))
             $this->logout();

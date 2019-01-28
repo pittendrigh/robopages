@@ -1,0 +1,15 @@
+#!/bin/bash
+
+## use the same sauce string here as hard-coded into conf/globals.php as $sys_robosauce
+## phppw apassword >> plugins/RobopagePasswds.php
+## now turn the last line of  RobopagePasswds.php
+## so it has the form
+## username:outputfromthis:privilege, where privilege is nimda
+## now if username logs in as with that password she becomes nimda
+## (there might be other privileges in the future)
+
+prepass="${1}"
+robosauce="yoursaucestring"
+pass="$prepass$robosauce"
+
+php -r "echo password_hash(\"$pass\", PASSWORD_DEFAULT);"
