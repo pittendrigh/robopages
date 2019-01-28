@@ -3,6 +3,38 @@ include_once("conf/globals.php");
 
 class StaticRoboUtils
 {
+    static function chmod_r($path, $octal)
+    {
+        $ret='';
+        $dir = new DirectoryIterator($path);
+        foreach ($dir as $item)
+        {
+            $dbg = $item->getPathname();
+            if ($dbg[0] == '.')
+                continue;
+            try
+            {
+                @chmod($item->getPathname(), $octal);
+            }
+            catch (Exceptian $a)
+            {
+                $ret .= $a->getMessage() . "<br/>\n"; 
+            }
+            if ($item->isDir() && !$item->isDot())
+            {
+                try
+                {
+                    StaticRoboUtils::chmod_r($item->getPathname(), $octal);
+                }
+                catch (Excepton $e)
+                {
+                    $ret .= $e->getMessage() . "<br/>\n"; 
+                }
+            }
+        }
+        return $ret;
+    }
+
 
     static function fixPageEqualParm($tentativelink)
     {
@@ -126,9 +158,9 @@ class StaticRoboUtils
         $possiblethumburl = $_SESSION['currentUrlPath'] . $tndir . $base;
         $possiblethumbpath = $_SESSION['currentFilePath'] . $tndir . $base;
 
-        if (file_exists($possiblethumbpath) && $this->is_image($file))
+        if (file_exists($possiblethumbpath) && is_image($file))
         {
-            $label = $this->mk_thumblink($label, $possiblethumburl);
+            $label = mk_thumblink($label, $possiblethumburl);
         }
         return $label;
     }
@@ -269,6 +301,5 @@ class StaticRoboUtils
                 $_GET['layout'] = $sys_layout;
         }
     }
-
 }
 ?>

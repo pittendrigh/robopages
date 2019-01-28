@@ -7,16 +7,16 @@ class AuthUtils extends plugin
     protected $passwordFile = "plugins/RobopagePasswds.php";
     protected $users;
 
-    /*
+    
       function __construct($returnUrl = null)
       {
       unset($_SESSION['mode']);
       $this->init();
-      //foreach(array_keys($_SESSION) as $akey) { echo "$akey $_SESSION[$akey] <br/>"; }
-      $this->traffic();
+      //$this->traffic();
       }
-     */
+     
 
+/*
     function traffic()
     {
         if (isset($_GET['logout']))
@@ -32,14 +32,18 @@ class AuthUtils extends plugin
             return($this->showLoginForm());
         }
     }
+*/
 
     function logout()
     {
+        //echo "Auth logout<br/>";
+        StaticRoboUtils::chmod_r($_SESSION['prgrmDocRoot'], 0555);
         unset($_SESSION['isLoggedIn']);
         unset($_SESSION['username']);
         unset($_SESSION['mode']);
-        session_destroy();
+        //session_destroy();
     }
+
 
     function userlogin($username, $password)
     {
@@ -136,6 +140,7 @@ ENDO;
         }
         else
         {
+            StaticRoboUtils::chmod_r($_SESSION['prgrmDocRoot'], 0555);
             unset($_SESSION['isLoggedIn']);
             unset($_SESSION['privilege']);
             return($this->showLoginForm());

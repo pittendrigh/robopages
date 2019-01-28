@@ -17,7 +17,7 @@ class RobopageAdmin extends plugin
 
     function init()
     {
-        $this->chmod_r($_SESSION['prgrmDocRoot'], 0755);
+        StaticRoboUtils::chmod_r($_SESSION['prgrmDocRoot'], 0755);
         parent::init();
     }
 
@@ -33,42 +33,12 @@ class RobopageAdmin extends plugin
                 continue;
             if (!$this->destroy_dir($dir . DIRECTORY_SEPARATOR . $file))
             {
-                chmod($dir . DIRECTORY_SEPARATOR . $file, 0755);
+                $this->chmod_r($dir . DIRECTORY_SEPARATOR . $file, 0755);
                 if (!$this->destroy_dir($dir . DIRECTORY_SEPARATOR . $file))
                     return false;
             };
         }
         return rmdir($dir);
-    }
-
-    function chmod_r($path, $octal)
-    {
-        $dir = new DirectoryIterator($path);
-        foreach ($dir as $item)
-        {
-            $dbg = $item->getPathname();
-            if ($dbg[0] == '.')
-                continue;
-            try
-            {
-                @chmod($item->getPathname(), $octal);
-            }
-            catch (Exceptian $a)
-            {
-                
-            }
-            if ($item->isDir() && !$item->isDot())
-            {
-                try
-                {
-                    $this->chmod_r($item->getPathname(), $octal);
-                }
-                catch (Excepton $e)
-                {
-                    echo "Error $e->getMessage() <br/>";
-                }
-            }
-        }
     }
 
     function checkAuthorityCredentials()
@@ -191,14 +161,12 @@ ENDO;
         if ($mode != null)
         {
             switch ($mode)
-            {
-
+            { 
                 case "logout":
-                    $this->chmod_r($_SESSION['prgrmDocRoot'], 0555);
+                    StaticRoboUtils::chmod_r($_SESSION['prgrmDocRoot'], 0555);
                     @session_start();
                     session_unset();
                     session_destroy();
-
                     echo '<script>window.location.href="/"</script>';
                     break;
                 case "download":
@@ -218,7 +186,6 @@ ENDO;
 ENDO;
                         $ret .= $alink;
                     }
-
                     break;
                 case "mkSlideshow":
                     $mkSlides = new mkSlides();
@@ -245,7 +212,6 @@ ENDO;
                 case "dirlinks":
                     include_once("dirlinks.php");
                     $dirlinks = new dirlinks();
-                    //if ($mode == 'dirlinks')
                     $ret .= $dirlinks->getOutput($this->nimdaistrableDivID);
                     break;
                 case "uploadForm":
@@ -311,8 +277,6 @@ ENDO;
                 case "createFile":
                     if (isset($_POST['filename']) && $_POST['filename'] != null)
                     {
-                        echo "should start editor<br/>";
-
                         $editor = new editor('file');
                         $ret = $editor->getOutput('');
                     }
