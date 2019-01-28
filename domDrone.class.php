@@ -1,12 +1,11 @@
 <?php
-
 @session_start();
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
 include_once("conf/globals.php");
-require_once("staticRoboUtils.php");
+require_once("StaticRoboUtils.php");
 require_once("plugins/roboMimeTyper.php");
 
 $plugins = file("conf/plugins.ini");
@@ -20,7 +19,6 @@ include_once("plugins/pluginnotfound.php");
 
 class domDrone
 {
-
     public $mimer;
     protected $definitionFile;
     protected $topLeveDivNames;
@@ -44,13 +42,6 @@ class domDrone
     {
         global $sys_layout;
 
-        //set a default layout right away. It may be modified later
-        if (!isset($sys_layout) || $sys_layout == null)
-            $this->definitionFile = "layouts/robo.xml";
-        else
-            $this->definitionFile = 'layouts/' . $sys_layout . '.xml';
-
-        //echo " 1 definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
         StaticRoboUtils::getpostClean();
 
         if (isset($_GET['dbg']))
@@ -58,19 +49,21 @@ class domDrone
 
         $_SESSION['prgrmDocRoot'] = getcwd() . '/fragments/';
         $_SESSION['prgrmUrlRoot'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', getcwd() . '/');
+        //$_SESSION['prgrmUrlRoot'] = preg_replace(":^\/:", '', $_SESSION['prgrmUrlRoot']);
 
         $this->setPathAndUrlParms();
-
-        // we have a default layout already. But it might get modified in determineLayout()
         $this->determineLayout();
+        $this->determineTitle();
+        if ($this->dbg)
+            $this->dbg();
     }
 
     function determineLayout()
     {
         global $sys_layout;
 
+
         $this->definitionFile = 'layouts/robo.xml';
-        //echo "definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
         if (isset($sys_layout) && $sys_layout != null)
             $this->definitionFile = 'layouts/' . $sys_layout . '.xml';
 
@@ -80,14 +73,17 @@ class domDrone
         {
             $dirlayoutLines = file("conf/dirlayouts.ini");
             $dlcnt = count($dirlayoutLines);
-            /* .....we want everything from Fly-Tying down?
+            /*
               Fly-Tying/Sandy-Pittendrigh/BestOf|gallery
               Birds|gallery
               online|plans
              */
             for ($i = 0; $i < $dlcnt; $i++)
             {
+                if (trim($dirlayoutLines[$i]) == '')
+                    continue;
                 $tmp = explode("|", trim($dirlayoutLines[$i]));
+                // make a hash for subsequent comparison
                 $this->dirlayouts[$tmp[0]] = $tmp[1];
             }
 
@@ -100,7 +96,6 @@ class domDrone
                 if (strstr($test, $akey))
                 {
                     $this->definitionFile = 'layouts/' . $this->dirlayouts[$akey] . '.xml';
-                    //echo " dirlaouts definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
                 }
             }
         }
@@ -110,27 +105,59 @@ class domDrone
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/layout'))
         {
             $this->definitionFile = 'layouts/' . trim(file_get_contents($_SESSION['currentDirPath'] . 'roboresources/layout')) . '.xml';
-            //echo " &nbsp; &nbsp; layout file! ". $_SESSION['currentDirPath']. "roboresources/layout: ", $this->definitionFile, " " . __LINE__.'<br/>';
         }
 
-        // perhaps a page-specific override exists, which takes precedence
+        // perhaps a page-specific override exists, which takes precedence even over diredctory wide
         // ...this would also override conf/layouts.ini
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/' . $_GET['robopage'] . '-layout'))
         {
             $this->definitionFile = 'layouts/' . trim(file_get_contents($_SESSION['currentDirPath']
                                     . 'roboresources/' . $_GET['robopage'] . '-layout')) . '.xml';
-            //echo "definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
         }
 
         // perhaps $_GET['layout'] exists, which takes precedence over all the above
         if (isset($_GET['layout']) && file_exists("layouts/" . $_GET['layout'] . '.xml'))
         {
             $this->definitionFile = 'layouts/' . $_GET['layout'] . '.xml';
-            //echo "definitionFile: ", $this->definitionFile, " " . __LINE__.'<br/>';
         }
 
-        //echo 'end of dirCrawler determineLayout: <b style="color: green;">', $this->definitionFile, "</b><br/>";
         $_SESSION['layout'] = StaticRoboUtils::stripSuffix(basename($this->definitionFile));
+    }
+
+    function determineTitle()
+    {
+        global $sys_title;
+        $title = $sys_title;
+
+        // now perhaps override with locally defined page level title
+        if (@stat($_SESSION['currentDirPath'] . 'roboresources/title-' . basename($_SESSION['currentDisplay'])))
+        {
+            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title-' . $_SESSION['currentDisplay'];
+            $title = file_get_contents($overridefile);
+        }
+        // or perhaps override with locally defined direcdtory level title
+        else if (@stat($_SESSION['currentDirPath'] . 'roboresources/title'))
+        {
+            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/' . $_SESSION['currentDisplay'];
+            $title = file_get_contents($overridefile);
+        }
+        else // else try to use $_SESSION['currentDisplay'] or directory of $_SESSION['currentDisplay']
+        {
+            if (isset($_SESSION['currentDisplay']) && $_SESSION['currentDisplay'] != '' && !strstr($_SESSION['currentDisplay'], 'index'))
+            {
+                $title = $_SESSION['currentDisplay'];
+            }
+            else
+            {
+
+                $testdir = dirname($_SESSION['currentDirUrl']);
+                if ($testdir != '' && $testdir != '.')
+                {
+                    $title = $testdir;
+                }
+            }
+        }
+        $_SESSION['title'] = StaticRoboUtils::stripSuffix($title);
     }
 
     function processXMLCSSLines()
@@ -157,16 +184,18 @@ class domDrone
                 $this->jsfiles = array();
             $this->jsfiles[] = $anode;
         }
-        foreach ($this->layoutXML->xpath("/layout/jsfiles/link") as $anode)
-        {
-            if ($this->jsfiles == null)
-                $this->jsfiles = array();
-            $this->jsfiles[] = $anode;
-        }
+        /*
+          foreach ($this->layoutXML->xpath("/layout/jsfiles/link") as $anode)
+          {
+          if ($this->jsfiles == null)
+          $this->jsfiles = array();
+          $this->jsfiles[] = $anode;
+          }
+         */
     }
 
     // will we ever need sub-elementName and not assume  div for subPlugins?
-    function assembleContent($plugin, $pluginNameList, $divid)
+    function stitchContent($plugin, $pluginNameList, $divid)
     {
         $ret = '';
 
@@ -186,7 +215,6 @@ class domDrone
                     $subPieces = explode(":", $tmpStr);
                     $divid = $subPieces[0];
                     $subPluginName = $subPieces[1];
-                    //echo "divid: ", $divid, " subPluginName: ", $subPluginName, "<br/>";
                 }
 
                 $subPlugin = new $subPluginName();
@@ -227,7 +255,8 @@ class domDrone
                 $pieces = explode(":", $str);
                 $ret = $pieces[1];
             }   // this else condition is already set as a default above
-        } else
+        }
+        else
         {
 
             // else it MUST now be a comma delimited list
@@ -239,7 +268,7 @@ class domDrone
             // last item MIGHT be a colon delimited id:plugin pair
             if (strstr($lastItem, ":"))
             {
-                // bannerad:file perhaps, where file indicates plugins/file.php  
+                // bannerad:file perhaps, where file indicates plugins/file.php
                 // and where bannerad is a block element ID named in the layout XML
                 $subPieces = explode(":", $lastItem);
                 //$divid = $subPieces[0];
@@ -257,24 +286,20 @@ class domDrone
         // elementName might be header footer div section etc
         $elementName = $simpleXMLBlockElement->getName();
 
-        // divid is id= which may not be there
+        // divid is the id= for this block element (which may not be therA)
         $divid = trim($simpleXMLBlockElement[@id]);
 
         // optional klass= in the xml
         $divklass = trim($simpleXMLBlockElement[@klass]);
+        // file is the default plugin
         $divsrc = $pluginNameList = 'file';
 
-        //echo " &nbsp; doBlock: ", $divid, " dirCrawler doBlocksXML definitionFile: <b>", $this->definitionFile, "</b><br/>";
         if (isset($simpleXMLBlockElement[@src]))
         {
-            //$divsrc = $this->getPluginName(trim($simpleXMLBlockElement[@src]));
-            //$pluginNameList = trim($simpleXMLBlockElement[@src]);
-            //	NOTE: getPluginName is a domDrone function using src attribute as is unless there is a comma,
-            //	in which case the name before the first comman is pulled
-            //	in other words the plugin name for this,that,theother is "this"
             $divsrc = $this->getPluginName($simpleXMLBlockElement[@src]);
             $pluginNameList = $simpleXMLBlockElement[@src];
-        } else
+        }
+        else
         {
             $divsrc = $pluginNameList = "container";
         }
@@ -302,7 +327,6 @@ class domDrone
                 $ret .= "\n" . '<' . $elementName . ' id="wrapper">';
                 break;
             case '':
-
                 $ret .= "\n" . '<' . $elementName . '>';
                 break;
             case 'container':
@@ -331,6 +355,7 @@ class domDrone
                   $divsrc = 'pluginnotfound';
                   }
                  */
+                //echo $divsrc, "<br/>";
                 $plugin = new $divsrc();
                 break;
         }
@@ -340,13 +365,20 @@ class domDrone
         }
 
         if (isset($plugin))
-            $ret .= $this->assembleContent($plugin, $pluginNameList, $divid);
+            $ret .= $this->stitchContent($plugin, $pluginNameList, $divid);
         $ret .= '</' . $elementName . '>';
         return $ret;
     }
 
     function readDefinitionFile()
     {
+        /*
+          if (isset($_SESSION['privilege']) && $_SESSION['privilege'] == 'nimda')
+          {
+          $_SESSION['layout'] = 'nerd';
+          $this->definitionFile = 'layouts/' . $_SESSION['layout'] . '.xml';
+          }
+         */
         $this->divs = array();
         $this->topLevelDivNames = array();
         $dfilepath = getcwd() . '/' . $this->definitionFile;
@@ -376,14 +408,19 @@ class domDrone
         $dh = opendir($dir);
         while ($dh != null && (FALSE != ($file = readdir($dh))))
         {
-            if ($file == '.' || $file == 'roboresources' || $file == 'admin' || $file == 'LOGS')
+            if (is_dir($dir . '/' . $file) || $file[0] == '.' || $file == 'roboresources' || $file == 'admin' || $file == 'LOGS')
             {
                 continue;
             }
-            $linkType = $this->mimer->getRoboMimeType($dir . $file);
-            $tarr = array('fragment', 'image', 'text');
+            if ($this->mimer == null)
+            {
+                $this->mimer = new roboMimeTyper();
+            }
+            $linkType = $this->mimer->getRoboMimeType($dir . '/' . $file);
+            $tarr = array('fragment', 'image', 'text', 'iframe', 'pdf');
             if (in_array($linkType, $tarr))
             {
+                //echo "getDefaultDislay: ", $file, "<br/>";
                 $ret = $file;
                 if (strstr($file, "index"))
                     break;
@@ -397,68 +434,58 @@ class domDrone
 
     function setPathAndUrlParms()
     {
-        if (!isset($_GET['robopage']))
+        if (isset($_GET['robopage']) && $_GET['robopage'] == '/')
+            $_GET['robopage'] = '';
+
+        // if no usable $_GET['robopage']
+        if (!isset($_GET['robopage']) || $_GET['robopage'] == '')
         {
             $_SESSION['currentDisplay'] = $this->getDefaultDisplay();
-
             $_SESSION['currentDirPath'] = $_SESSION['prgrmDocRoot'];
             $_SESSION['currentDirUrl'] = '';
             $_SESSION['currentClickDirUrl'] = $_SESSION['prgrmUrlRoot'] . 'fragments/';
-        } else
+        }
+        else // else there is a usable $_GET['robopage'] which may point to a directory
         {
-            // there is a $_GET['robopage'], which might point to a directory
-            $pget = isset($_GET['robopage']) ? $_GET['robopage'] : '';
-            if (@is_dir($_SESSION['prgrmDocRoot'] . $pget))
-                $pget .= '/';
+            $test_is_dirpath = StaticRoboUtils::fixPath($_SESSION['prgrmDocRoot'] . $_GET['robopage']);
 
-            $test_is_dirpath = $_SESSION['prgrmDocRoot'] . $pget;
-
-            //echo "test_is_dirpath: ", $test_is_dirpath, "<br/>";
             if (@is_dir($test_is_dirpath))
             {
-                //echo "abc<br/>";
-                $_SESSION['currentDisplay'] = '/' . $this->getDefaultDisplay();
-                $_SESSION['currentDirPath'] = $test_is_dirpath;
-                $_SESSION['currentDirUrl'] = $pget;
-                $_SESSION['currentClickDirUrl'] = $_SESSION['prgrmUrlRoot'] . 'fragments/' . $pget;
-                // if($pget[strlen($pget)-1] != '/')
-                //    $pget .= '/';
-            } else
-            { // is a _GET['robopage'] that points to a leaf level file
-                //echo "abcd<br/>";
-                $test_dirname = dirname($_GET['robopage']) == '.' ? '' : dirname($pget) . '/';
-                $test_dirname = $test_dirname == '/' ? '' : $test_dirname;
-                $_SESSION['currentDisplay'] = '/' . basename($_GET['robopage']);
-                $_SESSION['currentDirPath'] = $_SESSION['prgrmDocRoot'] . $test_dirname;
-                $_SESSION['currentDirUrl'] = $test_dirname;
-                $_SESSION['currentClickDirUrl'] = dirname($_SESSION['prgrmUrlRoot'] . 'fragments/' . $pget) . '/';
+                $_SESSION['currentDisplay'] = $this->getDefaultDisplay();
+                $_SESSION['currentDirPath'] = substr($test_is_dirpath, -1) == '/' ? $test_is_dirpath : $test_is_dirpath . '/';
+                $_SESSION['currentDirUrl'] = '/' . substr($_GET['robopage'], -1) == '/' ? $_GET['robopage'] : $_GET['robopage'] . '/';
+                $_SESSION['currentClickDirUrl'] = $_SESSION['prgrmUrlRoot'] . 'fragments/' . $_GET['robopage'] . '/';
+            }
+            else
+            {   // is a $_GET['robopage'] that points to a leaf level file
+                // which may or may not be in the document root
+                if(!strstr($_GET['robopage'],'/'))
+                    $prefixDir = '';
+                else
+                    $prefixDir = dirname($_GET['robopage']). '/';
+                $_SESSION['currentDisplay'] = basename($_GET['robopage']);
+                $_SESSION['currentDirPath'] = $_SESSION['prgrmDocRoot'] . $prefixDir;
+                $_SESSION['currentDirUrl'] = $prefixDir;
+                $_SESSION['currentClickDirUrl'] = dirname($_SESSION['prgrmUrlRoot'] . 'fragments/' . $_GET['robopage']) . '/';
             }
         }
 
         $_SESSION['currentDisplay'] = preg_replace(":^\/:", '', $_SESSION['currentDisplay']);
         $_SESSION['currentDirPath'] = StaticRoboUtils::fixPath($_SESSION['currentDirPath']);
-
-        $title = '';
-        if (dirname($_SESSION['currentDirUrl']) != '')
-            $title = dirname($_SESSION['currentDirUrl']);
-
-        if (isset($title[0]) && $title[0] == '.')
-            $title = '';
-        $title .= $_SESSION['currentDisplay'];
-
-        $_SESSION['title'] = preg_replace("/^.*_/", "", $title);
-        $_SESSION['title'] = staticRoboUtils::stripSuffix($_SESSION['title']);
-
-        if ($this->dbg)
-            $this->dbg();
+        $_SESSION['currentDirUrl'] = StaticRoboUtils::fixPath($_SESSION['currentDirUrl']);
+        $_SESSION['currentDirUrl'] = preg_replace(":^\/:", '', $_SESSION['currentDirUrl']);
+        $_SESSION['currentClickDirUrl'] = StaticRoboUtils::fixPath($_SESSION['currentClickDirUrl']);
+        //$_SESSION['currentClickDirUrl'] = preg_replace(":^\/:", '', $_SESSION['currentClickDirUrl']);
     }
 
     function printDivs()
     {
+        $ret = '';
         for ($i = 0; $i < $this->divcnt; $i++)
         {
-            echo $this->divs[$this->topLevelDivNames[$i]];
+            $ret .= $this->divs[$this->topLevelDivNames[$i]];
         }
+        return $ret;
     }
 
     function createCSSLinks($static_mode)
@@ -498,7 +525,7 @@ class domDrone
                         $ret .= '../';
                 }
 
-                $ret .= "\n" . '"></script>';
+                $ret .= "$jsfile" . '"></script>';
             }
         }
 
@@ -511,26 +538,10 @@ class domDrone
 
         $static_mode = $sstatic_mode;
 
-        // default title from last two parts of the QUERY_STRING as 
-        // basename($_SESSION['currentDirUrl']) . '-'- . $_SESSION['currentDisplay']
-        $title = $_SESSION['title'];
-
-        // now prepend to exising default title if a page directory-wide title file is present
-        if (@stat($_SESSION['currentDirPath'] . 'roboresources/title'))
-        {
-            $title = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/title') . '-' . $title;
-        }
-
-        // now override and replace the title if a page specific title is present
-        if (@stat($_SESSION['currentDirPath'] . 'roboresources/title-' . basename($_SESSION['currentDisplay'])))
-        {
-            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title-' . $_SESSION['currentDisplay'];
-            $title = file_get_contents($overridefile);
-        }
-        $title = trim(preg_replace("/-|_/", " ", $title));
 
         //<META name="verify-admitad" content="xxxx" />
 
+        $title = $_SESSION['title'];
         $ret = '';
         $ret .= <<<ENDO
 <!DOCTYPE html>
@@ -558,7 +569,7 @@ ENDO;
         $ret .= "\n" . '<title>' . $title . '</title>';
         $ret .= "\n";
 
-        // set conf/globals.php $sys_nofollow=TRUE for test subdomains  
+        // set conf/globals.php $sys_nofollow=TRUE for test subdomains
 
         if (isset($sys_nofollow) && $sys_nofollow == TRUE)
             $ret .= '<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">';
@@ -600,7 +611,6 @@ ENDO;
             }
             closedir($dir_handle);
         }
-        //echo "keywords: ", $keywords, "<br/>";
         return $keywords;
     }
 
@@ -631,7 +641,8 @@ ENDO;
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/metakeys'))
         {
             $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metakeys');
-        } else
+        }
+        else
         {
             if (isset($_GET['robopage']))
                 $metakeys .= "," . str_replace('/', ',', $_GET['robopage']);
@@ -659,21 +670,22 @@ ENDO;
 
     function dbg()
     {
-        print " --definitionFile: " . $this->definitionFile . "<br/>";
+        print "  definitionFile = <b>" . $this->definitionFile . "</b><br/><br/>";
 
-	foreach(array_keys($_SESSION) as $akey)
+        foreach (array_keys($_SESSION) as $akey)
         {
-	    print "$akey s= $_SESSION[$akey] <br/>";
+            print " $akey s= <b>$_SESSION[$akey] </b><br/>";
         }
-        print "<br/><br/>";
-        while (list($k, $v) = each($_GET))
+        print "<br/>";
+        foreach (array_keys($_GET) as $akey)
         {
-            print "$k gg= $v<br/>";
+            print " $akey g= <b>$_GET[$akey]</b><br/>";
         }
-        print "<br/><br/>";
-        while (list($k, $v) = each($_POST))
+        print "<br/>";
+
+        foreach (array_keys($_POST) as $akey)
         {
-            print "$k p= $v<br/>";
+            print " $akey p= <b>$_POST[$akey]</b><br/>";
         }
     }
 
