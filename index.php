@@ -20,8 +20,6 @@ else
 $page = null;
 if (isset($_SESSION['isLoggedIn']) && isset($_SESSION['privilege']) && $_SESSION['privilege'] == 'nimda')
 {
-    require_once("roboAdmin.php");
-    //$page = new roboAdmin();
     $page = new domDrone();
 }
 else
