@@ -21,7 +21,7 @@ class RobopageAdmin extends plugin
         parent::init();
     }
 
-    //function _destruct() { echo "yo, destructor <br/>"; exit; }
+    function _destruct() { echo "yo, destructor <br/>"; exit; }
 
     function destroy_dir($dir)
     {
@@ -163,11 +163,12 @@ ENDO;
             switch ($mode)
             { 
                 case "logout":
+                    $self = $_SERVER['PHP_SELF']; 
                     StaticRoboUtils::chmod_r($_SESSION['prgrmDocRoot'], 0555);
                     @session_start();
                     session_unset();
                     session_destroy();
-                    echo '<script>window.location.href="/"</script>';
+                    echo '<script>window.location.href="'.$self.'"</script>';
                     break;
                 case "download":
                     $ret = '';
