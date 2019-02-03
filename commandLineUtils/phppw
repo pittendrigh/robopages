@@ -8,6 +8,20 @@
 ## now if username logs in as with that password she becomes nimda
 ## (there might be other privileges in the future)
 
+function usage()
+{
+  clear
+  echo
+  echo "use: phppw proposedPassword > someTmpFile" -- to make and save a php compatible  password
+  echo
+  exit
+}
+
+if [[ -z "$1" ]]
+then
+ usage
+fi
+
 prepass="${1}"
 robosauce="yoursaucestring"
 pass="$prepass$robosauce"
