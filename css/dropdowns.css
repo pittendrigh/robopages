@@ -2,12 +2,15 @@
 ** ....I think this CSS came from w3c schools. 
 */
 .dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    /* font-size: 16px; */
+    /* background-color: #4CAF50; */
+    color: black;
+    font-size: 0.5vw; 
     border: none;
     cursor: pointer;
+    margin: 2px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: 1px solid transparent;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -16,31 +19,34 @@
     display: inline-block;
     padding: 0;
     margin: 0;
-    /* border: 1px solid magenta;  */
+    /* border: 1px solid magenta; */ 
 }
+.booton:hover { background: #eeeeee;}
+a.booton:hover { background: #eeeeee; }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     font-size: small !important;
     display: none;
     position: absolute;
+    top: 0;
     background-color: #f9f9f9;
-    /* min-width: 160px; */
-    min-width: 12em;
+    min-width: 16em;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
     border: 1px solid black;
-    background: url(/systemimages/dclouds.png) #ffffff;
-    padding: 0;
+    padding: 0.25em;
     margin; 0;
+    border-radius: 6px;
+    border: 1px solid #cccccc;
+    border-top: 1px solid transparent;
+    z-index: 200;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
     text-align: left;
-    font-size: 85% !important;
-    color: black;
-    padding: 0.25em;
+    font-size: 2vw;
+    padding: 1em 0;
     text-decoration: none;
     display: block;
     padding: 0;
@@ -50,16 +56,23 @@
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
     background-color: #f1f1f1;
-    font-size: small !important;
 }
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
-    font-size: small !important;
     display: block;
 }
 
+.dropbtn:hover{ background: #eeeeee;}
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+  background: #eeeedd;
+}
+
+@media only screen and (max-device-width: 480px)
+{
+
+.dropdown-content a { padding: 1em; }
+ transition-delay:3s;
+}
 }
