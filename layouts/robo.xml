@@ -1,22 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <cssfiles>
-        <file>css/robo.css</file>
-        <file>css/dropdowns.css</file>
-    </cssfiles>
-    <bodycontent>
-      
-        <div id="wrapper" src="container" >
-            <div id="headerbanner" src="container" >
-                <div id="hbanner" src="file" />
-                <div id="bottombannerlinks" src="file" />
-            </div>
-            <div id="main-content" src="container" >
-                <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
-                <div id="stuff" src="flexyFileContent" >   
-                    <div id="toc" src="dynamicNavigation" />   
-                </div>
-            </div> 
-        </div> 
-    </bodycontent>
+  <cssfiles>
+    <file>css/robo.css</file>
+    <file>css/dropdowns.css</file>
+  </cssfiles>
+  <bodycontent>
+    <div id="wrapper" src="container">
+      <div id="wrapper" src="container">
+        <div id="headerbanner" src="container">
+          <div id="hbanner" src="file" />
+          <div id="bottombannerlinks" src="file" />
+          <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+        </div>
+        <div id="main-content" src="container">
+          <div id="stuff" src="flexyFileContent">
+            <div id="toc" src="dynamicNavigation" />
+          </div>
+        </div>
+        <div id="footer" src="file" />
+      </div>
+    </div>
+  </bodycontent>
 </layout>

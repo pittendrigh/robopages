@@ -9,9 +9,9 @@
             <div id="headerbanner" src="container" >
                 <div id="hbanner" src="file" />
                 <div id="bottombannerlinks" src="file" />
+                <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
             <div id="main-content" src="container" >
-                <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
                 <div id="stuff" src="uploader" />   
             </div> 
         </div> 

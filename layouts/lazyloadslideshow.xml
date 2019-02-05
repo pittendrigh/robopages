@@ -1,18 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <cssfiles>
-        <file>css/robo.css</file>
-        <file>css/dropdowns.css</file>
-    </cssfiles>
-    <bodycontent>
-        <div id="headerbanner" src="container" >
-            <div id="hbanner" src="file" />
-            <div id="bottombannerlinks" src="file" />
-        </div>
-        <div id="slidewhow-content" src="container" >
-            <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
-            <div id="slideshow" src="lazyLoadSlideshow"/>   
-        </div> 
-        <div id="footer" src="file" />   
-    </bodycontent>
+  <cssfiles>
+    <file>css/robo.css</file>
+    <file>css/dropdowns.css</file>
+  </cssfiles>
+  <bodycontent>
+    <div id="wrapper" src="container">
+      <div id="headerbanner" src="container">
+        <div id="hbanner" src="file" />
+        <div id="bottombannerlinks" src="file" />
+        <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+      </div>
+      <div id="slidewhow-content" src="container">
+        <div id="slideshow" src="lazyLoadSlideshow" />
+      </div>
+      <div id="footer" src="file" />
+    </div>
+  </bodycontent>
 </layout>
