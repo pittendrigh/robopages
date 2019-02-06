@@ -1,4 +1,3 @@
 <a  href="?robopage=index.htm"> Home - </a>
-<a  href="?robopage=Rates"> Rates - </a>
-<a  href="?robopage=Boats"> Boats - </a>
-<a  href="?robopage=Gallery"> Gallery  </a>
+<a  href="?robopage=Documentation"> Documentation - </a>
+<a  href="?robopage=Birds"> Birds - </a>
