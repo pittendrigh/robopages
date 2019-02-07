@@ -144,7 +144,7 @@ class RobopageAdmin extends plugin
         if (!$this->checkAuthorityCredentials())
         {
             $ret = <<<ENDO
-<button><a href="?layout=auth">Login First </button>
+<button><a href="?layout=authUtils">Login First </button>
 ENDO;
             return $ret;
         }

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
+  <plugins>
+      <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/flexyFileContent.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
+      <file>plugins/file.php</file>
+      <file>plugins/dirlinks.php</file>
+  </plugins>
     <cssfiles>
         <file>css/robo.css</file>
         <file>css/dropdowns.css</file>
     </cssfiles>
-    <jsfiles>
-        <file>js/jquery.min.js</file>
-        <file>js/tinymce/tinymce.min.js</file>
-        <file>js/tinymce/plugins/imagetools/plugin.min.js</file>
-        <file>js/tinymce/plugins/image/plugin.min.js</file>
-        <file>js/init-tinymce.js</file>
-    </jsfiles>
     <bodycontent>
         <div id="wrapper" src="container" >
             <div id="headerbanner" src="container" >
                 <div id="hbanner" src="file" />
-                <!--     <div id="bottombannerlinks" src="file" /> -->
+                <div id="bottombannerlinks" src="file" />
                 <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
             <div id="main-content" src="container" >

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
+  <plugins>
+      <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/flexyFileContent.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
+      <file>plugins/file.php</file>
+      <file>plugins/blog.php</file>
+      <file>plugins/longColumn.php</file>
+  </plugins>
     <cssfiles>
         <file>css/robo.css</file>
         <file>css/dropdowns.css</file>

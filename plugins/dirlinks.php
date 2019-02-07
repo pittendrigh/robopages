@@ -26,7 +26,7 @@ class dirlinks extends dynamicNavigation
     {
 
         if (!isset($_SESSION['privilege']) || ($_SESSION['privilege'] != 'nimda'))
-            header("location: ?layout=auth");
+            header("location: ?layout=authUtils");
     }
 
     function mkLIline($link, $i)

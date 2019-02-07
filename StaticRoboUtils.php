@@ -94,7 +94,7 @@ class StaticRoboUtils
 
     static function dbg()
     {
-        echo "REQUEST_METHOD: ", $_SERVER['REQUEST_METHOD'] . "<br/><br/>";
+        print "REQUEST_METHOD: ", $_SERVER['REQUEST_METHOD'] . "<br/><br/>";
         foreach (array_keys($_SESSION) as $akey)
         {
             print " $akey s= <b>$_SESSION[$akey] </b><br/>";

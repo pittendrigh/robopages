@@ -98,7 +98,7 @@ if(isset($_SESSION['dbg']) && $_SESSION['dbg'] == 1_
         $ret .= '<p><b>Note: </b>
              login names and passwords are case sensitive: 
              Robert is not the same as robert.</p>';
-        $ret .= '<form action="?layout=auth" method="post">
+        $ret .= '<form action="?layout=authUtils" method="post">
        <p><b>login name </b>  
        <input type="text" name="username" value="" size="32" maxlength="48" > </p> 
        <p><b>password</b>  
@@ -125,7 +125,7 @@ if(isset($_SESSION['dbg']) && $_SESSION['dbg'] == 1_
               <button><a href="?layout=nerd">Logged in! </a></button> <-- to the admin screen
 ENDO;
                 return $ret;
-            }
+             } else return "foogow<br/>";
         }
         else
         {

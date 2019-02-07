@@ -99,7 +99,7 @@ ENDO;
         if (!$privilege)
         {
             $ret = <<<ENDO
-         <button><a href="?layout=auth">Login First</a></button> 
+         <button><a href="?layout=authUtils">Login First</a></button> 
 ENDO;
             return $ret;
         }

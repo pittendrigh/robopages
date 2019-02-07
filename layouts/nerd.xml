@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
+  <plugins>
+      <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/flexyFileContent.php</file>
+      <file>plugins/galleryNavigation.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
+      <file>plugins/file.php</file>
+      <file>plugins/RobopageAdmin.php</file>
+      <file>plugins/dirChanger.php</file>
+      <file>plugins/uploader.php</file>
+      <file>plugins/editor.php</file>
+      <file>plugins/dirlinks.php</file>
+      <file>plugins/mkSlides.php</file>
+      <file>plugins/mkThumbs.php</file>
+  </plugins>
     <cssfiles>
         <file>css/robo.css</file>
         <file>css/dropdowns.css</file>

@@ -304,7 +304,7 @@ class lazyLoadSlideShow extends plugin {
        function stopSlideshow()
        {
          // not used....zap it or fix this....to not hard-coded 
-         var uri = \'?page=' . $_SESSION['currentDirUrl'] . '\';
+         var uri = \'?robopage=' . $_SESSION['currentDirUrl'] . '\';
          window.location.replace(uri);
        }
 
@@ -328,7 +328,7 @@ class lazyLoadSlideShow extends plugin {
 
       function quit()
       {
-        location.replace("'.$_SERVER['PHP_SELF']."?page=".$_SESSION['currentDirUrl'].'");
+        location.replace("'.$_SERVER['PHP_SELF']."?robopage=".$_SESSION['currentDirUrl'].'");
       } 
 
     </script>';
