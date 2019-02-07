@@ -7,14 +7,6 @@ ini_set("display_errors", 1);
 include_once("conf/globals.php");
 require_once("StaticRoboUtils.php");
 require_once("plugins/roboMimeTyper.php");
-
-$plugins = file("conf/plugins.ini");
-$pcnt = count($plugins);
-for ($i = 0; $i < $pcnt; $i++)
-{
-    $plugin = trim($plugins[$i]) . '.php';
-    include_once("plugins/$plugin");
-}
 include_once("plugins/pluginnotfound.php");
 
 class domDrone
@@ -26,6 +18,7 @@ class domDrone
     protected $config = array();
     protected $cssfiles; // array, this has to come from the layout.xml
     protected $jsfiles; // array, this has to come from the layout.xml
+    //protected $plugins; // array, this has to come from the layout.xml
     protected $dbg = 0;
     protected $layoutXML;
 
@@ -49,7 +42,6 @@ class domDrone
 
         $_SESSION['prgrmDocRoot'] = getcwd() . '/fragments/';
         $_SESSION['prgrmUrlRoot'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', getcwd() . '/');
-        //$_SESSION['prgrmUrlRoot'] = preg_replace(":^\/:", '', $_SESSION['prgrmUrlRoot']);
 
         $this->setPathAndUrlParms();
         $this->determineLayout();
@@ -184,14 +176,19 @@ class domDrone
                 $this->jsfiles = array();
             $this->jsfiles[] = $anode;
         }
-        /*
-          foreach ($this->layoutXML->xpath("/layout/jsfiles/link") as $anode)
-          {
-          if ($this->jsfiles == null)
-          $this->jsfiles = array();
-          $this->jsfiles[] = $anode;
-          }
-         */
+    }
+
+    function processXMLPluginLines()
+    {
+        foreach ($this->layoutXML->xpath("/layout/plugins/file") as $anode)
+        {
+            /*
+            if ($this->plugins == null)
+                $this->plugins = array();
+            $this->plugins[] = $anode;
+            */
+            include_once("$anode");
+        }
     }
 
     // will we ever need sub-elementName and not assume  div for subPlugins?
@@ -386,6 +383,7 @@ class domDrone
         $this->layoutXML = simplexml_load_file($this->definitionFile);
         $this->processXMLCSSLines();
         $this->processXMLJSLines();
+        $this->processXMLPluginLines();
         foreach ($this->layoutXML->xpath("/layout/bodycontent/div") as $simpleXMLBlockElement)
         {
             $divid = trim($simpleXMLBlockElement[@id]);
