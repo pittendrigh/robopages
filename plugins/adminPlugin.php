@@ -14,7 +14,7 @@ class AdminPlugin extends plugin implements adminPluginInterface
 
     public function getOutput($divid)
     {
-        echo "adminPlugin testing... <br/>";
+        //echo "adminPlugin testing... <br/>";
         $ret = '';
         if(StaticRoboUtils::isAdmin())
         {

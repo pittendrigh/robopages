@@ -13,6 +13,7 @@ class uploader extends plugin
     {
         $ret = '';
 
+        $robopage = $_SESSION['currentDirUrl'];
         $this->dir_dest = $_SESSION['currentDirPath'];
         $this->dir_pics = $_SESSION['currentDirPath'] . 'roboresources/';
 
@@ -72,7 +73,6 @@ class uploader extends plugin
         }
         else
         {
-            $robopage = $_SESSION['currentDirUrl'];
             $ret = <<<ENDO
     <fieldset>
         <legend> Robo uploader</legend>
@@ -82,9 +82,11 @@ class uploader extends plugin
             <p class="button"><input type="hidden" name="action" value="simple" />
             <input type="submit" name="Submit" value="upload" /></p>
         </form>
-    </fieldset>
 ENDO;
         }
+        //$robopage = $_SESSION['currentDirUrl'];
+        $ret .= '<a href="?robopage=' . $robopage . '&amp;layout=nerd"><button>Cancel '.$robopage.'</button></a>';
+        $ret .= '</fieldset>';
         return $ret;
     }
 

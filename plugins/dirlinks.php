@@ -149,6 +149,8 @@ $currentDirUrl = $_SESSION['currentDirUrl'];
     <p><input type="hidden" id="new_order" name="new_order" /> </p>
     <button type="submit" id="sumbit"> Save this ordering </button>
 </form>
+    <br/><a href="?robopage=$currentDirUrl&amp;layout=nerd"><button> Cancel </button></a><br/>
+
 <h4 style="text-align: center;"> 
 Drag and drop the links below--up and down--using a left mouse click 
 <br/>
