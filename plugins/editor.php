@@ -35,7 +35,7 @@ class editor extends adminPlugin implements adminPluginInterface
         if (  !isset($_POST['filename']) && $this->mode != 'blog')
         {
             $ret = <<<ENDO
-         <button><a href="?layout=nerd">Choose a file to edit first</a></button> 
+         <a href="?layout=nerd">Choose a file to edit first</a> 
 ENDO;
             return $ret;
         }
@@ -101,7 +101,7 @@ ENDO;
         if (!$privilege)
         {
             $ret = <<<ENDO
-         <button><a href="?layout=authUtils">Login First</a></button> 
+         <a href="?layout=authUtils">Login First</a> 
 ENDO;
             return $ret;
         }
@@ -115,7 +115,7 @@ ENDO;
                $robopage = $_GET['robopage'];
 
             $ret = <<<ENDO
-        <a href="?robopage=$robopage&amp;layout=nerd"><button>Saved! -- back to the admin screen</button></a>
+        <a href="?robopage=$robopage&amp;layout=nerd">Saved! -- back to the admin screen</a>
 ENDO;
         }
         else

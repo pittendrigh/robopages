@@ -117,7 +117,7 @@ function check_hash($pass,$hash)
             {
                 //echo "wasAdmin ", $this->selfUrl, "<br/>";
                 $ret = <<<ENDO
-              <button><a href="?layout=nerd">Logged in! </a></button> <-- to the admin screen
+              <a href="?layout=nerd">Logged in! </a> <-- to the admin screen
 ENDO;
                 return $ret;
              } else return "foogow<br/>";

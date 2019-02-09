@@ -134,7 +134,7 @@ class RobopageAdmin extends adminPlugin implements adminPluginInterface
         if(!StaticRoboUtils::isAdmin())
         {
             $ret = <<<ENDO
-<button><a href="?layout=authUtils">Login First </button>
+<a href="?layout=authUtils">Login First 
 ENDO;
             return $ret;
         }
@@ -184,8 +184,8 @@ ENDO;
                     $mkSlides->getOutput('');
                     $robopage = $_GET['robopage'];
                     $ret = <<<ENDO
-<button><a href="?robopage=$robopage&amp;layout=slideshow">Test that Slideshow </button><br/><br/>
-<button><a href="?robopage=$robopage&amp;layout=nerd">Back to the Admin Scren</button><br/>
+<a href="?robopage=$robopage&amp;layout=slideshow">Test that Slideshow <br/><br/>
+<a href="?robopage=$robopage&amp;layout=nerd">Back to the Admin Scren<br/>
 ENDO;
                     break;
 
@@ -193,7 +193,7 @@ ENDO;
                     $thumbs = new mkThumbs();
                     $robopage = $_GET['robopage'];
                     $ret .= <<<ENDO
-<button><a href="?robopage=$robopage&amp;layout=nerd">Back to the Admin Scren</button><br/>
+<a href="?robopage=$robopage&amp;layout=nerd">Back to the Admin Scren<br/>
 ENDO;
                     $thumbLister = new filesLister();
                     $ret .= $thumbLister->getOutput($_SESSION['currentDirPath'] . 'roboresources/thumbs/');
@@ -355,13 +355,13 @@ ENDO;
 
     function deleteDirForm()
     {
-        $str = '<p class="widget"><form action="?robopage=' . $_SESSION['currentDirUrl']
+        $str = '<form action="?robopage=' . $_SESSION['currentDirUrl']
                 . '&amp;layout=nerd" method="post"> 
            <input type="submit" value="Delete Directory"/>
            <select name="deletedir"> ' . $this->getDirsList() . '</select>  <span class="small"> 
            <input type="hidden" name="mode" value="deleteDir"/>
            <span class="small"><b>(backup zip in ' . $_SESSION['currentDirUrl'] . 'roboresources/BAKS/)</span>
-           </form></p>';
+           </form>';
 
         return $str;
     }
@@ -438,11 +438,11 @@ ENDO;
 
     function mkThumbsButton()
     {
-        $str = '<p>
+        $str = '
         <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
         <input type="submit" value="Make Thumbnails"/>
         <input type="hidden" name="mode" value="mkThumbs"/>
-        </form></p>';
+        </form>';
         return $str;
     }
 
@@ -454,11 +454,11 @@ ENDO;
         {
             $forDir = '';
         }
-        $str = '<p class="widget">
+        $str = '
         <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
         <input type="submit" value="Make Slideshow ' . $forDir . '"/>
         <input type="hidden" name="mode" value="mkSlideshow"/>
-        </form></p>';
+        </form>';
         return $str;
     }
 
@@ -466,23 +466,21 @@ ENDO;
     {
         $currentDirUrl = $_SESSION['currentDirUrl'];
         $ret = <<<ENDO
-         <p class="widget">
          <form action="?robopage=$currentDirUrl&amp;layout=nerd" method="post">
           <input type="hidden" name="mode" value="newBlogEntry"/>
           <input type="submit" value="New Blog Entry"/>
          </form>
-         </p>
 ENDO;
         return $ret;
     }
 
     function gotoUploadButton()
     {
-        $str = '<p class="widget">
+        $str = '
         <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
         <input type="hidden" name="mode" value="uploadForm"/>
          <input type="submit" value="Upload Files"/>
-        </form></p>';
+        </form>';
         return $str;
     }
 

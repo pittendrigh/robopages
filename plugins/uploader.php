@@ -43,7 +43,7 @@ class uploader extends plugin
                 {
                     // everything was fine !
                     $ret .= '<p class="result">';
-                    $ret .= '<button><a style="padding: 0.5em; display: block; width: 12em;" href="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd"> Back to the Admin Screen</a></button><br/><br/>';
+                    $ret .= '<a style="padding: 0.5em; display: block; width: 12em;" href="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd"> Back to the Admin Screen</a><br/><br/>';
                     $ret .= '  [' . $handle->file_dst_name . '] uploaded to <b>' . $_SESSION['currentDirPath'] . '</b><br />';
                     //$ret .= '  File: <a href="' . $this->dir_pics . '/' . $handle->file_dst_name . '">' . $handle->file_dst_name . '</a>';
                     $ret .= '   (' . round(filesize($handle->file_dst_pathname) / 256) / 4 . 'KB)';
@@ -85,7 +85,7 @@ class uploader extends plugin
 ENDO;
         }
         //$robopage = $_SESSION['currentDirUrl'];
-        $ret .= '<a href="?robopage=' . $robopage . '&amp;layout=nerd"><button>Cancel '.$robopage.'</button></a>';
+        $ret .= '<a href="?robopage=' . $robopage . '&amp;layout=nerd">Cancel '.$robopage.'</a>';
         $ret .= '</fieldset>';
         return $ret;
     }

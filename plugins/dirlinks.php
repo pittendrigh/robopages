@@ -109,7 +109,7 @@ class dirlinks extends adminPlugin implements adminPluginInterface
         {
             $ret = "<h3>dirlinks:</h3>";
             $ret .= $this->writeNewlyOrderedLinks();
-            return $ret . '<br/><a href="?robopage='. $_GET['robopage'] . '&amp;layout=nerd"> <button>Saved now back to the Admin Screen</button></a>' ;
+            return $ret . '<br/><a href="?robopage='. $_GET['robopage'] . '&amp;layout=nerd"> Saved now back to the Admin Screen</a>' ;
         }
  
         $this->lcnt = count($this->dynamicNavigation->linkshash);
@@ -147,9 +147,9 @@ $currentDirUrl = $_SESSION['currentDirUrl'];
    <form action="?robopage=$currentDirUrl&amp;layout=dirlinks" method="post">
     <input type="hidden" name="mode" value="saveDirlinks"/>
     <p><input type="hidden" id="new_order" name="new_order" /> </p>
-    <button type="submit" id="sumbit"> Save this ordering </button>
+    <button type="submit" id="sumbit"> Save this ordering 
 </form>
-    <br/><a href="?robopage=$currentDirUrl&amp;layout=nerd"><button> Cancel </button></a><br/>
+    <br/><a href="?robopage=$currentDirUrl&amp;layout=nerd"> Cancel </a><br/>
 
 <h4 style="text-align: center;"> 
 Drag and drop the links below--up and down--using a left mouse click 
