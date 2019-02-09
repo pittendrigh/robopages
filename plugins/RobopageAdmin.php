@@ -5,9 +5,10 @@ include_once ("AuthUtils.php");
 include_once ("editor.php");
 include_once ("uploader.php");
 include_once ("filesLister.php");
-include_once ("mkSlides.php");
+include_once ("adminPlugin.interface.php");
+include_once ("adminPlugin.php");
 
-class RobopageAdmin extends plugin
+class RobopageAdmin extends adminPlugin implements adminPluginInterface
 {
     //var $editor;
     var $currentUrl;
@@ -39,16 +40,6 @@ class RobopageAdmin extends plugin
             };
         }
         return rmdir($dir);
-    }
-
-    function checkAuthorityCredentials()
-    {
-        $ret = TRUE;
-        if (!isset($_SESSION['privilege']) || ($_SESSION['privilege'] != 'nimda'))
-        {
-            $ret = FALSE;
-        }
-        return $ret;
     }
 
     function zipData($source, $destination)
@@ -137,17 +128,17 @@ class RobopageAdmin extends plugin
         return false;
     }
 
-    function getOutput($divid)
+    function getSecureOutput($divid)
     {
         $ret = $mode = '';
-        //StaticRoboUtils::dbg();
-        if (!$this->checkAuthorityCredentials())
+        if(!StaticRoboUtils::isAdmin())
         {
             $ret = <<<ENDO
 <button><a href="?layout=authUtils">Login First </button>
 ENDO;
             return $ret;
         }
+
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST')

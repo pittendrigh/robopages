@@ -112,11 +112,18 @@ class StaticRoboUtils
         }
     }
 
-    static function checkAuthorityCredentials()
+    static function isAdmin()
     {
-        $ret = TRUE;
-        if (!isset($_SESSION['privilege']) || ($_SESSION['privilege'] != 'nimda'))
-            $ret = FALSE;
+        $ret = FALSE;
+        if (
+               (isset($_SESSION['privilege']) && isset($_SESSION['isLoggedIn']))
+               &&
+               ($_SESSION['privilege'] == 'nimda' && $_SESSION['isLoggedIn'] == TRUE)
+           )
+               
+        {
+            $ret = TRUE;
+        }
         return $ret;
     }
 

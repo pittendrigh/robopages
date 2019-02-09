@@ -13,15 +13,12 @@ include_once("plugin.php");
 
 class dynamicNavigation extends plugin
 {
-    public
-            $linkshash; // all links as object, keyed by href
-    public
-            $fileKeys;  // not hashed array for link ordering
+    public $linkshash; // all links as object, keyed by href
+    public $fileKeys;  // not hashed array for link ordering
+
     // if this dynamicNavigation group includes a slideshow in any position we will hard-code it as the first link
-    public
-            $slideshowFlag;
-    public
-            $mimer;
+    public $slideshowFlag;
+    public $mimer;
 
     function __construct()
     {

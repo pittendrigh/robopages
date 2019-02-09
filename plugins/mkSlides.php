@@ -1,8 +1,10 @@
 <?php
 include_once("imgResizer.php");
 include_once("plugin.php");
+include_once("adminPlugin.interface.php");
+include_once("adminPlugin.php");
 
-class mkSlides extends plugin
+class mkSlides extends adminPlugin implements adminPluginInterface
 {
 
     function is_image($file)
@@ -42,7 +44,7 @@ class mkSlides extends plugin
         return $slidePaths;
     }
 
-    function getOutput($mess)
+    function getSecureOutput($mess)
     {
         $ret = '';
         $imgPaths = $this->getImageFilenames($_SESSION['currentDirPath']);

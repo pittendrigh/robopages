@@ -59,16 +59,6 @@ function check_hash($pass,$hash)
             $privileges[$namekey] = $privilege;
         }
 
-        //if ($usernames[$username] == $password)
-/*
-if(isset($_SESSION['dbg']) && $_SESSION['dbg'] == 1_
-{
-        echo "namekey: ", $namekey, "<br/>";
-        echo "hash: ", $hash, "<br/>";
-        echo "inpassword: ", $password, "<br/>";
-        echo "privilege: ", $privilege, "<br/>";
-}
-*/
         if($this->check_hash($password,$hash))
         {
             //echo $username, ".......<br/>";
@@ -80,17 +70,22 @@ if(isset($_SESSION['dbg']) && $_SESSION['dbg'] == 1_
 
         return $ret;
     }
-
+/*
     static function isAdmin()
     {
         $ret = FALSE;
-        //echo "isAdmin ", $_SESSION['privilege'], "<br/>";
-        if (isset($_SESSION['privilege']) && $_SESSION['privilege'] == 'nimda')
+        if (
+               (isset($_SESSION['privilege']) && isset($_SESSION['isLoggedIn']))
+               &&
+               ($_SESSION['privilege'] == 'nimda' && $_SESSION['isLoggedIn'] == TRUE)
+           )
+               
         {
             $ret = TRUE;
         }
         return $ret;
     }
+*/
 
     function showLoginForm()
     {
@@ -118,7 +113,7 @@ if(isset($_SESSION['dbg']) && $_SESSION['dbg'] == 1_
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $this->userlogin($_POST['username'], $_POST['password']);
-            if ($this->isAdmin())
+            if (StaticRoboUtils::isAdmin())
             {
                 //echo "wasAdmin ", $this->selfUrl, "<br/>";
                 $ret = <<<ENDO

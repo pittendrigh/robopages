@@ -1,7 +1,9 @@
 <?php
-@session_start();
 
-class editor extends plugin
+include_once("adminPlugin.interface.php");
+include_once("adminPlugin.php");
+
+class editor extends adminPlugin implements adminPluginInterface
 {
     protected $mode;
     
@@ -94,7 +96,7 @@ ENDO;
 
     function getOutput($divid)
     {
-        $privilege = StaticRoboUtils::checkAuthorityCredentials();
+        $privilege = StaticRoboUtils::isAdmin();
 
         if (!$privilege)
         {

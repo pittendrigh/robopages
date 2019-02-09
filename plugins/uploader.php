@@ -27,7 +27,7 @@ class uploader extends plugin
             // All the uploads are accessible from the PHP object $_FILES
             $handle = new upload($_FILES['my_field']);
 
-            // then we check if the file has been uploaded properly
+            // then seeif the file has been uploaded properly
             // in its *temporary* location in the server (often, it is /tmp)
             if ($handle->uploaded)
             {
@@ -37,7 +37,7 @@ class uploader extends plugin
                 // It could be something like $handle->process('/home/www/my_uploads/');
                 $handle->process($this->dir_dest);
 
-                // we check if everything went OK
+                // we seek if everything went OK
                 if ($handle->processed)
                 {
                     // everything was fine !

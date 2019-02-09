@@ -1,12 +1,12 @@
 <?php
 
-//include_once("dynamicNavigation.php");
-include_once("plugin.php");
+include_once("adminPlugin.interface.php");
+include_once("adminPlugin.php");
 
 if (@stat("../conf/globals.php"))
     include_once("conf/globals.php");
 
-class mkThumbs extends plugin
+class mkThumbs extends adminPlugin implements adminPluginInterface
 {
 
     function __construct()
@@ -56,8 +56,6 @@ class mkThumbs extends plugin
         return $ret;
     }
 
-    //function make_thumb($src, $dest, $desired_width) ....might be useful too
-    // this is for use in the dashboard lights RobopageAdmin.php menuig system
     function make_thumbs($width)
     {
         $ret = '';
@@ -81,7 +79,7 @@ class mkThumbs extends plugin
         return $ret;
     }
 
-    function getOutput($x)
+    function getSedcureOutput($x)
     {
       global $sys_width;
       $ret='';
