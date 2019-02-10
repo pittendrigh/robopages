@@ -119,19 +119,20 @@ password: <b>gotgot</b>
 
 To change or delete that login/password pair (gitgit/gotgot) read the Documentation on passwords.
 You will need to use <b>commandLineUtils/phppw 'password' </b> and save that output,
-which gets used in plugins/RobopagePasswds.php
+which gets used in <b>plugins/RobopagePasswds.php</b>
 <br/><br/>
 
 If you simply want to disable the admin gui do this:
-cat /dev/null > plugins/RobopagePasswds.php
+<b style="color: magenta;">cat /dev/null > plugins/RobopagePasswds.php</b>
 <br/><br/>
 
 <b>Note too: </b> To really get this to work you should edit both <b>conf/globals.php</b>
  and the text of <b>commandLineUtils/phppw</b> so
-\$robosauce='not_the_given_default'; and so \$robosauce is the the same in both places.
-Getting the admin interface up and running is probably not something for beginners to do.
-I made these codes so one of my customers could administer her own website--after I got it all set up
-and running. 
+<b>\$robosauce='not_the_given_default'; </b> and so <b>\$robosauce</b> is the the same in both files.
+<br/><br/>
+Getting the admin interface up and running is probably not something for beginners to attempt--while hackers
+won&apos;t need it.  I made the Admin Interface codes so one of my customers could administer her own website--after I got it set up
+and running for her.  
 </fieldset>
 ENDO;
 
