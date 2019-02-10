@@ -126,13 +126,12 @@ If you simply want to disable the admin gui do this:
 <b style="color: magenta;">cat /dev/null > plugins/RobopagePasswds.php</b>
 <br/><br/>
 
-<b>Note too: </b> To really get this to work you should edit both <b>conf/globals.php</b>
+<b>Note too: </b> To do this properly you should edit both <b>conf/globals.php</b>
  and the text of <b>commandLineUtils/phppw</b> so
-<b>\$robosauce='not_the_given_default'; </b> and so <b>\$robosauce</b> is the the same in both files.
+<b>\$robosauce='not_the_given_default'; </b> and so <b>\$robosauce</b> is the same in both files.
 <br/><br/>
-Getting the admin interface up and running is probably not something for beginners to attempt--while hackers
-won&apos;t need it.  I made the Admin Interface codes so one of my customers could administer her own website--after I got it set up
-and running for her.  
+Getting the admin interface up and running is probably not something for beginners to attempt.  And XTerminal keyboard hackers
+don&apos;t need it. But the Admin Interface does have a valid niche to fill.  I made the Admin Interface so one of my customers could administer her own website--after I got it set up and running for her.  
 </fieldset>
 ENDO;
 
