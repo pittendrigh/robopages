@@ -11,7 +11,6 @@
     <file>css/dropdowns.css</file>
   </cssfiles>
   <bodycontent>
-    <div id="wrapper" src="container">
       <div id="wrapper" src="container">
         <div id="headerbanner" src="container">
           <div id="hbanner" src="file" />
@@ -25,6 +24,5 @@
         </div>
         <div id="footer" src="file" />
       </div>
-    </div>
   </bodycontent>
 </layout>
