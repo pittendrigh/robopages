@@ -89,6 +89,8 @@ function check_hash($pass,$hash)
 
     function showLoginForm()
     {
+        global $sys_not_configed_yet;
+
         $currentDirUrl = $_SESSION['currentDirUrl'];
         $ret = '';
         $ret .= '<p><b>Note: </b>
@@ -103,6 +105,38 @@ function check_hash($pass,$hash)
         $ret .= '<p><input type="submit" name="submit" value="login"></p> ';
         $ret .= '</form></fieldset>';
         $ret .= '<p><a href="' . dirname($_SERVER['PHP_SELF']) . '?mode=logout"><b>cancel</b></a></p>';
+
+if(isset($sys_not_configed_yet) && $sys_not_configed_yet == TRUE)
+{
+  $ret .= <<<ENDO
+<fieldset style="width: 80%; padding: 1em;"><legend> <b>First Time User NOTE:</b> </legend> To get rid of this message edit <b>conf/globals.php</b>
+change <b>\$sys_not_configed_yet</b> from TRUE to FALSE, or simply delete that line.
+<br/><br/>
+To log in to the administrative interface (?layout=nerd)
+use login name: <b>gitgit</b>
+password: <b>gotgot</b>
+<br/><br/>
+
+To change or delete that login/password pair (gitgit/gotgot) read the Documentation on passwords.
+You will need to use <b>commandLineUtils/phppw 'password' </b> and save that output,
+which gets used in plugins/RobopagePasswds.php
+<br/><br/>
+
+If you simply want to disable the admin gui do this:
+cat /dev/null > plugins/RobopagePasswds.php
+<br/><br/>
+
+<b>Note too: </b> To really get this to work you should edit both <b>conf/globals.php</b>
+ and the text of <b>commandLineUtils/phppw</b> so
+\$robosauce='not_the_given_default'; and so \$robosauce is the the same in both places.
+Getting the admin interface up and running is probably not something for beginners to do.
+I made these codes so one of my customers could administer her own website--after I got it all set up
+and running. 
+</fieldset>
+ENDO;
+
+}
+ 
         return $ret;
     }
 
