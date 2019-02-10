@@ -43,7 +43,7 @@ class dirChanger extends plugin
                  if(strstr($baseRoboUrl . $label,"roboresources"))
                  {
                     $hLink = '<a href="?robopage=' . $baseRoboUrl . '/' . $label 
-                         . '&amp;layout=nerd"><span class="smallfont">' . $label . '</span></a><br/>';
+                         . '&amp;layout=nerd"><span class="smallfont system">' . $label . '</span></a><br/>';
                  }
                  else
                  {
