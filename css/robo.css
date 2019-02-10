@@ -198,7 +198,8 @@ div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25
 
 .dirChanger{ float: right; margin-right: 3%; ; width: auto;}
 
-
+.smallfont{ font-size: 75%; }
+.system {color: magenta;}
 /* ============================================*/
 
 @media only screen and (max-device-width: 480px)

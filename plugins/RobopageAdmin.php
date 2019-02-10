@@ -351,7 +351,7 @@ ENDO;
            <input type="submit" value="Delete Directory"/>
            <select name="deletedir"> ' . $this->getDirsList() . '</select>  <span class="small"> 
            <input type="hidden" name="mode" value="deleteDir"/>
-           <span class="small"><b>(backup zip in ' . $_SESSION['currentDirUrl'] . 'roboresources/BAKS/)</span>
+           <b class="smallfont">(backup zip in ' . $_SESSION['currentDirUrl'] . 'roboresources/BAKS/)</b>
            </form>';
 
         return $str;
@@ -421,7 +421,7 @@ ENDO;
         $str = '';
         $str = '
         <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
-        <input type="submit" value="Reorder Links"/> (for page sets using a dynamic TOC)
+        <input type="submit" value="Reorder Links"/> <b class="smallfont">(for page sets using a dynamic TOC)</b>
         <input type="hidden" name="mode" value="dirlinks"/>
         </form>';
         return $str;
