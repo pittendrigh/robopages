@@ -109,7 +109,7 @@ class dirlinks extends adminPlugin implements adminPluginInterface
         {
             $ret = "<h3>dirlinks:</h3>";
             $ret .= $this->writeNewlyOrderedLinks();
-            return $ret . '<br/><a href="?robopage='. $_GET['robopage'] . '&amp;layout=nerd"> Saved now back to the Admin Screen</a>' ;
+            return $ret . '<br/><a class="button" href="?robopage='. $_GET['robopage'] . '&amp;layout=nerd"> Saved now back to the Admin Screen</a>' ;
         }
  
         $this->lcnt = count($this->dynamicNavigation->linkshash);
@@ -146,8 +146,8 @@ $currentDirUrl = $_SESSION['currentDirUrl'];
         $ret .= <<<zENDO
    <form action="?robopage=$currentDirUrl&amp;layout=dirlinks" method="post">
     <input type="hidden" name="mode" value="saveDirlinks"/>
-    <p><input type="hidden" id="new_order" name="new_order" /> </p>
-    <button type="submit" id="sumbit"> Save this ordering 
+    <input type="hidden" id="new_order" name="new_order" /> 
+    <input type="submit" id="sumbit" value="Save this ordering" /> 
 </form>
     <br/><a href="?robopage=$currentDirUrl&amp;layout=nerd"> Cancel </a><br/>
 

@@ -9,7 +9,22 @@ body {  background: #ffffff; }
 
 form { margin: 4px 0 0 0; }
 
+
+.button {
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #cc22442;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+
 a { color: #660000;  text-decoration: none;}
+
 a:hover 
 {
     text-decoration: underline;
@@ -180,11 +195,9 @@ div.galleryNavigation a:hover
 }
 div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25em;} 
 
-.clearboth { }
 
-.specsTbls { padding: 1em; width: auto; float: left;}
+.dirChanger{ float: right; margin-right: 3%; ; width: auto;}
 
-h1 {}
 
 /* ============================================*/
 

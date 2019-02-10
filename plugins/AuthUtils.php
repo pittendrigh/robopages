@@ -89,11 +89,12 @@ function check_hash($pass,$hash)
 
     function showLoginForm()
     {
+        $currentDirUrl = $_SESSON['currentDirUrl'];
         $ret = '';
         $ret .= '<p><b>Note: </b>
              login names and passwords are case sensitive: 
              Robert is not the same as robert.</p>';
-        $ret .= '<form action="?layout=authUtils" method="post">
+        $ret .= '<form action="?robopage='.$currentDirUr.'l&amp;layout=authUtils" method="post">
        <p><b>login name </b>  
        <input type="text" name="username" value="" size="32" maxlength="48" > </p> 
        <p><b>password</b>  
@@ -109,7 +110,7 @@ function check_hash($pass,$hash)
     {
         $ret = '';
 
-        //if (isset($_POST['username']))
+        $currentDirUrl = $_SESSON['currentDirUrl'];
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $this->userlogin($_POST['username'], $_POST['password']);
@@ -117,10 +118,10 @@ function check_hash($pass,$hash)
             {
                 //echo "wasAdmin ", $this->selfUrl, "<br/>";
                 $ret = <<<ENDO
-              <a href="?layout=nerd">Logged in! </a> <-- to the admin screen
+              <a class="button" href="?robopage=$currentDirUrl&amp;layout=nerd">Logged in! </a> &nbsp; <-- to the admin screen
 ENDO;
                 return $ret;
-             } else return "foogow<br/>";
+             } else return "Error<br/>";
         }
         else
         {

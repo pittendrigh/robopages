@@ -22,7 +22,7 @@ class AdminPlugin extends plugin implements adminPluginInterface
         } else {
            $currentDirUrl = $_SESSION['currentDirUrl'];
            $ret = <<<ENDO
-<a href="?robopage=$currentDirUrl&amp;layout=authUtils">Login First       
+<a class="button" href="?robopage=$currentDirUrl&amp;layout=authUtils">Login First</a>
 ENDO;
         }
         return($ret);

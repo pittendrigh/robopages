@@ -131,15 +131,6 @@ class RobopageAdmin extends adminPlugin implements adminPluginInterface
     function getSecureOutput($divid)
     {
         $ret = $mode = '';
-        if(!StaticRoboUtils::isAdmin())
-        {
-            $ret = <<<ENDO
-<a href="?layout=authUtils">Login First 
-ENDO;
-            return $ret;
-        }
-
-
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
@@ -174,7 +165,7 @@ ENDO;
                         if ($cnt % 4 == 0)
                             $ret .= '<br/>';
                         $alink = <<<ENDO
-                      &nbsp; &nbsp; <a href="?robopage=$robopage" download="$downloadLabel">$downloadLabel</a>
+                      &nbsp; &nbsp; <a class="button" href="?robopage=$robopage" download="$downloadLabel">$downloadLabel</a>
 ENDO;
                         $ret .= $alink;
                     }
@@ -184,8 +175,8 @@ ENDO;
                     $mkSlides->getOutput('');
                     $robopage = $_GET['robopage'];
                     $ret = <<<ENDO
-<a href="?robopage=$robopage&amp;layout=slideshow">Test that Slideshow <br/><br/>
-<a href="?robopage=$robopage&amp;layout=nerd">Back to the Admin Scren<br/>
+<a class="button`" href="?robopage=$robopage&amp;layout=slideshow">Test that Slideshow <br/><br/>
+<a class="button" href="?robopage=$robopage&amp;layout=nerd">Back to the Admin Scren<br/>
 ENDO;
                     break;
 
@@ -193,7 +184,7 @@ ENDO;
                     $thumbs = new mkThumbs();
                     $robopage = $_GET['robopage'];
                     $ret .= <<<ENDO
-<a href="?robopage=$robopage&amp;layout=nerd">Back to the Admin Scren<br/>
+<a class="button" href="?robopage=$robopage&amp;layout=nerd">Back to the Admin Scren<br/>
 ENDO;
                     $thumbLister = new filesLister();
                     $ret .= $thumbLister->getOutput($_SESSION['currentDirPath'] . 'roboresources/thumbs/');
@@ -295,7 +286,7 @@ ENDO;
     {
         $ret = '';
         $dc = new dirChanger('');
-        $ret .= '<div style="float: right; width: auto;"><h3> Directory Changer </h3>';
+        $ret .= '<div class="dirChanger"><h3> Directory Changer </h3>';
         $ret .= $dc->getOutput('');
         return $ret . '</div>';
     }

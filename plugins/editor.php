@@ -32,10 +32,11 @@ class editor extends adminPlugin implements adminPluginInterface
     {
         $file = $ret = '';
 
+        $currentDirUrl = $_SESSION['currentDirUrl'];
         if (  !isset($_POST['filename']) && $this->mode != 'blog')
         {
             $ret = <<<ENDO
-         <a href="?layout=nerd">Choose a file to edit first</a> 
+         <a class="button" href="?robopage=$currentDirUrl&amp;layout=nerd">Choose a file to edit first</a> 
 ENDO;
             return $ret;
         }
@@ -72,7 +73,7 @@ ENDO;
         $ret .= '
    <br>
    <input type="submit" mode="save" name="save" value="Save File" >' . "\n" . '
-   <a href="?layout=nerd"> cancel </a>' . "\n" . '
+   <a href="?robopage='.$currentDirUrl.'&amp;layout=nerd"> cancel </a>' . "\n" . '
 </form>' . "\n";
         return $ret;
     }
@@ -97,14 +98,6 @@ ENDO;
     function getOutput($divid)
     {
         $privilege = StaticRoboUtils::isAdmin();
-
-        if (!$privilege)
-        {
-            $ret = <<<ENDO
-         <a href="?layout=authUtils">Login First</a> 
-ENDO;
-            return $ret;
-        }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['mode'] == 'SaveFile')
         {
