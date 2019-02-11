@@ -1,30 +1,19 @@
-html,body
+html
 {
     width: 100%;
     height: 100%;
     padding: 0;
 }
 
-body {  background: #ffffff; } 
+body {  background: #ffffff; width: 100%; height: 100%;} 
 
-form { margin: 4px 0 0 0; }
-
-
-.button {
-  font: bold 11px Arial;
-  text-decoration: none;
-  background-color: #EEEEEE;
-  color: #cc22442;
-  padding: 2px 6px 2px 6px;
-  border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #CCCCCC;
+#wrapper 
+{ width: 95%; 
+  margin: 0 1em; 
+  padding: 0;
 }
 
-
 a { color: #660000;  text-decoration: none;}
-
 a:hover 
 {
     text-decoration: underline;
@@ -33,20 +22,20 @@ a:hover
 
 #headerbanner
 {
-  background: url(/systemimages/smrb_logo_04.png) no-repeat #efefef;
-  background-position: right top;
+  background: url(/systemimages/ssmrb-logo.png) no-repeat #efefef;
+  background-position: left top;
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
   padding:  0 ; 
   margin:  0 ;
   width: 100%; 
-  min-height: 4em;
-  height: auto;
+  height: 7em;
   z-index: 100;
   -webkit-backface-visibility: hidden;
 }
+
+#headerbanner h1 {text-shadow: 1px 1px white;}
 
 #main-content
 {
@@ -75,30 +64,40 @@ img { float: left; margin: 1em; }
 #footer a{ text-decoration: none; }
 #footer a:hover{ text-decoration: underline; }
 
-#user_manage, #bottombannerlinks {
+#bottombannerlinks {
     margin: 0;
     padding: 0;
-    font-size: 100%;
+    font-size: 1.5vw;
     font-weight: bold;
     text-align: center;
     height: 2em;
 }
 
-#user_manage, #bottombannerlinks a
+#user_manage{ margin: 2em 0 2em 0; }
+#user_manage a{ margin: 2em 1em; }
+
+#bottombannerlinks a
 {
   color: black;
   text-decoration: none;
   font-weight: bold; 
 }
+#bottombannerlinks a:hover{
+  background: #ccbbbb;
+}
 
- #bottombannerlinks a{ font-size: 2vw; }
- #user_manage a{ font-size: 1vw; }
+#user_manage a{ font-size: 1vw; }
 
-#user_manage, #mkBreadcrumbs a { font-size: 70%; color: #cc2244; margin: 0; padding: 0;}
+#user_manage, #mkBreadcrumbs a { font-size: 1.5vw; color: #cc2244; margin: 0; padding: 0;}
 
 #mkBreadcrumbs 
 {
-    min-height: 1.5em;
+    width: 100%;
+    height: 1.5em;
+    position: absolute;
+    bottom: 0;
+    margin: 0 0 0 3em;
+    left: 4em;
 }
 
 #mkBreadcrumbs a:hover 
@@ -128,10 +127,6 @@ a.slideshow:hover{ background: #cdcdcd; color: black; border: 1px solid black;}
 
 #currentArcadeImg { width: 60%;  }
 
-h1 {font-size: 110%; }
-h2 {font-size: 95%; }
-h3 {font-size: 00%; }
-
 #googleSearch {float: left; max-width: 50%;}
 #googleBanner {color: white;}
 
@@ -151,7 +146,7 @@ margin: 0.25em 1em 0.25em 0.25em;
 
 #toc a {display: block; border: 1px solid transparent;}
 
-img.icon {float: left;  width: 1em !important; height: 1em !important!; } 
+img.icon {float: left;  width: 1em !important; height: 1em !important; } 
 
 div.thumbMeme { float: left; width: auto; height: auto; margin: 0 auto; padding: 0; }
 div.thumbMeme:hover {background: #cdcdcd; border: 1px solid black;}
@@ -168,7 +163,7 @@ div.dynamicNavigation
   width: 100%;
 }
 
-.folderLink{ width: 100%; height: auto; margin: 0; padding: 9; float: left;  }
+.folderLink{ width: 100%; height: auto; margin: 0; padding: 0; float: left;  }
 .folderImg { float: left; width: 2em; max-width: 3em; margin: 0; padding: 0; }
 .folderImg img { float: left; margin: 0; padding: 0;  max-width:  1em; max-height: 1em; }
 .folderLbl {float: left; width: 70%; height: auto; margin: 0; padding: 0; }
@@ -183,7 +178,7 @@ div.dynamicNavigation a
 }
 
 
-div.dynamicNavigation a:hover{ background: #cdcdcd; background: 1px solid black;}
+div.dynamicNavigation a:hover{ background: #cdcdcd; }
 div.galleryNavigation {  float: left; width: 8em; height: 6em; margin: 0.25em; text-align: center;} 
 div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0.25em;}
 div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
@@ -195,19 +190,40 @@ div.galleryNavigation a:hover
 }
 div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25em;} 
 
+.clearboth { }
 
-.dirChanger{ float: right; margin-right: 3%; ; width: auto;}
+.specsTbls { padding: 1em; width: auto; float: left;}
 
-.smallfont{ font-size: 75%; }
-.system {color: magenta;}
+p.phantom {display: none;}
+
+
 /* ============================================*/
+
+h1 h2 h3 { font-size: 1vw;}
+h1.hbanner { font-size: 1.75vw; text-shadow: 2px 2px #ffffff; } 
+
+.button {
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #cc22442;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
 
 @media only screen and (max-device-width: 480px)
 {
+  h1.hbanner { font-size: 2.5vw; }
+  #headerbanner { background: #efefef; color: black; height: 3.5em;}
   p.thumblbl { float: left; }
-  div.specsTbls { }
-  table {  width: 100%; }
-  #headerbanner {font-size: 2vw; background: #efefef; color: black;}
-  #bottombannerlinks a { color: black;}
+  table {  clear: both; width: 100%; }
+  #bottombannerlinks a {font-size: 2.5vw;}
+  #user_manage a {font-size: 2.5vw;}
+  #mkBreadcrumbs a { width: 100%; height: 2em; font-size: 2.5vw; margin-top: 1.5em;}
+  #main-content { margin: 1em 0 0 0; }
 }
 
