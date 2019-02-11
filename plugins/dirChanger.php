@@ -60,7 +60,8 @@ class dirChanger extends plugin
 
     function getOutput($divid)
     {
-        $ret = $testUrl = '';
+        $ret = '<div class="dirChanger">';
+        $testUrl = '';
         $upUrl = '?layout=nerd';
         if (isset($_GET['robopage']) && $_GET['robopage'] != '')
         {
@@ -85,7 +86,7 @@ class dirChanger extends plugin
          $startPath  .= $_SESSION['currentDirUrl'];
         $ret .= $this->doDir($startPath);
 
-        return $ret;
+        return $ret . '</div>';
     }
 
 }
