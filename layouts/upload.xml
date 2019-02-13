@@ -6,7 +6,7 @@
       <file>plugins/galleryNavigation.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
-      <file>plugins/upload.php</file>
+      <file>plugins/uploader.php</file>
   </plugins>
     <cssfiles>
         <file>css/robo.css</file>
