@@ -1,12 +1,12 @@
 <div class="dropdown">
-  <a class="dropbtn" href="/">Home - </a>
+  <a class="dropbtn" href="/">Home</a>
            <div class="dropdown-content">
                <a href="/">Home</a>
            </div>
 </div>
 
 <div class="dropdown">
-      <a class="dropbtn" href="#">Documentation- </a>
+      <a class="dropbtn" href="#">Documentation</a>
            <div class="dropdown-content">
                <a href="?robopage=Documentation">Documentation</a>
                <a href="?robopage=Documentation/Install">Install</a>
