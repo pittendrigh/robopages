@@ -5,7 +5,7 @@ html
     padding: 0;
 }
 
-body {  background: #ffffff; width: 100%; height: 100%;} 
+body {  background: #ffffff; } 
 
 #wrapper 
 { width: 95%; 
@@ -19,29 +19,22 @@ a:hover
     text-decoration: underline;
 }
 
-
-#headerbanner
-{
-  background: url(/systemimages/ssmrb-logo.png) no-repeat #efefef;
-  background-position: left top;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding:  0 ; 
-  margin:  0 ;
-  width: 100%; 
-  height: 7em;
-  z-index: 100;
-  -webkit-backface-visibility: hidden;
-}
-
-#headerbanner h1 {text-shadow: 1px 1px white;}
+#hbanner 
+{ 
+position: absolute; top: 3px; left: 0;  
+width: 100%;
+text-shadow: 2px 2px #ffffff; 
+text-align: center;
+font-size: 85%;
+padding: 0; 
+margin: 0; 
+} 
 
 #main-content
 {
     float: left;
     width: 100%;
-    margin: 4em 0 0 0;
+    margin: 8em 0 0 0;
     padding: 3em 1em;
     overflow: hidden;
     -webkit-backface-visibility: hidden;
@@ -64,40 +57,23 @@ img { float: left; margin: 1em; }
 #footer a{ text-decoration: none; }
 #footer a:hover{ text-decoration: underline; }
 
-#bottombannerlinks {
-    margin: 0;
-    padding: 0;
-    font-size: 1.5vw;
-    font-weight: bold;
-    text-align: center;
-    height: 2em;
-}
-
 #user_manage{ margin: 2em 0 2em 0; }
 #user_manage a{ margin: 2em 1em; }
 
-#bottombannerlinks a
-{
-  color: black;
-  text-decoration: none;
-  font-weight: bold; 
-}
-#bottombannerlinks a:hover{
-  background: #ccbbbb;
-}
 
 #user_manage a{ font-size: 1vw; }
 
-#user_manage, #mkBreadcrumbs a { font-size: 1.5vw; color: #cc2244; margin: 0; padding: 0;}
+#user_manage, #mkBreadcrumbs a { font-size: 85%; color: #cc2244; margin: 0; padding: 0;}
 
 #mkBreadcrumbs 
 {
-    width: 100%;
+    float: left;
+    width: 50%;
     height: 1.5em;
-    position: absolute;
-    bottom: 0;
     margin: 0 0 0 3em;
-    left: 4em;
+    text-align: left;
+    margin: 0 0 0 3em;
+    padding: 0;
 }
 
 #mkBreadcrumbs a:hover 
@@ -163,11 +139,6 @@ div.dynamicNavigation
   width: 100%;
 }
 
-.folderLink{ width: 100%; height: auto; margin: 0; padding: 0; float: left;  }
-.folderImg { float: left; width: 2em; max-width: 3em; margin: 0; padding: 0; }
-.folderImg img { float: left; margin: 0; padding: 0;  max-width:  1em; max-height: 1em; }
-.folderLbl {float: left; width: 70%; height: auto; margin: 0; padding: 0; }
-
 div.dynamicNavigation a
 {
   display: block;
@@ -192,15 +163,7 @@ div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25
 
 .clearboth { }
 
-.specsTbls { padding: 1em; width: auto; float: left;}
-
-p.phantom {display: none;}
-
-
-/* ============================================*/
-
-h1 h2 h3 { font-size: 1vw;}
-h1.hbanner { font-size: 1.75vw; text-shadow: 2px 2px #ffffff; } 
+/* ==========RobopageAdmin related==================================*/
 
 .button {
   font: bold 11px Arial;
@@ -213,8 +176,9 @@ h1.hbanner { font-size: 1.75vw; text-shadow: 2px 2px #ffffff; }
   border-bottom: 1px solid #333333;
   border-left: 1px solid #CCCCCC;
 }
-
 div.dirChanger { width: 45%; padding-right: 1em; float: right;}
+/* ============================================*/
+
 
 @media only screen and (max-device-width: 480px)
 {
@@ -227,4 +191,107 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   #mkBreadcrumbs a { width: 100%; height: 2em; font-size: 2.5vw; margin-top: 1.5em;}
   #main-content { margin: 1em 0 0 0; }
 }
+
+
+/* ============================================*/
+
+
+
+#wrapper {
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+
+#headerbanner{
+  position: fixed;
+  top: 0;
+  padding: 2em 0 0 0;
+  margin: 0 auto;
+  width: 100%;
+  height: 4em;
+  background: url(/systemimages/smrb_logo_04.png) no-repeat #efefef;
+  /*background: url(/systemimages/smrb_logo_04.png) no-repeat transprent; */
+  background-position: top left;
+  text-align: center;
+  z-index: 200;
+}
+
+/* bottombannerlinks container */
+#bottombannerlinks 
+{
+  margin-top: 1em;
+  overflow: hidden;
+  background-color: transparent;
+  font-family: Arial;
+}
+
+/* Links inside the bottombannerlinks */
+.bottombannerlinks a {
+  float: left;
+  font-size: 16px;
+  font-size: 12px;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  padding: 14px 8px;
+  text-decoration: none;
+}
+
+/* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px; 
+  font-size: 12px; 
+  border: none;
+  outline: none;
+  color: black;
+  padding: 14px 16px;
+  padding: 14px 8px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to bottombannerlinks links on hover */
+.bottombannerlinks a:hover, .dropdown:hover .dropbtn {
+  background-color: #8888aa;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* ============================================*/
 

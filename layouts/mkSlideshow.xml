@@ -10,7 +10,6 @@
   </plugins>
     <cssfiles>
         <file>css/robo.css</file>
-        <file>css/dropdowns.css</file>
     </cssfiles>
     <jsfiles>
         <file>js/jquery.min.js</file>
@@ -21,7 +20,7 @@
     <bodycontent>
         <div id="wrapper" src="container" >
             <div id="headerbanner" src="container" >
-                <div id="hbanner" src="file" />
+                <h1 id="hbanner/" src="file" />
                 <div id="bottombannerlinks" src="file" />
                 <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
