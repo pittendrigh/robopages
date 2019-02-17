@@ -1,5 +1,5 @@
 <div class="dropdown">
-  <a class="dropbtn" href="/">Home</a>
+  <a class="dropbtn" href="#">Home</a>
            <div class="dropdown-content">
                <a href="/">Home</a>
                <a href="?layout=insult">Today&apos;s Insult</a>
@@ -19,7 +19,7 @@
 </div>
       
 <div class="dropdown">
-      <a class="dropbtn" href="?robopage=Birds"> Bird </a> 
+      <a class="dropbtn" href="#"> Birds </a> 
            <div class="dropdown-content">
                <a href="?robopage=Birds">Birds</a>
                <a href="?robopage=Birds/PIC_4469_Avocet.jpg">Avocet</a>
