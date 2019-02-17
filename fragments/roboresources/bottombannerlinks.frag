@@ -2,6 +2,7 @@
   <a class="dropbtn" href="/">Home</a>
            <div class="dropdown-content">
                <a href="/">Home</a>
+               <a href="?layout=insult">Today&apos;s Insult</a>
            </div>
 </div>
 
