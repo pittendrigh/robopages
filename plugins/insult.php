@@ -33,7 +33,7 @@ class insult extends plugin
     {
         $ret = '';
 
-         $file = file('insults');
+         $file = file('plugins/insults');
          
          $c0 = array();
          $c1 = array();
@@ -52,7 +52,9 @@ class insult extends plugin
          $str0 = $c0[array_rand($c0)];
          $str1 = $c1[array_rand($c1)];
          $str2 = $c2[array_rand($c2)];
-         $ret .= '<div style="width: 50%; margin: 0 auto;"><h1>You ' .  ucfirst($str0) . " " . $str1. " " . $str2 . "</h1></div>";
+         $ret .= '<div style="width: 50%; margin: 0 auto;"><b>You ' .  ucfirst($str0) . " " . $str1. " " . $str2 . "</b></div>";
+
+         $ret .= '<script> setInterval("window.location.reload()", 4000);</script>';
 
         return($ret);
     }
