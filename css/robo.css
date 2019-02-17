@@ -5,12 +5,8 @@ html
     padding: 0;
 }
 
-body {  background: #ffffff; } 
-
-#wrapper 
-{ width: 95%; 
-  margin: 0 1em; 
-  padding: 0;
+body {  background: #ffffff;  
+  font-family: Arial;
 }
 
 a { color: #660000;  text-decoration: none;}
@@ -34,14 +30,16 @@ margin: 0;
 {
     float: left;
     width: 100%;
-    margin: 8em 0 0 0;
+    margin: 5em 0 0 0;
     padding: 3em 1em;
     overflow: hidden;
-    -webkit-backface-visibility: hidden;
+    font-family: Garamond, serif
+  /*  -webkit-backface-visibility: hidden; */
 }
 
 img { float: left; margin: 1em; }
-#main-content img {float: left; margin: 1em; max-width: 50%;}
+#main-content img {float: left; margin: 1em; max-width: 70%;} 
+img.icon {max-width: 1em !important;}
 
 
 #footer
@@ -59,20 +57,16 @@ img { float: left; margin: 1em; }
 
 #user_manage{ margin: 2em 0 2em 0; }
 #user_manage a{ margin: 2em 1em; }
-
-
-#user_manage a{ font-size: 1vw; }
-
-#user_manage, #mkBreadcrumbs a { font-size: 85%; color: #cc2244; margin: 0; padding: 0;}
+#user_manage a{ font-size: 1.5vw; }
+#user_manage, #mkBreadcrumbs a { color: #cc2244; margin: 0 0 0.5em 0; padding: 0;}
 
 #mkBreadcrumbs 
 {
     float: left;
-    width: 50%;
+    width: 84%;
     height: 1.5em;
-    margin: 0 0 0 3em;
+    margin: 0 0 0 10%;
     text-align: left;
-    margin: 0 0 0 3em;
     padding: 0;
 }
 
@@ -117,17 +111,18 @@ min-width: 20%;
 height: auto;
 background: #efefef; 
 padding: 0.25em; 
-margin: 0.25em 1em 0.25em 0.25em;
+margin: 0.25em;
+font-family: Arial;
 }
 
 #toc a {display: block; border: 1px solid transparent;}
 
-img.icon {float: left;  width: 1em !important; height: 1em !important; } 
+img.icon {float: left;  width: 1em; height: 1em; } 
 
 div.thumbMeme { float: left; width: auto; height: auto; margin: 0 auto; padding: 0; }
 div.thumbMeme:hover {background: #cdcdcd; border: 1px solid black;}
 p.thumb { margin: 0 ; padding: 0; height: auto; }
-p.thumb img { max-width: 4em !important; margin: 0; padding: 0; }
+p.thumb img { max-width: 4em; margin: 0; padding: 0; }
 p.thumblbl {  margin: 0; padding: 0;  }
 p.thumblbl:hover {text-decoration: underline; }
 
@@ -169,7 +164,7 @@ div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25
   font: bold 11px Arial;
   text-decoration: none;
   background-color: #EEEEEE;
-  color: #cc22442;
+  color: #cc2244;
   padding: 2px 6px 2px 6px;
   border-top: 1px solid #CCCCCC;
   border-right: 1px solid #333333;
@@ -180,17 +175,6 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 /* ============================================*/
 
 
-@media only screen and (max-device-width: 480px)
-{
-  h1.hbanner { font-size: 2.5vw; }
-  #headerbanner { background: #efefef; color: black; height: 3.5em;}
-  p.thumblbl { float: left; }
-  table {  clear: both; width: 100%; }
-  #bottombannerlinks a {font-size: 2.5vw;}
-  #user_manage a {font-size: 2.5vw;}
-  #mkBreadcrumbs a { width: 100%; height: 2em; font-size: 2.5vw; margin-top: 1.5em;}
-  #main-content { margin: 1em 0 0 0; }
-}
 
 
 /* ============================================*/
@@ -208,34 +192,36 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   position: fixed;
   top: 0;
   padding: 2em 0 0 0;
-  margin: 0 auto;
-  width: 100%;
+  width: 95%;
   height: 4em;
-  background: url(/systemimages/smrb_logo_04.png) no-repeat #efefef;
-  /*background: url(/systemimages/smrb_logo_04.png) no-repeat transprent; */
+  background: url(/systemimages/smrb_logo_04.png) no-repeat #efefef; 
   background-position: top left;
   text-align: center;
   z-index: 200;
 }
 
-/* bottombannerlinks container */
+/* Navbar container */
+
 #bottombannerlinks 
 {
-  margin-top: 1em;
+  /* margin-top: 1em; */
+  width: 85%;
+  margin: 0 0 0 15%;
   overflow: hidden;
   background-color: transparent;
   font-family: Arial;
+  text-shadow: 2px 2px #ffffff; 
 }
 
 /* Links inside the bottombannerlinks */
 .bottombannerlinks a {
   float: left;
   font-size: 16px;
-  font-size: 12px;
+  /* font-size: 12px; */
   color: black;
   text-align: center;
   padding: 14px 16px;
-  padding: 14px 8px;
+  padding: 14px 10px;
   text-decoration: none;
 }
 
@@ -248,7 +234,7 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 /* Dropdown button */
 .dropdown .dropbtn {
   font-size: 16px; 
-  font-size: 12px; 
+  /* font-size: 12px; */
   border: none;
   outline: none;
   color: black;
@@ -295,3 +281,24 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 }
 /* ============================================*/
 
+@media only screen and (max-device-width: 480px)
+{
+  #headerbanner { background-image: none; background-color: #efefef;} 
+  h1.hbanner { 
+  font-size: 2.5vw; 
+  }
+  p.thumblbl { float: left; }
+  table {  clear: both; width: 100%; }
+  #bottombannerlinks a {font-size: 4vw; transition-delay: 3s;}
+  #user_manage a {font-size: 2.5vw;}
+  #mkBreadcrumbs a { width: 100%; height: 2em; font-size: 2.5vw; margin-top: 1.5em;}
+  #toc { width: 100%; transition-delay: 3s;}
+/*
+  #main-content { margin: 3em 0 0 0; }
+  #toc a { display: block; float: left; background: #fefefe; margin: 2px; padding: 2px; width: 8em; height: 3.5em; }
+  .galleryNavigation a.slideshow{ display: block; height: 1.25em; background: #884444 !important; color: white; border: 4px groove white;}
+   .galleryNavigation a { transition-delay: 3s; }
+    #main-content img {float: left; margin: 1em; max-width: 90%;} 
+   div.thumbMeme { height: 4em !important; border-top: 1px solid black; }
+*/
+}
