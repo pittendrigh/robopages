@@ -77,8 +77,10 @@ img.icon {max-width: 1em !important;}
 
 #cse { width: 59%; }
 
+
 a.slideshow{ display: block; height: 1.25em !important; background: #884444; color: white; border: 4px groove white;}
 a.slideshow:hover{ background: #cdcdcd; color: black; border: 1px solid black;}
+
 
 #slideshow
 {
@@ -160,16 +162,19 @@ div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25
 
 /* ==========RobopageAdmin related==================================*/
 
-.button {
+/* #toc a.slideshow, */
+#toc a.button {
+  float: left;
   font: bold 11px Arial;
   text-decoration: none;
-  background-color: #EEEEEE;
-  color: #cc2244;
+background: #884444; color: white;
   padding: 2px 6px 2px 6px;
   border-top: 1px solid #CCCCCC;
   border-right: 1px solid #333333;
   border-bottom: 1px solid #333333;
   border-left: 1px solid #CCCCCC;
+  width: 6em;
+  height: 1.5em;
 }
 div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 /* ============================================*/
@@ -293,9 +298,9 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   #user_manage a {font-size: 2.5vw;}
   #mkBreadcrumbs a { width: 100%; height: 2em; font-size: 2.5vw; margin-top: 1.5em;}
   #toc { width: 100%; transition-delay: 3s;}
+  #toc a { display: block; float: left; background: #fefefe; margin: 2px; padding: 2px; width: 8em; height: 3.5em; }
 /*
   #main-content { margin: 3em 0 0 0; }
-  #toc a { display: block; float: left; background: #fefefe; margin: 2px; padding: 2px; width: 8em; height: 3.5em; }
   .galleryNavigation a.slideshow{ display: block; height: 1.25em; background: #884444 !important; color: white; border: 4px groove white;}
    .galleryNavigation a { transition-delay: 3s; }
     #main-content img {float: left; margin: 1em; max-width: 90%;} 
