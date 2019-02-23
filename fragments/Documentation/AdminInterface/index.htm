@@ -1,42 +1,51 @@
-<h1> Admin Interface as of Tue Jan 22 16:31:12 MST 2019</h1><br/>
+<h1> Admin Interface as of Tue Jan 22 16:31:12 MST 2019</h1>
+
+This is a new feature not yet documented
+The safest and best way to operate robopages is in a bash/scp only mode.
+The site admin can chown -R all files to a user who is not the apache process
+and chmod -R 555 the fragments directory, chmod or chown  any LOGS directories, in order make them writable to the web server process..
+Then it's secure.
+<br/><br/>
+
+You might want to build a robopages site for a customer however, who doesn't do
+bash perl python sed awk and scp.
+<br/><br/>
+
+In that case the RobopageAdmin.php interface is a work in progress.
+I'm not making any promises as to it's security as of today.
+I do have one user using it.
+<br/><br/>
+
+Once I get it cleaned up enough I'll spend some time working on security issues.
+The various action="?layout=nerd" method="post" forms need to make more use of md5 tokens,etc.
+Right now it works and it's safe because only one site in the universe uses it.  And no one else knows.
+Better security will happen in time
+<br/><br/>
+
+To make this work you have to chown -R apache.apache the fragments directory.
+You may have to chmod -R 555 too if it's on a virtual dedicated server.
+<br/><br/>
+
+The admin interface does a recursive chmod -R 755 to make it writable during the admin session.
+If the user remembers to click the Logout button it chmods back to 555 when done.
+<br/><br/>
+
+Authentication is files based.  Look for RobopagePasswords.php in the plugins directory.
+the RobopagePasswords.php file has the form usename:md5password:nimda, where nimda (admin backwards) 
+is hard-coded.  
+<br/><br/>
+(test login as user: gitgit<br/>
+ with password: gotgit)<br/>
+gitgit:c7e0cc5ac1a953943a0b87422e5559e5:nimba`<br/>
 <br/>
-This is a new feature not yet documented<br/>
-The safest and best way to operate robopages is in a bash/scp only mode.<br/>
-The site admin can chown -R all files to a user who is not the apache process<br/>
-and chmod -R 555 the fragments directory, chmod -R 777 any LOGS directories.<br/>
-Then it's secure.<br/>
-<br/>
-You might want to build a robopages site for a customer however, who doesn't do<br/>
-bash perl python sed awk and scp.<br/>
-<br/>
-In that case the RobopageAdmin.php interface is a work in progress.<br/>
-I'm not making any promises as to it's security as of today.<br/>
-I do have one user using it.<br/>
-<br/>
-Once I get it cleaned up enough I'll spend some time working on security issues.<br/>
-The various action="?layout=nerd" method="post" forms need to make more use of md5 tokens,etc.<br/>
-Right now it works and it's safe because only one site in the universe uses it.  And no one else knows.<br/>
-Better security will happen in time<br/>
-<br/>
-To make this work you have to chown -R apache.apache the fragments directory.<br/>
-You may have to chmod -R 555 too if it's on a virtual dedicated server.<br/>
-<br/>
-The admin interface does a recursive chmod -R 755 to make it writable during the admin session.<br/>
-If the user remembers to click the Logout button it chmods back to 555 when done.<br/>
-<br/>
-Authentication is files based.  Look for RobopagePasswords.php in the plugins directory.<br/>
-the RobopagePasswords.php file has the form usename:md5password:nimda, where nimda (admin backwards) <br/>
-is hard-coded. <br/> 
-(test login as user: gitgit
- with password: gotgit)
-gitgit:c7e0cc5ac1a953943a0b87422e5559e5:nimba<br/>`
-<br/>
-Further documentation will follow eventually. Are there any users other than me?<br/>
-I have a half a dozen robopages sites, now going on over a decade.<br/>
-And I have the one amateur user who uses RobopageAdmin.php, and upload.php, edit.php, imgResize.php etc.<br/>
-<br/>
-The upload mechanism is open source codes from Github.  I have not credited him yet. I will..<br/>
-<br/>
+Further documentation will follow eventually. Are there any users other than me?
+I have a half a dozen robopages sites, now going on over a decade.
+And I have the one amateur user who uses RobopageAdmin.php, and upload.php, edit.php, imgResize.php etc.
+<br/><br/>
+
+The upload mechanism is open source codes from Github.  I have not credited him yet. I will..
+<br/><br/>
+
 <h3> How to do it</h3>
 got to the conf directory. copy RobopageAdminPlugins.ini onto plugins.ini<br.>
 edit the plugins/RobopagePasswds.php file appropriately.<br.>
