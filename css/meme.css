@@ -1,0 +1,28 @@
+
+div.meme {
+    margin: 1em;
+    padding: 0;
+    width: 9em;
+    height: auto;
+    float: left;
+    position: relative;
+    background: #6677ff;
+    border: 1px solid black;
+}
+div.meme p {
+    font-size: 70%;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    padding: 0 1em;
+    margin: 0 auto;
+    color: black;
+    background: white;
+    padding: 0.25em;
+}
+.imgMeme {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
