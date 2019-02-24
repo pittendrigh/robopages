@@ -1,23 +1,40 @@
+<h1> Command Line Administration </h1>
+Unzip the sources into the DOCUMENT_ROOT of an apache web server. Everything should run.
+The safest way to use Robopages is to administer by hand, from a Terminal window, using scp ssh bash sed perl awk etc.
+You can make the document root belong to you rather than the web server process and chmod -R everything to 755 or even 555
+The plugins/LOGS directory will either have to belong to the web server or be chmod -R 777
+Look in commandLineUtils for a few handy perl scripts that make thumbnails, slideshows and link ordering files (dirlinks).
+<br/><br/>
+Point your browser at the intallation.
+<br/><br/>
 
-Unzip the sources into the DOCUMENT_ROOT of an apache web server. Everything should run.<br/>
-<br/>
-However, if you are installing into a unix ~username/public_html directory, edit conf/dirLStart.conf.ini and then, in the main index.php, change:
-<br/>
-<br/>
-//$page = new robopages();
-<br/>to <br/> 
-$page = new dirCrawler();<br/>
-<br/>
+Now add and populate directories under the fragments directory.  For each such new subdirectory you may want to make hidden/pics and hidden/thumbs subdirectories. Images in hidden/pics will be visible to the fragments, but will not appear as links in the dynamicNavigation division.  
 
-<br/>
-Point your browser at the intallation.<br/>
-<br/>
-Now add and populate directories under the fragments directory.  For each such new subdirectory you may want to make hidden/pics and hidden/thumbs subdirectories. Images in hidden/pics will be visible to the fragments, but will not appear as links in the dynamicNavigation division.  <br/>
-<br/>
-Edit mime_types.ini as needed. Files with suffixes appearing in mime_types.ini will become clickable download links, with the exceptions of images (jpg,jpeg,gif,png), fragments (*.htm) and text files (*.txt). Those three will be used as displays in the #main-disp division, rather than as download links.  <br/>
-<br/>
+Edit mime_types.ini as needed. Files with suffixes appearing in mime_types.ini will become clickable download links, with the exceptions of images (jpg,jpeg,gif,png), fragments (*.htm) and text files (*.txt). Those three will be used as displays in the #main-disp division, rather than as download links.  
+<br/><br/>
+
 Each such new directory under fragments can have an optional dirlinks file, which governs the top-to-bottom ordering of dynamic links. Examine the examples and edit as necessary.  
-<br/>
-New layouts will require new or edited css files, plus new layout definitions as defined in the layouts directory. Use teh existing layouts as a starting point. New system images (backgrounds, button faces etc) should be installed in the systemimages directory. Any layout is possible.<br/>
-<br/>
+
+<br/><br/>
+New layouts will require new or edited css files, plus new layout definitions as defined in the layouts directory. Use teh existing layouts as a starting point. New system images (backgrounds, button faces etc) should be installed in the systemimages directory. Any layout is possible.
+
+<br/><br/>
 To make an entirely new layout, read the Documentation. Then edit the default layouts/robo.xml or create new layout.xml files in the layouts directory.
+If you know how to do these command line things you won't need much installation instruction.
+
+<h1> Admin GUI </h1>
+Robopages has an admin GUI for users who aren't linux/unix terminal hackers, who still want to do
+the bulk of their own page updating work.
+<br/><br/>
+
+Admin GUI users will probably need the help of real keyboard admin to get things up and running.
+Adn then they can take over from there.
+<br/><br/>
+
+To have and Admin GUI installation that works you have to make the document root belong to the web server process.
+Then chmod -R 555 or 755 the document root.  The GUI codes will manipulate file permissions from there on out, making
+the document root recursively writable during an admin session, and then back to read only once done (if and only if
+the admin remembers to click the "Logout" button as a final step.
+<br/><br/>
+
+More Admin GUI documentation will happen eventually.
