@@ -7,6 +7,7 @@ html
 
 body {  background: #ffffff;  
   font-family: Arial;
+  font-size: 2vw;
 }
 
 a { color: #660000;  text-decoration: none;}
@@ -109,12 +110,13 @@ a.slideshow:hover{ background: #cdcdcd; color: black; border: 1px solid black;}
 #toc {
 float: left; 
 width: auto;
-min-width: 20%;
+min-width: 25%;
 height: auto;
 background: #efefef; 
 padding: 0.25em; 
 margin: 0.25em;
 font-family: Arial;
+font-size: 1.5vw;
 }
 
 #toc a {display: block; border: 1px solid transparent;}
@@ -299,11 +301,4 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   #mkBreadcrumbs a { width: 100%; height: 2em; font-size: 2.5vw; margin-top: 1.5em;}
   #toc { width: 100%; transition-delay: 3s;}
   #toc a { display: block; float: left; background: #fefefe; margin: 2px; padding: 2px; width: 8em; height: 3.5em; }
-/*
-  #main-content { margin: 3em 0 0 0; }
-  .galleryNavigation a.slideshow{ display: block; height: 1.25em; background: #884444 !important; color: white; border: 4px groove white;}
-   .galleryNavigation a { transition-delay: 3s; }
-    #main-content img {float: left; margin: 1em; max-width: 90%;} 
-   div.thumbMeme { height: 4em !important; border-top: 1px solid black; }
-*/
 }
