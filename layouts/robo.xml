@@ -6,6 +6,8 @@
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/meme.php</file>
+      <file>plugins/targetedArcade.php</file>
+      <file>plugins/targetedSlidehow.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
