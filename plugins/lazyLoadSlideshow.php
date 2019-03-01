@@ -6,14 +6,13 @@ include_once("conf/globals.php");
 
 class lazyLoadSlideShow extends plugin {
 
-    var $slideShowPath;
-    var $slideShowUrl;
-    var $interval;
-    var $slidesNameString;
+    protected $slideShowPath;
+    protected $slideShowUrl;
+    protected $interval;
+    protected $firstSlide;
+    protected $slidesNameString;
 
-    function __construct() {
-        
-    }
+    function __construct($path=null) { }
 
     function mkButtons() {
 
@@ -21,11 +20,11 @@ class lazyLoadSlideShow extends plugin {
         $ret =
                 "\n\n" . '
 <div id="Cntrl">
-   <input class="booton" type="button" value="Quit" id="quit" onclick="quit()"/>
-   <input class="booton" type="button" value="pause" id="stoggle" onclick="toggle()"/>
-   <input class="booton" type="button" value="next" id="ntoggle" onclick="nextImage()"/>
-   <input class="booton" type="button" value="prev" id="ptoggle" onclick="prevImage()"/>
-   &nbsp; &nbsp; &nbsp; '."\n".'<b class="booton"> Frame Rate </b><input type="button" value="-" onclick="decInterval()"/> 
+   <input type="button" value="Quit" id="quit" onclick="quit()"/>
+   <input type="button" value="pause" id="stoggle" onclick="toggle()"/>
+   <input type="button" value="next" id="ntoggle" onclick="nextImage()"/>
+   <input type="button" value="prev" id="ptoggle" onclick="prevImage()"/>
+   &nbsp; &nbsp; &nbsp; '."\n".'<b "> Frame Rate </b><input type="button" value="-" onclick="decInterval()"/> 
    <p style="display: inline;" id="incrementDisplay">' . $intervalDisplay . '</p>
    <input type="button" value="+" onclick="incInterval()"/> 
 </div>
@@ -39,7 +38,7 @@ class lazyLoadSlideShow extends plugin {
     $ret = '
     <script type="text/javascript">
 
-       var defaultName = \''. $_SESSION['firstSlide'] . '\';
+       var defaultName = \''. $this->firstSlide . '\';
        var cnt=-1;
        var max=0;
        var thumbIDX = 0;
@@ -55,6 +54,7 @@ class lazyLoadSlideShow extends plugin {
        function  rollNow()
        {
           var str = "' . $this->slidesNameString . '";
+          //alert(str);
           namesArray = str.split(\',\');
           max = namesArray.length;
           var name;
@@ -304,7 +304,7 @@ class lazyLoadSlideShow extends plugin {
        function stopSlideshow()
        {
          // not used....zap it or fix this....to not hard-coded 
-         var uri = \'?robopage=' . $_SESSION['currentDirUrl'] . '\';
+         var uri = \'?robopage=' . $this->slideShowUrl . '\';
          window.location.replace(uri);
        }
 
@@ -350,16 +350,13 @@ class lazyLoadSlideShow extends plugin {
 
         $ret='';
 
-        //echo "getImageFilenames on $dir <br/>";
-        $_SESSION['firstSlide'] = '';
+        $this->firstSlide = '';
         if ($dir_handle = opendir($dir)) {
             while (($file = readdir($dir_handle)) != false) {
                 if ($file != '.' && $file != '..') {
-                //echo $file, "<br/>"; 
                     if ($this->is_image($file)) {
-                          $dbg = ','.  $_SESSION['currentClickDirUrl'] . 'roboresources/slideshow/' . $file;
-                          $_SESSION['firstSlide'] = $_SESSION['currentClickDirUrl'] . 'roboresources/slideshow/' . $file;
-                  //echo $_SESSION['firstSlide'], "<br/>";
+                          $dbg = ','.  $this->slideShowUrl . $file;
+                          $this->firstSlide = $this->slideShowUrl . $file;
                           $ret .= $dbg;
                     }
                 }
@@ -370,50 +367,37 @@ class lazyLoadSlideShow extends plugin {
        return $ret;
     }
 
-    
-
-    function getOutput($divid = null) {
+   
+    function setup()
+    {
         global $sys_interval;
-        $ret = '';
-        $imgNames = array();
-
         if (isset($sys_interval))
             $this->interval = $sys_interval;
         else if(!isset($this->interval))
             $this->interval = 1000;
+       $this->slideShowPath = $_SESSION['currentDirPath'] . 'roboresources/slideshow/';
+       $this->slideShowUrl = $_SESSION['currentClickDirUrl'] . 'roboresources/slideshow/';
+       $this->getImageFilenames($this->slideShowPath);
+       
+    } 
 
-        $this->slideShowPath = $_SESSION['currentDirPath'] . 'roboresources/slideshow/';
-        //echo $this->slideShowPath , "<br/>";
-        $this->slideShowUrl = $_SESSION['currentClickDirUrl'] . 'roboresources/slideshow/';
-        $this->getImageFilenames($this->slideShowPath);
+    function getOutput($divid = null) {
+        $ret = '';
+        $imgNames = array();
+
+           
+        $this->setup(); 
 
         $ret .= $this->mkJS();
         $imgNames = explode (",", $this->slidesNameString);
-        //echo count($imgNames), "<br/>";
         $stop = count($imgNames);
 
         $ret .= '<div id="slideShowContainer" > ';
         $ret .= $this->mkButtons();
 
-/*
-               for($i=0; $i<6; $i++)
-               {
-                 global $imgNames; 
-                 $anImageName = $imgNames[$i];
-                 $thumbID = 'tn-' . $i; 
-                
-       $ret .= "      <p class=\"thumbContainer\"> 
-                            <img class=\"thumb\" id=\"".$thumbID."\" 
-                             title=\"$i\" 
-                             onclick=\"changeImageFromThumb(this)\" 
-                             src=\"systemimages/fuzzball.png\" alt=\"\"/> 
-                       </p>";
-               }
-*/
         $ret .= '<script type="text/javascript"> rollNow(); </script>';
-        //echo $_SESSION['firstSlide'], "<br/>";
-        $ret .=  '<p id="Dbg"><b>' . basename($_SESSION['firstSlide']) . '</b></p>
-                 <img id="currentSlideImg" src="'.$_SESSION['firstSlide'].'" alt="'.basename($_SESSION['firstSlide']).'" /> ';
+        $ret .=  '<p id="Dbg"><b>' . basename($this->firstSlide) . '</b></p>
+                 <img id="currentSlideImg" src="'.$this->firstSlide.'" alt="'.basename($this->firstSlide).'" /> ';
         $ret .=  '</div>' . "\n\n";
 
 
