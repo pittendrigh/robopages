@@ -18,7 +18,6 @@ class domDrone
     protected $config = array();
     protected $cssfiles; // array, this has to come from the layout.xml
     protected $jsfiles; // array, this has to come from the layout.xml
-    //protected $plugins; // array, this has to come from the layout.xml
     protected $dbg = 0;
     protected $layoutXML;
 
@@ -623,8 +622,8 @@ ENDO;
         if (isset($sys_defd))
         {
             $metadesc = $sys_defd;
-            if (isset($_GET['robopage']))
-                $metadesc .= '  ' . basename($_GET['robopage']);
+            if (isset($_SESSION['currentDisplay']))
+                $metadesc .= ' ' . basename($_SESSION['currentDisplay']);
         }
 
 
@@ -649,7 +648,7 @@ ENDO;
         // similar with keys 
         $metakeys = $_SERVER['HTTP_HOST'];
         if (isset($sys_defk))
-            $metakeys = $sys_defk;
+            $metakeys = $sys_defk . ',' . $_SESSION['currentDisplay'];
 
         // a roboresources/metakeys file applies to all pages in this directory
         // override with it if there
