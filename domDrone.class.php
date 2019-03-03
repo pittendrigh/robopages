@@ -619,45 +619,52 @@ ENDO;
         $ret = $keyswords = $metadesc = $metakeys = '';
 
         // make a default $metadesc and hope to override it a few lines later
-        $metadesc = "Robopages CMS ";
+        $metadesc = $_SERVER['HTTP_HOST'];
         if (isset($sys_defd))
         {
             $metadesc = $sys_defd;
             if (isset($_GET['robopage']))
                 $metadesc .= '  ' . basename($_GET['robopage']);
         }
-        // now override $metadesc if roboresources/metadesc exists
+
+
+        // We have a default metadesc. Now override it if 'roboresources/metadesc' exists 
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/metadesc'))
         {
             $metadesc = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metadesc');
         }
 
-        // same with keys
-        $metakeys = "robopages,fast,cms";
+        // now override again if a page-specific metadesc exists 
+        $currentPageTest = isset($_GET['robopage']) ? basename($_GET['robopage']) : 'xxx';
+        $metadescPerPage = $_SESSION['currentDirPath'] . 'roboresources/' . $currentPageTest  . '_metadesc';
+        if (@stat($metadescPerPage))
+        {
+            // grep -iH actionItem *php
+            // could elaborate on this by exploding current path, wiht appriate if maybe staements...
+            $metadesc = file_get_contents($metadescPerPage);
+        }
+
+        // similar with keys 
+        // similar with keys 
+        // similar with keys 
+        $metakeys = $_SERVER['HTTP_HOST'];
         if (isset($sys_defk))
             $metakeys = $sys_defk;
+
+        // a roboresources/metakeys file applies to all pages in this directory
+        // override with it if there
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/metakeys'))
         {
             $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metakeys');
         }
-        else
+
+        // now check for a page-specific override
+        if (@stat($_SESSION['currentDirPath'] . 'roboresources/' . $currentPageTest  . '_metakeys'))
         {
-            if (isset($_GET['robopage']))
-                $metakeys .= "," . str_replace('/', ',', $_GET['robopage']);
+            $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/' . $currentPageTest   . '_metakeys');
         }
 
-        // now check for page-specific overrides
-        $fileBase = StaticRoboUtils::stripSuffix(basename($_SESSION['currentDisplay']));
-        if (@stat($_SESSION['currentDirPath'] . 'roboresources/metakeys-' . $fileBase))
-        {
-            $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metakeys-' . $fileBase);
-        }
-        if (@stat($_SESSION['currentDirPath'] . 'roboresources/metadesc-' . $fileBase))
-        {
-            $metadesc = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metadesc-' . $fileBase);
-        }
-
-        $metakeys = preg_replace('/-|_/', ',', trim($metakeys));
+        $metakeys = str_replace(',,',',',trim($metakeys));
         $metadesc = trim($metadesc);
 
         $ret .= "\n" . '<META name="description" content="' . $metadesc . '"/>' . "\n";
