@@ -7,7 +7,7 @@
       <file>plugins/file.php</file>
       <file>plugins/meme.php</file>
       <file>plugins/targetedArcade.php</file>
-      <file>plugins/targetedSlidehow.php</file>
+      <file>plugins/targetedSlideshow.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
