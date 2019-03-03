@@ -623,7 +623,7 @@ ENDO;
         {
             $metadesc = $sys_defd;
             if (isset($_SESSION['currentDisplay']))
-                $metadesc .= ' ' . basename($_SESSION['currentDisplay']);
+                $metadesc .= ' ' . StaticRoboUtils::stripSuffix(basename($_SESSION['currentDisplay']));
         }
 
 
@@ -648,7 +648,7 @@ ENDO;
         // similar with keys 
         $metakeys = $_SERVER['HTTP_HOST'];
         if (isset($sys_defk))
-            $metakeys = $sys_defk . ',' . $_SESSION['currentDisplay'];
+            $metakeys = $sys_defk . ',' . StaticRoboUtils::stripSuffix($_SESSION['currentDisplay']);
 
         // a roboresources/metakeys file applies to all pages in this directory
         // override with it if there
