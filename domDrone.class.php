@@ -576,6 +576,7 @@ ENDO;
         $ret .= $this->createJSLinks($static_mode);
         $ret .= "\n" . '<link rel="icon" href="/favicon.ico" type="image/ico" />';
         $ret .= "\n" . '</head> ' . "\n\n" . '<body>' . "\n";
+/*
         $ret .= <<<ENDO
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
@@ -586,8 +587,8 @@ ENDO;
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-
 ENDO;
+*/
 
         return $ret;
     }
@@ -618,15 +619,21 @@ ENDO;
         $ret = $keyswords = $metadesc = $metakeys = '';
 
         // make a default $metadesc and hope to override it a few lines later
-        $metadesc = $_SERVER['HTTP_HOST'];
+        $metadesc = $_SERVER['HTTP_HOST']; // do something even if it's wrong
+
         if (isset($sys_defd))
-        {
             $metadesc = $sys_defd;
-            if (isset($_SESSION['currentDisplay']))
-                $metadesc .= ' ' . StaticRoboUtils::stripSuffix(basename($_SESSION['currentDisplay']));
+
+        if(isset($_GET['robopage']) && $_GET['robopage'] != null)
+        {
+            $metadesc .= ': ';
+            //$pathChunks = explode(PATH_SEPARATOR, $_GET['robopage']);
+            $pathChunks = explode('/', $_GET['robopage']);
+            foreach ($pathChunks as $aChunk)
+            {
+                   $metadesc .=  ' ' . StaticRoboUtils::stripSuffix($aChunk);
+            }
         }
-
-
         // We have a default metadesc. Now override it if 'roboresources/metadesc' exists 
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/metadesc'))
         {
@@ -638,26 +645,33 @@ ENDO;
         $metadescPerPage = $_SESSION['currentDirPath'] . 'roboresources/' . $currentPageTest  . '_metadesc';
         if (@stat($metadescPerPage))
         {
-            // grep -iH actionItem *php
-            // could elaborate on this by exploding current path, wiht appriate if maybe staements...
             $metadesc = file_get_contents($metadescPerPage);
         }
 
-        // similar with keys 
-        // similar with keys 
-        // similar with keys 
-        $metakeys = $_SERVER['HTTP_HOST'];
-        if (isset($sys_defk))
-            $metakeys = $sys_defk . ',' . StaticRoboUtils::stripSuffix($_SESSION['currentDisplay']);
+        // similar with keys ... make a default.  Toss it if something better exists
+        $metakeys = $_SERVER['HTTP_HOST']; // do something, even if it's wrong
 
-        // a roboresources/metakeys file applies to all pages in this directory
-        // override with it if there
+        if (isset($sys_defk))
+            $metakeys = $sys_defk;
+
+        if(isset($_GET['robopage']) && $_GET['robopage'] != null)
+        {
+            //$pathChunks = explode(PATH_SEPARATOR, $_GET['robopage']);
+            $pathChunks = explode('/', $_GET['robopage']);
+            foreach ($pathChunks as $aChunk)
+            {
+                   $metakeysc .=  ',' . StaticRoboUtils::stripSuffix($aChunk);
+            }
+        }
+
+        // A hand-edited roboresources/metakeys file applies to all pages in this directory
+        // discard the above and override with it if it exists 
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/metakeys'))
         {
             $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metakeys');
         }
 
-        // now check for a page-specific override
+        // now check for a page-specific override for all of the above...for this page
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/' . $currentPageTest  . '_metakeys'))
         {
             $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/' . $currentPageTest   . '_metakeys');
