@@ -41,10 +41,11 @@ class mkBreadcrumbs extends plugin
                  */
                 $breadcrumbs .= '<a href="';
 
+                $linkLabel = preg_replace("/-|_/", " ", $dirs[$i]);
                 if ($i < $cnt - 1)
-                    $breadcrumbs .= $_SERVER['PHP_SELF'] . '?robopage=' . trim($base) . '">' . $dirs[$i] . '/</a>';
+                    $breadcrumbs .= $_SERVER['PHP_SELF'] . '?robopage=' . trim($base) . '">' . $linkLabel . '/</a>';
                 else
-                    $breadcrumbs .= $_SERVER['PHP_SELF'] . '?robopage=' . trim($base) . '">' . $dirs[$i] . '</a>';
+                    $breadcrumbs .= $_SERVER['PHP_SELF'] . '?robopage=' . trim($base) . '">' . $linkLabel . '</a>';
             }
         }
 
