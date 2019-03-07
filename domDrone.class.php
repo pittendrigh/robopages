@@ -660,7 +660,7 @@ ENDO;
             $pathChunks = explode('/', $_GET['robopage']);
             foreach ($pathChunks as $aChunk)
             {
-                   $metakeysc .=  ',' . StaticRoboUtils::stripSuffix($aChunk);
+                   $metakeys .=  ',' . StaticRoboUtils::stripSuffix($aChunk);
             }
         }
 
