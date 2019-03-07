@@ -574,7 +574,7 @@ ENDO;
         $ret .= $this->mkExtraHead();
         $ret .= $this->createCSSLinks($static_mode);
         $ret .= $this->createJSLinks($static_mode);
-        $ret .= "\n" . '<link rel="icon" href="/favicon.ico" type="image/ico" />';
+        $ret .= "\n" . '<link rel="shortcut icon" href="/favicon.ico" sizes="16x16 32x32" type="image/x-icon" />';
         $ret .= "\n" . '</head> ' . "\n\n" . '<body>' . "\n";
 /*
         $ret .= <<<ENDO
@@ -660,7 +660,7 @@ ENDO;
             $pathChunks = explode('/', $_GET['robopage']);
             foreach ($pathChunks as $aChunk)
             {
-                   $metakeys .=  ',' . StaticRoboUtils::stripSuffix($aChunk);
+                   $metakeys .=  ',' . str_replace("-"," ",preg_replace("/^.*_/","",StaticRoboUtils::stripSuffix($aChunk)));
             }
         }
 
