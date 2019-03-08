@@ -95,14 +95,14 @@ class domDrone
         // ...this could conceivably override conf/layouts.ini
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/layout'))
         {
-            $this->definitionFile = 'layouts/' . trim(file_get_contents($_SESSION['currentDirPath'] . 'roboresources/layout')) . '.xml';
+            $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath'] . 'roboresources/layout')) . '.xml';
         }
 
         // perhaps a page-specific override exists, which takes precedence even over diredctory wide
         // ...this would also override conf/layouts.ini
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/' . $_GET['robopage'] . '-layout'))
         {
-            $this->definitionFile = 'layouts/' . trim(file_get_contents($_SESSION['currentDirPath']
+            $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath']
                                     . 'roboresources/' . $_GET['robopage'] . '-layout')) . '.xml';
         }
 
@@ -124,13 +124,13 @@ class domDrone
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/title-' . basename($_SESSION['currentDisplay'])))
         {
             $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title-' . $_SESSION['currentDisplay'];
-            $title = file_get_contents($overridefile);
+            $title = @file_get_contents($overridefile);
         }
         // or perhaps override with locally defined direcdtory level title
         else if (@stat($_SESSION['currentDirPath'] . 'roboresources/title'))
         {
             $overridefile = $_SESSION['currentDirPath'] . 'roboresources/' . $_SESSION['currentDisplay'];
-            $title = file_get_contents($overridefile);
+            $title = @file_get_contents($overridefile);
         }
         else // else try to use $_SESSION['currentDisplay'] or directory of $_SESSION['currentDisplay']
         {
@@ -618,15 +618,14 @@ ENDO;
 
         $ret = $keyswords = $metadesc = $metakeys = '';
 
-        // make a default $metadesc and hope to override it a few lines later
-        $metadesc = $_SERVER['HTTP_HOST']; // do something even if it's wrong
+        $metadesc = ''; 
 
-        if (isset($sys_defd))
+        if (!isset($_GET['robopage']))
             $metadesc = $sys_defd;
 
         if(isset($_GET['robopage']) && $_GET['robopage'] != null)
         {
-            $metadesc .= ': ';
+            //$metadesc =  StaticRoboUtils::stripSuffix(basename($_GET['robopage'])) .': ';
             //$pathChunks = explode(PATH_SEPARATOR, $_GET['robopage']);
             $pathChunks = explode('/', $_GET['robopage']);
             foreach ($pathChunks as $aChunk)
@@ -637,7 +636,7 @@ ENDO;
         // We have a default metadesc. Now override it if 'roboresources/metadesc' exists 
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/metadesc'))
         {
-            $metadesc = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metadesc');
+            $metadesc = @file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metadesc');
         }
 
         // now override again if a page-specific metadesc exists 
@@ -649,9 +648,9 @@ ENDO;
         }
 
         // similar with keys ... make a default.  Toss it if something better exists
-        $metakeys = $_SERVER['HTTP_HOST']; // do something, even if it's wrong
+        $metakeys = ''; 
 
-        if (isset($sys_defk))
+        if (!isset($_GET['robopage']))
             $metakeys = $sys_defk;
 
         if(isset($_GET['robopage']) && $_GET['robopage'] != null)
@@ -660,9 +659,12 @@ ENDO;
             $pathChunks = explode('/', $_GET['robopage']);
             foreach ($pathChunks as $aChunk)
             {
-                   $metakeys .=  ',' . str_replace("-"," ",preg_replace("/^.*_/","",StaticRoboUtils::stripSuffix($aChunk)));
+                   $metakeys .=  ',' . str_replace("-"," ",StaticRoboUtils::stripSuffix($aChunk));
             }
         }
+        if(substr($metakeys,0,1) == ',')
+          $metakeys = substr($metakeys,1);
+           
 
         // A hand-edited roboresources/metakeys file applies to all pages in this directory
         // discard the above and override with it if it exists 
