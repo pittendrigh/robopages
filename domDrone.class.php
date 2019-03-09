@@ -602,6 +602,20 @@ ENDO;
         return $keywords;
     }
 
+
+    function string2WordList($str, $delimeter)
+    {
+            $ret = '';
+            $pathChunks = explode('/', $str);
+            foreach ($pathChunks as $aChunk)
+            {
+                   $ret .=  $delimeter . StaticRoboUtils::stripSuffix(trim($aChunk));
+            }
+
+         $ret = preg_replace("/_|-/",$delimeter, $ret);
+         return $ret;
+    }
+
     function mkExtraHead()
     {
         global $sys_defd, $sys_defk;
@@ -615,18 +629,13 @@ ENDO;
 
         if(isset($_GET['robopage']) && $_GET['robopage'] != null)
         {
-            //$metadesc =  StaticRoboUtils::stripSuffix(basename($_GET['robopage'])) .': ';
-            //$pathChunks = explode(PATH_SEPARATOR, $_GET['robopage']);
-            $pathChunks = explode('/', $_GET['robopage']);
-            foreach ($pathChunks as $aChunk)
-            {
-                   $metadesc .=  ' ' . StaticRoboUtils::stripSuffix($aChunk);
-            }
+           $metadesc = $this->string2WordList($_GET['robopage'],' ');
         }
         // We have a default metadesc. Now override it if 'roboresources/metadesc' exists 
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/metadesc'))
         {
-            $metadesc = @file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metadesc');
+            $metadesc = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metadesc');
+            //`$metadesc = $this->string2WordList(StaticRoboUtils::stripSuffix($_SESSION['currentDisplay']),' ') . ' ' . $metadesc;
         }
 
         // now override again if a page-specific metadesc exists 
@@ -645,19 +654,15 @@ ENDO;
 
         if(isset($_GET['robopage']) && $_GET['robopage'] != null)
         {
-            //$pathChunks = explode(PATH_SEPARATOR, $_GET['robopage']);
-            $pathChunks = explode('/', $_GET['robopage']);
-            foreach ($pathChunks as $aChunk)
-            {
-                   $metakeys .=  ',' . str_replace("-"," ",StaticRoboUtils::stripSuffix($aChunk));
-            }
+           $metakeys = $this->string2WordList($_GET['robopage'],',');
+           //$metakeys = $this->string2WordList(StaticRoboUtils::stripSuffix($_SESSION['currentDisplay']),',') . ',' . $metakeys;
         }
         if(substr($metakeys,0,1) == ',')
           $metakeys = substr($metakeys,1);
            
 
-        // A hand-edited roboresources/metakeys file applies to all pages in this directory
-        // discard the above and override with it if it exists 
+        // A hand-edited roboresources/metakeys file applies to all pages in this directory.
+        // If exists then discard all the above and override
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/metakeys'))
         {
             $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/metakeys');
@@ -669,8 +674,8 @@ ENDO;
             $metakeys = file_get_contents($_SESSION['currentDirPath'] . 'roboresources/' . $currentPageTest   . '_metakeys');
         }
 
-        $metakeys = str_replace(',,',',',trim($metakeys));
         $metadesc = trim($metadesc);
+        $metakeys = str_replace(",,",",",$metakeys);
 
         $ret .= "\n" . '<META name="description" content="' . $metadesc . '"/>' . "\n";
         $ret .= '<META name="keywords" content="' . $metakeys . '"/>' . "\n";

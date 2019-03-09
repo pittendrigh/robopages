@@ -1,0 +1,22 @@
+#!/bin/bash
+
+me=`whoami`
+
+mode=555
+
+if [ -n "$1" ]
+then
+mode=$1
+fi
+
+
+sudo chown -R $me.$me ./*
+
+sudo chmod -R $mode ./*
+
+for dir in `find . -name LOGS`
+do
+sudo chmod -R 777 $dir
+done
+
+##sudo chmod -R $mode /home/montana/public_html/Uploads
