@@ -17,14 +17,16 @@ a:hover
 
 #hbanner 
 { 
-position: absolute; top: 3px; left: 0;  
-width: 100%;
-text-shadow: 2px 2px #ffffff; 
+position: relative;
+bottom: 1.5em;
 text-align: center;
-font-size: 85%;
 padding: 0; 
 margin: 0; 
 } 
+
+h1 { font-size: 1.5vw; }
+h2 { font-size: 1.25vw; }
+h2 { font-size: 1vw; }
 
 #main-content
 {
@@ -62,6 +64,8 @@ img.icon {max-width: 1em !important;}
 
 #mkBreadcrumbs 
 {
+    position: relative;
+    bottom: 0.75em;
     float: left;
     width: 84%;
     height: 1.5em;
@@ -95,9 +99,9 @@ a.slideshow:hover{ background: #cdcdcd; color: black; border: 1px solid black;}
   width: 70%;
   margin: 1em;
 }
-#arcade img { margin: 1em; }
 
-#currentArcadeImg { width: 60%;  }
+
+#currentArcadeImg { margin:1em; max-width: 50%;  }
 
 #googleSearch {float: left; max-width: 50%;}
 #googleBanner {color: white;}
@@ -117,7 +121,7 @@ margin: 0.25em;
 font-family: Arial;
 }
 
-#toc a {display: block; border: 1px solid transparent;}
+#toc a {display: block; border: 1px solid transparent; font-size: 1vw;}
 
 img.icon {float: left;  width: 1em; height: 1em; } 
 
@@ -208,16 +212,17 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 }
 
 /* Navbar container */
-
 #bottombannerlinks 
 {
-  /* margin-top: 1em; */
+  position: relative;
+  bottom: 1em;
   width: 85%;
   margin: 0 0 0 15%;
+  padding: 0;
   overflow: hidden;
   background-color: transparent;
   font-family: Arial;
-  text-shadow: 2px 2px #ffffff; 
+  text-shadow: 1px 1px #ffffff; 
 }
 
 /* Links inside the bottombannerlinks */
@@ -284,6 +289,8 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
+  position: relative;
+  bottom: 0.5em;
   display: block;
 }
 /* ============================================*/
@@ -298,14 +305,13 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 /* when the device is a typical phone */
 @media only screen and (max-device-width: 480px)
 {
-  #headerbanner { background-image: none; background-color: #efefef;} 
-  h1.hbanner { 
-  font-size: 2.5vw; 
-  } p.thumblbl { float: left; }
+  #headerbanner { height: 6em; background-image: none; background-color: #efefef;} 
+  h1.hbanner { font-size: 3vw; } p.thumblbl { float: left; }
   table {  clear: both; width: 100%; }
-  #bottombannerlinks a {font-size: 4vw; transition-delay: 3s;}
+  #bottombannerlinks a {font-size: 4vw; }
   #user_manage a {font-size: 2.5vw;}
   #mkBreadcrumbs a { width: 100%; height: 2em; font-size: 2.5vw; margin-top: 1.5em;}
-  #toc { width: 100%; transition-delay: 3s;}
-  #toc a { display: block; float: left; background: #fefefe; margin: 2px; padding: 2px; width: 8em; height: 3.5em; }
+  #toc { width: 100%; margin: 1em; }
+  #toc a { display: block; float: left; background: #fefefe; margin: 2px; padding: 2px; width: 8em; height: 4em; }
+  #main-content { clear: both; margin: 1em; }
 }

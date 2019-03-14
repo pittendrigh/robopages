@@ -1,0 +1,15 @@
+?robopage=Documentation/conf::conf
+?robopage=Documentation/Install::Install
+?robopage=Documentation/Plugins::Plugins
+?robopage=Documentation/New-layouts::New-layouts
+?robopage=Documentation/XML-layouts::XML-layouts
+?robopage=Documentation/public_html::public_html
+?robopage=Documentation/Seo::Seo
+?robopage=Documentation/metaKeywords.htm::metaKeywords.htm
+?robopage=Documentation/metaDescriptions.htm::metaDescriptions.htm
+?robopage=Documentation/administration.htm::administration.htm
+?robopage=Documentation/AdminInterface::AdminInterface
+?robopage=Documentation/Epub3::Epub3
+?robopage=Documentation/staticHTML::staticHTML
+fragments/Documentation/contactForm.txt::contactForm.txt
+?robopage=Documentation/CommandlineUtils::CommandlineUtils

@@ -14,4 +14,8 @@ $sys_show_suffixes = TRUE;
 $sys_thumb_links = TRUE;
 $sys_main_content_div_id = 'main-content';
 $sys_static_mode = FALSE;
+// the next two probably won't work on localhost without editing
+// For a live installation you will want these to work
+$sys_ogurl = "/";
+$sys_ogimage = "/fragments/Birds/Metatests/_PIC7972_Kiting-rough-legged.jpg";
 ?>
