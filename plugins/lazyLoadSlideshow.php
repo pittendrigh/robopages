@@ -41,7 +41,6 @@ class lazyLoadSlideShow extends plugin {
        var defaultName = \''. $this->firstSlide . '\';
        var cnt=-1;
        var max=0;
-       var thumbIDX = 0;
      
        var on = 1;
        var interval = ' . $this->interval . ';
@@ -87,102 +86,18 @@ class lazyLoadSlideShow extends plugin {
 
        function dbg(message)
        {
-        if(on == 1)
-        {
+        message = message.replace(/^.*_/g," ");
+        
           var dbgObj = document.getElementById(\'Dbg\');
           var name = namesArray[cnt];
-          var str = \' t: \' + thumbIDX + \' c: \' + cnt ;  
-          if(message == null )
-              dbgObj.innerHTML = str; 
-          else
-              dbgObj.innerHTML = message; 
-        }
+          dbgObj.innerHTML = message; 
        }
 
        function resetMainImage(obj)
        {
           var mainPicObj = document.getElementById(\'currentSlideImg\');
           mainPicObj.setAttribute("src", obj.getAttribute("src"));
-          dbg(\'<b> \' +baseName(mainPicObj.src).replace(/.jpg|.png|.gif/i,"").replace("_"," ").replace("-"," ") + \'</b>\');
-       }
-
-       function thumbShuffle()
-       {
-            // cnt has just now been changed by changeImage() slideRight() or slideLeft()
-            if(on == 1)
-            {
-               //clearInterval(intervalHandle);
-
-               var mainPicObj = document.getElementById(\'currentSlideImg\');
-               var thumbZeroObj  = document.getElementById(\'tn-0\');
-
-               var foo = cnt;
-               var imgPath = namesArray[cnt];
-               mainPicObj.setAttribute("src", imgPath); 
-               thumbZeroObj.setAttribute("value", imgPath); 
-               thumbZeroObj.setAttribute("src", imgPath); 
-               thumbZeroObj.setAttribute("title", foo % 6); 
-
-               // i=1 because we already set tn-0
-               var idx = cnt;
-               for(i=1; i<6; i++)
-               {
-                  thumbName = \'tn-\' + i;
-                  thumbObj = document.getElementById(thumbName);
-                  idx = cnt + i;
-                  if(idx >= max)
-                  {
-                    idx = 0;
-                  }
-
-                  var thumbSrc = idx2NameHash[idx];
-                  //if(thumbSrc == null)
-                  //  alert(\'null thumbSrc \' + obj.imgPath);
-                  thumbObj.setAttribute("src", thumbSrc);
-                  thumbObj.setAttribute("value", thumbSrc);
-                  thumbObj.setAttribute("title", i);
-               }
-               //intervalHandle=setInterval("advanceImage()", interval);
-             }
-       }
-
-       function slideRight()
-       {
-        if(on == 1)
-        {
-           clearInterval(intervalHandle);
-           cnt = cnt + 6;     
-           if(cnt >= max)
-           {
-              cnt = 0; 
-           }
-           thumbShuffle();
-           intervalHandle=setInterval("advanceImage()", interval);
-         } 
-       }
-
-       function slideLeft()
-       {
-        if(on == 1)
-        {
-           clearInterval(intervalHandle);
-           cnt = cnt - 6; 
-           if(cnt <= 0)
-                cnt = max - 6;
-           thumbShuffle();
-           intervalHandle=setInterval("advanceImage()", interval);
-        }
-       }
-
-       function changeImageFromThumb(obj)
-       {
-            clearInterval(intervalHandle);
-            var mainDisplayImage = document.getElementById(\'currentSlideImg\');
-            var imgPath = obj.getAttribute("value");
-            cnt = name2IDXHash[imgPath]; 
-            resetMainImage(obj); 
-
-            intervalHandle=setInterval("advanceImage()", interval);
+          dbg(\'<b> \' +baseName(mainPicObj.src).replace(/.jpg|.png|.gif/i,"") + \'</b>\');
        }
 
        function advanceImage()
@@ -195,24 +110,12 @@ class lazyLoadSlideShow extends plugin {
                     cnt = 0;
               var imgPath = idx2NameHash[cnt];
 
-              var foo = cnt;
-              thumbIDX = foo % 6; 
-              var thumbName = \'tn-\' + thumbIDX;
  
-              var thumbObj = document.getElementById(thumbName);
               var imgObj = document.getElementById(\'currentSlideImg\');
               if(imgPath)
               {
-                 dbg(\'<b> \' +baseName(imgPath).replace(/.jpg|.png|.gif/i,"").replace("_"," ").replace("-"," ") + \'</b>\');
-                 //alert(imgPath);
+                 dbg(\'<b> \' +baseName(imgPath).replace(/.jpg|.png|.gif/i,"") + \'</b>\');
                  imgObj.setAttribute("src", imgPath);
-              }
-               
-              if(thumbObj != null)
-              {
-                thumbObj.setAttribute("src",imgPath);
-                thumbObj.setAttribute("value", imgPath); 
-                thumbObj.setAttribute("title", thumbIDX);
               }
           }
        }
@@ -224,23 +127,12 @@ class lazyLoadSlideShow extends plugin {
               if(cnt >= max)
                     cnt = 0;
               var imgPath = idx2NameHash[cnt];
+              var cap = baseName(imgPath).replace(/.jpg|.png|.gif/i," ");
+              dbg(cap);
 
-              var foo = cnt;
-              thumbIDX = foo % 6; 
-              var thumbName = \'tn-\' + thumbIDX;
- 
-              var thumbObj = document.getElementById(thumbName);
               var imgObj = document.getElementById(\'currentSlideImg\');
               imgObj.setAttribute("src", imgPath);
 
-               
-              if(thumbObj != null)
-              {
-                thumbObj.setAttribute("src",imgPath);
-                thumbObj.setAttribute("value", imgPath); 
-                thumbObj.setAttribute("title", thumbIDX);
-              }
-              dbg(\'<b> \' +baseName(imgPath).replace(/.jpg|.png|.gif/i,"").replace("_"," ").replace("-"," ") + \'</b>\');
        }
 
        function prevImage()
@@ -252,22 +144,12 @@ class lazyLoadSlideShow extends plugin {
                     cnt = max;
               var imgPath = idx2NameHash[cnt];
 
-              var foo = cnt;
-              thumbIDX = foo % 6; 
-              var thumbName = \'tn-\' + thumbIDX;
  
-              var thumbObj = document.getElementById(thumbName);
               var imgObj = document.getElementById(\'currentSlideImg\');
               imgObj.setAttribute("src", imgPath);
 
-               
-              if(thumbObj != null)
-              {
-                thumbObj.setAttribute("src",imgPath);
-                thumbObj.setAttribute("value", imgPath); 
-                thumbObj.setAttribute("title", thumbIDX);
-              }
-              dbg(\'<b> \' +baseName(imgPath).replace(/.jpg|.png|.gif/i,"").replace("_"," ").replace("-"," ") + \'</b>\');
+              var cap = baseName(imgPath).replace(/.jpg|.png|.gif/i," ");
+              dbg(cap);
        }
 
       function incInterval()
@@ -396,7 +278,7 @@ class lazyLoadSlideShow extends plugin {
         $ret .= $this->mkButtons();
 
         $ret .= '<script type="text/javascript"> rollNow(); </script>';
-        $ret .=  '<p id="Dbg"><b>' . basename($this->firstSlide) . '</b></p>
+        $ret .=  '<p id="Dbg"><b>' . preg_replace("/^.*_/"," ", basename($this->firstSlide)) . '</b></p>
                  <img id="currentSlideImg" src="'.$this->firstSlide.'" alt="'.basename($this->firstSlide).'" /> ';
         $ret .=  '</div>' . "\n\n";
 
