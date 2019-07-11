@@ -18,8 +18,8 @@
           <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
         </div>
         <div id="main-content" src="container">
-          <div id="stuff" src="flexyFileContent">
-            <div id="toc" src="galleryNavigation" />
+          <div id="stuff" src="galleryNavigation">
+            <div id="toc" src="flexyFileContent" />
           </div>
         </div>
         <div id="footer" src="file" />
