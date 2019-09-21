@@ -136,6 +136,9 @@ ENDO;
             case "highlight":
                 $ret .= $this->mkHighlightArea();
                 break;
+            case "video":
+                $ret .= $this->mkVideoArea();
+                break;
             case "audio":
                 $ret .= $this->mkAudioArea();
                 break;
@@ -147,7 +150,7 @@ ENDO;
         }
 
 
-        if (strstr($ret, '`'))
+        if ($linkTargetType == 'htm' && strstr($ret, '`'))
         {
             $backTicker = new processBackTics();
             $ret = $backTicker->evalBackTics($ret);
@@ -254,6 +257,20 @@ ENDO;
         {
             $ret = preg_replace('/src=\"/', "src=\"/fragments/" . $_SESSION['opfDirUrl'] . '/', $ret);
         }
+        return $ret;
+    }
+
+    function mkVideoArea()
+    {
+	$ret = '';
+        $vid = $_SESSION['currentClickDirUrl'] . $_SESSION['currentDisplay'];
+	echo "vid: ", $vid, "<br/>";
+         
+        $ret .= ' 
+<video width="500" height="375" controls>
+  <source src="'.$vid.'" type="video/mp4">
+Your browser does not support the video tag.
+</video>';
         return $ret;
     }
 
