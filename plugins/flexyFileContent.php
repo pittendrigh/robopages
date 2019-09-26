@@ -150,7 +150,7 @@ ENDO;
         }
 
 
-        if ($linkTargetType == 'htm' && strstr($ret, '`'))
+        if ($linkTargetType == 'fragment' && strstr($ret, '`'))
         {
             $backTicker = new processBackTics();
             $ret = $backTicker->evalBackTics($ret);
