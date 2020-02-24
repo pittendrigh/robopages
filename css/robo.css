@@ -15,28 +15,39 @@ a:hover
     text-decoration: underline;
 }
 
-#hbanner 
+#headerbanner{
+  min-height: 4em;
+  margin: 0;
+  padding: 2px 0 0 0;
+  background: url(/systemimages/smrb_logo_04.png) no-repeat #efefef;
+  background-position: top left;
+}
+
+#h1banner 
 { 
-position: relative;
-bottom: 1.5em;
 text-align: center;
-padding: 0; 
-margin: 0; 
+margin: 1em 0 0 20%;
 } 
 
-h1 { font-size: 1.5vw; }
-h2 { font-size: 1.25vw; }
-h2 { font-size: 1vw; }
+#mkBreadcrumbs 
+{
+    height: 1.75em;
+    margin: 0 0 1em 0;
+    padding: 0;
+}
+
+
+h1 { font-size: 100%; }
+h2 { font-size: 90%; }
+h2 { font-size: 90%; }
 
 #main-content
 {
-    float: left;
     width: 100%;
-    margin: 3em 0 0 0;
-    padding: 3em 1em;
+    margin:  0;
+    padding: 1em;
     overflow: hidden;
     font-family: Garamond, serif
-  /*  -webkit-backface-visibility: hidden; */
 }
 
 img { float: left; margin: 1em; }
@@ -48,7 +59,7 @@ img.icon {max-width: 1em !important;}
 {
  clear: both; 
   color: black;
-  /* background-color: #cdcdcd; */
+  /* background-color: #dedede; */
   padding: 1em;
   width: 100%;
   max-height: 6em;
@@ -59,20 +70,8 @@ img.icon {max-width: 1em !important;}
 
 #user_manage{ margin: 2em 0 2em 0; }
 #user_manage a{ margin: 2em 1em; }
-#user_manage a{ font-size: 1.5vw; }
 #user_manage, #mkBreadcrumbs a { color: #cc2244; margin: 0 0 0.5em 0; padding: 0;}
 
-#mkBreadcrumbs 
-{
-    position: relative;
-    bottom: 0.75em;
-    float: left;
-    width: 84%;
-    height: 1.5em;
-    margin: 0 0 0 10%;
-    text-align: left;
-    padding: 0;
-}
 
 #mkBreadcrumbs a:hover 
 {
@@ -82,8 +81,8 @@ img.icon {max-width: 1em !important;}
 #cse { width: 59%; }
 
 
-a.slideshow{ display: block; height: 1.25em !important; background: #884444; color: white; border: 4px groove white;}
-a.slideshow:hover{ background: #cdcdcd; color: black; border: 1px solid black;}
+a.slideshow{ display: block; height: 1.25em; background: #884444; color: white; border: 2px solid white;}
+a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;}
 
 
 #slideshow
@@ -111,51 +110,44 @@ a.slideshow:hover{ background: #cdcdcd; color: black; border: 1px solid black;}
 #mkGoogle { max-height: 5em; }
 
 #toc {
+background: #dedede;
+margin: 0 0.5em 0.5em 0;
+padding: 0.5em;
 float: left; 
-width: auto;
-min-width: 20%;
-height: auto;
-background: #efefef; 
-padding: 0.25em; 
-margin: 0.25em;
+width: 25%;
 font-family: Arial;
 }
 
-#toc a {display: block; border: 1px solid transparent; font-size: 1vw;}
-
-img.icon {float: left;  width: 1em; height: 1em; } 
-
+#toc a {display: block; clear: both; text-align: left; padding: 0; margin: 0; border: 1px solid transparent; }
+img.icon {display: block; float: left;  padding: 0; margin: 0; border: 0; } 
 
 div.dynamicNavigation
 {
+  clear: both;
   float:left;
-  
   margin: 0.25em 0 0 0;
-  width: 100%;
 }
 
 div.dynamicNavigation a
 {
   display: block;
-  width: 100%;
-  border: 1px solid transparent;  
-  padding: 0;
   margin: 0;
+  padding: 0;
+  border: 0;
 }
 
-
-
 div.thumbMeme { float: left; width: auto; height: auto; margin: 0 auto; padding: 0; }
-div.thumbMeme:hover {background: #cdcdcd; border: 1px solid transparent;}
+div.thumbMeme:hover {background: #dedede; border: 1px solid transparent;}
 p.thumb { margin: 0 ; padding: 0; height: auto; }
 p.thumb img { max-width: 4em; margin: 0; padding: 0; }
 p.thumblbl {  margin: 0; padding: 0;  }
 
 p.thumblbl:hover {text-decoration: underline; }
-div.dynamicNavigation a:hover{ background: #cdcdcd; }
+div.dynamicNavigation a:hover{ background: #dedede; }
 div.galleryNavigation {  float: left; width: 8em; height: 8em; margin: 0.25em; text-align: center; } 
-div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0;}
+div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0; }
 div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
+
 div.galleryNavigation a:hover 
 {
     background: #efefff;
@@ -164,16 +156,12 @@ div.galleryNavigation a:hover
 }
 div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25em;} 
 
-.clearboth { }
-
 /* ==========RobopageAdmin related==================================*/
 
-/* #toc a.slideshow, */
 #toc a.button {
   float: left;
   font: bold 11px Arial;
   text-decoration: none;
-background: #884444; color: white;
   padding: 2px 6px 2px 6px;
   border-top: 1px solid #CCCCCC;
   border-right: 1px solid #333333;
@@ -183,9 +171,6 @@ background: #884444; color: white;
   height: 1.5em;
 }
 div.dirChanger { width: 45%; padding-right: 1em; float: right;}
-/* ============================================*/
-
-
 
 
 /* ============================================*/
@@ -198,120 +183,45 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   margin: 0 auto;
 }
 
-
-#headerbanner{
-  position: fixed;
-  top: 0;
-  padding: 2em 0 0 0;
-  width: 95%;
-  height: 4em;
-  background: url(/Github/robopages/systemimages/smrb_logo_04.png) no-repeat #efefef; 
-  background-position: top left;
-  text-align: center;
-  z-index: 200;
-}
-
 /* Navbar container */
 #bottombannerlinks 
 {
-  position: relative;
-  bottom: 1em;
-  width: 85%;
-  margin: 0 0 0 15%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: center;
+  margin-left: 15%;
   padding: 0;
-  overflow: hidden;
-  background-color: transparent;
   font-family: Arial;
-  text-shadow: 1px 1px #ffffff; 
 }
 
-/* Links inside the bottombannerlinks */
-.bottombannerlinks a {
-  float: left;
-  font-size: 16px;
-  /* font-size: 12px; */
+.bottombannerlink
+{
   color: black;
+  width: 6em;
+  height: 1em;
+  margin: 0 0.5em 0.25em 0.5em;
+  padding: 1px; 
+  background-color: #dedede;
   text-align: center;
-  padding: 14px 16px;
-  padding: 14px 10px;
-  text-decoration: none;
+  font-size: 1em;
 }
+.bottombannerlink a { color: black; font-size: 90%; }
 
-/* The dropdown container */
-.dropdown {
-  float: left;
-  overflow: hidden;
-}
-
-/* Dropdown button */
-.dropdown .dropbtn {
-  font-size: 16px; 
-  /* font-size: 12px; */
-  border: none;
-  outline: none;
-  color: black;
-  padding: 14px 16px;
-  padding: 14px 8px;
-  background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  margin: 0; /* Important for vertical align on mobile phones */
-}
-
-/* Add a red background color to bottombannerlinks links on hover */
-.bottombannerlinks a:hover, .dropdown:hover .dropbtn {
-  background-color: #8888aa;
-}
-
-/* Dropdown content (hidden by default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-/* Add a grey background color to dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  position: relative;
-  bottom: 0.5em;
-  display: block;
-}
 /* ============================================*/
 
 /* when the desktop browser minimizes to 700px or less */
-@media screen and (max-width: 700px)
+@media screen and (max-width: 800px)
 {
-  #headerbanner { font-size: 2vw; background-image: none; background-color: #efefef;} 
+  #headerbanner {background: #efefef;}
 }
 
 
 /* when the device is a typical phone */
-@media only screen and (max-device-width: 480px)
+@media only screen and (max-device-width: 470px)
 {
-  #headerbanner { height: 6em; background-image: none; background-color: #efefef;} 
-  h1.hbanner { font-size: 3vw; } p.thumblbl { float: left; }
-  table {  clear: both; width: 100%; }
-  #bottombannerlinks a {font-size: 4vw; }
-  #user_manage a {font-size: 2.5vw;}
-  #mkBreadcrumbs a { width: 100%; height: 2em; font-size: 2.5vw; margin-top: 1.5em;}
-  #toc { width: 100%; margin: 1em; }
-  #toc a { display: block; float: left; background: #fefefe; margin: 2px; padding: 2px; width: 8em; height: 4em; }
-  #main-content { clear: both; margin: 1em; }
+ #toc {width: 95%; }
+ .bottombannerlink {font-size: 85%; }
 }
+
+.clearboth{ clear: both; height: 1em; margin: 0; padding: 0;}

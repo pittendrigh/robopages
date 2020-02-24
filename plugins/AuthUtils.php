@@ -14,7 +14,6 @@ class AuthUtils extends plugin
       {
       unset($_SESSION['mode']);
       $this->init();
-      //$this->traffic();
       }
      
 
@@ -31,6 +30,11 @@ class AuthUtils extends plugin
 function check_hash($pass,$hash)
 {
     $ret=FALSE;
+    if(isset($_GET['dbg'])){
+      echo "pass before password_verify: ", $pass, "<br/>";
+      echo "hash before password_verify: ", $hash, "<br/>";
+    }
+
       if (password_verify($pass, $hash)) 
         $ret=TRUE;
     return $ret;
@@ -46,22 +50,41 @@ function check_hash($pass,$hash)
         $usernames = array();
         $privileges = array();
         $customdirs = array();
+        if(isset($_GET['dbg']))
+           echo "this->passwordFile: ", $this->passwordFile . "<br/>";
+
         $hashlines = file($this->passwordFile);
         $hashlinecnt = count($hashlines);
         for ($i = 0; $i < $hashlinecnt; $i++)
         {
             $tokens = explode(":", trim($hashlines[$i]));
-            $namekey = trim($tokens[0]);
-            $hash = trim($tokens[1]);
-            $privilege = trim($tokens[2]);
+            $namekey = $tokens[0];
+ 
+if(isset($_GET['dbg'])){
+            if(isset($tokens[0] )) echo "0: ", $tokens[0], "<br/>";
+            if(isset($tokens[1] )) echo "1: ", $tokens[1], "<br/>";
+            if(isset($tokens[2] )) echo "2: ", $tokens[2], "<br/>";
+            if(isset($tokens[3] )) echo "3: ", $tokens[3], "<br/>";
+            echo "namekey: ", $namekey, "<br/>";
+}
 
+            if(isset($tokens[1] ))
+               $hash = trim($tokens[1]);
+            if(isset($tokens[2] ))
+               $privilege = trim($tokens[2]);
+
+if(isset($_GET['dbg'])){
+echo "hash: ", $hash, "<br/>";
+echo "privilege: ", $privilege, "<br/>";
+}
             $usernames[$namekey] = $hash;
             $privileges[$namekey] = $privilege;
         }
 
         if($this->check_hash($password,$hash))
         {
-            //echo $username, ".......<br/>";
+            if(isset($_GET['dbg']))
+                echo "username: ", $username, "<br/>";
             $_SESSION['username'] = $username;
             $_SESSION['isLoggedIn'] = TRUE;
             $_SESSION['privilege'] = $privileges[$username];
@@ -150,7 +173,6 @@ ENDO;
             $this->userlogin($_POST['username'], $_POST['password']);
             if (StaticRoboUtils::isAdmin())
             {
-                //echo "wasAdmin ", $this->selfUrl, "<br/>";
                 $ret = <<<ENDO
               <a class="button" href="?robopage=$currentDirUrl&amp;layout=nerd">Logged in! </a> &nbsp; <-- to the admin screen
 ENDO;

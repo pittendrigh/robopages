@@ -18,9 +18,9 @@
         <div id="headerbanner" src="container">
           <h1 id="hbanner/" src="file" />
           <nav id="bottombannerlinks" src="file"></nav>
-          <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
         </div>
         <div id="main-content" src="container">
+          <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
           <div id="stuff" src="flexyFileContent">
             <div id="toc" src="dynamicNavigation" />
           </div>
