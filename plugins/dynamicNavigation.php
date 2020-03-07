@@ -52,11 +52,10 @@ class dynamicNavigation extends plugin
             $linklbl = StaticRoboUtils::stripSuffix($linklbl);
         $linkTargetType = $link->linkTargetType;
 
+                    //. '<p class="dnavLbl">' . $linklbl . '</p>';
         if ($linkTargetType == 'dir')
         {
-            $linklbl = '<img class="icon" src="'
-                    . $_SESSION["prgrmUrlRoot"] . 'systemimages/folder.png" alt="folder"/>'
-                    . '<p class="dnavLbl">' . $linklbl . '</p>';
+            $linklbl = '<i class="material-icons" style="font-size: 80%; ">folder</i> ' .  $linklbl;
         }
         else if ($linkTargetType == 'label')
         {
@@ -106,7 +105,7 @@ class dynamicNavigation extends plugin
         {
             $slideshowFlag = TRUE;
             // hard-coding again....
-            $ret .= "\n" . '<div class="galleryNavigation"><a class="slideshow" href="?robopage='
+            $ret .= "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
                     . $_SESSION['currentDirUrl'] . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
         }
 
@@ -115,7 +114,7 @@ class dynamicNavigation extends plugin
         $icnt = count($this->imageKeys);
         $fcnt = count($this->fileKeys);
 
-/*
+
         for ($i = 0; $i < $dcnt; $i++)
         {
             $akey = $this->dirKeys[$i];
@@ -145,7 +144,9 @@ class dynamicNavigation extends plugin
                 $ret .= "\n" . $this->mkLink($link) . "\n";
             }
         }
-*/
+
+
+/*
 $allOfEm = array_merge($this->dirKeys,$this->imageKeys,$this->fileKeys);
 foreach($allOfEm as $aKey)
 {
@@ -153,6 +154,7 @@ foreach($allOfEm as $aKey)
                 $link = $this->linkshash[$aKey];
                 $ret .= "\n" . $this->mkLink($link) . "\n";
 } 
+*/
 
         // any index link like ?robopage=index.htm or index.jpg made to come last
         if ($indexFlag)
@@ -165,7 +167,7 @@ foreach($allOfEm as $aKey)
 
     function gatherLinks()
     {
-        $this->read_dirlinks_file();
+        //$this->read_dirlinks_file();
         $this->find_additional_filenames();
     }
 
@@ -189,6 +191,7 @@ foreach($allOfEm as $aKey)
                 $linkline = $ordered_hrefKey . "::" . $label . "::$linkTargetType";
                 $link = new Link($linkline);
 
+                //echo $ordered_hrefKey." ". $linkTargetType. "<br/>";
                 if ($linkTargetType == 'dir')
                     $this->fileKeys[] = $ordered_hrefKey;
                 else if ($linkTargetType == 'image')

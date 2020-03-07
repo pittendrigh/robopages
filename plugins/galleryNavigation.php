@@ -60,7 +60,7 @@ class galleryNavigation extends dynamicNavigation
                 $linklbl = $linklbl . '<br/>' . $indexImageTest;
             }
             else
-                $linklbl = "\n" . '<img class="icon" src="' . $_SESSION["prgrmUrlRoot"] . 'systemimages/folder.png" alt="folder"/>' . $linklbl;
+                $linklbl = "\n" . '<i class="material-icons" style="font-size: 80%; ">folder</i>' . $linklbl;
         }
 
         // grep -iH actionItem *php which of the follwing ifs?

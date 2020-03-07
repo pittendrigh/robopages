@@ -52,7 +52,7 @@ h2 { font-size: 90%; }
 
 img { float: left; margin: 1em; }
 #main-content img {float: left; margin: 1em; max-width: 70%;} 
-img.icon {max-width: 1em !important;}
+img.icon {width: 1em; margin: 0; padding: 0; border: 0; position: relative; bottom: 1em;}
 
 
 #footer
@@ -81,7 +81,7 @@ img.icon {max-width: 1em !important;}
 #cse { width: 59%; }
 
 
-a.slideshow{ display: block; height: 1.25em; background: #884444; color: white; border: 2px solid white;}
+#toc a.slideshow{ display: block; height: 1.25em; background: #884444; color: white; border: 2px outset white; padding: 2px;}
 a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;}
 
 
@@ -110,12 +110,14 @@ a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;}
 #mkGoogle { max-height: 5em; }
 
 #toc {
+position: relative;
 background: #dedede;
 margin: 0 0.5em 0.5em 0;
 padding: 0.5em;
 float: left; 
-width: 25%;
+width: 20%;
 font-family: Arial;
+font-size: 70%;
 }
 
 #toc a {display: block; clear: both; text-align: left; padding: 0; margin: 0; border: 1px solid transparent; }
@@ -167,7 +169,7 @@ div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25
   border-right: 1px solid #333333;
   border-bottom: 1px solid #333333;
   border-left: 1px solid #CCCCCC;
-  width: 6em;
+  width: 25%;
   height: 1.5em;
 }
 div.dirChanger { width: 45%; padding-right: 1em; float: right;}
@@ -190,7 +192,7 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   flex-wrap: wrap;
   align-content: space-between;
   justify-content: center;
-  margin-left: 15%;
+  margin-left: 5%;
   padding: 0;
   font-family: Arial;
 }
@@ -224,3 +226,46 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 }
 
 .clearboth{ clear: both; height: 1em; margin: 0; padding: 0;}
+
+
+#toc a {
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+
+.buttonbox{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: center;
+
+}
+
+.flexed{ 
+  color: black;
+  padding: 2px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+
+#toc a.button{ 
+  background-color: #efefef; /* Green */
+  border: 1px outset #ababab;
+  color: black;
+  padding: 2px;
+  margin-right: 3px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+
+#toc a.button:hover { 
+  text-decoration: underline;
+  color: #660000;
+
+}

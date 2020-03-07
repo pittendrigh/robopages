@@ -20,6 +20,7 @@ class domDrone
     protected $jsfiles; // array, this has to come from the layout.xml
     protected $dbg = 0;
     protected $layoutXML;
+    protected $dirlayouts;
 
     function __construct()
     {
@@ -67,7 +68,6 @@ class domDrone
             /*
               Fly-Tying/Sandy-Pittendrigh/BestOf|gallery
               Birds|gallery
-              online|plans
              */
             for ($i = 0; $i < $dlcnt; $i++)
             {
@@ -79,14 +79,19 @@ class domDrone
             }
 
             $test = $_SESSION['prgrmDocRoot'] . $_GET['robopage'];
+/*
+           ///no dirlayouts apply at the directory level only, not on individual leaf-level files
             if (!is_dir($test))
                 $test = dirname($test);
+*/
 
+         if(isset($this->dirlayouts))
             foreach (array_keys($this->dirlayouts) as $akey)
             {
                 if (strstr($test, $akey))
                 {
                     $this->definitionFile = 'layouts/' . $this->dirlayouts[$akey] . '.xml';
+                    //echo $this->definitionFile. "<br/>";
                 }
             }
         }
@@ -95,6 +100,7 @@ class domDrone
         // ...this could conceivably override conf/layouts.ini
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/layout'))
         {
+            echo "b<br/>";
             $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath'] . 'roboresources/layout')) . '.xml';
         }
 
@@ -102,6 +108,7 @@ class domDrone
         // ...this would also override conf/layouts.ini
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/' . $_GET['robopage'] . '-layout'))
         {
+            echo "c<br/>";
             $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath']
                                     . 'roboresources/' . $_GET['robopage'] . '-layout')) . '.xml';
         }
@@ -109,6 +116,7 @@ class domDrone
         // perhaps $_GET['layout'] exists, which takes precedence over all the above
         if (isset($_GET['layout']) && file_exists("layouts/" . $_GET['layout'] . '.xml'))
         {
+            echo "d<br/>";
             $this->definitionFile = 'layouts/' . $_GET['layout'] . '.xml';
         }
 
@@ -545,6 +553,7 @@ class domDrone
 <html lang="en">
   <head>
   <META http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <META name="viewport" content="width=device-width, initial-scale=1.0"/>
   <META property="og:type"   content="website" />
   <META property="og:title"   content="$title" />
