@@ -1,6 +1,6 @@
 # robopages
 Hierarchical files based rapid application no-database CMS without layout or complexity limitations
-Note: now switching php for python Flask. Which may take a while....
+ 
 
 <h1> Robopages Big Picture </h1>
 
