@@ -1,9 +1,4 @@
 ?robopage=Library/Flies/Dryflies::Dryflies
-?robopage=Library/Flies/Lures::Lures
-?robopage=Library/Flies/Materials::Materials
-?robopage=Library/Flies/Nymphs::Nymphs
-?robopage=Library/Flies/Stoneflies::Stoneflies
-?robopage=Library/Flies/Streamers::Streamers
 ?robopage=Library/Flies/Wetflies::Wetflies
-?robopage=Library/Flies/introduction.htm::introduction.htm
 ?robopage=Library/Flies/preface.htm::preface.htm
+?robopage=Library/Flies/introduction.htm::introduction.htm
