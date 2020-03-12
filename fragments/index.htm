@@ -1,3 +1,8 @@
+
+<h3> Mission Statement </h3>
+Robopages is supposed to be a small footprint rapid-application CMS without graphical or content complexity limitations of any kind, geared primarily toward unix-savvy developers. Most Content Management Systems seek to make development "easier" for non-professionals.  Robopages concedes that market, targeting high-end professionals instead. This does not mean Robopages is difficult. Quite the contrary. If you are familiar with ssh, scp, bash, sed, perl, php, css and most of all with terminal windows and the keyboard, you can mock up a complex website faster--with Robopages--than with any other system. Robopages, among other things, seeks to limit the use of databases as much as possible.  
+<br/><br/>
+
 <h3> Admin Interface </h3>
 I don't like to make login links inside any of the HTML fragments.
 To see the Admin Interface hand type <b>?layout=nerd</b> into the browser address bar, or make a bookmark.
@@ -9,10 +14,23 @@ in the Documentaion. Look under <a href="?robopage=Documentation/AdminInterface"
 
 <h3> Static Output </h3>
 Robopages can now produce (optional) static output.  The details are in the documentation.  Robopages can also display Epub3 files on the server, as HTML, with no javascript required. Just unzip the epub3 file on the server, inside the DOCUMENT_ROOT and then edit a config file. Away it goes.
+
+<h3> Server Side Epub3 </h3>
+Unzip an epub3 in the document root. Edit conf/dirlayouts.ini so it has a line:<br/>
+path/path/MyEbook|book (should probably rename this roboEpub)<br/>
+...away it goes
+ 
+<h3> roboBook </h3>
+epub3 display is useful but new content has to be edited with something like sygil, on your desktop, and then uploaded to the server.
+roboBook is pure hand-edited HTML fragments and/or images (and other mime types, in robopages fashion, in nested, hierarchical directories) presented in book-like fashion.
+For each book (in fragments/Library/) there is a top-level collection of directories treated as "book chapters." Links to those top-level chapters appear in a table of contents on all pages.  Chapters can be further nested. Each chapter contains *.htm fragments and/or image or other mime type files. "Pages" stored inside "chapter" directories can be accessed with Next and Previous buttons as well as with traditional dynamically-generated links inside a visible TOC (table of contents). roboBook makes it easy to edit on the fly, usually on localhost, without using a GUI-driven editor, so you can instantly see the changes. Once done you can then scp the content.
 <br/><br/>
-<h3> Mission Statement </h3>
-Robopages is supposed to be a small footprint rapid-application CMS without graphical or content complexity limitations of any kind, geared primarily toward unix-savvy developers. Most Content Management Systems seek to make development "easier" for non-professionals.  Robopages concedes that market, targeting high-end professionals instead. This does not mean Robopages is difficult. Quite the contrary. If you are familiar with ssh, scp, bash, sed, perl, php, css and most of all with terminal windows and the keyboard, you can mock up a complex website faster--with Robopages--than with any other system. Robopages, among other things, seeks to limit the use of databases as much as possible.  
-<br/><br/>
+The TOContents has "Next Page" and "Prev Page" buttons.
+All this depends on the presence of a "p2n" file (page to page number hash) inside the top-level chapters directory. Look at the existing p2n for an example.  commandLineTools/tocit.py makes a p2n file automatically, that can then be edited to reorder page sequencing.  tocit.py needs work.  It will now destroy and previously hand-edited changes.
+fixing that is a project in the works (so it leaves existing ordering in place, while inserting any new files or directories at strategic points that do not destroy previous hand-edited page ordings.
+
+
+
 
 `$s=new targetedArcade('/var/www/html/Github/robopages/fragments/Birds/roboresources/slideshow/'); echo $s->getOutput('');` 
 <h4> Groundrule Assumptions</h4>
