@@ -1,13 +1,14 @@
 <?php
 @session_start();
 include_once("plugin.php");
-include_once("Link.php");
+//include_once("Link.php");
+include_once("dynamicNavigation.php");
 include_once("nextPrevButtons.php");
 
 /// this is development code, it isn't usable yet _Mar_11_2020
 /// this and nextPrevButtons.php
 ///
-class bookNav extends plugin 
+class bookNav extends dynamicNavigation 
 {
   protected $nextPrevButtons;
   protected $p2nFileDir;
@@ -15,11 +16,12 @@ class bookNav extends plugin
   protected $currentBookName;
   public $globalChapterLinks;
   
-  public function __construct()
+/*  public function __construct()
   {
     $this->globalChapterLinks = array();
     $this->init();
   }
+*/
   
   protected function assembleGlobalChapterLinks($linksString)
   {
@@ -67,6 +69,12 @@ class bookNav extends plugin
     $this->currentBookName = preg_replace(":/.*$:","",$patt2); 
     $this->p2nFileDir = $_SESSION['prgrmDocRoot'] . 'Library/' . $this->currentBookName . '/';
     $this->p2nFile = $this->p2nFileDir  . 'p2n' ;
+
+    $this->currentDirPath = $this->p2nFileDir;
+    $this->currentDirUrl = 'Library/' . $this->currentBookName . '/';
+    $this->currentClickDirUrl = 'fragments/Library/' . $this->currentBookName . '/';
+
+
     if(isset($_GET['dbg']))
     {
       echo "currentBookName: ", $this->currentBookName, "<br/>";
@@ -86,6 +94,15 @@ class bookNav extends plugin
     $this->setP2NFile();
     $this->nextPrevButtons = new nextPrevButtons();
     $this->nextPrevButtons->setP2NFile($this->p2nFile);
+
+        //echo "bookNav init <br/>";
+        $this->linkshash = array();
+        $this->fileKeys = array();
+        $this->imageKeys = array();
+        $this->dirKeys = array();
+        $this->mimer = new roboMimeTyper();
+
+        $this->gatherLinks();
 /*
     $this->getGlobalChapterLinks();
     $this->nextPrevButtons = new nextPrevButtons();
@@ -106,9 +123,13 @@ class bookNav extends plugin
 
   public function getOutput($divid)
   {
+    $this->globalChapterLinks = array();
     $ret = '';
     $ret .= $this->nextPrevButtons->getOutput('');
 
+    $ret .= parent::getOutput($divid);
+
+/* following get something to show quickly development code, likely go away soon
     if(@stat($_SESSION['prgrmDocRoot'] . 'roboresources/chaptersLinksList.frag'  ))
     { 
        $chaptersFragger = new file();
@@ -124,12 +145,17 @@ class bookNav extends plugin
          $ret .= $this->globalChapterLinks[$i];
        }
     }
+*/
 
     if($this->notInTopLevelChapter())
     {
+      // put this hard-coded div into bookNav.xml? grep -i actionItem *php
+      $ret .= '<div class="subnav">';
       $toc = new dynamicNavigation();
       $ret .= $toc->getOutput('');
+      $ret .= '</div>';
     }
+
     return($ret);
   }
 }

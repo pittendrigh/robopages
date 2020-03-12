@@ -105,17 +105,19 @@ foreach $k (sort(keys %filehash))
          ($slideshowHref = $onlineplanshref) =~ s:slideshow::;
          $slideshowHref = '?page=' . $slideshowHref ;
          $slideshowHref .= '&amp;main-content=slideshow';
-         $dalink = $slideshowHref.'::'.$label."::".$menuType. "::link::\n";
+         ##$dalink = $slideshowHref.'::'.$label."::".$menuType. "::link::\n";
+         $dalink = $slideshowHref.'::'.$label."\n";
         
          print $dalink;
          ##print FILE $dalink;
       } 
       elsif ($k =~ /index.htm/)
       {
-           $indexdalink = "?page=".$onlineplanshref.'::'.$label."::".$menuType."::dir::\n";
+           $indexdalink = "?page=".$onlineplanshref.'::'.$label."\n";
       }
       else { 
-          $dalink = "?page=".$onlineplanshref.'::'.$label."::".$menuType."::dir::\n";
+          ##$dalink = "?page=".$onlineplanshref.'::'.$label."::".$menuType."::dir::\n";
+          $dalink = "?page=".$onlineplanshref.'::'.$label."\n";
           print $dalink;
           ##print FILE $dalink;
       }
@@ -143,9 +145,11 @@ foreach $k (sort(keys %filehash))
         if($suffix)
         {
             if(grep $_ eq $suffix, @robotypes){ 
-   	        $dalink = "?page=".$k.'::'.$label."::" . $menuType. "::". $linkType . "::\n";
+   	        #$dalink = "?page=".$k.'::'.$label."::" . $menuType. "::". $linkType . "::\n";
+   	        $dalink = "?page=".$k.'::'.$label. "\n";
             } else{
-   	        $dalink = 'fragments/' . $k.'::'.$label."::" . $menuType. "::". $linkType . "::\n";
+   	        #$dalink = 'fragments/' . $k.'::'.$label."::" . $menuType. "::". $linkType . "::\n";
+   	        $dalink = 'fragments/' . $k.'::'.$label."\n";
             }
         }
  

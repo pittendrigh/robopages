@@ -81,7 +81,7 @@ img.icon {width: 1em; margin: 0; padding: 0; border: 0; position: relative; bott
 #cse { width: 59%; }
 
 
-#toc a.slideshow{ display: block; height: 1.25em; background: #884444; color: white; border: 2px outset white; padding: 2px;}
+#toc a.slideshow{ display: block; height: 1.25em; background: #884444; color: white; border: 2px outset white; padding: 2px; margin: 0;}
 a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;}
 
 
@@ -120,8 +120,7 @@ font-family: Arial;
 font-size: 70%;
 }
 
-#toc a {display: block; clear: both; text-align: left; padding: 0; margin: 0; border: 1px solid transparent; }
-img.icon {display: block; float: left;  padding: 0; margin: 0; border: 0; } 
+#toc a {display: block; clear: both; text-align: left; border: 1px solid transparent; }
 
 div.dynamicNavigation
 {
@@ -133,7 +132,6 @@ div.dynamicNavigation
 div.dynamicNavigation a
 {
   display: block;
-  margin: 0;
   padding: 0;
   border: 0;
 }
@@ -160,18 +158,6 @@ div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25
 
 /* ==========RobopageAdmin related==================================*/
 
-#toc a.button {
-  float: left;
-  font: bold 11px Arial;
-  text-decoration: none;
-  padding: 2px 6px 2px 6px;
-  border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #CCCCCC;
-  width: 25%;
-  height: 1.5em;
-}
 div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 
 
@@ -231,7 +217,6 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 #toc a {
   display: block;
   padding: 0;
-  margin: 0;
   border: 0;
 }
 
@@ -245,27 +230,33 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 
 }
 
-.flexed{ 
-  color: black;
-  padding: 2px;
-  text-align: center;
-  text-decoration: none;
-  display: block;
+a.roboDyno{
+
+ margin-left: 1em;
 }
 
-#toc a.button{ 
+#toc p.buttonbox a.button
+{ 
   background-color: #efefef; /* Green */
   border: 1px outset #ababab;
   color: black;
-  padding: 2px;
-  margin-right: 3px;
   text-align: center;
   text-decoration: none;
   display: block;
+  padding: 0;
+  margin: 0 0.25em 0 0;
+  width: 20%;
 }
 
-#toc a.button:hover { 
+
+
+a.button:hover { 
   text-decoration: underline;
   color: #660000;
+}
 
+div.subnav{
+ margin: 0 0 0 1em;
+ padding: 0.5em;
+ min-height: 10em;
 }

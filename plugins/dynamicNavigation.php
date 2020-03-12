@@ -13,21 +13,31 @@ include_once("plugin.php");
 
 class dynamicNavigation extends plugin
 {
-    public $linkshash; // all links as object, keyed by href
-    public $fileKeys;  // not hashed array for link ordering
+   public $linkshash; // all links as object, keyed by href
+   public $fileKeys;  // not hashed array for link ordering
+
+   public $currentDirPath;
+   public $currentDirUrl;
+   public $currentClickDirUrl;
 
     // if this dynamicNavigation group includes a slideshow in any position we will hard-code it as the first link
     public $slideshowFlag;
     public $mimer;
 
-    function __construct()
+
+    function init()
     {
+        //echo "dynamicNavigation init <br/>";
         $this->linkshash = array();
         $this->fileKeys = array();
         $this->imageKeys = array();
         $this->dirKeys = array();
         $this->mimer = new roboMimeTyper();
-        $this->init();
+
+        $this->currentDirPath = $_SESSION['currentDirPath'];
+        $this->currentDirUrl = $_SESSION['currentDirUrl'];
+        $this->currentClickDirUrl = $_SESSION['currentClickDirUrl'];
+
         $this->gatherLinks();
     }
 
@@ -59,7 +69,7 @@ class dynamicNavigation extends plugin
         }
         else if ($linkTargetType == 'label')
         {
-            $dbg = trim(file_get_contents($_SESSION['currentDirPath'] . $link->label));
+            $dbg = trim(file_get_contents($this->currentDirPath . $link->label));
             $linklbl = '<p class="tocLabel">' . $dbg . '</p>';
         }
         else if ($linkTargetType == 'image' && $sys_thumb_links)
@@ -69,11 +79,11 @@ class dynamicNavigation extends plugin
             if (isset($parms['robopage']))
             {
                 $base = basename($parms['robopage']);
-                $tpath = $_SESSION['currentDirPath'] . 'roboresources/thumbs/tn-' . $base;
+                $tpath = $this->currentDirPath . 'roboresources/thumbs/tn-' . $base;
 
                 if (@stat($tpath))
                 {
-                    $thumb = '<img src="' . $_SESSION['currentClickDirUrl'] . "roboresources/thumbs/tn-" . $base . '" alt="' . $linklbl . '"/>';
+                    $thumb = '<img src="' . $this->currentClickDirUrl . "roboresources/thumbs/tn-" . $base . '" alt="' . $linklbl . '"/>';
                     $linklbl = $this->thumbMemer($thumb, $linklbl);
                 }
             }
@@ -101,12 +111,12 @@ class dynamicNavigation extends plugin
 
         $cnt = count($this->linkshash);
 
-        if (!$slideshowFlag && @stat($_SESSION['currentDirPath'] . 'roboresources/slideshow'))
+        if (!$slideshowFlag && @stat($this->currentDirPath . 'roboresources/slideshow'))
         {
             $slideshowFlag = TRUE;
             // hard-coding again....
             $ret .= "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
-                    . $_SESSION['currentDirUrl'] . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
+                    . $this->currentDirUrl . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
         }
 
         // fileKeys was made in the ctor
@@ -167,13 +177,13 @@ foreach($allOfEm as $aKey)
 
     function gatherLinks()
     {
-        //$this->read_dirlinks_file();
+        $this->read_dirlinks_file();
         $this->find_additional_filenames();
     }
 
     function read_dirlinks_file()
     {
-        $path = $_SESSION['currentDirPath'] . "dirlinks";
+        $path = $this->currentDirPath . "dirlinks";
         if (@stat($path))
         {
             $lines = file($path);
@@ -214,10 +224,7 @@ foreach($allOfEm as $aKey)
 
         $linkTargetType = "unknown";
 
-        // the next "if" should be superfluous. But the lack of it does keep byting me
-        //if (!strstr($_SESSION['currentDirPath'], 'roboresources'))
-        //{
-        $handle = @opendir($_SESSION['currentDirPath']);
+        $handle = @opendir($this->currentDirPath);
         while ($handle && ($file = @readdir($handle)) !== FALSE)
         {
             if ($file[0] == '.')
@@ -226,7 +233,7 @@ foreach($allOfEm as $aKey)
                 continue;
 
             // why not a link?
-            if (is_link($_SESSION['currentDirPath'] . $file))
+            if (is_link($this->currentDirPath . $file))
             {
                 continue;
             }
@@ -235,21 +242,21 @@ foreach($allOfEm as $aKey)
             if (!$sys_show_suffixes)
                 $label = ucfirst(StaticRoboUtils::stripSuffix($file));
 
-            $linkTargetType = $this->mimer->getRoboMimeType($_SESSION['currentDirPath'] . $file);
+            $linkTargetType = $this->mimer->getRoboMimeType($this->currentDirPath . $file);
 
             $hrefKey = '';
             if (isset($linkTargetType) && $linkTargetType != "unknown")
             {
-                $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($_SESSION['currentDirUrl'] . $file);
+                $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($this->currentDirUrl . $file);
 
                 if ($linkTargetType == 'link')
                 {
-                    $hrefKey = $_SESSION['currentClickDirUrl'] . $file;
+                    $hrefKey = $this->currentClickDirUrl . $file;
                 }
                 else if ($linkTargetType == "url")
                 { // a url file is a special robopages file name whatever.url that has one or two lines.
                     // second line (if exists) is the label. First is the href.  
-                    $rfile = $_SESSION['currentDirPath'] . $file;
+                    $rfile = $this->currentDirPath . $file;
                     $lines = file($rfile);
                     $hrefKey = trim($lines[0]);
                     $label = $hrefKey;
@@ -260,14 +267,14 @@ foreach($allOfEm as $aKey)
                 }
                 else if ($linkTargetType == "label")
                 {
-                    $dbg = trim(file_get_contents($_SESSION['currentDirPath'] . $file));
+                    $dbg = trim(file_get_contents($this->currentDirPath . $file));
                     $linklbl = '<p class="tocLabel">' . $dbg . '</p>';
                     $hrefKey = $file;
                 }
                 else
                 {
                     //default and most common case
-                    $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($_SESSION['currentDirUrl'] . $file);
+                    $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($this->currentDirUrl . $file);
                 }
 
                 // Now test if already already exists from a pre-existing dirlinks file
