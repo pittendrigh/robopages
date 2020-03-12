@@ -100,7 +100,7 @@ class domDrone
         // ...this could conceivably override conf/layouts.ini
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/layout'))
         {
-            echo "b<br/>";
+            //echo "b<br/>";
             $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath'] . 'roboresources/layout')) . '.xml';
         }
 
@@ -108,7 +108,7 @@ class domDrone
         // ...this would also override conf/layouts.ini
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/' . $_GET['robopage'] . '-layout'))
         {
-            echo "c<br/>";
+            //echo "c<br/>";
             $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath']
                                     . 'roboresources/' . $_GET['robopage'] . '-layout')) . '.xml';
         }
@@ -116,7 +116,7 @@ class domDrone
         // perhaps $_GET['layout'] exists, which takes precedence over all the above
         if (isset($_GET['layout']) && file_exists("layouts/" . $_GET['layout'] . '.xml'))
         {
-            echo "d<br/>";
+            //echo "d<br/>";
             $this->definitionFile = 'layouts/' . $_GET['layout'] . '.xml';
         }
 
