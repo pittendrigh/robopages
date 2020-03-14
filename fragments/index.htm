@@ -21,9 +21,17 @@ It's important to <b> log out </b> of the The Admin Interface when done, so robo
 Robopages can now produce (optional) static output.  The details are in the documentation. You might want to make static output on localhost and then scp to a domain. I made it (the static output generator) as a hobby exersize. I worked flawlessy on a big site I used for test purposes, and then never used it again.  What I do is a bit different than other systems.  I use php dom parsing to make a list of all links and another list of all images, and then wrote php codes to transform those urls. The system then writes to a file. To write out a whole site I use a bash script (on localhost) to traverse the entire site with <b> wget -r </b>.  If you do that with robopages set to static mode (conf/globals.php) a hierarchical file system is created, with static HTML for every page, with all hyperlinks and images adjusted so they work with relative paths.
 
 <h3> Server Side Epub3 </h3>
-Unzip an epub3 in the document root. Edit conf/dirlayouts.ini so it has a line:<br/>
+The Epub3 display layout is now an at least temporarily abandoned project.
+I was able to get it work reliably on output saved in epub3 format from a proprietary
+epub editor named Jutoh, and from most but not all sigils. <br/><br/>
+I have since lost interest in this project because content relies on a desktop editor like sigil.
+It's here if you want to work on it.
+I'm now more interested in the follwing roboBook layout, which is dynamic HTML 
+that can be edited in place width scp, bash, sed, awk, imagemagick and vi 
+<br/><br/> 
+To try to get an Epub to work unzip an epub3 in the document root. Edit conf/dirlayouts.ini so it has a line:<br/>
 path/path/MyEbook|book (should probably rename this roboEpub instead of book)<br/>
-...away it goes
+...away it sort of goes, in some cases but not all.
  
 <h3> roboBook </h3>
 epub3 display is useful but new content has to be edited with something like sygil, on your desktop, and then uploaded to the server.
