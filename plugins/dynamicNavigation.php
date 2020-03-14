@@ -124,7 +124,7 @@ class dynamicNavigation extends plugin
         $icnt = count($this->imageKeys);
         $fcnt = count($this->fileKeys);
 
-
+/*
         for ($i = 0; $i < $dcnt; $i++)
         {
             $akey = $this->dirKeys[$i];
@@ -155,16 +155,17 @@ class dynamicNavigation extends plugin
             }
         }
 
+*/
 
-/*
-$allOfEm = array_merge($this->dirKeys,$this->imageKeys,$this->fileKeys);
+
+$allOfEm = array_merge($this->dirKeys,$this->fileKeys,$this->imageKeys);
 foreach($allOfEm as $aKey)
 {
 
                 $link = $this->linkshash[$aKey];
                 $ret .= "\n" . $this->mkLink($link) . "\n";
 } 
-*/
+
 
         // any index link like ?robopage=index.htm or index.jpg made to come last
         if ($indexFlag)

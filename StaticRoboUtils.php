@@ -146,6 +146,7 @@ class StaticRoboUtils
 
     static function mkLabel($str)
     {
+/*
         $suffix = StaticRoboUtils::getSuffix($str);
         $base = StaticRoboUtils::stripSuffix(basename($str));
 
@@ -154,7 +155,9 @@ class StaticRoboUtils
 
         if (!in_array($suffix, $images) && $suffix != null)
             $ret .= '.' . $suffix;
-        return ($ret);
+*/
+        //return ($ret);
+        return ($str);
     }
 
     static function thumbLabel($file)
