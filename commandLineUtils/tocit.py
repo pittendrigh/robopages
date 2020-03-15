@@ -1,7 +1,12 @@
 #!/usr/bin/python
 
-#### buggy development code as of 3/14/2020
-### read existing file
+##### buggy development code as of 3/14/2020, but it works
+##### generates a p2n file (for pageUrl to pageNumber hashing)
+##### which can be manually edited after the generation 
+##### These codes preserve manual re-ordering when regenerating
+##### in order to add any possibly new files or folders, since last run
+#####
+
 
 import sys
 import argparse
@@ -15,18 +20,17 @@ page2numDictionary = {}
 existingFileUrls = {}
 orderedPaths = []
 parser = argparse.ArgumentParser(description='Create a recursive p2n file')
-##parser.add_argument("--prepath", default="")
+parser.add_argument("--prepath", default="Library/Flies/")
 args = parser.parse_args()
 
+###following is for....debugging only
 def processexistingFileUrls():
-    #for pathUrl, myList in existingFileUrls.items():
-    #for pathUrl in existingFileUrls.keys():
     for pathUrl in orderedPaths:
         pathUrl = pathUrl.strip()
         subUrl = existingFileUrls[pathUrl] 
         for subUrl in existingFileUrls[pathUrl]:
           displayLine = pathUrl + '/' + subUrl
-          #print(displayLine.replace('theRoot/','') )
+          print(displayLine.replace('theRoot/','') )
 
 def readExistingP2NFile(filepath):
     try:
@@ -69,9 +73,8 @@ def writeNewP2N():
     pageNum = 1
     f = open("p2n", "w")
     for key in page2numDictionary:
-        #prepath = args.prepath
-        #urlpath = prepath + key.replace(rootPath, '')
-        urlpath = key.replace(rootPath, '')
+        prepath = args.prepath
+        urlpath = prepath + key.replace(rootPath, '')
 
         skipRoboresources = re.search("^\.", urlpath)
         if skipRoboresources:
@@ -156,7 +159,7 @@ def doDir(path):
 
 
 readExistingP2NFile(rootPath + '/p2n')
-processexistingFileUrls()
+##processexistingFileUrls()
 
 doDir(rootPath)
 writeNewP2N()
