@@ -16,7 +16,7 @@ class nextPrevButtons extends plugin
 
   public function setP2NFile($path)
   {
-    //echo "bookNav sssetting $path <br/>";
+    //echo "bookNav setting $path <br/>";
     $this->p2nFile = $path;
   }
 
@@ -28,6 +28,7 @@ class nextPrevButtons extends plugin
     */
     $lines = file ($this->p2nFile);
     $this->maxPageNum = count($lines);
+    //echo "this->maxPageNum: ", $this->maxPageNum, "<br/>";
     $pageNum = 0;
     foreach ($lines as $aline)
     {
@@ -38,7 +39,7 @@ class nextPrevButtons extends plugin
       $pageNum++;
       if(isset($_GET['robopage']) &&  $_GET['robopage'] == $rurl)
       {
-        echo "yes: " , $rurl, " (", $_GET['robopage'], ")<br/>";
+        //echo "yes: " , $rurl, " (", $_GET['robopage'], ")<br/>";
         $_SESSION['currentPageNum'] = $this->p2nHash[$_GET['robopage']];
         //echo "setting currentPageNum: " . $_SESSION['currentPageNum'] . "<br/>";
       }
@@ -62,7 +63,7 @@ class nextPrevButtons extends plugin
     if($prevNum < 0)
       $prevNum = 0;
 
-   echo "$nowNum $nextNum $prevNum <br/>";
+    //echo "$nowNum $nextNum $prevNum <br/>";
     
     $nextStr = $this->n2pArray[intval($nextNum)];
     $prevStr = $this->n2pArray[intval($prevNum)];
@@ -77,8 +78,8 @@ class nextPrevButtons extends plugin
     $ret .=  '<a class="button" href="'.$nextUrl.'">Next </a><br/>';
     $ret .=  '<a class="button" href="'.$prevUrl.'">Prev </a><br/>';
     $ret .= '</p>';
-    $ret .= str_replace("?robopage=","", $nextUrl) . '<br/>';
-    $ret .= str_replace("?robopage=","", $prevUrl) . '<br/>';
+    //$ret .= str_replace("?robopage=","", $nextUrl) . '<br/>';
+    //$ret .= str_replace("?robopage=","", $prevUrl) . '<br/>';
 
     /*
     foreach (array_keys($this->p2nHash) as $aPath)
