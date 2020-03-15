@@ -1,18 +1,16 @@
 #!/usr/bin/python
 
-##### buggy development code as of 3/14/2020, but it works
-##### generates a p2n file (for pageUrl to pageNumber hashing)
-##### which can be manually edited after the generation 
-##### These codes preserve manual re-ordering when regenerating
-##### in order to add any possibly new files or folders, since last run
-#####
-
+##### buggy development code as of 3/14/2020
+##### read existing file
+##### vi terminal: this is /home/sandy/bin/tocit.py
 
 import sys
 import argparse
 import os
 import re
 import mimetypes
+from pathlib import Path
+
 
 page = 1
 rootPath = os.getcwd() + "/"
@@ -34,6 +32,7 @@ def processexistingFileUrls():
 
 def readExistingP2NFile(filepath):
     try:
+        Path(filepath).touch()
         fp = open(filepath)
     except:
         print("No fp open on p2n file")
