@@ -26,19 +26,19 @@ class nextPrevButtons extends plugin
     **  The p2n location needs a location convention.
     **  For any path underneath /fragments/Libray will be set in conf/dirlayouts.ini
     */
-    //echo "<br/> should be: ", $this->p2nFile , "<br/>";
     $lines = file ($this->p2nFile);
     $this->maxPageNum = count($lines);
     $pageNum = 0;
     foreach ($lines as $aline)
     {
+      //echo $aline, "<br/>";
       $rurl = trim($aline);
       $this->p2nHash[$rurl] = $pageNum;
       $this->n2pArray[$pageNum]= $rurl;
       $pageNum++;
       if(isset($_GET['robopage']) &&  $_GET['robopage'] == $rurl)
       {
-        //echo "rrrrrrrurl: " , $rurl, " (", $_GET['robopage'], ")<br/>";
+        echo "yes: " , $rurl, " (", $_GET['robopage'], ")<br/>";
         $_SESSION['currentPageNum'] = $this->p2nHash[$_GET['robopage']];
         //echo "setting currentPageNum: " . $_SESSION['currentPageNum'] . "<br/>";
       }
@@ -62,17 +62,23 @@ class nextPrevButtons extends plugin
     if($prevNum < 0)
       $prevNum = 0;
 
-    $nextr = $this->n2pArray[intval($nextNum)];
-    $prevr = $this->n2pArray[intval($prevNum)];
-    $nextUrl = "?robopage=" . $nextr; 
-    $prevUrl = "?robopage=" . $prevr; 
+   echo "$nowNum $nextNum $prevNum <br/>";
+    
+    $nextStr = $this->n2pArray[intval($nextNum)];
+    $prevStr = $this->n2pArray[intval($prevNum)];
+    $nextUrl = "?robopage=" . $nextStr; 
+    $prevUrl = "?robopage=" . $prevStr; 
+    //$nextUrl = "?robopage=" . $nextStr; 
+    //$prevUrl = "?robopage=" . $prevStr; 
     $nowNum++;
 
     $ret .=  '<h4 style="margin: 0; padding: 0; border: 0; text-align: center">Page '.$nowNum.'</h4>';
     $ret .= '<p class="buttonbox">';
-    $ret .=  '<a class="button" href="'.$nextUrl.'">Next</a><br/>';
-    $ret .=  '<a class="button" href="'.$prevUrl.'">Prev</a><br/>';
+    $ret .=  '<a class="button" href="'.$nextUrl.'">Next </a><br/>';
+    $ret .=  '<a class="button" href="'.$prevUrl.'">Prev </a><br/>';
     $ret .= '</p>';
+    $ret .= str_replace("?robopage=","", $nextUrl) . '<br/>';
+    $ret .= str_replace("?robopage=","", $prevUrl) . '<br/>';
 
     /*
     foreach (array_keys($this->p2nHash) as $aPath)
