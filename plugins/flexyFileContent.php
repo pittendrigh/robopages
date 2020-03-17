@@ -241,6 +241,7 @@ ENDO;
         // next line is probably stupid....put this in the text file if you want it
         //$ret = '<h4>' . $_SESSION['currentDisplay'] . '</h4>';
 
+        $tmp = $ret = '';
         $raw = file_get_contents($file);
         $tmp .= preg_replace('/(\n)/', "<br>", $raw);
         $ret .= preg_replace('/(\s)/', " ", $tmp);
@@ -253,7 +254,7 @@ ENDO;
         $ret = '';
         $ret .= @file_get_contents($_SESSION['currentDirPath'] . $_SESSION['currentDisplay']);
         // grep -iHn actionItem *php the following a bit ugly. Perhaps better to map book.xml to an inherited class
-        if (isset($_SESSION['layout']) && strstr($_SESSION['layout'], 'book'))
+        if (isset($_SESSION['layout']) && ($_SESSION['layout'] == 'book'))
         {
             $ret = preg_replace('/src=\"/', "src=\"/fragments/" . $_SESSION['opfDirUrl'] . '/', $ret);
         }
