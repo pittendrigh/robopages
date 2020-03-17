@@ -1,0 +1,19 @@
+<h1> plugins/bookNav.php </h1>
+Not much documentation yet.  This works but somewhat painfully.<br/>
+If you want a book to appear in fragments/Library/Flies <br/>
+then create a folder hierarchy in fragments/Library/Flies<br/>
+The top-level directories there will be treated as the chapters of a book.<br/>
+Below those top-level chapters arbitray folder nesting is possible.<br/>
+<br/>
+Page sequencing necessary for the Next and Prev page buttons depends on a a fragments/Library/Flies/p2n file<br/>
+You can generate such a file as follows:<br/>
+copy commandLineUtils/tocit.py to your ~/bin directory<br/>
+cd fragments/Library/Flies<br/>
+run tocit.py *lt;enter&gt; <br/>
+if the pages do not appear as expected inspect the p2n file<br/>
+Each line should be the same as the $_GET parameter of ?robopage=Library/Flies/Dryflies/index.htm<br/>
+<br/>
+If the p2n file does not appear as needed you might try running tocit.py with a --prepath argument<br/>
+Or edit p2n manually with vi<br/>
+<br/>
+If I stay healthy enough this will be cleaner in a week or so from today: 03/15/2020<br/>
