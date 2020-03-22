@@ -559,7 +559,7 @@ class domDrone
   <META property="og:title"   content="$title" />
   <META property="og:url"   content="$sys_ogurl" />
   <META	property="og:image" content="$sys_ogimage" />
-  <META name="google-site-verification" content="VfbG9hUocSivEqxyvW52qCqrjyRZGGZidif018AEMrw" />
+  <META name="google-site-verification" content="xxxyyyzzz" />
 ENDO;
 
         $ret .= "\n" . '<title>' . $title . '</title>';
