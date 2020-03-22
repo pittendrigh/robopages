@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <plugins>
+      <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/flexyFileContent.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
+      <file>plugins/file.php</file>
+      <file>plugins/meme.php</file>
+      <file>plugins/targetedArcade.php</file>
+      <file>plugins/targetedSlideshow.php</file>
+      <file>plugins/nextPrevButtons.php</file>
+      <file>plugins/bookNav.php</file>
+      <file>plugins/galleryMode.php</file>
+  </plugins>
+  <cssfiles>
+    <file>css/robo.css</file>
+    <file>css/meme.css</file>
+  </cssfiles>
+  <bodycontent>
+      <div id="wrapper" src="container">
+        <div id="headerbanner" src="container">
+          <h1 id="hbanner/" src="file" />
+          <nav id="bottombannerlinks" src="file"></nav>
+        </div>
+        <div id="main-content" src="container">
+          <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+          <div id="stuff" src="galleryMode">
+            <div id="toc" src="bookNav" />
+          </div>
+        </div>
+        <div id="footer" src="file" />
+      </div>
+  </bodycontent>
+</layout>
