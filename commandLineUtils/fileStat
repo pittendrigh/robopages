@@ -1,0 +1,13 @@
+#!/bin/bash
+
+_file="/tmp/galleryMode/chapterImages"
+[ ! -f "$_file" ] && { echo "-1"; exit 2; }
+ 
+if [ -s "$_file" ] 
+then
+	echo "1"
+        # do something as file has data
+else
+	echo "0"
+        # do something as file is empty 
+fi

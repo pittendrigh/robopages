@@ -1,0 +1,30 @@
+#!/bin/bash
+
+here=`pwd`
+
+for dir in `find . -type d | grep -v roboresources`
+do
+   cd $dir
+   rm -rf roboresouces/galleryMode/*
+   rm -rf /tmp/galleryMode
+   mkdir  /tmp/galleryMode
+   mkGalleryMode.py
+   #picSlides
+   #exterernalChapterImages
+  
+   fileCheck=`fileStat` 
+   echo "fffffileCheck: $fileCheck"
+   case $fileCheck in
+      -1)
+        echo "no such file /tmp/galleryMode/chapterImages"
+        ;;
+      0) 
+        echo "empty file /tmp/galleryMode/chapterImages"
+        ;;
+      1)
+        echo "file is there"
+        cp -R /tmp/galleryMode roboresources
+        ;;
+   esac
+   cd $here
+done

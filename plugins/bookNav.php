@@ -73,7 +73,7 @@ class bookNav extends dynamicNavigation
   protected function setP2NFile()
   {
     $this->p2nFileDir = $this->findP2NFile($_SESSION['currentDirPath']);
-    $this->p2nFile = $this->p2nFileDir . '/p2n'; 
+    $this->p2nFile = str_replace("\/\/", "/", $this->p2nFileDir . '/p2n'); 
     $_SESSION['bookTop'] = str_replace($_SESSION['prgrmDocRoot'],"" ,$this->p2nFileDir);
     $this->currentDirPath = $this->p2nFileDir;
 

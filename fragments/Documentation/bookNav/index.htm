@@ -1,5 +1,13 @@
-<h1> plugins/bookNav.php </h1>
-Not much documentation yet.  This works but somewhat painfully.<br/>
+<h1> plugins/roboBook.php </h1>
+Not much documentation yet.  This works but somewhat painfully.<br/><br/>
+Getting booknav to work currently relies on scripts in commandLineUtils<br/><br/>
+Better documentation AND melding the setup for roboBook into the admin interface will happen.<br/>
+to make a simple book put commandLineUtils/tocit.py into your ~/bin
+cd to the top directory of an HTML source hierarchy you want to be treated as a book.<br/>
+run: tocit.py  &lt;enter&gt; <br/>
+now edit a line in conf/dirlayouts:
+Library/Flies|roboBook
+<br/><br/>
 If you want a book to appear in fragments/Library/Flies <br/>
 then create a folder hierarchy in fragments/Library/Flies<br/>
 The top-level directories there will be treated as the chapters of a book.<br/>

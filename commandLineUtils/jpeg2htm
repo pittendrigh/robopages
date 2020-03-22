@@ -11,7 +11,9 @@ ppic=$1
 
 ## strip suffix
 pic=`echo $ppic | sed "s/$patt//"`
-
+#echo "patt: "$patt
+#echo "ppic: "$ppic
+#echo "pic: "$pic
 ## strip all to underscore if exists
 pic=`echo $pic | perl -ne 's/^.*_//; print'`
 #echo $pic

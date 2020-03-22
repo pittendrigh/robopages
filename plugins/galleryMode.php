@@ -56,10 +56,10 @@ class galleryMode extends bookNav
     {
         $ret = '';
 
-        $p2nFile = parent::getP2NFile();
-        echo get_class($this). " " . $p2nFile. "<br/>";
-        $lines = file($p2nFile);
-        echo "count lines: ", $lines, "<br/>";
+        $chapterImages = $_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages';
+        echo get_class($this). " " . $chapterImages. "<br/>";
+        $lines = file($chapterImages);
+        echo "count lines: ", count($lines), "<br/>";
         foreach ($lines as $aline)
         {
            $lineChunks = explode("|",  $aline);
