@@ -27,7 +27,7 @@ class nextPrevButtons extends plugin
     **  For any path underneath /fragments/Libray will be set in conf/dirlayouts.ini
     */
     $lines = file ($this->p2nFile);
-    $this->maxPageNum = count($lines);
+    $this->maxPageNum = count($lines) - 1;
     //echo "this->maxPageNum: ", $this->maxPageNum, "<br/>";
     $pageNum = 0;
     foreach ($lines as $aline)
@@ -63,6 +63,7 @@ class nextPrevButtons extends plugin
     if($prevNum < 0)
       $prevNum = 0;
 
+    
     $nextStr = $this->n2pArray[intval($nextNum)];
     $prevStr = $this->n2pArray[intval($prevNum)];
     $nextUrl = "?robopage=" . $nextStr; 

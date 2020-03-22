@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for dir in `find . -name wet`
+do
+base=`basename $dir | sed 's/wet/Wet/'`
+dirname=`dirname $dir`
+echo $dirname/$base
+mv $dir $dirname/$base
+
+done

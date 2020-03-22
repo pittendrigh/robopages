@@ -12,16 +12,14 @@ class bookNav extends dynamicNavigation
 {
   protected $nextPrevButtons;
   protected $p2nFileDir;
-  public $p2nFile;
+  protected $p2nFile;
   protected $currentBookName;
   public $globalChapterLinks;
-  
-/*  public function __construct()
+ 
+  protected function getP2NFile()
   {
-    $this->globalChapterLinks = array();
-    $this->init();
+    return $this->p2nFile;
   }
-*/
   
   protected function assembleGlobalChapterLinks($linksString)
   {
@@ -59,31 +57,31 @@ class bookNav extends dynamicNavigation
   books as  ...../fragments/Library/Thisbook or ..../fragments/Library/Thatbook
   and p2nFile as ..../fragments/Library/Thatbook/p2n
   */
+
+  protected function findP2NFile($dir)
+  {
+     $ret = '';
+     if(@stat($dir. '/p2n'))
+        return $dir;
+     if(!strstr($dir, 'fragments'))
+       return ''; 
+     else
+        $ret = $this->findP2NFile(dirname($dir));
+     return $ret;
+  }
+
   protected function setP2NFile()
   {
-    $patt1 = $_SESSION['prgrmDocRoot'] . 'Library/'; 
-    //echo "ppppatt1: ", $patt1, "<br/>";
-    //echo "currentDirPath: ", $_SESSION['currentDirPath'], "<br/>";
-    $patt2 = str_replace($patt1, '', $_SESSION['currentDirPath']);
-    //echo "pppatt2: ", $patt2, "<br/><br/>";
-    $this->currentBookName = preg_replace(":/.*$:","",$patt2); 
-    $this->p2nFileDir = $_SESSION['prgrmDocRoot'] . 'Library/' . $this->currentBookName . '/';
-    $this->p2nFile = $this->p2nFileDir  . 'p2n' ;
-
+    $this->p2nFileDir = $this->findP2NFile($_SESSION['currentDirPath']);
+    $this->p2nFile = $this->p2nFileDir . '/p2n'; 
+    $_SESSION['bookTop'] = str_replace($_SESSION['prgrmDocRoot'],"" ,$this->p2nFileDir);
     $this->currentDirPath = $this->p2nFileDir;
-    $this->currentDirUrl = 'Library/' . $this->currentBookName . '/';
-    $this->currentClickDirUrl = 'fragments/Library/' . $this->currentBookName . '/';
 
 
     if(isset($_GET['dbg']))
     {
       echo "currentBookName: ", $this->currentBookName, "<br/>";
       echo "_GET['robopage']: ", $_GET['robopage'], "<br/>";
-      echo "currentDirPath: ", $_SESSION['currentDirPath'], "<br/>";
-      echo "currentDirUrl: ", $_SESSION['currentDirUrl'], "<br/>";
-      echo "patt1: ", $patt1, "<br/>";
-      echo "patt2: ", $patt2, "<br/>";
-      echo "p2nFileDir: ", $this->p2nFileDir, "<br/>";
       echo "p2nFile: ", $this->p2nFile, "<br/>";
     }
   }
@@ -125,6 +123,8 @@ class bookNav extends dynamicNavigation
   {
     $this->globalChapterLinks = array();
     $ret = '';
+
+    //$ret .= '<a class="button" href="'.$_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] . '&amp;layout=galleryMode"' . '>gallery view</a><br/>';
     $ret .= $this->nextPrevButtons->getOutput('');
 
     $ret .= parent::getOutput($divid);

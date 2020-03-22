@@ -3,8 +3,9 @@
 include_once("conf/globals.php");
 include_once("Link.php");
 include_once("plugin.php");
+include_once("bookNav.php");
 
-class galleryMode extends plugin 
+class galleryMode extends bookNav 
 {
     protected $imageList;
 
@@ -20,7 +21,7 @@ class galleryMode extends plugin
     }
 
     // This is a book. Unlike the general robopages case ALL pages are *.htm and all images are in roboresources/pics
-    function mkLink($imgSrc, $htmFileName)
+    function mkLink($imgSrc, $htmFileName=null)
     {
         global $sys_thumb_links;
         $ret = '';
@@ -54,23 +55,19 @@ class galleryMode extends plugin
     function getImageFilenames()
     {
         $ret = '';
-if(stat($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages'))
-{
-        $lines = file($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages');
-        $cnt = count($lines);
-        //for ($i=0; $i<$cnt; $i++)
+
+        $p2nFile = parent::getP2NFile();
+        echo get_class($this). " " . $p2nFile. "<br/>";
+        $lines = file($p2nFile);
+        echo "count lines: ", $lines, "<br/>";
         foreach ($lines as $aline)
         {
-           //$aline = $lines[$i];
            $lineChunks = explode("|",  $aline);
            $src = trim($lineChunks[0]);
            $src = str_replace("_ROBOPATH_", $_SESSION['currentClickDirUrl'], $src);
            $htmFile = trim($lineChunks[1]);
            $this->imageList[$src] = $htmFile;
         }
-}else{
- echo "file ouch on ".$_SESSION['currentDirPath'] . "roboresources/galleryMode/chapterImages<br/>";
-}
         return;
     }
 
@@ -81,16 +78,13 @@ if(stat($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages')
 
         $ret = '<h1> This Chapter&apos;s Images </h1>';
 
-        if(isset($this->imageList))
         $cnt = count($this->imageList);
-        if(isset($this->imageList))
+
+        foreach(array_keys($this->imageList) as $aKey)
         {
-           foreach(array_keys($this->imageList) as $aKey)
-           {
-              $htmFileName = $this->imageList[$aKey];
-              $ret .= "\n" . $this->mkLink($aKey,$htmFileName) . "\n";
-           } 
-        }
+           $htmFileName = $this->imageList[$aKey];
+           $ret .= "\n" . $this->mkLink($aKey,$htmFileName) . "\n";
+        } 
         return $ret;
     }
 }
