@@ -54,15 +54,23 @@ class galleryMode extends plugin
     function getImageFilenames()
     {
         $ret = '';
+if(stat($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages'))
+{
         $lines = file($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages');
+        $cnt = count($lines);
+        //for ($i=0; $i<$cnt; $i++)
         foreach ($lines as $aline)
         {
+           //$aline = $lines[$i];
            $lineChunks = explode("|",  $aline);
            $src = trim($lineChunks[0]);
            $src = str_replace("_ROBOPATH_", $_SESSION['currentClickDirUrl'], $src);
            $htmFile = trim($lineChunks[1]);
            $this->imageList[$src] = $htmFile;
         }
+}else{
+ echo "file ouch on ".$_SESSION['currentDirPath'] . "roboresources/galleryMode/chapterImages<br/>";
+}
         return;
     }
 
@@ -73,13 +81,16 @@ class galleryMode extends plugin
 
         $ret = '<h1> This Chapter&apos;s Images </h1>';
 
+        if(isset($this->imageList))
         $cnt = count($this->imageList);
-
-        foreach(array_keys($this->imageList) as $aKey)
+        if(isset($this->imageList))
         {
-           $htmFileName = $this->imageList[$aKey];
-           $ret .= "\n" . $this->mkLink($aKey,$htmFileName) . "\n";
-        } 
+           foreach(array_keys($this->imageList) as $aKey)
+           {
+              $htmFileName = $this->imageList[$aKey];
+              $ret .= "\n" . $this->mkLink($aKey,$htmFileName) . "\n";
+           } 
+        }
         return $ret;
     }
 }
