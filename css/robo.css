@@ -10,6 +10,7 @@ body {  background: #ffffff;
 }
 
 a { color: #660000;  text-decoration: none;}
+
 a:hover 
 {
     text-decoration: underline;
@@ -136,24 +137,19 @@ div.dynamicNavigation a
   border: 0;
 }
 
-div.thumbMeme { float: left; width: auto; height: auto; margin: 0 auto; padding: 0; }
-div.thumbMeme:hover {background: #dedede; border: 1px solid transparent;}
+div.thumbMeme { float: left; width: 10em; height: 12em; margin: 1em; padding: 0; overflow: hidden;}
+div.thumbMeme:hover {background: #dedede; } 
 p.thumb { margin: 0 ; padding: 0; height: auto; }
-p.thumb img { max-width: 4em; margin: 0; padding: 0; }
-p.thumblbl {  margin: 0; padding: 0;  }
+p.thumbImg img { adding: 0; margin: 0 auto;}
+p.thumblbl {  clear: both; margin: 0; padding: 0;  text-align: center;}
 
-p.thumblbl:hover {text-decoration: underline; }
-div.dynamicNavigation a:hover{ background: #dedede; }
-div.galleryNavigation {  float: left; width: 8em; height: 8em; margin: 0.25em; text-align: center; } 
-div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0; }
+div.dynamicNavigation a:hover{ background: #dedede; } 
+div.galleryNavigation {  float: left; width: 8em; height: 9em; margin: 0.25em; text-align: center; } 
+div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0; font-size: 80%; }
 div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
 
-div.galleryNavigation a:hover 
-{
-    background: #efefff;
-    border: 1px solid black;
-    color: black;
-}
+
+
 div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25em;} 
 
 /* ==========RobopageAdmin related==================================*/
@@ -246,6 +242,7 @@ a.roboDyno{
   padding: 0;
   margin: 0 0.25em 0 0;
   width: 20%;
+  font-size: 70%;
 }
 
 
@@ -256,7 +253,14 @@ a.button:hover {
 }
 
 div.subnav{
- margin: 0 0 0 1em;
+ margin: 1em;
  padding: 0.5em;
  min-height: 10em;
+ border-top: 2px groove gray;
+}
+
+#toc a.highlighted{
+  display: block;
+  background: #ababab;
+  padding: 2px;
 }
