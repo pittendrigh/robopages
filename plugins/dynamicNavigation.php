@@ -52,17 +52,25 @@ class dynamicNavigation extends plugin
         return $ret;
     }
 
-    function mkLink($link)
+    function mkLink($link, $LinkTargetType=null)
     {
         global $sys_thumb_links, $sys_show_suffixes;
         $ret = '';
+
+        $highlightFlag=FALSE;
+        $hrefComparitor  = preg_replace("/^.*=/", "", $link->href);
+        //echo "href: ", $hrefComparitor, "<br/>";
+        if(isset($_GET['robopage']) && $hrefComparitor  == $_GET['robopage'])
+        {
+            $highlightFlag=TRUE;
+        }
+
         // get a default linklbl
         $linklbl = StaticRoboUtils::mkLabel($link->label);
         if (isset($sys_show_suffixes) && $sys_show_suffixes == FALSE)
             $linklbl = StaticRoboUtils::stripSuffix($linklbl);
         $linkTargetType = $link->linkTargetType;
 
-                    //. '<p class="dnavLbl">' . $linklbl . '</p>';
         if ($linkTargetType == 'dir')
         {
             $linklbl = '<i class="material-icons" style="font-size: 80%; ">folder</i> ' .  $linklbl;
@@ -88,14 +96,22 @@ class dynamicNavigation extends plugin
                 }
             }
         }
-        //else{ echo "huh: ". $link->href, "<br/>"; exit; }
 
         if ($linkTargetType == 'label')
         {
             $ret = $linklbl;
         }
         else
+        {
+          if($highlightFlag) 
+          {
+            $ret .= "\n" . '<a class="highlighted" href="' . $link->href . '"><b>' . $linklbl . '</b></a>' . "\n";
+          }
+          else
+          {
             $ret .= "\n" . '<a href="' . $link->href . '">' . $linklbl . ' </a>' . "\n";
+          }
+        }
         return $ret;
     }
 
@@ -113,10 +129,11 @@ class dynamicNavigation extends plugin
 
         if (!$slideshowFlag && @stat($this->currentDirPath . 'roboresources/slideshow'))
         {
-            $slideshowFlag = TRUE;
-            // hard-coding again....
-            $ret .= "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
-                    . $this->currentDirUrl . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
+            if($this->currentDirUrl != $_SESSION['bookTop'])
+              $slideshowFlag = TRUE;
+            if( $slideshowFlag )
+              $ret .= "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
+                   . $this->currentDirUrl . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
         }
 
         // fileKeys was made in the ctor
@@ -219,13 +236,22 @@ foreach($allOfEm as $aKey)
     // A now deleted file might leave a link in dirlinks, which is preserved in this system.
     // !!!!  need to add a stat somewhere?
     //
+
+    function lookWhereForFiles()
+    {
+        // oops no opendir error handling grep -i actionItem *php
+        $handle = @opendir($this->currentDirPath);
+        return ($handle);
+    }
+
     function find_additional_filenames()
     {
         global $sys_show_suffixes, $sys_thumb_links;
 
         $linkTargetType = "unknown";
 
-        $handle = @opendir($this->currentDirPath);
+        //$handle = @opendir($this->currentDirPath);
+        $handle = $this->lookWhereForFiles();
         while ($handle && ($file = @readdir($handle)) !== FALSE)
         {
             if ($file[0] == '.')
@@ -295,7 +321,6 @@ foreach($allOfEm as $aKey)
                 }
             }
         }
-        //}
     }
 
 }

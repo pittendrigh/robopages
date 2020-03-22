@@ -1,0 +1,12 @@
+#!/bin/bash
+
+here=`pwd`
+
+for dir in `find . -type d | grep -v roboresources`
+do
+cd $dir
+mkBookGallery.py
+picSlides
+cd $here
+exterernalChapterImages
+done

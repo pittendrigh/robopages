@@ -1,0 +1,31 @@
+#!/bin/bash
+
+mkdir -p roboresources/pics roboresources/caps roboresources/thumbs 2>/dev/null
+
+patt=".jpg"
+if [[ -n "$2" ]]
+then
+  patt=$2
+fi
+ppic=$1
+
+## strip suffix
+pic=`echo $ppic | sed "s/$patt//"`
+
+## strip all to underscore if exists
+pic=`echo $pic | perl -ne 's/^.*_//; print'`
+#echo $pic
+
+mv $ppic roboresources/pics 2>/dev/null
+echo "<h1>$pic</h1>" > $pic.htm
+
+stuff=`echo '<img src="_ROBOPATH_roboresources/pics/'$ppic'" alt="'$ppic'"/>'`
+echo $stuff >> $pic.htm
+
+if test -f "$pic.cap"; then
+    cat $pic.cap >> $pic.htm
+    mv $pic.cap roboresources/caps
+fi
+
+picSlides
+

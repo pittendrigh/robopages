@@ -7,6 +7,14 @@ include_once("dynamicNavigation.php");
 class galleryNavigation extends dynamicNavigation
 {
 
+    function lookWhereForFiles()
+    {
+        // oops no opendir error handling grep -i actionItem *php
+        $handle = @opendir($this->currentDirPath . 'roboresources/pics');
+        return ($handle);
+    }
+
+
     function hasIndexImg($link, $mode = null)
     {
         $ret = '';
@@ -39,7 +47,7 @@ class galleryNavigation extends dynamicNavigation
         return $ret;
     }
 
-    function mkLink($link)
+    function mkLink($link, $LinkTargetType=null)
     {
         global $sys_thumb_links;
         $ret = "\n\n" . '<div class="' . get_class($this) . '">' . "\n";

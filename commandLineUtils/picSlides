@@ -1,0 +1,25 @@
+#!/bin/bash
+
+
+here=`pwd`
+rm -rf /tmp/tthumbs 2>/dev/null
+mkdir /tmp/tthumbs
+cp roboresources/pics/* /tmp/tthumbs
+cd /tmp/tthumbs
+for file in *
+do
+resize.pl $file 200
+done
+
+for file in *
+do
+mv $file tn-$file
+done
+
+cd $here
+
+mkdir roboresources/thumbs 2>/dev/null
+cp /tmp/tthumbs/* roboresources/thumbs
+
+#### now deal with roboresources/galleryMode/chapterImages
+## which might reference externally located images not in ./roboresources/pics 

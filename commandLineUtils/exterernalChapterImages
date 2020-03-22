@@ -1,0 +1,17 @@
+#!/bin/bash
+
+prepath="/var/www/html"
+if [[ -n $1 ]]
+then
+prepath=$1
+fi
+
+file=$prepath`exterernalChapterImages.pl`
+##echo $file
+base=`basename $file`
+  cp $file /tmp
+  cp /tmp/$base "/tmp/tn-$base"
+  ls -ltr /tmp
+  resize.pl /tmp/tn-$base 200
+  cp /tmp/tn-$base roboresources/thumbs
+  ls -ltr roboresources/thumbs

@@ -241,7 +241,6 @@ ENDO;
         // next line is probably stupid....put this in the text file if you want it
         //$ret = '<h4>' . $_SESSION['currentDisplay'] . '</h4>';
 
-        $tmp = $ret = '';
         $raw = file_get_contents($file);
         $tmp .= preg_replace('/(\n)/', "<br>", $raw);
         $ret .= preg_replace('/(\s)/', " ", $tmp);

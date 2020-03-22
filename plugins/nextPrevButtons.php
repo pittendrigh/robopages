@@ -63,23 +63,23 @@ class nextPrevButtons extends plugin
     if($prevNum < 0)
       $prevNum = 0;
 
-    //echo "$nowNum $nextNum $prevNum <br/>";
-    
     $nextStr = $this->n2pArray[intval($nextNum)];
     $prevStr = $this->n2pArray[intval($prevNum)];
     $nextUrl = "?robopage=" . $nextStr; 
     $prevUrl = "?robopage=" . $prevStr; 
-    //$nextUrl = "?robopage=" . $nextStr; 
-    //$prevUrl = "?robopage=" . $prevStr; 
     $nowNum++;
 
     $ret .=  '<h4 style="margin: 0; padding: 0; border: 0; text-align: center">Page '.$nowNum.'</h4>';
     $ret .= '<p class="buttonbox">';
-    $ret .=  '<a class="button" href="'.$nextUrl.'">Next </a><br/>';
-    $ret .=  '<a class="button" href="'.$prevUrl.'">Prev </a><br/>';
+
+if(@stat($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages'))
+{
+    $ret .=  "\n". '<a class="button" href="?robopage='.$_GET['robopage'] . '&amp;layout=galleryMode' .'">Gallery mode</a><br/>'. "\n";
+    $ret .=  '<a class="button" href="?robopage='.$_GET['robopage'] . '">Book mode</a><br/>'. "\n";
+}
+    $ret .=  '<a class="button" href="'.$nextUrl  .'">Next Page </a><br/>';
+    $ret .=  '<a class="button" href="'.$prevUrl.'">Prev Page </a><br/>';
     $ret .= '</p>';
-    //$ret .= str_replace("?robopage=","", $nextUrl) . '<br/>';
-    //$ret .= str_replace("?robopage=","", $prevUrl) . '<br/>';
 
     /*
     foreach (array_keys($this->p2nHash) as $aPath)
