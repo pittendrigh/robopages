@@ -1,0 +1,6 @@
+#!/bin/bash
+
+  for file in *jpg
+  do
+    jpeg2htm $file
+  done
