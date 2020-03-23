@@ -54,7 +54,7 @@ for htmFile in htmNames:
   images = soup.findAll('img')
   fp = open ('/tmp/galleryMode/chapterImages', "a")
   for image in images:
-      fp.write(image['src'] + '|' + htmFile)
+      fp.write(image['src'] + '|' + htmFile + "\n")
       print (image['src'] + '|' + htmFile)
 
   fp.close()
