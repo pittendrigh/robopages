@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+## Damn.  The virus has me and I can't think.  This code is a mess.
+## In two weeks I'll be recovered or dead.  We'll see what happens
+
 import sys
 import argparse
 import os
