@@ -1,4 +1,15 @@
-<h1> Command Line Administration </h1>
+<h1> Installation Note </h1>
+On most linux servers robopages will just run. Unzip it in the document root and then take a look at it.  Copy and image into the fragments area. Edit a test.htm (HTML fragment) file.  They should just appear, navigation and all.  Navigation ordering is a subject that comes up later in the Documentation.
+<h2> Requirements </h2>
+On Linux you will need an apache web server installed with php. I use php7. I use php7.2 but robopages does run on most  older php versions too.
+<h4> However </h4>
+On some linux desktop installations you might have to add an xml processing module manually. I use the php7.2-xml module.  Php7 is not a requirement but xml parsing is a requirement.<br/>
+On a recent desktop installation I had to do the following:<br/>
+<b>sudo apt-get install php7.2-xml</b> (in addition to apache2 and php7).<br/>
+
+
+<h3> Command Line Administration </h3>
+
 Unzip the sources into the DOCUMENT_ROOT of an apache web server. Everything should run.
 The safest way to use Robopages is to administer by hand, from a Terminal window, using scp ssh bash sed perl awk etc.
 You can make the document root belong to you rather than the web server process and chmod -R everything to 755 or even 555
