@@ -11,6 +11,11 @@ rootPath = os.getcwd() + "/"
 chapterUrlsDictionary = {}
 
 ## still a mess
+## the idea is to preserve ordering from any existing p2n file
+## but then to find any new file additions under the book root
+## and to append them to the right chapter location
+## where a chapter is any first child directory of the book root
+## Should be easy. Havn't made it work yet.
 
 ##need to zap orderedPaths
 parser = argparse.ArgumentParser(description='Create a recursive p2n file')
