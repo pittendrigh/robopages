@@ -10,14 +10,18 @@ from pathlib import Path
 rootPath = os.getcwd() + "/"
 chapterUrlsDictionary = {}
 
-## still a mess
-## the idea is to preserve ordering from any existing p2n file
+## edit default defFromPath as needed 
+
+## Buggy first take utility missing much
+## The idea is to preserve ordering from any existing p2n file
 ## but then to find any new file additions under the book root
 ## and to append them to the right chapter location
 ## where a chapter is any first child directory of the book root
-## Should be easy. Havn't made it work yet.
+## Chapters may have subdirectories (which are not chapters)
+## Each chapter and each chapter subdirectory (if exists)
+## should have any index.htm as the first path (first link later on)
+## So warning: index.htm always comes first not yet implemented. 
 
-##need to zap orderedPaths
 parser = argparse.ArgumentParser(description='Create a recursive p2n file')
 parser.add_argument( "--delFromPath", default= "/var/www/html/Github/robopages/fragments/Flies/")
 args = parser.parse_args()
@@ -31,7 +35,7 @@ def dbgChapterNames():
     print (chapterName)
   print ("end dbgChaperNames \n")
 
-def dbgChapterUrlsDictionary(mode):
+def processChapterUrlsDictionary(mode):
   global chapterUrlsDictionary
 
   fp = None
@@ -107,11 +111,15 @@ def getSubUrl(path, thisChapter):
 
   return(subUrl.strip())
 
-def doFile(filename):
-   
-    if tocMimer(filename):
-      thisChapter = getChapterName(filename)
-      subUrl = getSubUrl(filename,thisChapter)
+def doFile(filePath):
+  
+    ### dirIndexDictionary???
+    ## doFile only does leaf level paths not dirs,
+    ## so thisDir = os.path.dirname(filePath) 
+  
+    if tocMimer(filePath):
+      thisChapter = getChapterName(filePath)
+      subUrl = getSubUrl(filePath,thisChapter)
 
       if thisChapter not in chapterUrlsDictionary.keys():
          chapterUrlsDictionary[thisChapter] = {}
@@ -129,7 +137,7 @@ def tocMimer(path):
     ## in an *.htm fragment.  This is a book not a website
     ## ...for now anyway
     types = [".htm"]
-    filename, suffix = os.path.splitext(path)
+    filePath, suffix = os.path.splitext(path)
     if suffix in types:
         ret = True
 
@@ -180,4 +188,4 @@ readExistingP2N(rootPath + 'p2n')
 recurseDirs(rootPath)
 
 #dbgChapterNames()
-dbgChapterUrlsDictionary('write')
+processChapterUrlsDictionary('write')
