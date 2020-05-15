@@ -23,18 +23,21 @@ chapterUrlsDictionary = {}
 ## So warning: index.htm always comes first not yet implemented. 
 
 parser = argparse.ArgumentParser(description='Create a recursive p2n file')
-parser.add_argument( "--delFromPath", default= "/var/www/html/Github/robopages/fragments/Flies/")
+parser.add_argument( "--delFromPath", default= "/var/www/html/photography/robopages/fragments/")
 args = parser.parse_args()
 
 ## ======= debugging functions
 
-def dbgChapterNames():
+def ddbgChapterNames():
   global chapterUrlsDictionary
   
   for chapterName in chapterUrlsDictionary.keys():
     print (chapterName)
   print ("end dbgChaperNames \n")
 
+##============ end debugging functions
+
+##======begin output functions
 def processChapterUrlsDictionary(mode):
   global chapterUrlsDictionary
 
@@ -43,7 +46,9 @@ def processChapterUrlsDictionary(mode):
     fp = open('np2n', "w")
 
   for chapterName in chapterUrlsDictionary.keys():
-    #print("chn " + chapterName)
+    if not re.search("TOC",chapterName):
+      print (chapterName.replace("TOC",'')); 
+      fp.write(chapterName.replace("TOC",'') + "\n")
     for subUrl in chapterUrlsDictionary[chapterName].keys():
       line = chapterName + "/" + subUrl 
       line = re.sub("TOC","",line)
@@ -56,7 +61,7 @@ def processChapterUrlsDictionary(mode):
   if mode == 'write':
     fp.close()
 
-##============ end debugging functions
+##======end output functions
 
 
 def readExistingP2N(filepath):
@@ -113,10 +118,8 @@ def getSubUrl(path, thisChapter):
 
 def doFile(filePath):
   
-    ### dirIndexDictionary???
-    ## doFile only does leaf level paths not dirs,
-    ## so thisDir = os.path.dirname(filePath) 
-  
+    #if 1 > 0:
+    #print ("top doFile: " + filePath)
     if tocMimer(filePath):
       thisChapter = getChapterName(filePath)
       subUrl = getSubUrl(filePath,thisChapter)
@@ -124,13 +127,16 @@ def doFile(filePath):
       if thisChapter not in chapterUrlsDictionary.keys():
          chapterUrlsDictionary[thisChapter] = {}
 
-      #if subUrl not in chapterUrlsDictionary[thisChapter]:
-      chapterUrlsDictionary[thisChapter][subUrl] = subUrl
-      #print ("doFile " + thisChapter + ": " +  subUrl)
+      if subUrl not in chapterUrlsDictionary[thisChapter]:
+        chapterUrlsDictionary[thisChapter][subUrl] = subUrl
+        newline = thisChapter + subUrl
+        #print (newline.replace("TOC",""))
+       
 
 def tocMimer(path):
     ret = False
     if os.path.isdir(path) == True:
+        #print ("isdir " + path)
         ret = True
 
     ## zips pdf and everything else must be wrapped
@@ -150,9 +156,10 @@ def recurseDirs(path):
 
     typeFs = []
     dirs = []
-    chapterUrlsDictionary['TOC'] = {} 
 
     #print("recurseDirs(" + path + ")")
+    ##doFile(path)
+
     for name in os.listdir(path):
         if name[0] == '.':
             continue
@@ -161,16 +168,6 @@ def recurseDirs(path):
             dirs.append(name)
         else:
             typeFs.append(name)
-
-
-    for directory in dirs:
-        if directory[0] == '.':
-            continue
-        newpath = os.path.join(path, directory)
-        skipRoboresources = re.search("roboresources", newpath)
-        if skipRoboresources:
-            continue
-        recurseDirs(newpath)
 
     for file in typeFs:
         if file[0] == '.':
@@ -181,9 +178,19 @@ def recurseDirs(path):
             continue
         doFile(joined)
 
+    for directory in dirs:
+        if directory[0] == '.':
+            continue
+        newpath = os.path.join(path, directory)
+        skipRoboresources = re.search("roboresources", newpath)
+        if skipRoboresources:
+            continue
+        ##doFile(newpath)
+        recurseDirs(newpath)
 
 
 ## an existing p2n may not exist
+chapterUrlsDictionary['TOC'] = {} 
 readExistingP2N(rootPath + 'p2n')
 recurseDirs(rootPath)
 
