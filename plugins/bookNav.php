@@ -7,7 +7,7 @@ include_once("nextPrevButtons.php");
 
 /// this is development code, it isn't usable yet _Mar_11_2020
 /// this and nextPrevButtons.php
-///
+// 
 class bookNav extends dynamicNavigation 
 {
   protected $nextPrevButtons;
@@ -15,12 +15,45 @@ class bookNav extends dynamicNavigation
   protected $p2nFile;
   protected $currentBookName;
   public $globalChapterLinks;
- 
+
+/* 
   protected function getP2NFile()
   {
     return $this->p2nFile;
   }
+*/
+
   
+  
+    function gatherLinks($lookWhichDir=null)
+    {
+       
+        $this->linkshash = $this->fileKeys = $this->imageKeys = $this->dirKeys = null;
+        $this->linkshash = array();
+        $this->fileKeys = array();
+        $this->imageKeys = array();
+        $this->dirKeys = array();
+
+        if(isset($lookWhichDir) && $lookWhichDir != null)
+        {
+          $this->currentDirPath = $lookWhichDir;
+          if($this->p2nFileDir == $_SESSION['prgrmDocRoot'])
+              $this->currentDirUrl = '';
+          else
+              $this->currentDirUrl = str_replace($_SESSION['prgrmDocRoot'],'',$this->p2nFileDir);
+        }
+        if(isset($lookWhichDir) && $lookWhichDir != null)
+        {
+          $this->currentClickDirPath = 'fragments/' . $lookWhichDir;
+          if($this->p2nFileDir == $_SESSION['prgrmDocRoot'])
+              $this->currentClickDirUrl = 'fragments/';
+          else
+              $this->currentClickDirUrl = 'fragments/' .str_replace($_SESSION['prgrmDocRoot'],'',$this->p2nFileDir);
+        }
+
+        $this->read_dirlinks_file();
+        $this->find_additional_filenames();
+    }
   protected function assembleGlobalChapterLinks($linksString)
   {
     $linkChunks = explode(",", $linksString);
@@ -50,39 +83,36 @@ class bookNav extends dynamicNavigation
     $this->assembleGlobalChapterLinks($linksString);
   }
   
-  /*
-  This code is executing now so we know we're in a book mode
-  having a (so far) hard-coded dependency on a p2nFile
-  We'll also assume a hard-coded dependency on all
-  books as  ...../fragments/Library/Thisbook or ..../fragments/Library/Thatbook
-  and p2nFile as ..../fragments/Library/Thatbook/p2n
-  */
-
   protected function findP2NFile($dir)
   {
      $ret = '';
+     //echo "top findP2NFileDir: ", $dir, "<br/>";
      if(@stat($dir. '/p2n'))
-        return $dir;
-     if(!strstr($dir, 'fragments'))
+     {
+        //echo "found $dir" . '/p2n' . "<br/>";
+        return $dir . '/p2n';
+     }
+     else if(!strstr($dir, 'fragments'))
        return ''; 
      else
+     {
         $ret = $this->findP2NFile(dirname($dir));
-     return $ret;
+        return $ret;
+     }
   }
 
   protected function setP2NFile()
   {
-    $this->p2nFileDir = $this->findP2NFile($_SESSION['currentDirPath']);
-    $this->p2nFile = str_replace("\/\/", "/", $this->p2nFileDir . '/p2n'); 
+    $this->p2nFile = $this->findP2NFile($_SESSION['currentDirPath']);
+    $this->p2nFileDir = dirname($this->p2nFile) . '/'; 
     $_SESSION['bookTop'] = str_replace($_SESSION['prgrmDocRoot'],"" ,$this->p2nFileDir);
-    $this->currentDirPath = $this->p2nFileDir;
 
-
+    //echo "found p2nFileDir: ", $this->p2nFileDir, "<br/>";
     if(isset($_GET['dbg']))
     {
-      echo "currentBookName: ", $this->currentBookName, "<br/>";
-      echo "_GET['robopage']: ", $_GET['robopage'], "<br/>";
-      echo "p2nFile: ", $this->p2nFile, "<br/>";
+      //echo "currentBookName: ", $this->currentBookName, "<br/>";
+      //echo "_GET['robopage']: ", $_GET['robopage'], "<br/>";
+      //echo "p2nFile: ", $this->p2nFile, "<br/>";
     }
   }
 
@@ -91,7 +121,6 @@ class bookNav extends dynamicNavigation
     parent::init();
     $this->setP2NFile();
     $this->nextPrevButtons = new nextPrevButtons();
-    $this->nextPrevButtons->setP2NFile($this->p2nFile);
 
         //echo "bookNav init <br/>";
         $this->linkshash = array();
@@ -107,55 +136,86 @@ class bookNav extends dynamicNavigation
 */
   }
 
-  public function notInTopLevelChapter()
+  public function inBookTopDir()
   {
-    $ret = TRUE;
-    $leftPath = str_replace($_SESSION['prgrmDocRoot'], '', dirname($this->p2nFile)) . '/';
-    $rightPath = $_SESSION['currentDirUrl'];
-    // better get $_SESSION['p2nFile'] set properly!
-    //echo $leftPath . ' || ' . $rightPath . " <br/>";
-    if($leftPath == $rightPath)
-      $ret = FALSE;
+    $ret = FALSE;
+    //echo "p2nFileDir: ", $this->p2nFileDir, "<br/>";
+    if($_SESSION['currentDirPath'] == $this->p2nFileDir)
+      $ret = TRUE;
+/*
+   echo "in top level: ";
+   if($ret)
+       echo " TRUE "; 
+   else
+       echo " FALSE "; 
+   echo "<br/>";
+*/
+
+    return $ret;
+  }
+
+  public function getTOCJs()
+  {
+    $ret = '';
+    $ret .= <<<ENDO
+<script>
+    function tocToggle() 
+    {
+      var x = document.getElementById("ttoc");
+      var b = document.getElementById("tcdo"); 
+      if (x.style.display === "none") 
+      {
+        x.style.display = "block";
+        b.innerHTML="toc";
+      } 
+      else 
+      {
+        x.style.display = "none";
+        b.innerHTML="TOC";
+      }
+     }
+</script>
+ENDO;
+
     return $ret;
   }
 
   public function getOutput($divid)
   {
-    $this->globalChapterLinks = array();
-    $ret = '';
+    $ret = $top = $bottom = '';
 
-    //$ret .= '<a class="button" href="'.$_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] . '&amp;layout=galleryMode"' . '>gallery view</a><br/>';
-    $ret .= $this->nextPrevButtons->getOutput('');
-
-    $ret .= parent::getOutput($divid);
-
-/* following get something to show quickly development code, likely go away soon
-    if(@stat($_SESSION['prgrmDocRoot'] . 'roboresources/chaptersLinksList.frag'  ))
-    { 
-       $chaptersFragger = new file();
-       $ret .= $chaptersFragger->getOutput('chaptersLinksList');
-    }
-    else
-    {
-       $this->getGlobalChapterLinks();
-       $this->nextPrevButtons->setP2NFile($this->p2nFile);
-       $cnt = count($this->globalChapterLinks) -1;
-       for($i=0; $i<$cnt; $i++)
+   // deal with ordering top level links later grep -i actionItem *php
+   // $this->globalChapterLinks = array();
+   // last page cookie not ready for prime time yet grep -i actionItem *php
+   if(!isset($_GET['robopage']))
+   {
+       $tentativeUrl = '';
+       if(isset($_COOKIE['lastrobopage']) && $_COOKIE['lastrobopage'] != null)
+          $tentativeUrl = $_COOKIE['lastrobopage'];
+       if(isset($tentativeUrl) && $tentativeUrl != null)
        {
-         $ret .= $this->globalChapterLinks[$i];
+           $_GET['robopage'] = $tentativeUrl;
        }
-    }
-*/
+   }
 
-    if($this->notInTopLevelChapter())
+    $top .= '<button id="tcdo" onClick="tocToggle()">toc</button>';
+    $top .= $this->getTOCJs();
+    $top .= $this->nextPrevButtons->getOutput('');
+    $top .= '<div id="ttoc">';
+
+    $bottom='';
+    if(! $this->inBookTopDir())
     {
-      // put this hard-coded div into bookNav.xml? grep -i actionItem *php
-      $ret .= '<div class="subnav">';
+      $bottom .= '<div class="subnav">';
       $toc = new dynamicNavigation();
-      $ret .= $toc->getOutput('');
-      $ret .= '</div>';
+      $bottom .= $toc->getOutput('');
+      $bottom .= '</div>';
     }
 
+    $this->gatherLinks($this->p2nFileDir);
+    $top .= parent::getOutput($divid);
+
+    $ret =  $top . $bottom .  '</div>';
     return($ret);
   }
 }
