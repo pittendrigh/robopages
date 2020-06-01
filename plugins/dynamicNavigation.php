@@ -126,15 +126,17 @@ class dynamicNavigation extends plugin
         $ret = '';
 
         $cnt = count($this->linkshash);
-
+/*
         if (!$slideshowFlag && @stat($this->currentDirPath . 'roboresources/slideshow'))
         {
-            if($this->currentDirUrl != $_SESSION['bookTop'])
+            //if($this->currentDirUrl != $_SESSION['bookTop'])
+            if(isset($_SESSION['bookTop']) && $this->currentDirUrl != $_SESSION['bookTop'])
               $slideshowFlag = TRUE;
             if( $slideshowFlag )
               $ret .= "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
                    . $this->currentDirUrl . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
         }
+*/
 
         // fileKeys was made in the ctor
         $dcnt = count($this->dirKeys);
@@ -199,37 +201,55 @@ foreach($allOfEm as $aKey)
         $this->find_additional_filenames();
     }
 
+
+    function getDirlinksPath()
+    {
+      $path = $this->currentDirPath . "dirlinks";
+      return $path;
+    }
+
+    function getLines($path)
+    {
+      $ret = null;
+      if(@stat($path))
+        $ret = file ($path);
+      return $ret;
+    }
+
     function read_dirlinks_file()
     {
-        $path = $this->currentDirPath . "dirlinks";
-        if (@stat($path))
+
+        $path = $this->getDirlinksPath();
+        $lines = $this->getLines($path); 
+        $dirlinksCnt = 0;
+        if($lines != null)
+          $dirlinksCnt = count($lines);
+        for ($j = 0; $j < $dirlinksCnt; $j++)
         {
-            $lines = file($path);
-            $dirlinksCnt = count($lines);
-            for ($j = 0; $j < $dirlinksCnt; $j++)
-            {
-                $aline = $lines[$j];
-                $file = $ordered_hrefKey = '';
-                $tokens = explode("::", $aline);
-
-                $ordered_hrefKey = trim($tokens[0]);
-                $file = $label = trim($tokens[1]);
-
-                $linkTargetType = $this->mimer->getRoboMimeType($ordered_hrefKey);
-                $linkline = $ordered_hrefKey . "::" . $label . "::$linkTargetType";
-                $link = new Link($linkline);
-
-                //echo $ordered_hrefKey." ". $linkTargetType. "<br/>";
-                if ($linkTargetType == 'dir')
-                    $this->fileKeys[] = $ordered_hrefKey;
-                else if ($linkTargetType == 'image')
-                    $this->imageKeys[] = $ordered_hrefKey;
-                else
-                    $this->fileKeys[] = $ordered_hrefKey;
-
-                $this->linkshash[$ordered_hrefKey] = $link;
-            }
+            $aline = $lines[$j];
+            $file = $ordered_hrefKey = '';
+            $tokens = explode("::", $aline);
+ 
+            $ordered_hrefKey = trim($tokens[0]);
+            $file = $label = $ordered_hrefKey;
+            if(isset($tokens[1]))
+               $file = $label = trim($tokens[1]);
+ 
+            $linkTargetType = $this->mimer->getRoboMimeType($ordered_hrefKey);
+            $linkline = $ordered_hrefKey . "::" . $label . "::$linkTargetType";
+            $link = new Link($linkline);
+ 
+            //echo $ordered_hrefKey." ". $linkTargetType. "<br/>";
+            if ($linkTargetType == 'dir')
+                $this->fileKeys[] = $ordered_hrefKey;
+            else if ($linkTargetType == 'image')
+                $this->imageKeys[] = $ordered_hrefKey;
+            else
+                $this->fileKeys[] = $ordered_hrefKey;
+ 
+            $this->linkshash[$ordered_hrefKey] = $link;
         }
+        
     }
 
     // grep -iH "actionItem" *php

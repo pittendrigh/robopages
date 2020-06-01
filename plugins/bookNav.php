@@ -1,14 +1,10 @@
 <?php
 @session_start();
 include_once("plugin.php");
-//include_once("Link.php");
 include_once("dynamicNavigation.php");
 include_once("nextPrevButtons.php");
 
-/// this is development code, it isn't usable yet _Mar_11_2020
-/// this and nextPrevButtons.php
-// 
-class bookNav extends dynamicNavigation 
+class bookNav extends dynamicNavigation
 {
   protected $nextPrevButtons;
   protected $p2nFileDir;
@@ -16,18 +12,8 @@ class bookNav extends dynamicNavigation
   protected $currentBookName;
   public $globalChapterLinks;
 
-/* 
-  protected function getP2NFile()
+  function gatherLinks($lookWhichDir=null)
   {
-    return $this->p2nFile;
-  }
-*/
-
-  
-  
-    function gatherLinks($lookWhichDir=null)
-    {
-       
         $this->linkshash = $this->fileKeys = $this->imageKeys = $this->dirKeys = null;
         $this->linkshash = array();
         $this->fileKeys = array();
@@ -37,7 +23,7 @@ class bookNav extends dynamicNavigation
         if(isset($lookWhichDir) && $lookWhichDir != null)
         {
           $this->currentDirPath = $lookWhichDir;
-          if($this->p2nFileDir == $_SESSION['prgrmDocRoot'])
+          if($this->p2nFileDir == trim($_SESSION['prgrmDocRoot']))
               $this->currentDirUrl = '';
           else
               $this->currentDirUrl = str_replace($_SESSION['prgrmDocRoot'],'',$this->p2nFileDir);
@@ -54,121 +40,110 @@ class bookNav extends dynamicNavigation
         $this->read_dirlinks_file();
         $this->find_additional_filenames();
     }
-  protected function assembleGlobalChapterLinks($linksString)
+
+  function assembleGlobalChapterLinks($linksString)
   {
     $linkChunks = explode(",", $linksString);
     $cnt = count($linkChunks) -1;
     for($i=0; $i<$cnt; $i++)
     {
-      $url = 'Library/' . $this->currentBookName . '/' . $linkChunks[$i];
-      $label = $linkChunks[$i];
-      $link = '<a href="?robopage='.$url.'">' . $label . '</a>'; 
+      $url = $this->currentBookName . '/' . $linkChunks[$i];
+     
+       if(is_dir($this->p2nFileDir . trim($linkChunks[$i])))
+           $label = ' <i class="material-icons" style="font-size: 80%; ">folder</i> ' .  $linkChunks[$i];
+       else
+            $label = $linkChunks[$i];
+      $link = '<a href="?robopage='.$url.'">' . $label . '</a>';
       $this->globalChapterLinks[] = $link;
     }
   }
-  
-  protected function getGlobalChapterLinks() 
+
+  function getGlobalChapterLinks()
   {
     $linksString = '';
-    $handle = @opendir($this->p2nFileDir);
-    while ($handle && ($file = @readdir($handle)) !== FALSE)
+    $lines = file($this->p2nFile);
+    $p2nLineCnt = count($lines);
+    for($i=0; $i<$p2nLineCnt; $i++)
     {
-      if ($file[0] == '.')
-        continue;
-      if(is_dir($this->p2nFileDir .  $file ))
-      { 
-        $linksString .= $file . ',';
+      $line = trim($lines[$i]);
+      $tentativeDirPath = trim($this->p2nFileDir) .  trim($line);
+
+      // top level directories are chapter names
+      // we also want any leaf level *.htm files in the bookTop directory
+      if(!strstr($line,'/'))
+      {
+          $linksString .= $line . ',';
       }
     }
+
     $this->assembleGlobalChapterLinks($linksString);
   }
-  
-  protected function findP2NFile($dir)
+
+
+  function findP2NFile($dir)
   {
+     $dir = trim($dir);
      $ret = '';
-     //echo "top findP2NFileDir: ", $dir, "<br/>";
      if(@stat($dir. '/p2n'))
      {
-        //echo "found $dir" . '/p2n' . "<br/>";
         return $dir . '/p2n';
      }
      else if(!strstr($dir, 'fragments'))
-       return ''; 
+       return '';
      else
      {
-        $ret = $this->findP2NFile(dirname($dir));
+        $ret = trim($this->findP2NFile(dirname($dir)));
         return $ret;
      }
   }
 
-  protected function setP2NFile()
+  function setP2NFile()
   {
     $this->p2nFile = $this->findP2NFile($_SESSION['currentDirPath']);
-    $this->p2nFileDir = dirname($this->p2nFile) . '/'; 
-    $_SESSION['bookTop'] = str_replace($_SESSION['prgrmDocRoot'],"" ,$this->p2nFileDir);
+    $this->p2nFileDir = dirname($this->p2nFile) . '/';
+    $this->currentBookName = preg_replace(":\/$:",'',str_replace($_SESSION['prgrmDocRoot'],"" ,$this->p2nFileDir));
+    $_SESSION['bookTop'] = $this->currentBookName; 
 
-    //echo "found p2nFileDir: ", $this->p2nFileDir, "<br/>";
-    if(isset($_GET['dbg']))
-    {
-      //echo "currentBookName: ", $this->currentBookName, "<br/>";
-      //echo "_GET['robopage']: ", $_GET['robopage'], "<br/>";
-      //echo "p2nFile: ", $this->p2nFile, "<br/>";
-    }
   }
 
-  public function init()
+  function init()
   {
-    parent::init();
     $this->setP2NFile();
     $this->nextPrevButtons = new nextPrevButtons();
 
-        //echo "bookNav init <br/>";
-        $this->linkshash = array();
-        $this->fileKeys = array();
-        $this->imageKeys = array();
-        $this->dirKeys = array();
-        $this->mimer = new roboMimeTyper();
+    $this->linkshash = array();
+    $this->fileKeys = array();
+    $this->imageKeys = array();
+    $this->dirKeys = array();
+    $this->mimer = new roboMimeTyper();
 
-        $this->gatherLinks();
-/*
-    $this->getGlobalChapterLinks();
-    $this->nextPrevButtons = new nextPrevButtons();
-*/
+    //$this->gatherLinks();
   }
 
-  public function inBookTopDir()
+  function inBookTopDir()
   {
     $ret = FALSE;
-    //echo "p2nFileDir: ", $this->p2nFileDir, "<br/>";
     if($_SESSION['currentDirPath'] == $this->p2nFileDir)
       $ret = TRUE;
-/*
-   echo "in top level: ";
-   if($ret)
-       echo " TRUE "; 
-   else
-       echo " FALSE "; 
-   echo "<br/>";
-*/
 
     return $ret;
   }
 
-  public function getTOCJs()
+  function getTOCJs()
   {
     $ret = '';
     $ret .= <<<ENDO
 <script>
-    function tocToggle() 
+    function tocToggle()
     {
       var x = document.getElementById("ttoc");
-      var b = document.getElementById("tcdo"); 
-      if (x.style.display === "none") 
+      var b = document.getElementById("tcdo");
+      if (x.style.display === "none")
       {
         x.style.display = "block";
         b.innerHTML="toc";
-      } 
-      else 
+      }
+      else
       {
         x.style.display = "none";
         b.innerHTML="TOC";
@@ -180,42 +155,58 @@ ENDO;
     return $ret;
   }
 
-  public function getOutput($divid)
+
+  function getDirlinksPath()
+  {
+     $ret = $this->p2nFile;
+     return($ret);
+  }
+
+  function getLines($path)
+  {
+     $lines = $allLines = array();
+     $allLines = file($path);
+     $lineCnt = count($allLines);
+     for($i=0; $i<$lineCnt; $i++)
+     {
+       if(strstr($allLines[$i], $_GET['robopage']))
+       {
+         $lines[] = $allLines[$i]; 
+       }
+     }
+     return($lines);
+  }
+
+  function getOutput($divid)
   {
     $ret = $top = $bottom = '';
-
-   // deal with ordering top level links later grep -i actionItem *php
-   // $this->globalChapterLinks = array();
-   // last page cookie not ready for prime time yet grep -i actionItem *php
-   if(!isset($_GET['robopage']))
-   {
-       $tentativeUrl = '';
-       if(isset($_COOKIE['lastrobopage']) && $_COOKIE['lastrobopage'] != null)
-          $tentativeUrl = $_COOKIE['lastrobopage'];
-       if(isset($tentativeUrl) && $tentativeUrl != null)
-       {
-           $_GET['robopage'] = $tentativeUrl;
-       }
-   }
 
     $top .= '<button id="tcdo" onClick="tocToggle()">toc</button>';
     $top .= $this->getTOCJs();
     $top .= $this->nextPrevButtons->getOutput('');
     $top .= '<div id="ttoc">';
 
-    $bottom='';
-    if(! $this->inBookTopDir())
+    if(!$this->inBookTopDir())
     {
       $bottom .= '<div class="subnav">';
       $toc = new dynamicNavigation();
-      $bottom .= $toc->getOutput('');
+      $dbg = $toc->getOutput('');
+      $bottom .= $dbg;
       $bottom .= '</div>';
     }
+    else{
+     
 
-    $this->gatherLinks($this->p2nFileDir);
-    $top .= parent::getOutput($divid);
+    }
 
-    $ret =  $top . $bottom .  '</div>';
+    $this->getGlobalChapterLinks();
+    $cnt = count($this->globalChapterLinks);
+    for($i=0; $i<$cnt; $i++)
+    {
+       $top .= $this->globalChapterLinks[$i];
+    }
+
+    $ret =  $top . $bottom . '</div>';
     return($ret);
   }
 }

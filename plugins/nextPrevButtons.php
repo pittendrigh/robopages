@@ -6,13 +6,15 @@ include_once("LinkedList.php");
 class nextPrevButtons extends plugin
 {
 protected $p2nFile;
+protected $p2nFileDir;
+protected $bookRootSubPath;
 protected $url2PageNodeHash;
 protected $pageNum2NodeHash;
 protected $orderedUrls;
 protected $pageLinkedList;
 public $urlCount;
 
-public function __construct()
+function __construct()
 {
   $this->init();
   $this->url2PageNodeHash = array();
@@ -20,26 +22,20 @@ public function __construct()
   $this->orderedUrls = array();
   $this->pageLinkedList = new LinkedList();
   $this->p2nFile = $this->findP2NFile($_SESSION['currentDirPath']);
+  $this->p2nFileDir = dirname($this->p2nFile) . '/';
+
+  $this->bookRootSubPath = str_replace($_SESSION['prgrmDocRoot'],'',$this->p2nFileDir);
   $this->urlCount=0;
 }
 
-/*
-public function getP2NFile()
+function findP2NFile($dir)
 {
-  return $this->p2nFile;
-}
-*/
-
-public function findP2NFile($dir)
-{
-  //echo " &nbsp; nextPrev findP2NFile: ", $dir, "<br/>";
   if(!is_dir($dir))
   {
       $dir = dirname($dir) . '/';
   }
   if(@stat($dir . 'p2n'))
   {
-    //echo "returning ", $dir, "p2n<br/>";
     return($dir . 'p2n');
   }
   else
@@ -49,13 +45,11 @@ public function findP2NFile($dir)
 
 protected function readP2NFile()
 {
-  //echo "nextPrevButtons->readP2NFile: ", $this->p2nFile, "<br/>";
   $lines = file ($this->p2nFile);
   foreach ($lines as $aline)
   {
-    $url = trim($aline);
+    $url = $this->bookRootSubPath . trim($aline);
     $pageNode = new node($url,null,null,$this->urlCount);
-    //echo $aline, "<br/>";
     //$pageNode->nodeDbg();
     $this->pageLinkedList->ListAppend($pageNode);
     $this->url2PageNodeHash[$url] = $pageNode;
@@ -65,9 +59,10 @@ protected function readP2NFile()
   }
 }
 
-public function u2pDbg()
+
+function u2pDbg()
 {
-   //echo "imax: ", $this->urlCount, "<br/>";
+   echo '<table style="font-size: 50%;">';
    for($i=0; $i < $this->urlCount; $i++)
    {
      $key = $this->orderedUrls[$i];
@@ -78,46 +73,82 @@ public function u2pDbg()
      if(isset($node->next))
         $next = $node->next->dataObj;
 
-     //echo $node->idx, " " , $node->dataObj, "<br/>";
-     //echo "<tr><td>",$prev, "</td><td>" , $node->idx + 1, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
+     echo "<tr><td>",$prev, "</td><td>" , $node->idx + 1, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
    }
-   //echo "</table>";
+   echo "</table>";
 }
 
-public function getOutput($divid)
+function getNextCookieJS()
+{
+ $ret = <<<ENDO
+<script>
+function clickNext()
+{ 
+ var value = document.getElementById("nextPageButton").getAttribute("href").replace("?robopage=",'');
+ var cookie="lastRobopage=" + value ;
+ document.cookie=cookie;
+}
+</script>
+ENDO;
+
+return($ret);
+}
+
+function getPrevCookieJS()
+{
+ $ret = <<<ENDO
+<script>
+function clickPrev()
+{ 
+ var value = document.getElementById("prevPageButton").getAttribute("href").replace("?robopage=",'');
+ var cookie="lastRobopage=" + value ;
+ document.cookie=cookie;
+}
+</script>
+ENDO;
+
+return($ret);
+}
+
+function getOutput($divid)
 {
   $ret = '';
 
-  //echo "found p2nfile: ", $this->p2nFile, "<br/>";
+  $ret .= $this->getNextCookieJS();
+  $ret .= $this->getPrevCookieJS();
   $this->readP2NFile();
   //$this->u2pDbg();
-  $nowNum = 0;
+  $nowNum = -1;
 
  $robopage = '';
  if(isset($_GET['robopage']))
  {
     $robopage = $_GET['robopage'];
-    //echo "robopage " ,$robopage, "<br/>";
  }
 
  if($robopage == '')
  {
      $nowNum = 0;
-     $nowNode = $this->pageNum2NodeHash[0];
-     //echo "defaulted nowNum as 0 <br/>";
+     $nowNode = reset($this->pageNum2NodeHash);
  }
  else
  {
      $nowNode = $this->pageNum2NodeHash[0];
-     
-     //$robopage = str_replace("//","/",$robopage);
+    
      if(isset($this->url2PageNodeHash[$robopage]))
+     {
        $nowNode = $this->url2PageNodeHash[$robopage];
+     }
      $nowNum = $nowNode->idx;
-     //echo "just set nowNum as: ", $nowNum, "<br/>";
  }
 
+ // robopages accepts ?robopage=somdir as a url by finding a default display $_SESSION['currentDisplay']
+ // if next buttons accept empty dir urls then next and prev will occasionally show same page twice
+ if(@is_dir($_SESSION['prgrmDocRoot'] . $nowNode->dataObj) && $nowNode->next != null)
+    $nowNode = $nowNode->next;
+
   //$nowNode->nodeDbg();
+
   $nextNode = $prevNode = $nowNode;
   $nextUrl = $prevUrl = $nowNode->dataObj;
 
@@ -132,10 +163,13 @@ public function getOutput($divid)
     $nextUrl = $nowNode->dataObj;
   } 
 
-  //if($nowNode == null) echo "null nowNode<br/>";
   if(isset($nowNode->prev) && $nowNode->prev != null)
   {
     $prevNode = $nowNode->prev;
+    if(@is_dir($_SESSION['prgrmDocRoot'] . $prevNode->dataObj))
+    {
+      $prevNode = $prevNode->prev; 
+    }
     $prevUrl = $prevNode->dataObj;
   } 
   else
@@ -150,16 +184,33 @@ public function getOutput($divid)
   $ret .=  '<b class="pageNumber"> Page ' . $displayNum . '</b>';
   $ret .= '<p class="buttonbox">';
 
-
+/*
   if(@stat($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages'))
   {
     $ret .=  "\n". '<a class="button" href="?robopage='.$_GET['robopage'] . '&amp;layout=galleryMode' .'">Gallery mode</a><br/>'. "\n";
     $ret .=  '<a class="button" href="?robopage='.$_GET['robopage'] . '">Book mode</a><br/>'. "\n";
   }
+*/
 
-  $ret .=  '<a class="button" href="'.$nextUrl  .'">Next Page </a><br/>';
-  $ret .=  '<a class="button" href="'.$prevUrl.'">Prev Page </a><br/>';
+  
+
+  $ret .=  '<a id="nextPageButton" class="button" onClick="clickNext()"  href="'.$nextUrl  .'">Next Page </a><br/>';
+  $ret .=  '<a id="prevPageButton" class="button" onClick="clickPrev()"  href="'.$prevUrl  .'">Prev Page </a><br/>';
+  //$ret .=  '<a class="button" href="'.$prevUrl.'">Prev Page </a><br/>';
+  //if(isset($_COOKIE['lastRobopage']))
+  $bookTopDirComparitor = str_replace($_SESSION['prgrmDocRoot'], '',  $_SESSION['bookTop']);
+  $lastPageFlag = isset($_COOKIE['lastRobopage']) ? 1 : 0;
+   
+  if( isset($_GET['robopage']) && $_GET['robopage'] == $bookTopDirComparitor )
+  {
+     $lastPageFlag=0;
+  }
+  if($lastPageFlag)
+  {
+    $ret .=  "\n". '<a class="button" href="?robopage='.$_COOKIE['lastRobopage'] .'">Last Read</a><br/>'. "\n";
+  }
   $ret .= '</p>';
+
 
   /*
   foreach (array_keys($this->p2nHash) as $aPath)

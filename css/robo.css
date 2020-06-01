@@ -9,12 +9,16 @@ body {  background: #ffffff;
   font-family: Arial;
 }
 
-a { color: #660000;  text-decoration: none;}
+a { color: #660000;  text-decoration: none;} 
+#stuff a { color: #660000;  text-decoration: underline;} 
 
 a:hover 
 {
     text-decoration: underline;
 }
+
+#sacbanner { width: 70%; margin-left: 20%; text-align: center:}
+
 
 #headerbanner{
   min-height: 4em;
@@ -40,7 +44,7 @@ margin: 1em 0 0 20%;
 
 h1 { font-size: 100%; }
 h2 { font-size: 90%; }
-h2 { font-size: 90%; }
+h3 { font-size: 80%; }
 
 #main-content
 {
@@ -82,7 +86,6 @@ img.icon {width: 1em; margin: 0; padding: 0; border: 0; position: relative; bott
 #cse { width: 59%; }
 
 
-#toc a.slideshow{ display: block; height: 1.25em; background: #884444; color: white; border: 2px outset white; padding: 2px; margin: 0;}
 a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;}
 
 
@@ -110,18 +113,7 @@ a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;}
 
 #mkGoogle { max-height: 5em; }
 
-#toc {
-position: relative;
-background: #dedede;
-margin: 0 0.5em 0.5em 0;
-padding: 0.5em;
-float: left; 
-width: 20%;
-font-family: Arial;
-font-size: 70%;
-}
 
-#toc a {display: block; clear: both; text-align: left; border: 1px solid transparent; }
 
 div.dynamicNavigation
 {
@@ -138,18 +130,23 @@ div.dynamicNavigation a
 }
 
 div.thumbMeme { float: left; width: 10em; height: 12em; margin: 1em; padding: 0; overflow: hidden;}
-div.thumbMeme:hover {background: #dedede; } 
+div.thumbMeme:hover {background: #dedede; }
 p.thumb { margin: 0 ; padding: 0; height: auto; }
 p.thumbImg img { adding: 0; margin: 0 auto;}
 p.thumblbl {  clear: both; margin: 0; padding: 0;  text-align: center;}
 
-div.dynamicNavigation a:hover{ background: #dedede; } 
-div.galleryNavigation {  float: left; width: 8em; height: 9em; margin: 0.25em; text-align: center; } 
-div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0; font-size: 80%; }
+p.thumblbl:hover {text-decoration: underline; }
+div.dynamicNavigation a:hover{ background: #dedede; }
+div.galleryNavigation {  float: left; width: 8em; height: 8em; margin: 0.25em; text-align: center; } 
+div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0; }
 div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
 
-
-
+div.galleryNavigation a:hover 
+{
+    background: #efefff;
+    border: 1px solid black;
+    color: black;
+}
 div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25em;} 
 
 /* ==========RobopageAdmin related==================================*/
@@ -187,13 +184,118 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   padding: 0.25em; 
   background-color: #dedede;
   text-align: center;
-  font-size: 1em;
 }
-.bottombannerlink a { color: black; font-size: 90%;   }
+/* .bottombannerlink a { color: black; font-size: 90%;   } */
 
 /* ============================================*/
 
-/* when the desktop browser minimizes to 700px or less */
+
+.clearboth{ clear: both; height: 1em; margin: 0; padding: 0;}
+
+
+
+.buttonbox{
+  width: 100%; 
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: center;
+}
+div.subnav{
+ margin: 1em;
+ padding: 0.5em;
+ min-height: 10em;
+ border-top: 2px groove gray;
+ font-size: 75%;
+}
+
+sup 
+{ 
+  color: red; 
+  font-weight: bold ;
+  font-size: 70% ;
+  font-style:  
+}
+
+p.footnote
+{
+  font-size: 70% ;
+  font-style:  
+}
+/* ======== start  TOC ============*/
+
+.toc {
+position: relative;
+background: #dedede;
+margin: 0 0.5em 0.5em 0;
+padding: 0.5em;
+float: left; 
+width: 15%;
+font-family: Arial;
+font-size: 60%;
+}
+
+.toc a 
+{
+  display: block; 
+  clear: both; 
+  text-align: left; 
+  border: 1px solid transparent; 
+  text-decoration: none !important;
+}
+
+
+.toc a 
+{
+  display: block;
+  padding: 0;
+  border: 0;
+}
+
+.toc a.slideshow
+{ 
+  display: block; 
+  height: 1.25em; 
+  background: #884444; 
+  color: white !important; 
+  border: 2px outset white; 
+  padding: 2px; 
+  margin: 0;
+}
+
+.toc a.highlighted{
+  display: block;
+  background: #ababab;
+  padding: 2px;
+}
+
+
+p.buttonbox a.button
+{ 
+  background-color: #efefef; /* Green */
+  border: 1px outset #ababab;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  padding: 0.25em;
+  margin: 0 0.25em 0 0;
+  width: 20%;
+}
+a.button:hover { 
+  text-decoration: underline;
+  color: #660000;
+  border: 1px solid black;
+}
+
+
+/* ======== end  TOC ============*/
+
+
+
+
+/* ======== start  media ============*/
+/* when the desktop browser minimizes to 800px or less */
 @media screen and (max-width: 800px)
 {
   #headerbanner {background: #efefef;}
@@ -203,64 +305,7 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 /* when the device is a typical phone */
 @media only screen and (max-device-width: 470px)
 {
- #toc {width: 95%; }
+ .toc {width: 95%; }
  .bottombannerlink {font-size: 85%; }
 }
-
-.clearboth{ clear: both; height: 1em; margin: 0; padding: 0;}
-
-
-#toc a {
-  display: block;
-  padding: 0;
-  border: 0;
-}
-
-
-.buttonbox{
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  justify-content: center;
-
-}
-
-a.roboDyno{
-
- margin-left: 1em;
-}
-
-#toc p.buttonbox a.button
-{ 
-  background-color: #efefef; /* Green */
-  border: 1px outset #ababab;
-  color: black;
-  text-align: center;
-  text-decoration: none;
-  display: block;
-  padding: 0;
-  margin: 0 0.25em 0 0;
-  width: 20%;
-  font-size: 70%;
-}
-
-
-
-a.button:hover { 
-  text-decoration: underline;
-  color: #660000;
-}
-
-div.subnav{
- margin: 1em;
- padding: 0.5em;
- min-height: 10em;
- border-top: 2px groove gray;
-}
-
-#toc a.highlighted{
-  display: block;
-  background: #ababab;
-  padding: 2px;
-}
+/* ======== end  media ============*/
