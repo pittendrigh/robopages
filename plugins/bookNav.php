@@ -149,7 +149,12 @@ class bookNav extends dynamicNavigation
         return $dir . '/p2n';
      }
      else if(!strstr($dir, 'fragments'))
+     {
+       echo "no p2n file found<br/>";
+       echo "redirect to an error page<br/>";
+       exit;
        return '';
+     }
      else
      {
         $ret = trim($this->findP2NFile(dirname($dir)));
