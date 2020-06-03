@@ -129,8 +129,9 @@ div.dynamicNavigation a
   border: 0;
 }
 
-div.thumbMeme { float: left; width: 10em; height: 12em; margin: 1em; padding: 0; overflow: hidden;}
+div.thumbMeme { float: left; width: 8em; height: 12em; margin: 2em; padding: 0; overflow: hidden; font-size: 80%;}
 div.thumbMeme:hover {background: #dedede; }
+div.thumbMeme img { max-width: 95%; }
 p.thumb { margin: 0 ; padding: 0; height: auto; }
 p.thumbImg img { adding: 0; margin: 0 auto;}
 p.thumblbl {  clear: both; margin: 0; padding: 0;  text-align: center;}
@@ -141,12 +142,6 @@ div.galleryNavigation {  float: left; width: 8em; height: 8em; margin: 0.25em; t
 div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0; }
 div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
 
-div.galleryNavigation a:hover 
-{
-    background: #efefff;
-    border: 1px solid black;
-    color: black;
-}
 div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25em;} 
 
 /* ==========RobopageAdmin related==================================*/
