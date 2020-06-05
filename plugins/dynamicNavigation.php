@@ -277,15 +277,13 @@ foreach($allOfEm as $aKey)
             if ($file[0] == '.')
                 continue;
             else if (strstr($file, ".frag") || $file == 'roboresources' || $file == 'dirlinks')
-                continue; // list acceptables or use an isOk function?
+                continue;
 
             // why not a link?
-/*
             if (is_link($this->currentDirPath . $file))
             {
                 continue;
             }
-*/
 
             $label = ucfirst($file);
             if (!$sys_show_suffixes)

@@ -53,33 +53,14 @@ class bookNav extends dynamicNavigation
            $label = ' <i class="material-icons" style="font-size: 80%; ">folder</i> ' .  $linkChunks[$i];
        else
             $label = $linkChunks[$i];
-      $link = '<a href="?robopage='.$url.'">' . $label . '</a>';
+      $link = '<a href="?robopage='.$url.'">' . $label . '</a>' . "\n";
       $this->globalChapterLinks[] = $link;
     }
-  }
-
-  function assembleLocalPageLinks($linksString)
-  {
-    $returningLeafLinks = array();
-    $linkChunks = explode(",", $linksString);
-    $cnt = count($linkChunks) -1;
-    for($i=0; $i<$cnt; $i++)
-    {
-      $url = $this->currentBookName . '/' . $linkChunks[$i];
-    
-      // need to support optional label option in link line 
-      $label = basename($linkChunks[$i]);
-      $link = '<a href="?robopage='.$url.'">' . $label . '</a>';
-      $returningLeafLinks[] = $link;
-    }
-
-    return($returningLeafLinks);
   }
 
   function getGlobalChapterLinks()
   {
     $linksString = '';
-    //echo "p2nFile: ", $this->p2nFile, "<br/>";
     $lines = file($this->p2nFile);
     $p2nLineCnt = count($lines);
     for($i=0; $i<$p2nLineCnt; $i++)
@@ -98,47 +79,6 @@ class bookNav extends dynamicNavigation
     $this->assembleGlobalChapterLinks($linksString);
   }
 
-  function subPathIsLeaf($path)
-  {
-    $ret=FALSE;
-    // this could work in numerous ways.
-    // Right now (anyway) when layout is roboBook
-    // chapters contain *.htm files and other subdirectories
-    // This could change.  But for now, if we strstr for *.htm
-    // then we have what we need.
-    if(strstr($path,'.htm'))
-     $ret = TRUE;
-
-    return($ret);
-  }
-
-  function getLocalPageLinks()
-  {
-    $linksString = $chaptername = '';
-    $lines = file($this->p2nFile);
-    $p2nLineCnt = count($lines);
-    
-
-    $robopage = '';
-    if(isset($_GET['robopage']))
-         $robopage = $_GET['robopage'];
-    $chapterName = str_replace($this->p2nFileDir, "", $_SESSION['prgrmDocRoot'] . $robopage);
-
-    for($i=0; $i<$p2nLineCnt; $i++)
-    {
-      $line = trim($lines[$i]);
-
-      // top level directories are chapter names
-      // we also want any leaf level *.htm files in the bookTop directory
-      if(strstr($line,'/') && $this->subPathIsLeaf($line) && strstr($line,$chapterName))
-      {
-          $linksString .= $line . ',';
-      }
-    }
-
-    return($this->assembleLocalPageLinks($linksString));
-  }
-
 
   function findP2NFile($dir)
   {
@@ -149,12 +89,7 @@ class bookNav extends dynamicNavigation
         return $dir . '/p2n';
      }
      else if(!strstr($dir, 'fragments'))
-     {
-       echo "no p2n file found<br/>";
-       echo "redirect to an error page<br/>";
-       exit;
        return '';
-     }
      else
      {
         $ret = trim($this->findP2NFile(dirname($dir)));
@@ -251,25 +186,25 @@ ENDO;
     $top .= $this->nextPrevButtons->getOutput('');
     $top .= '<div id="ttoc">';
 
+    if(!$this->inBookTopDir())
+    {
+      $bottom .= '<div class="subnav">';
+      $toc = new dynamicNavigation();
+      $dbg = $toc->getOutput('');
+      $bottom .= $dbg;
+      $bottom .= '</div>';
+    }
+    else{
+     
+
+    }
+
     $this->getGlobalChapterLinks();
     $cnt = count($this->globalChapterLinks);
     for($i=0; $i<$cnt; $i++)
     {
        $top .= $this->globalChapterLinks[$i];
     }
-
-    if(!$this->inBookTopDir())
-    {
-      $bottom .= "<hr/>";
-      $localLinksArray = $this->getLocalPageLinks();
-      $cnt = count($localLinksArray);
-      for($i=0; $i<$cnt; $i++)
-      {
-        $bottom .= $localLinksArray[$i];
-      }
-
-    }
-
 
     $ret =  $top . $bottom . '</div>';
     return($ret);

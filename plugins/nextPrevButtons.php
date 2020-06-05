@@ -30,12 +30,14 @@ function __construct()
 
 function findP2NFile($dir)
 {
+  echo "nextPrevButtons->findP2NFile($dir)<br/>"; 
   if(!is_dir($dir))
   {
       $dir = dirname($dir) . '/';
   }
   if(@stat($dir . 'p2n'))
   {
+    echo "found: ", $dir . 'p2n<br/>';
     return($dir . 'p2n');
   }
   else
@@ -45,6 +47,7 @@ function findP2NFile($dir)
 
 protected function readP2NFile()
 {
+  echo "nextPrevButtons->readP2NFile: ", $this->p2nFile, "<br/>";
   $lines = file ($this->p2nFile);
   foreach ($lines as $aline)
   {
