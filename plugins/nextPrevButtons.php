@@ -2,6 +2,7 @@
 @session_start();
 include_once("plugin.php");
 include_once("LinkedList.php");
+include_once("roboMimeTyper.php");
 
 class nextPrevButtons extends plugin
 {
@@ -12,11 +13,13 @@ protected $url2PageNodeHash;
 protected $pageNum2NodeHash;
 protected $orderedUrls;
 protected $pageLinkedList;
+protected $mimer;
 public $urlCount;
 
 function __construct()
 {
   $this->init();
+  $this->mimer = new RoboMimeTyper();
   $this->url2PageNodeHash = array();
   $this->pageNum2NodeHash = array();
   $this->orderedUrls = array();
@@ -30,14 +33,12 @@ function __construct()
 
 function findP2NFile($dir)
 {
-  echo "nextPrevButtons->findP2NFile($dir)<br/>"; 
   if(!is_dir($dir))
   {
       $dir = dirname($dir) . '/';
   }
   if(@stat($dir . 'p2n'))
   {
-    echo "found: ", $dir . 'p2n<br/>';
     return($dir . 'p2n');
   }
   else
@@ -47,7 +48,6 @@ function findP2NFile($dir)
 
 protected function readP2NFile()
 {
-  echo "nextPrevButtons->readP2NFile: ", $this->p2nFile, "<br/>";
   $lines = file ($this->p2nFile);
   foreach ($lines as $aline)
   {
@@ -181,8 +181,18 @@ function getOutput($divid)
     $prevUrl = $nowNode->dataObj;
   } 
 
-  $nextUrl = "?robopage=".$nextUrl;
-  $prevUrl = "?robopage=".$prevUrl;
+// if not mime type link
+  $nextTargetType = $this->mimer->getRoboMimeType($nextUrl);
+  $prevTargetType = $this->mimer->getRoboMimeType($prevUrl);
+  if ($nextTargetType != 'link')
+    $nextUrl = "?robopage=".$nextUrl;
+   else
+    $nextUrl = $_SESSION['currentClickDirUrl'] . basename($nextUrl);
+  if ($prevTargetType != 'link')
+    $prevUrl = "?robopage=".$prevUrl;
+   else
+    $prevUrl = $_SESSION['currentClickDirUrl'] . basename($prevUrl);
+    
   $displayNum = $nowNum + 1;
   $ret .=  '<b class="pageNumber"> Page ' . $displayNum . '</b>';
   $ret .= '<p class="buttonbox">';
@@ -195,10 +205,18 @@ function getOutput($divid)
   }
 */
 
-  
+ 
+ //echo "nextTargetType: " , $nextTargetType, "<br/>"; 
+ if($nextTargetType != 'link')
+    $ret .=  '<a id="nextPageButton" class="button" onClick="clickNext()"  href="'.$nextUrl  .'">Next Page </a><br/>';
+   else
+    $ret .=  '<a target="_blank" id="nextPageButton" class="button" onClick="clickNext()"  href="'.$nextUrl  .'">Next Page </a><br/>';
 
-  $ret .=  '<a id="nextPageButton" class="button" onClick="clickNext()"  href="'.$nextUrl  .'">Next Page </a><br/>';
-  $ret .=  '<a id="prevPageButton" class="button" onClick="clickPrev()"  href="'.$prevUrl  .'">Prev Page </a><br/>';
+
+ if($prevTargetType != 'link')
+    $ret .=  '<a id="prevPageButton" class="button" onClick="clickPrev()"  href="'.$prevUrl  .'">Prev Page </a><br/>';
+  else
+    $ret .=  '<a target="_blank" id="prevPageButton" class="button" onClick="clickPrev()"  href="'.$prevUrl  .'">Prev Page </a><br/>';
   //$ret .=  '<a class="button" href="'.$prevUrl.'">Prev Page </a><br/>';
   //if(isset($_COOKIE['lastRobopage']))
   $bookTopDirComparitor = str_replace($_SESSION['prgrmDocRoot'], '',  $_SESSION['bookTop']);
