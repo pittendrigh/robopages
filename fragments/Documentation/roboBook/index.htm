@@ -1,27 +1,52 @@
 <h1> plugins/roboBook.php </h1>
-Not much documentation yet.  This works but somewhat painfully.<br/><br/>
-Getting booknav to work currently relies on scripts in commandLineUtils<br/><br/>
-Better documentation AND melding the setup for roboBook into the admin interface will happen.<br/>
-to make a simple book put commandLineUtils/tocit.py into your ~/bin
-cd to the top directory of an HTML source hierarchy you want to be treated as a book.<br/>
-run: tocit.py  &lt;enter&gt; <br/>
-now edit a line in conf/dirlayouts:
-Library/Flies|roboBook
+Not much documentation yet.  
+roboBook is a plugin/layout combination that looks and acts like an online book, complete with Next Page, Prev Page and Last Read buttons, and a collapseable table of contents. The Next and Prev butons save page state (js cookie). The TOC does not save state.  You can jump around the book randomly using the TOC and then return to the Last Read page with a button click. 
+
+<h3> Pages </h3> 
+Book pages are *.htm files. Cameras.htm would might be the name of a page
+
+
+<h3> Optional Chapters </h3>
+A book might be a series of *.htm files in a directory. But a book can have chapters. Chapters are any first child subdirectories of the book;s root directory.  Every book must have a p2n file (below).  That p2n file resides in the root directory of the book. 
 <br/><br/>
-If you want a book to appear in fragments/Library/Flies <br/>
-then create a folder hierarchy in fragments/Library/Flies<br/>
-The top-level directories there will be treated as the chapters of a book.<br/>
-Below those top-level chapters arbitray folder nesting is possible.<br/>
+Chapters can have further sub-directories which might be useful for the developer's organizational needs. Chapter sub-directories have no meaning to the book itself. Conceptually a book is either a sequence of pages or a sequence of chapters, where each chapter has a sequence of pages.
+
+
+<h3> Page Resources (images etc) </h3>
+The book root directory and each chapter typically have a roboresources directory which may or may not contain a pics subdirectory.  
 <br/>
-Page sequencing necessary for the Next and Prev page buttons depends on a a fragments/Library/Flies/p2n file<br/>
+roboresources<br/>
+roboresources/pics (images, like boat.jpg)<br/>
+roboresources/slideshow (images or symlinks to images)<br/>
+roboresources/thumbs (matching thumbnails, like tn-boat.jpg) <br/>
+
+<h3> The p2n File </h3>
+A p2n file is a sequence of sub-paths corresponding
+to the system's $_GET['robobpage'] arguments, which are sub-paths to pages.
+A p2n file can be generated with the recursive commandLineUtils/tocit.py script.
+after generting the p2n file will need hand editing.
+<br/>
+preface.htm<br/>
+introduction.htm<br/>
+Cameras.htm<br/>
+Chapter1<br/>
+Chapter1/index.htm<br/>
+Chapter1/whatever.htm<br/>
+Chapter2<br/>
+Chapter2/index.htm<br/>
+Chapter3/whatever.htm<br/>
+
+<h3> tocit.py  </h3>
+Page sequencing necessary for the Next and Prev page buttons depends on a p2n file in the book root.<br/>
 You can generate such a file as follows:<br/>
 copy commandLineUtils/tocit.py to your ~/bin directory<br/>
 cd fragments/Library/Flies<br/>
-run tocit.py *lt;enter&gt; <br/>
+run tocit.py &lt;enter&gt; <br/>
+tocit.py writes to np2n, which can be edited. Then copy np2n to p2n when ready.
+The tocit.py script needs considerable work.  It is a useful starting point.
 if the pages do not appear as expected inspect the p2n file<br/>
 Each line should be the same as the $_GET parameter of ?robopage=Library/Flies/Dryflies/index.htm<br/>
 <br/>
 If the p2n file does not appear as needed you might try running tocit.py with a --prepath argument<br/>
 Or edit p2n manually with vi<br/>
 <br/>
-If I stay healthy enough this will be cleaner in a week or so from today: 03/15/2020<br/>
