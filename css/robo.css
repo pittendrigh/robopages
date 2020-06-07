@@ -24,7 +24,7 @@ a:hover
   min-height: 4em;
   margin: 0;
   padding: 2px 0 0 0;
-  background: url(/systemimages/smrb_logo_04.png) no-repeat #efefef;
+  background: url(/systemimages/mrb_logo_06.png) no-repeat #efefef;
   background-position: top left;
 }
 
@@ -36,15 +36,17 @@ margin: 1em 0 0 20%;
 
 #mkBreadcrumbs 
 {
+    width: 80%;
     height: 1.75em;
-    margin: 0 0 1em 0;
+    margin: 0 0 1em 11em;
     padding: 0;
 }
 
 
-h1 { font-size: 100%; }
-h2 { font-size: 90%; }
-h3 { font-size: 80%; }
+h1 { font-size: 120%; }
+h2 { font-size: 95%; }
+h3 { font-size: 85%; }
+
 
 #main-content
 {
@@ -56,7 +58,8 @@ h3 { font-size: 80%; }
 }
 
 img { float: left; margin: 1em; }
-#main-content img {float: left; margin: 1em; max-width: 70%;} 
+
+#stuff img {float: left; margin: 1em; width: 50%; border: 1px solid transparent;} 
 img.icon {width: 1em; margin: 0; padding: 0; border: 0; position: relative; bottom: 1em;}
 
 
@@ -86,12 +89,12 @@ img.icon {width: 1em; margin: 0; padding: 0; border: 0; position: relative; bott
 #cse { width: 59%; }
 
 
-a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;}
+a.slideshow{ background: #662222; color: white; border: 3px outset #aa6666; } 
+a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;} 
 
 
 #slideshow
 {
-    
     float: left;
     padding: 1em;
     border: 1px solid transparent;
@@ -129,7 +132,7 @@ div.dynamicNavigation a
   border: 0;
 }
 
-div.thumbMeme { float: left; width: 8em; height: 12em; margin: 2em; padding: 0; overflow: hidden; font-size: 80%;}
+div.thumbMeme { float: left; width: 8em; height: 7em; margin: 0; padding: 0; overflow: hidden; font-size: 80%;}
 div.thumbMeme:hover {background: #dedede; }
 div.thumbMeme img { max-width: 95%; }
 p.thumb { margin: 0 ; padding: 0; height: auto; }
@@ -138,11 +141,11 @@ p.thumblbl {  clear: both; margin: 0; padding: 0;  text-align: center;}
 
 p.thumblbl:hover {text-decoration: underline; }
 div.dynamicNavigation a:hover{ background: #dedede; }
-div.galleryNavigation {  float: left; width: 8em; height: 8em; margin: 0.25em; text-align: center; } 
-div.galleryNavigation a  { width: 80%; height: 5.5em; display: block; margin: 0 auto; padding: 0; }
+div.galleryNavigation {  float: left; width: 8em; height: 7em; margin: 0; padding: 0; text-align: center; border: 1px solid transparent;} 
+div.galleryNavigation a  { width: 80%; display: block; margin: 0 auto; padding: 0; }
 div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
 
-div.galleryNavigationImage {  float: left; width: 8em; height: 6em; margin: 0.25em;} 
+div.galleryNavigationImage {  float: left; width: 8em; height: 7em; margin: 0.25em;} 
 
 /* ==========RobopageAdmin related==================================*/
 
@@ -169,6 +172,7 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   margin-left: 5%;
   padding: 0;
   font-family: Arial;
+  font-size: 1.25vw;
 }
 
 .bottombannerlink
@@ -189,13 +193,7 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
 
 
 
-.buttonbox{
-  width: 100%; 
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  justify-content: center;
-}
+
 div.subnav{
  margin: 1em;
  padding: 0.5em;
@@ -222,7 +220,7 @@ p.footnote
 .toc {
 position: relative;
 background: #dedede;
-margin: 0 0.5em 0.5em 0;
+margin: 0  0.5em 0.5em 0;
 padding: 0.5em;
 float: left; 
 width: 15%;
@@ -247,6 +245,7 @@ font-size: 60%;
   border: 0;
 }
 
+/*
 .toc a.slideshow
 { 
   display: block; 
@@ -257,6 +256,7 @@ font-size: 60%;
   padding: 2px; 
   margin: 0;
 }
+*/
 
 .toc a.highlighted{
   display: block;
@@ -264,6 +264,14 @@ font-size: 60%;
   padding: 2px;
 }
 
+.buttonbox{
+  width: 100%; 
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: center;
+  font-size: 1vw;
+}
 
 p.buttonbox a.button
 { 
@@ -276,7 +284,9 @@ p.buttonbox a.button
   padding: 0.25em;
   margin: 0 0.25em 0 0;
   width: 20%;
+  font-size: 1vw;
 }
+
 a.button:hover { 
   text-decoration: underline;
   color: #660000;
@@ -294,6 +304,9 @@ a.button:hover {
 @media screen and (max-width: 800px)
 {
   #headerbanner {background: #efefef;}
+  #mkBreadcrumbs {margin: 0;}
+  .toc {width: 35%;}
+  p.buttonbox a.button{ font-size: 1.5vw;}
 }
 
 

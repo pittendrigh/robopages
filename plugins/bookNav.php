@@ -31,7 +31,6 @@ class bookNav extends plugin
         $link = '<a target="_blank" href="' .  $_SESSION['currentClickDirUrl'] . basename($line) . '">' . $label. '</a>'; 
       break;
       default:
-        //echo $line, " || ", $label, "<br/>";
         $link = '<a href="?robopage='.$line.'">' . $label . '</a>';
     } 
 
@@ -47,10 +46,10 @@ class bookNav extends plugin
       $url = $this->currentBookName . '/' . $linkChunks[$i];
      
        if(is_dir($this->p2nFileDir . trim($linkChunks[$i])))
-           $label = '<i class="material-icons" style="font-size: 80%;">folder</i>' .  $linkChunks[$i];
+           $label = ' <i class="material-icons" style="font-size: 80%; ">folder</i> ' .  $linkChunks[$i];
        else
             $label = $linkChunks[$i];
-      //echo "assembleGlobalChapterLinks: ", $url, " ", $label, "<br/>";
+      //$link = '<a href="?robopage='.$url.'">' . $label . '</a>';
       $link = $this->mkLink($url, $label);
       $this->globalChapterLinks[] = $link;
     }
@@ -93,8 +92,6 @@ class bookNav extends plugin
       }
     }
 
-    //$linksString = rtrim($linksString, ",");
-    //echo $linksString, "<br/>";
     $this->assembleGlobalChapterLinks($linksString);
   }
 
@@ -121,7 +118,11 @@ class bookNav extends plugin
 
     $robopage = '';
     if(isset($_GET['robopage']))
+    {
          $robopage = $_GET['robopage'];
+         if(!is_dir($_SESSION['prgrmDocRoot'] . $robopage))
+           $robopage = dirname($robopage) . '/';
+    }
     $chapterName = str_replace($this->p2nFileDir, "", $_SESSION['prgrmDocRoot'] . $robopage);
 
     for($i=0; $i<$p2nLineCnt; $i++)
@@ -221,12 +222,6 @@ ENDO;
   }
 
 
-  function getDirlinksPath()
-  {
-     $ret = $this->p2nFile;
-     return($ret);
-  }
-
   function getLines($path)
   {
      $lines = $allLines = array();
@@ -255,7 +250,6 @@ ENDO;
     $cnt = count($this->globalChapterLinks);
     for($i=0; $i<$cnt; $i++)
     {
-       //echo $this->globalChapterLinks[$i], "<br/>\n";
        $top .= $this->globalChapterLinks[$i];
     }
 
@@ -266,6 +260,7 @@ ENDO;
       $cnt = count($localLinksArray);
       for($i=0; $i<$cnt; $i++)
       {
+        //echo htmlentities($localLinksArray[$i]), "<br/>";
         $bottom .= $localLinksArray[$i];
       }
 
