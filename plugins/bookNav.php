@@ -3,6 +3,7 @@
 include_once("plugin.php");
 include_once("nextPrevButtons.php");
 include_once("roboMimeTyper.php");
+include_once("dynamicNavigation.php");
 
 class bookNav extends plugin 
 {
@@ -31,6 +32,12 @@ class bookNav extends plugin
         $link = '<a target="_blank" href="' .  $_SESSION['currentClickDirUrl'] . basename($line) . '">' . $label. '</a>'; 
       break;
       default:
+      if(isset($_GET['robopage']) && $line == $_GET['robopage'])
+      { 
+        //echo $line, "<br/>";
+        $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>';
+      }
+      else
         $link = '<a href="?robopage='.$line.'">' . $label . '</a>';
     } 
 
@@ -66,7 +73,10 @@ class bookNav extends plugin
     
       // need to support optional label option in link line 
       $label = basename($linkChunks[$i]);
-      $link = '<a href="?robopage='.$url.'">' . $label . '</a>';
+      if(isset($_GET['robopage']) && $_GET['robopage'] == $url)
+          $link = '<a class="highlighted" href="?robopage='.$url.'">' . $label . '</a>';
+       else
+          $link = '<a href="?robopage='.$url.'">' . $label . '</a>';
       $returningLeafLinks[] = $link;
     }
 
@@ -221,6 +231,12 @@ ENDO;
     return $ret;
   }
 
+
+  function getDirlinksPath()
+  {
+     $ret = $this->p2nFile;
+     return($ret);
+  }
 
   function getLines($path)
   {

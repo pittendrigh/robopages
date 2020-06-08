@@ -234,7 +234,7 @@ font-size: 60%;
   clear: both; 
   text-align: left; 
   border: 1px solid transparent; 
-  text-decoration: none !important;
+  text-decoration: none;
 }
 
 
@@ -258,7 +258,7 @@ font-size: 60%;
 }
 */
 
-.toc a.highlighted{
+a.highlighted{
   display: block;
   background: #ababab;
   padding: 2px;
@@ -313,7 +313,8 @@ a.button:hover {
 /* when the device is a typical phone */
 @media only screen and (max-device-width: 470px)
 {
- .toc {width: 95%; }
- .bottombannerlink {font-size: 85%; }
+ .toc {width: 95%; font-size: medium;}
+ .bottombannerlink {font-size: large; }
+ 
 }
 /* ======== end  media ============*/
