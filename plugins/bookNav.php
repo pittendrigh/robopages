@@ -35,10 +35,10 @@ class bookNav extends plugin
       if(isset($_GET['robopage']) && $line == $_GET['robopage'])
       { 
         //echo $line, "<br/>";
-        $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>';
+        $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>'."\n";
       }
       else
-        $link = '<a href="?robopage='.$line.'">' . $label . '</a>';
+        $link = '<a href="?robopage='.$line.'">' . $label . '</a>' . "\n";
     } 
 
     return($link);
@@ -46,6 +46,7 @@ class bookNav extends plugin
 
   function assembleGlobalChapterLinks($linksString)
   {
+    //echo "linksString: ", $linksString, "<br/>";
     $linkChunks = explode(",", $linksString);
     $cnt = count($linkChunks) -1;
     for($i=0; $i<$cnt; $i++)
@@ -57,6 +58,7 @@ class bookNav extends plugin
        else
             $label = $linkChunks[$i];
       //$link = '<a href="?robopage='.$url.'">' . $label . '</a>';
+      //echo "assembleGlobalChapterLinks: ", $url, " ", $label, "<br/>";
       $link = $this->mkLink($url, $label);
       $this->globalChapterLinks[] = $link;
     }
@@ -93,7 +95,7 @@ class bookNav extends plugin
     {
       $line = trim($lines[$i]);
       $tentativeDirPath = trim($this->p2nFileDir) .  trim($line);
-
+       //echo $line, "<br/>";
       // top level directories are chapter names
       // we also want any leaf level *.htm files in the bookTop directory
       if(!strstr($line,'/'))
