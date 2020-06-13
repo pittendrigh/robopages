@@ -37,9 +37,9 @@ margin: 1em 0 0 20%;
 #mkBreadcrumbs 
 {
     width: 80%;
-    height: 1.75em;
-    margin: 0 0 1em 11em;
-    padding: 0;
+ /*   height: 1.75em; */
+    margin: 0 0 0 12em;
+    padding-top: 0.5em;
 }
 
 
@@ -89,7 +89,7 @@ img.icon {width: 1em; margin: 0; padding: 0; border: 0; position: relative; bott
 #cse { width: 59%; }
 
 
-a.slideshow{ background: #662222; color: white; border: 3px outset #aa6666; } 
+a.slideshow{ background: #662222; color: white !important; border: 3px outset #aa6666; } 
 a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;} 
 
 
@@ -169,20 +169,20 @@ div.dirChanger { width: 45%; padding-right: 1em; float: right;}
   flex-wrap: wrap;
   align-content: space-between;
   justify-content: center;
-  margin-left: 5%;
+  margin: 0 0 0 5%;
   padding: 0;
   font-family: Arial;
-  font-size: 1.25vw;
 }
 
 .bottombannerlink
 {
-  width: 6em;
+  /* width: 6em; */
   height: 1em;
   margin: 0.5em;
   padding: 0.25em; 
   background-color: #dedede;
   text-align: center;
+  font-size: 85%;
 }
 /* .bottombannerlink a { color: black; font-size: 90%;   } */
 
@@ -223,7 +223,7 @@ background: #dedede;
 margin: 0  0.5em 0.5em 0;
 padding: 0.5em;
 float: left; 
-width: 15%;
+min-width: 20%;
 font-family: Arial;
 font-size: 60%;
 }
@@ -235,6 +235,7 @@ font-size: 60%;
   text-align: left; 
   border: 1px solid transparent; 
   text-decoration: none;
+  margin-bottom: 0.25em; 
 }
 
 
@@ -270,7 +271,7 @@ a.highlighted{
   flex-wrap: wrap;
   align-content: space-between;
   justify-content: center;
-  font-size: 1vw;
+  font-size: 1.5vw;
 }
 
 p.buttonbox a.button
@@ -300,12 +301,12 @@ a.button:hover {
 
 
 /* ======== start  media ============*/
-/* when the desktop browser minimizes to 800px or less */
-@media screen and (max-width: 800px)
+/* when the desktop browser minimizes to 700px or less */
+@media screen and (max-width: 700px)
 {
   #headerbanner {background: #efefef;}
   #mkBreadcrumbs {margin: 0;}
-  .toc {width: 35%;}
+  .toc {width: 30%;}
   p.buttonbox a.button{ font-size: 1.5vw;}
 }
 
@@ -315,6 +316,7 @@ a.button:hover {
 {
  .toc {width: 95%; font-size: medium;}
  .bottombannerlink {font-size: large; }
+  p.buttonbox a.button{ font-size: 3vw;}
  
 }
 /* ======== end  media ============*/
