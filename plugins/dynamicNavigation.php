@@ -126,7 +126,7 @@ class dynamicNavigation extends plugin
         $ret = '';
 
         $cnt = count($this->linkshash);
-
+/*
         if (!$slideshowFlag && @stat($this->currentDirPath . 'roboresources/slideshow'))
         {
             //if($this->currentDirUrl != $_SESSION['bookTop'])
@@ -136,7 +136,7 @@ class dynamicNavigation extends plugin
               $ret .= "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
                    . $this->currentDirUrl . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
         }
-
+*/
 
         // fileKeys was made in the ctor
         $dcnt = count($this->dirKeys);
@@ -280,12 +280,10 @@ foreach($allOfEm as $aKey)
                 continue;
 
             // why not a link?
-/*
             if (is_link($this->currentDirPath . $file))
             {
                 continue;
             }
-*/
 
             $label = ucfirst($file);
             if (!$sys_show_suffixes)
