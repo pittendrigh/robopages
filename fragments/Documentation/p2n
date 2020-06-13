@@ -2,11 +2,15 @@ index.htm
 administration.htm
 Plugins
 Plugins/index.htm
-Plugins/insult.htm
+Plugins/file
 Plugins/file/index.htm
+Plugins/flexyFileContent
 Plugins/flexyFileContent/index.htm
+Plugins/contactus
 Plugins/contactus/index.htm
+Plugins/defaultContents
 Plugins/defaultContents/index.htm
+Plugins/dynamicNavigation
 Plugins/dynamicNavigation/index.htm
 conf
 conf/index.htm
