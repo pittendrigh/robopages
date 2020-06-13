@@ -34,11 +34,17 @@ class bookNav extends plugin
       default:
       if(isset($_GET['robopage']) && $line == $_GET['robopage'])
       { 
-        //echo $line, "<br/>";
         $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>'."\n";
       }
       else
-        $link = '<a href="?robopage='.$line.'">' . $label . '</a>' . "\n";
+      {
+        $thisDir = basename($_SESSION['currentDirPath']);
+        //echo $thisDir, " in " , $line, "???<br/>";
+        //if(strstr($line, $thisDir))
+        // $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>' . "\n";
+        //else
+         $link = '<a href="?robopage='.$line.'">' . $label . '</a>' . "\n";
+      }
     } 
 
     return($link);
@@ -74,7 +80,8 @@ class bookNav extends plugin
       $url = $this->currentBookName . '/' . $linkChunks[$i];
     
       // need to support optional label option in link line 
-      $label = basename($linkChunks[$i]);
+      //$label = basename($linkChunks[$i]);
+      $label = $linkChunks[$i];
       if(isset($_GET['robopage']) && $_GET['robopage'] == $url)
           $link = '<a class="highlighted" href="?robopage='.$url.'">' . $label . '</a>';
        else

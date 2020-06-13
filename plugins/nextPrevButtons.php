@@ -25,7 +25,7 @@ function __construct()
   $this->orderedUrls = array();
   $this->pageLinkedList = new LinkedList();
   $this->p2nFile = $this->findP2NFile($_SESSION['currentDirPath']);
-  $this->p2nFileDir = dirname($this->p2nFile) . '/';
+  $this->p2nFileDir = trim(dirname($this->p2nFile) . '/');
 
   $this->bookRootSubPath = str_replace($_SESSION['prgrmDocRoot'],'',$this->p2nFileDir);
   $this->urlCount=0;
@@ -48,15 +48,53 @@ function findP2NFile($dir)
 
 protected function readP2NFile()
 {
+  $pageNum = 0;
   $lines = file ($this->p2nFile);
+
+  $lastDir=' -- ';
   foreach ($lines as $aline)
   {
+    //echo $aline, "<br/>";
+    $aline = trim($aline);
     $url = $this->bookRootSubPath . trim($aline);
-    $pageNode = new node($url,null,null,$this->urlCount);
-    //$pageNode->nodeDbg();
+
+    $testDirPath = $this->p2nFileDir . $aline;
+    //if(!is_dir($testDirPath) || $testDirPath == $lastDir)
+    if(!is_dir($testDirPath))
+    {
+       $testDirPath = dirname($testDirPath);
+       if($lastDir == $testDirPath)
+       {
+          $lastDir = "--";
+       }
+       else{
+          $pageNum += 1;
+       }
+       //echo "a $pageNum $url<br/>";
+       $pageNode = new node($url,null,null,$pageNum);
+    }
+    else
+    { 
+          // is_dir
+          if($lastDir != $testDirPath)
+          {
+             //echo "b $pageNum $url || $lastDir || $testDirPath<br/>";
+             $pageNum += 1;
+             $lastDir = $testDirPath;
+          }
+          else{
+           //echo "c $pageNum $url || $lastDir || $testDirPath<br/>";
+           $pageNum -= 1 ;
+          }
+          $url = $this->bookRootSubPath . trim($aline);
+          $pageNode = new node($url,null,null,$pageNum);
+             //else{ }
+    }
+
+
     $this->pageLinkedList->ListAppend($pageNode);
     $this->url2PageNodeHash[$url] = $pageNode;
-    $this->orderedUrls[] = $url;
+    $this->orderedUrls[] = $pageNode;
     $this->pageNum2NodeHash[$this->urlCount] = $pageNode;
     $this->urlCount++;
   }
@@ -65,18 +103,22 @@ protected function readP2NFile()
 
 function u2pDbg()
 {
+   //echo "urlCount: ", $this->urlCount, "<br/>";
    echo '<table style="font-size: 50%;">';
-   for($i=0; $i < $this->urlCount; $i++)
+   
+   //for($i=0; $i < $this->urlCount; $i++)
+   for($i=0; $i < 10; $i++)
    {
-     $key = $this->orderedUrls[$i];
-     $node = $this->url2PageNodeHash[$key];
+     //$key = $this->orderedUrls[$i];
+     //$node = $this->url2PageNodeHash[$key];
+     $node = $this->orderedUrls[$i];
      $prev=$next=' -- ';
      if(isset($node->prev))
         $prev = $node->prev->dataObj;
      if(isset($node->next))
         $next = $node->next->dataObj;
 
-     echo "<tr><td>",$prev, "</td><td>" , $node->idx + 1, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
+     echo "<tr><td>",$prev, "</td><td>" , $node->idx, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
    }
    echo "</table>";
 }
@@ -121,7 +163,7 @@ function getOutput($divid)
   $ret .= $this->getPrevCookieJS();
   $this->readP2NFile();
   //$this->u2pDbg();
-  $nowNum = -1;
+  $nowNum = 1; // set a default?
 
  $robopage = '';
  if(isset($_GET['robopage']))
@@ -131,18 +173,24 @@ function getOutput($divid)
 
  if($robopage == '')
  {
-     $nowNum = 0;
+     $nowNum = 1;
      $nowNode = reset($this->pageNum2NodeHash);
  }
  else
  {
-     $nowNode = $this->pageNum2NodeHash[0];
+     //$nowNode = $this->pageNum2NodeHash[0];
+     $nowNode = $this->orderedUrls[0];
     
      if(isset($this->url2PageNodeHash[$robopage]))
      {
        $nowNode = $this->url2PageNodeHash[$robopage];
+       //echo "found ", $nowNode->idx, " " , $nowNode->dataObj, " on ", $robopage, "<br/>"; 
+     }
+     else{
+       $nowNode = $this->orderedUrls[0];
      }
      $nowNum = $nowNode->idx;
+     //$nowNode->nodeDbg();
  }
 
  // robopages accepts ?robopage=somdir as a url by finding a default display $_SESSION['currentDisplay']
@@ -181,6 +229,15 @@ function getOutput($divid)
     $prevUrl = $nowNode->dataObj;
   } 
 
+ // if next or prev is_dir increment or decrement
+ /*
+   needs work.  nowNum starts at zero. DisplayNum is nowNum+1
+   what about dirs? Robopages gets a default page which causes trouble.
+   maybe the page numbers should be in the p2n file?
+   .......or, listNode->idx is arbitrary.
+   The dir and the next node can have the same idx if is_dir
+ */
+
 // if not mime type link
   $nextTargetType = $this->mimer->getRoboMimeType($nextUrl);
   $prevTargetType = $this->mimer->getRoboMimeType($prevUrl);
@@ -193,7 +250,8 @@ function getOutput($divid)
    else
     $prevUrl = $_SESSION['currentClickDirUrl'] . basename($prevUrl);
     
-  $displayNum = $nowNum + 1;
+  //$displayNum = $nowNum + 1;
+  $displayNum = $nowNum;
   $ret .=  '<b class="pageNumber"> Page ' . $displayNum . '</b>';
   $ret .= '<p class="buttonbox">';
 
@@ -221,11 +279,13 @@ function getOutput($divid)
   //if(isset($_COOKIE['lastRobopage']))
   $bookTopDirComparitor = str_replace($_SESSION['prgrmDocRoot'], '',  $_SESSION['bookTop']);
   $lastPageFlag = isset($_COOKIE['lastRobopage']) ? 1 : 0;
-   
+  
+/* 
   if( isset($_GET['robopage']) && $_GET['robopage'] == $bookTopDirComparitor )
   {
      $lastPageFlag=0;
   }
+*/
   if($lastPageFlag)
   {
     $ret .=  "\n". '<a class="button" href="?robopage='.$_COOKIE['lastRobopage'] .'">Last Read</a><br/>'. "\n";
