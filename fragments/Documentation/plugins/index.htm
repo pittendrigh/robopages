@@ -10,26 +10,48 @@ Classes are matched to their respective HTML block elements in the current layou
 <br/>
 In the robo.xml example below each block element has an ID and a SRC attribute, where the id maps that block to the appropriate CSS and the src maps that block to the right plugin class in the plugins directory. Blocks whose src is "container" are the only blocks that do not execute code. Containers simply contain other blocks. 
 <br/> <br/>
-In the example below the division whose id is "logo" invokes the plugins/file.php class to generate the right content. Further details about the file.php plugin can be found in documentation for the <a href="?page=Documentation/Plugins/file">file.php </a> plugin.
+In the example below the division whose id is "hbanner" invokes the plugins/file.php class to generate the right content. Further details about the file.php plugin can be found in documentation for the <a href="?page=Documentation/Plugins/file">file.php </a> plugin.
 <br/> <br/>
+Every website has a default layout defined in conf/globals.ini
+<br/><br/>
+The defalt default is robo.xml. But it doesn't have to be.<br/>
+In the robo.xml example below, on a typical website most (but not all) layouts vary from the default layout only in the &lt;div id="main-content"&gt; section.
+
+<br/> <br/>
+Each layout specifies which plugins, css files and (optionally) which js files are needed to make this layout run.
+<br/> <br/>
+
 <h2> Sample robo.xml </h2>
 <textarea style="width: 98%; height: 24em;">
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <cssfiles>
-        <file>css/robo.css</file>
-        <file>css/dropdowns.css</file>
-    </cssfiles>
-    <bodycontent>
-        <div klass="container text-center" id="headerbanner" src="container" >
-            <div id="hbanner" src="file" />
-            <div klass="navbar" id="bottombannerlinks" src="file" />
+  <plugins>
+      <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/flexyFileContent.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
+      <file>plugins/file.php</file>
+      <file>plugins/meme.php</file>
+      <file>plugins/targetedArcade.php</file>
+      <file>plugins/targetedSlideshow.php</file>
+  </plugins>
+  <cssfiles>
+    <file>css/robo.css</file>
+    <file>css/meme.css</file>
+  </cssfiles>
+  <bodycontent>
+      <div id="wrapper" src="container">
+        <div id="headerbanner" src="container">
+          <h1 id="hbanner/" src="file" />
+          <nav id="bottombannerlinks" src="file"></nav>
         </div>
-        <div klass="container" id="wrapper" src="container" >
-              <div klass="navbar" id="mkBreadcrumbs" src="mkBreadcrumbs" />
-              <div id="mobiusContent" src="mobius" />   
-        </div> 
-        <div id="footer" src="file" />   
-    </bodycontent>
+        <div id="main-content" src="container">
+          <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+          <div id="stuff" src="flexyFileContent">
+            <div klass="toc" src="dynamicNavigation" />
+          </div>
+        </div>
+        <div id="footer" src="file" />
+      </div>
+  </bodycontent>
 </layout>
 </textarea>
