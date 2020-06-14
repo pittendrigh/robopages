@@ -1,2 +1,4 @@
-?robopage=Documentation::Documentation
+?robopage=index.htm::index.htm
 ?robopage=Background.htm::Background.htm
+?robopage=Gallery::Gallery
+?robopage=Documentation::Documentation
