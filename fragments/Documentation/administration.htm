@@ -1,8 +1,10 @@
 <h2> Administration strategies </h2>
 I use scp ssh bash perl sed and awk to manipulate files on the server.<br/>
 <br/>
-phpMyAdmin could be used instead but then you have to make the DOCUMENT_ROOT writable to webs server, which I don't like to do.<br/>
+phpMyAdmin could be used instead but then you have to make the DOCUMENT_ROOT writable to server process, which I don't like to do.<br/>
 <br/>
-Another take is to run parallel installations on both the desktop localhost and the server. Once both are installed and once the localhost version looks right, then you use scp to copy the css, layouts and fragments directories up to the server.<br/>
+robopages does have an adminInterface. Setup details are in the documentation.  That too requires the DOCUMENT_ROOT be writable to the server process, but the adminInterface does make the file system read only in between editing sessions.  I a made the adminInterface for a customer who didn't have ssh/bash/sed/awk/vi skills. It works but I don't personally use it.
+<br/><br/>
+The recommended take is to run parallel installations on both the desktop localhost and the server. Once both are installed and once the localhost version looks right, then you use scp to copy the css, layouts and fragments directories up to the server. You would do this all at once at installation time, and then upload bits and pieces only as the site evolves. <br/>
 <br/>
 Robopages was and is developed on linux but it does run on Mac and even on Windows with Xamp.  <br/>
