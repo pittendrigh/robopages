@@ -24,8 +24,12 @@ class bookNav extends plugin
     $link = '';
     //$label = basename($label);
     $linkTargetType = $this->mimer->getRoboMimeType($line);    
-      //echo "mkLink line: ", $line, " ", $label, " " , $linkTargetType  , "<br/>";
-      
+     
+    $highLightFlag = FALSE;
+    if(isset($_GET['robopage']) && $line == $_GET['robopage'])
+        $highLightFlag = TRUE;
+    $testAgain = $line . '/' . $_SESSION['currentDisplay'];
+ 
     switch($linkTargetType)
     {
       case "link":
@@ -39,10 +43,9 @@ class bookNav extends plugin
       else
       {
         $thisDir = basename($_SESSION['currentDirPath']);
-        //echo $thisDir, " in " , $line, "???<br/>";
-        //if(strstr($line, $thisDir))
-        // $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>' . "\n";
-        //else
+        if(strstr($line, $thisDir) && str_replace('/','',$_SESSION['currentDirUrl']) != $_SESSION['bookTop'])
+         $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>' . "\n";
+        else
          $link = '<a href="?robopage='.$line.'">' . $label . '</a>' . "\n";
       }
     } 
@@ -52,24 +55,19 @@ class bookNav extends plugin
 
   function assembleGlobalChapterLinks($linksString)
   {
-    //echo "linksString: ", $linksString, "<br/>";
     $linkChunks = explode(",", $linksString);
     $cnt = count($linkChunks) -1;
     for($i=0; $i<$cnt; $i++)
     {
       $url = $this->currentBookName . '/' . $linkChunks[$i];
-     
+    
        if(is_dir($this->p2nFileDir . trim($linkChunks[$i])))
            $label = ' <i class="material-icons" style="font-size: 80%; ">folder</i> ' .  $linkChunks[$i];
        else
             $label = $linkChunks[$i];
-      //$link = '<a href="?robopage='.$url.'">' . $label . '</a>';
-      //echo "assembleGlobalChapterLinks: ", $url, " ", $label, "<br/>";
       $link = $this->mkLink($url, $label);
       $this->globalChapterLinks[] = $link;
-    }
-  }
-
+    } } 
   function assembleLocalPageLinks($linksString)
   {
     $returningLeafLinks = array();
@@ -77,13 +75,14 @@ class bookNav extends plugin
     $cnt = count($linkChunks) -1;
     for($i=0; $i<$cnt; $i++)
     {
-      $url = $this->currentBookName . '/' . $linkChunks[$i];
+      $line = trim($linkChunks[$i]);
+      $url = $this->currentBookName . '/' . $line;
     
       // need to support optional label option in link line 
       //$label = basename($linkChunks[$i]);
-      $label = $linkChunks[$i];
-      if(isset($_GET['robopage']) && $_GET['robopage'] == $url)
-          $link = '<a class="highlighted" href="?robopage='.$url.'">' . $label . '</a>';
+      $label = $line;
+      if(isset($_GET['robopage']) && $_GET['robopage'] == $url || strstr($label,$_SESSION['currentDisplay']))
+          $link = '<a class="lclhighlighted" href="?robopage='.$url.'">' . $label . '</a>';
        else
           $link = '<a href="?robopage='.$url.'">' . $label . '</a>';
       $returningLeafLinks[] = $link;
@@ -95,14 +94,12 @@ class bookNav extends plugin
   function getGlobalChapterLinks()
   {
     $linksString = '';
-    //echo "p2nFile: ", $this->p2nFile, "<br/>";
     $lines = file($this->p2nFile);
     $p2nLineCnt = count($lines);
     for($i=0; $i<$p2nLineCnt; $i++)
     {
       $line = trim($lines[$i]);
       $tentativeDirPath = trim($this->p2nFileDir) .  trim($line);
-       //echo $line, "<br/>";
       // top level directories are chapter names
       // we also want any leaf level *.htm files in the bookTop directory
       if(!strstr($line,'/'))
@@ -285,7 +282,6 @@ ENDO;
       $cnt = count($localLinksArray);
       for($i=0; $i<$cnt; $i++)
       {
-        //echo htmlentities($localLinksArray[$i]), "<br/>";
         $bottom .= $localLinksArray[$i];
       }
 
