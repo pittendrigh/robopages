@@ -43,7 +43,7 @@ function check_hash($pass,$hash)
     function userlogin($username, $password)
     {
         global $sys_robosauce;
-
+        //echo $sys_robosauce, "<br/>";
         $robosauce = $sys_robosauce;
         $password .= $robosauce;
         $ret = FALSE;
@@ -170,6 +170,7 @@ ENDO;
         $currentDirUrl = $_SESSION['currentDirUrl'];
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
+            echo $_POST['username'], " ", $_POST['password'], "<br/>";
             $this->userlogin($_POST['username'], $_POST['password']);
             if (StaticRoboUtils::isAdmin())
             {
