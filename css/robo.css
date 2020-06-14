@@ -259,9 +259,17 @@ font-size: 60%;
 }
 */
 
-a.highlighted{
+a.highlighted
+{
   display: block;
   background: #ababab;
+  padding: 2px;
+}
+
+a.lclhighlighted
+{
+  display: block;
+  background: #cdcdcd;
   padding: 2px;
 }
 
