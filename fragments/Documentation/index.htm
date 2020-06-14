@@ -1,5 +1,15 @@
 <h1> Robopages Big Picture </h1>
 
+The robopages documention uses <b>layouts/roboBook.xml</b> as the layout, rather than the default <b>layouts/robo.xml</b>
+This demonstrates the roboBook layout but it also turns out to be the best way to organize the documentation.
+layouts/roboBook.xml and its matching <b>plugins/bookNav.php</b> navigation plugin depend on a properly formatted 
+<b>fragments/Documentation/p2n</b> file, which specifies the ordering of the 0..N pages in a book.
+roboBook is a work in development, as of _Jun_14_2020.  The codes work but they are rough at the edges.
+<b>commandLineUtils/tocit.py</b> is a python script for generating a p2n file.  It is not currently usable.
+Be forwarned. Actually tocit.py gets the p2n file close to usable. So I do use it. And then make corrections manually.
+Most users should steer clear of roboBook.xml, for a while longer.  It will be beta soon.
+
+<br/><br/>
 Robopages was developed as a rapid application way to make complex online documentation for online instructional classes. Robopages makes it possible to quickly assemble and continuously edit a complex system of pages with minimal effort. Any layout is possible. Robopages can be used as the framework for websites of arbitrary complexity. 
 <br/><br/>
 For developers, rapid application is good no matter what. Robopages websites that do not use a database are fast to make and fast to run.  So they can be left as is--and they can be expected to scale well too. But some developers might want to use Robopages as fast way to hack out a new layout. And then, once done, to export that newly developed content and layout to a more cumbersome system like Drupal or Wordpress.
