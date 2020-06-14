@@ -1,5 +1,0 @@
-To make the contact form work edit plugins/names appropriately.
-change: 
-johndoe:john.doe@gmail.com
-to: 
-yourname:youremail@yourmailservice.com 
