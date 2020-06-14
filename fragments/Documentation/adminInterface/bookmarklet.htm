@@ -1,0 +1,16 @@
+<h2> Edit this as needed </h3>
+<b> Then minify it and encode it and install it as a bookmarklet </b><br/>
+<br/>
+javascript:(function()<br/>
+{<br/>
+ var result = '',tmp = [];<br/>
+ location.search.substr(1).split("&").forEach(<br/>
+      function (item) <br/>
+      {<br/>
+        tmp = item.split("=");<br/>
+        if (tmp[0] === 'robopage') <br/>
+           result = decodeURIComponent(tmp[1]);<br/>
+       });<br/>
+  var where="?robopage=" + result + "&layout=nerd";<br/>
+  window.location.replace("http://localhost/robopages/?robopage="+result+"&layout=nerd")<br/>
+})()<br/>

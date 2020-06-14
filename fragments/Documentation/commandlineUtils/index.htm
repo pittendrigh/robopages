@@ -1,0 +1,51 @@
+I administer robopages sites with scp and ssh, bash sed and perl awk etc.<br/>
+For most administration chores I ssh into the server and run various bash and perl command line tools.<br/>
+There are no admin.php like scripts for hackers to exploit.
+<br/><br/>
+There is now an AdminInterface for those who don't know how to manipute the keyboard inside a terminal window. I don't use it but one of my customers does.  Bash sed perl python and awk with custome file permissions is the safest way to administer a website. Allowing non-tcchy customers to modify their own website is fraught with peril.  But alas necessary. 
+<br/><br/>
+The paragraphs below outline how I administer my own website <a href="https://montana-riverboats.com"> https://montana-riverboats.com </a>
+<br/><br/>
+
+You will need <b>imagemagick</b> and various perl libraries including: <br/>
+<b>Image::Size<br/>
+    CWD<br/>
+    File::Basename<br/>
+    MIME::Types <br/> </b>
+Use <b>sudo yum search/install</b> or <b>sudo apt-cache search/sudo apt-get install</b> or <b>sudo perl -MCPAN -eshell</b> to find and install the perl libraries above.
+
+<h2> Robopage Utilities </h2>
+<b>mkslideshow:</b> (makes a slideshow work but does not generate thumbnail navigation, creates symlinks in roboresources/slideshow)<br/>
+<b>mkthumbs:</b> (makes thumbnails and slideshows for this directory only, in the hidden dirs roboresources/thumbs and roboresources/slideshow)<br/>
+<b>recursiveslides:</b> (a recursive wrapper around mkthumbs) <br/>
+<b>resize.pl:</b> (resizes images) 
+<p style="margin-left: 2em;">
+    for file in &#96;find . | egrep -i  "jpg|gif|png"&#96;<br/>
+    do<br/>
+    &nbsp; &nbsp; resize.pl $file 500<br/>
+    &nbsp; &nbsp; sleep 1 #### give resize.pl enough time to run before looping<br/>
+    done
+</p>
+<b>vvi: </b>(vi running as root, with sudo)<br/>
+<b>fragfix:</b>  (recursive file permission changer, from the current directory on down)<br/>
+<b>mkord:</b>  <br/> 
+<p style="margin-left: 2em;">
+    mkord is a recursive wrapper around mmkord. <br/>
+    mmkord works on the current directory only. </br>
+    Use with caution (always make backups bofore anything, no matter what)
+</p>
+<b>mmkord:</b> 
+<p style="margin-left: 2em;">
+    mmkord calls 
+    creates a dirlinks file in any given directory, which orders the links created by plugins/dynamicNavigation.php. After running the script and creating the dirlinks file you can edit it to rearrange the link ordering. Any files found in said directory not specified in the dirlinks file are appended to the displayed links by plugins/dynamicNavigation.php<br/>
+</p>
+<b>rrepstr: </b> 
+<p style="margin-left: 2em;">
+    for file in &#96;find . -name "*htm"&#96;<br/>
+    do<br/>
+    &nbsp; &nbsp;   rrepstr $file JPG jpg > /tmp/pee<br/>
+    &nbsp; &nbsp;  cp /tmp/pee $file<br/>
+    done
+</p>
+
+<b>datesuff</b>  Generates a string similar to <b>_Sep_16_2017</b> based on today's date 
