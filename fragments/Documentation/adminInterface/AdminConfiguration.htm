@@ -1,12 +1,25 @@
-edit conf/globals.php <br/>
-so $sys_robosauce = "whatEverYouWant";<br/>
+<h1> Setting up the AdminInterface </h3>
+
+Edit conf/globals.php so <b>$sys_robosauce = "whatEverYouWant";</b><br/>
+<br/> <br/>
+Also hand edit <b>commandLineUtils/phppw</b> <br/>
+so <b>$robosauce="whatEverYouWant";</b><br/>
+Those two have to match.
+
+<br/> <br/>
+now use <b>commandLineUtils/phppw:</b><br/>
 <br/>
+phppw apassword >> plugins/RobopagePasswds.php &lt;enter&gt;<br/>
 <br/>
-now use commandLineUtils/phppw<br/>
+now edit <b>plugins/RobopagePasswds.php</b> so the appended last line has the form:<br/>
 <br/>
-phppw apassword >> plugins/RobopagePasswds.php<br/>
+username:hash:nimda<br/>, where "hash" is the output from commandLineUtils/phppw
 <br/>
-now edit plugins/RobopagePasswds.php so the appended last line has the form:<br/>
-<br/>
-username:hash:nimda<br/>
-<br/>
+
+Now point your browser at https://yourdomain.net/?layout=nerd
+<br/><br/>
+You will be prompted for a password. <br/>
+The login should work (on localhost only) without resetting the password,<br/>
+using login: gitgit with password: gotgot
+<br/><br/>
+gitgit and gotgot is fine on your localhost but you must reset the password for real use on any server.

@@ -1,22 +1,19 @@
 <h1> Admin Interface as of Tue Jan 22 16:31:12 MST 2019</h1>
 
-This is a new feature not yet documented.  But it does seem to work.
-The safest and best way to operate robopages is in a bash/scp only mode.
-The site admin can then chown -R all files to a user who is not the apache process
+The safest and best way to develop and install a robopages site is to build it on your desktop. Once up and running you then copy the relevant files up to the server.  If you want to make changes on the server it's best to operate robopages (on the server) in a bash/scp only mode.
+The site admin (you) can then chown -R all files to a user who is not the apache process
 and chmod -R 555 the fragments directory, chmod or chown  any LOGS directories, in order make them writable to the web server process..
-Then it's secure.
+Then it's secure. 
 <br/><br/>
 
 However.  You might want to build a robopages site for a customer who doesn't do
-bash perl python sed awk and scp.
+bash perl python sed awk and scp. The best way for users who are not Unix savvy to administer a site is with the adminInterface running on their desktop box.  If said not-unix-savvy user has a Mac robopages can be setup to run somewhere under /Library.  If said not-unix-savvy user has a Windows machine robopages can be setup with Xamp.  That discussion is outside this context. 
 <br/><br/>
 
-In that case the RobopageAdmin.php is a useful alternative.
-I'm not making any promises as to it's security as of today.
-I do have one user using it, over a year now (2020) and still no hacks.
+RobopagesAdmin can be used on a server too but I don't recommend it. 
 <br/><br/>
 
-To make this work you have to sudo chown -R apache.apache the fragments directory.
+To make this work on the sever (if you want) you have to sudo chown -R apache.apache the fragments directory.
 The admin interface does a recursive chmod -R 755 to make it writable during the admin session.
 If the user remembers to click the Logout button it chmods back to 555 when done.
 <br/><br/>
@@ -27,6 +24,7 @@ is hard-coded.
 <br/><br/>
 (test login as user: gitgit<br/>
  with password: gotgot)<br/>
+plugins/RobopagePasswds.php will contain something like:<br/>
 gitgit:c7e0cc5ac1a953943a0b87422e5559e5:nimba<br/>
 <br/><br/>
 

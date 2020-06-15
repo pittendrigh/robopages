@@ -1,16 +1,23 @@
 <h2> Edit this as needed </h3>
-<b> Then minify it and encode it and install it as a bookmarklet </b><br/>
+<b> Then minify it and encode it and install it as a bookmarklet in your browser's toolbar.</b><br/>
+Use a search engine to find out more about bookmarklets.<br/>
+The URL in the javascript below is the only part you will have to edit.<br/>
 <br/>
-javascript:(function()<br/>
-{<br/>
- var result = '',tmp = [];<br/>
- location.search.substr(1).split("&").forEach(<br/>
-      function (item) <br/>
-      {<br/>
-        tmp = item.split("=");<br/>
-        if (tmp[0] === 'robopage') <br/>
-           result = decodeURIComponent(tmp[1]);<br/>
-       });<br/>
-  var where="?robopage=" + result + "&layout=nerd";<br/>
-  window.location.replace("http://localhost/robopages/?robopage="+result+"&layout=nerd")<br/>
-})()<br/>
+<p style="clear: both;"> &nbsp; </p>
+<xmp>
+javascript:(function()
+{
+ var result = '',tmp = [];
+ location.search.substr(1).split("&").forEach(
+      function (item) 
+      {
+        tmp = item.split("=");
+        if (tmp[0] === 'robopage') 
+           result = decodeURIComponent(tmp[1]);
+       });
+  var where="?robopage=" + result + "&layout=nerd";
+  window.location.replace("http://localhost/robopages/?robopage="+result+"&layout=nerd")
+})()
+</xmp>
+
+<br/>
