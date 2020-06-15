@@ -13,7 +13,7 @@ include_once("plugin.php");
 
 class dynamicNavigation extends plugin
 {
-   protected $linkshash; // all links as object, keyed by href
+   public $linkshash; // all links as object, keyed by href
    protected $fileKeys;  // not hashed array for link ordering
 
    protected $currentDirPath;
@@ -280,10 +280,7 @@ foreach($allOfEm as $aKey)
                 continue;
 
             // why not a link?
-            if (is_link($this->currentDirPath . $file))
-            {
-                continue;
-            }
+            //if (is_link($this->currentDirPath . $file)) { continue; } 
 
             $label = ucfirst($file);
             if (!$sys_show_suffixes)
