@@ -121,11 +121,11 @@ echo "privilege: ", $privilege, "<br/>";
              Robert is not the same as robert.</p>';
         $ret .= '<form action="?robopage='.$currentDirUrl.'l&amp;layout=authUtils" method="post">
        <p><b>login name </b>  
-       <input type="text" name="username" value="" size="32" maxlength="48" > </p> 
+       <input type="text" name="username" value="" size="32" maxlength="48" /> </p> 
        <p><b>password</b>  
-       <input type="password" name="password" value="" size="12" maxlength="32" > </p>';
-        $ret .= '<input type="hidden" name="mode" value="processLoginForm">';
-        $ret .= '<p><input type="submit" name="submit" value="login"></p> ';
+       <input type="password" name="password" value="" size="12" maxlength="32" /> </p>';
+        $ret .= '<input type="hidden" name="mode" value="processLoginForm"/>';
+        $ret .= '<p><input type="submit" name="submit" value="login"/></p> ';
         $ret .= '</form></fieldset>';
         $ret .= '<p><a href="' . dirname($_SERVER['PHP_SELF']) . '?mode=logout"><b>cancel</b></a></p>';
 

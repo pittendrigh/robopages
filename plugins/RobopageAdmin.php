@@ -4,6 +4,7 @@
 include_once ("AuthUtils.php");
 include_once ("editor.php");
 include_once ("uploader.php");
+include_once('class.upload.php');
 include_once ("filesLister.php");
 include_once ("adminPlugin.interface.php");
 include_once ("adminPlugin.php");
@@ -22,7 +23,8 @@ class RobopageAdmin extends adminPlugin implements adminPluginInterface
         parent::init();
     }
 
-    function _destruct() { echo "yo, destructor <br/>"; exit; }
+    // how do we count references? So we could null them and use this?
+    function _destruct() { echo "destructor? <br/>"; }
 
     function destroy_dir($dir)
     {
@@ -56,7 +58,7 @@ class RobopageAdmin extends adminPlugin implements adminPluginInterface
                     if (is_dir($source))
                     {
                         $iterator = new RecursiveDirectoryIterator($source);
-                        // skip dot files while iterating 
+                        // skip dot files while iterating
                         $iterator->setFlags(RecursiveDirectoryIterator::SKIP_DOTS);
                         $files = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
                         foreach ($files as $file)
@@ -128,6 +130,78 @@ class RobopageAdmin extends adminPlugin implements adminPluginInterface
         return false;
     }
 
+    function upload($where=null)
+    {
+      error_reporting(E_ALL);
+      $ret = '';
+      //$picDestination = $_SESSION['currentDirPath'];
+      // uploader.php provides an option somehow?
+      // grep -iH actionItem *php
+      //
+      $picDestination = $_SESSION['currentDirPath'] . 'roboresources/pics/';
+
+      // don't mkdir on arbitrary $where from form?
+      // Seems too dangerous, even though the form
+      // can only be after a successful login?
+      //
+      if(!@stat($picDestination))
+         mkdir($picDestination);
+
+
+      if($where != NULL)
+         $picDestination = $where;
+
+
+      $dir_dest = (isset($_GET['dir']) ? $_GET['dir'] : $picDestination);
+      $dir_pics = (isset($_GET['pics']) ? $_GET['pics'] : $dir_dest);
+
+      $log = '';
+
+      $handle = new Upload($_FILES['my_field']);
+
+          if ($handle->uploaded)
+          {
+              $handle->process($dir_dest);
+
+              if ($handle->processed) {
+                  // everything was fine !
+                  $ret .=  '<p class="result">';
+                  $ret .=  '  <b>File uploaded with success</b><br />';
+                  $ret .=  '  File: <a href="'.$dir_pics.'/' . $handle->file_dst_name . '">' . $handle->file_dst_name . '</a>';
+                  $ret .=  '   (' . round(filesize($handle->file_dst_pathname)/256)/4 . 'KB)';
+                  $ret .=  '</p>';
+              }
+              else
+              {
+                  // one error occured
+                  $ret .=  '<p class="result">';
+                  $ret .=  '  <b>File not uploaded to the wanted location</b><br />';
+                  $ret .=  '  Error: ' . $handle->error . '';
+                  $ret .=  '</p>';
+              }
+
+              // we delete the temporary files
+              $handle->clean();
+
+          }
+          else
+          {
+              // if we're here, the upload file failed for some reasons
+              // i.e. the server didn't receive the file
+              $ret .=  '<p class="result">';
+              $ret .=  '  <b>File not uploaded on the server</b><br />';
+              $ret .=  '  Error: ' . $handle->error . '';
+              $ret .=  '</p>';
+          }
+
+          $log .= $handle->log . '<br />';
+
+
+
+      if ($log) $ret .=  '<pre>' . $log . '</pre>';
+
+    }
+
     function getSecureOutput($divid)
     {
         $ret = $mode = '';
@@ -142,10 +216,11 @@ class RobopageAdmin extends adminPlugin implements adminPluginInterface
 
         if ($mode != null)
         {
+           echo "mode: $mode <br/>";
             switch ($mode)
-            { 
+            {
                 case "logout":
-                    $self = $_SERVER['PHP_SELF']; 
+                    $self = $_SERVER['PHP_SELF'];
                     StaticRoboUtils::chmod_r($_SESSION['prgrmDocRoot'], 0555);
                     @session_start();
                     session_unset();
@@ -197,8 +272,10 @@ ENDO;
                     $dirlinks = new dirlinks();
                     $ret .= $dirlinks->getOutput($this->nimdaistrableDivID);
                     break;
+                case "handleUpload":
+                     $ret .= $this->upload();
+                     break;
                 case "uploadForm":
-                case "uploadHandlePost":
                     $uploader = new uploader();
                     $ret .= $uploader->getOutput('');
                     break;
@@ -242,17 +319,18 @@ ENDO;
                 case "deleteDir":
                     $this->zipData($_SESSION['currentDirPath'] . $_POST['deletedir']
                             , $_SESSION['prgrmDocRoot'] . 'roboresources/BAKS/' . basename($_POST['deletedir']) . '.zip');
-                    //$this->destroy_dir($_SESSION['currentDirPath'] . $_POST['deletedir']);
+                    $this->destroy_dir($_SESSION['currentDirPath'] . $_POST['deletedir']);
                     $ret = $this->showForm();
                     break;
                 case "createDir":
+                    echo "foogow<br/>";
                     if (isset($_POST['newdirname']) && $_POST['newdirname'] != null)
                     {
-                        if (!@mkdir($_SESSION['currentDirPath'] . $_POST['newdirname'], 0755))
+                        if (!mkdir($_SESSION['currentDirPath'] . $_POST['newdirname'], 0755))
                         {
                             $ret .= "mkdir  " . $_POST['newdirname'] . " failed! <br/>";
                         }
-                        @chmod($_SESSION['currentDirPath'] . $_POST['newdirname'], 0755);
+                        chmod($_SESSION['currentDirPath'] . $_POST['newdirname'], 0755);
                     }
                     $ret .= $this->showForm();
                     break;
@@ -336,10 +414,10 @@ ENDO;
 
     function logoutButton()
     {
-        $ret = '<form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
+        $ret = '<form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
            <input style="color: red; font-weight: bold;" type="submit" value="Logout -- important!" />
            <input type="hidden" name="mode" value="logout"/>
-           </form>';
+           </form>' . "\n\n";
 
         return($ret);
     }
@@ -347,12 +425,12 @@ ENDO;
     function deleteDirForm()
     {
         $str = '<form action="?robopage=' . $_SESSION['currentDirUrl']
-                . '&amp;layout=nerd" method="post"> 
+                . '&amp;layout=nerd" method="post">
            <input type="submit" value="Delete Directory"/>
-           <select name="deletedir"> ' . $this->getDirsList() . '</select>  <span class="small"> 
+           <select name="deletedir"> ' . $this->getDirsList() . '</select>  <span class="small">
            <input type="hidden" name="mode" value="deleteDir"/>
            <b class="smallfont">(backup zip in ' . $_SESSION['currentDirUrl'] . 'roboresources/BAKS/)</b>
-           </form>';
+           </form>' . "\n\n";
 
         return $str;
     }
@@ -374,10 +452,10 @@ ENDO;
     {
         $str = '<form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
             <input type="submit" value="Rename File"/>
-           Rename <select name="filename"> ' . StaticRoboUtils::getFilesOptions($_SESSION['currentDirPath']) . '</select> 
+           Rename <select name="filename"> ' . StaticRoboUtils::getFilesOptions($_SESSION['currentDirPath']) . '</select>
             To:  <input type="text" name="newfilename"/>
            <input type="hidden" name="mode" value="renameFile"/>
-           </form>';
+           </form>' . "\n\n";
         return $str;
     }
 
@@ -385,10 +463,10 @@ ENDO;
     {
         $str = '<form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;laout=nerd" method="post">
             <input type="submit" value="Rename Dir"/>
-            Rename <select name="filename"> ' . $this->getDirsList() . '</select> 
+            Rename <select name="filename"> ' . $this->getDirsList() . '</select>
             To  <input type="text" name="newfilename"/>
            <input type="hidden" name="mode" value="renameFile"/>
-           </form>';
+           </form>' . "\n\n";
         return $str;
     }
 
@@ -396,23 +474,23 @@ ENDO;
     {
         $str = '<form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
             <input type="submit" value="Copy File"/>
-            copy <select name="filename"> ' . $this->getFilesOptions() . '</select> 
+            copy <select name="filename"> ' . $this->getFilesOptions() . '</select>
             To  <input type="text" name="copytofilename"/>
             <input type="hidden" name="mode" value="copyFile"/>
-           
-           </form>';
+
+           </form>' . "\n\n";
         return $str;
     }
 
     function deleteFileForm()
     {
         $str = '
-        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
+        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
          <input type="submit" value="Delete File"/>
-   
-         <select name="filename"> ' . StaticRoboUtils::getFilesOptions($_SESSION['currentDirPath']) . '</select>  
+
+         <select name="filename"> ' . StaticRoboUtils::getFilesOptions($_SESSION['currentDirPath']) . '</select>
         <input type="hidden" name="mode" value="deleteFile"/>
-        </form>';
+        </form>' . "\n\n";
         return $str;
     }
 
@@ -420,20 +498,20 @@ ENDO;
     {
         $str = '';
         $str = '
-        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
+        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
         <input type="submit" value="Reorder Links"/> <b class="smallfont">(for page sets using a dynamic TOC)</b>
         <input type="hidden" name="mode" value="dirlinks"/>
-        </form>';
+        </form>' . "\n\n";
         return $str;
     }
 
     function mkThumbsButton()
     {
         $str = '
-        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
+        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
         <input type="submit" value="Make Thumbnails"/>
         <input type="hidden" name="mode" value="mkThumbs"/>
-        </form>';
+        </form>' . "\n\n";
         return $str;
     }
 
@@ -446,10 +524,10 @@ ENDO;
             $forDir = '';
         }
         $str = '
-        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
+        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
         <input type="submit" value="Make Slideshow ' . $forDir . '"/>
         <input type="hidden" name="mode" value="mkSlideshow"/>
-        </form>';
+        </form>' . "\n\n";
         return $str;
     }
 
@@ -468,10 +546,11 @@ ENDO;
     function gotoUploadButton()
     {
         $str = '
-        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
+        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
         <input type="hidden" name="mode" value="uploadForm"/>
          <input type="submit" value="Upload Files"/>
         </form>';
+
         return $str;
     }
 
@@ -479,10 +558,10 @@ ENDO;
     {
         $self = $_SESSION['currentDirUrl'];
         $str = <<<ENDO
-  <form action="?robopage=$self&amp;layout=nerd" method="post"> 
+  <form action="?robopage=$self&amp;layout=nerd" method="post">
          <input type="submit" value="Create Directory"/>
          <input type="text" name="newdirname"/>
-        <input type="hidden" name="mode" value="Create Directory"/>
+        <input type="hidden" name="mode" value="createDir"/>
   </form>
 ENDO;
         return $str;
@@ -491,11 +570,11 @@ ENDO;
     function createFileForm()
     {
         $str = '
-        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
+        <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
          <input type="submit" value="Create New File"/>
          <input type="text" size="16" name="filename"/>
         <input type="hidden" name="mode" value="createFile"/>
-        </form>';
+        </form>' . "\n\n";
         return $str;
     }
 
@@ -543,15 +622,16 @@ ENDO;
         return $opstr;
     }
 
+
     function editFileForm()
     {
         $str = '
-         <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post"> 
+         <form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
           <input type="submit" value="Edit Existing File"/>
           Edit:  <select name="filename"> '
-                . $this->getFilesOptions($_SESSION['currentDirPath'], "\.blog|\.lcm|\.htm|\.txt|\.blurb|\.frag|dirlinks|layout") . '</select> 
+                . $this->getFilesOptions($_SESSION['currentDirPath'], "\.blog|\.lcm|\.htm|\.txt|\.blurb|\.frag|dirlinks|layout") . '</select>
          <input type="hidden" name="mode" value="editFile"/>
-         </form>';
+         </form>' . "\n\n";
         return $str;
     }
 

@@ -84,6 +84,8 @@ ENDO;
        $file = $_POST['filename'];
        $contents = $_POST['contents'];
        $backFile = $_SESSION['prgrmDocRoot'] . 'roboresources/BAKS/' . basename($_POST['filename']);
+       mkdir ($_SESSION['currentDirPath'] . 'roboresources/BAKS');
+       mkdir ($_SESSION['currentDirPath'] . 'roboresources/Blog');
 
         $fp = fopen($backFile, "w");
         fwrite($fp, $contents);
