@@ -1,0 +1,13 @@
+<h2> Administration strategies </h2>
+I use scp ssh bash perl python sed and awk to manipulate files on the server.<br/>
+
+<br/>
+For users who don't have those skills phpMyAdmin could be used instead. But then you have to make the DOCUMENT_ROOT writable to server process, which I don't like to do.<br/>
+<br/>
+Robopages does have its own adminInterface, as <b>plugins/RobopageAdmin.php. </b>Setup details are in the documentation.  That too requires the DOCUMENT_ROOT be writable to the server process, but the adminInterface does make the file system read only in between editing sessions. If and only if the user remembers to "log out" after each admin session.  I made the adminInterface for a customer who didn't have ssh/bash/sed/awk/vi skills. 
+<br/><br/>
+The recommended way to use RobopageAdmin is to run parallel installations on both the desktop localhost and the server, using RobopageAdmin on localhost only. Once both are installed and once the localhost version looks right, then you use scp or putty to copy the css, layouts and fragments directories up to the server. You would do this all at once at installation time, and then upload bits and pieces only as the site evolves. <br/>
+<br/>
+Robopages was and is developed on linux but it does run on Mac and even on Windows with Xamp.  <br/>
+<br/><br/>
+RobopageAdmin can be run on the server too. If you want. I don't recommend it.
