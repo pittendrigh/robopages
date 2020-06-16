@@ -150,9 +150,9 @@ class arcade extends plugin
 
     function setup()
     {
-        global $sys_interval;
-        if (isset($sys_interval))
-            $this->interval = $sys_interval;
+        global $sys_js_slideshow_interval;
+        if (isset($sys_js_slideshow_interval))
+            $this->interval = $sys_js_slideshow_interval;
         else if(!isset($this->interval))
             $this->interval = 1000;
        $this->slideShowPath = $_SESSION['currentDirPath'] . 'roboresources/arcade/';
