@@ -150,6 +150,7 @@ div.galleryNavigationImage {  float: left; width: 8em; height: 7em; margin: 0.25
 /* ==========RobopageAdmin related==================================*/
 
 div.dirChanger { width: 45%; padding-right: 1em; float: right;}
+div.dirChanger h3 { width: 50%; margin-left: 45%; }
 
 
 /* ============================================*/
