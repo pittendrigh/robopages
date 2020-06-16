@@ -43,7 +43,7 @@ class bookNav extends plugin
       else
       {
         $thisDir = basename($_SESSION['currentDirPath']);
-        if(strstr($line, $thisDir) && str_replace('/','',$_SESSION['currentDirUrl']) != $_SESSION['bookTop'])
+        if(strstr($line, $thisDir) && preg_replace(':/$:','',$_SESSION['currentDirUrl']) != $_SESSION['bookTop'])
          $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>' . "\n";
         else
          $link = '<a href="?robopage='.$line.'">' . $label . '</a>' . "\n";
