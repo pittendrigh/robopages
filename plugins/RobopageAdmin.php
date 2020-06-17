@@ -374,7 +374,7 @@ ENDO;
     {
         $str = '<form action="?robopage=' . $_SESSION['currentDirUrl'] . '&amp;layout=nerd" method="post">
             <input type="submit" value="Rename File"/>
-           Rename <select name="filename"> ' . StaticRoboUtils::getFilesOptions($_SESSION['currentDirPath']) . '</select> 
+           <select name="filename"> ' . StaticRoboUtils::getFilesOptions($_SESSION['currentDirPath']) . '</select> 
             To:  <input type="text" name="newfilename"/>
            <input type="hidden" name="mode" value="renameFile"/>
            </form>';
