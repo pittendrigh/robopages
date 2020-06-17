@@ -280,10 +280,7 @@ foreach($allOfEm as $aKey)
                 continue;
 
             // why not a link?
-            if (is_link($this->currentDirPath . $file))
-            {
-                continue;
-            }
+            //if (is_link($this->currentDirPath . $file)) { continue; }
 
             $label = ucfirst($file);
             if (!$sys_show_suffixes)
