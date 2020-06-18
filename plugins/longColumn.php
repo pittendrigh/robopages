@@ -69,7 +69,7 @@ class longColumn extends dynamicNavigation
         }
         else
         {
-            $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($_SESSION['currentDirUrl'] . $file);
+            $hrefKey = '?robopage=' . StaticRoboUtils::fixrobopageEqualParm($_SESSION['currentDirUrl'] . $file);
         }
 
         return $hrefKey;

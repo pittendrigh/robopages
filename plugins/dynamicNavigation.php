@@ -291,7 +291,7 @@ foreach($allOfEm as $aKey)
             $hrefKey = '';
             if (isset($linkTargetType) && $linkTargetType != "unknown")
             {
-                $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($this->currentDirUrl . $file);
+                $hrefKey = '?robopage=' . StaticRoboUtils::fixrobopageEqualParm($this->currentDirUrl . $file);
 
                 if ($linkTargetType == 'link')
                 {
@@ -318,7 +318,7 @@ foreach($allOfEm as $aKey)
                 else
                 {
                     //default and most common case
-                    $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($this->currentDirUrl . $file);
+                    $hrefKey = '?robopage=' . StaticRoboUtils::fixrobopageEqualParm($this->currentDirUrl . $file);
                 }
 
                 // Now test if already already exists from a pre-existing dirlinks file
