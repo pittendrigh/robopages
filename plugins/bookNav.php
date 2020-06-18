@@ -1,4 +1,5 @@
 <?php
+
 @session_start();
 include_once("plugin.php");
 include_once("nextPrevButtons.php");
@@ -7,49 +8,68 @@ include_once("dynamicNavigation.php");
 
 class bookNav extends plugin 
 {
-  protected $nextPrevButtons;
-  protected $p2nFileDir;
-  protected $p2nFile;
-  protected $currentBookName;
-  protected $mimer;
-  public $globalChapterLinks;
+  protected   $nextPrevButtons;
+  protected   $p2nFileDir;
+  protected   $p2nFile;
+  protected   $currentBookName;
+  protected   $mimer;
+  protected   $allP2nLinks;
+  protected   $missedLinks;
+  protected   $globalChapterLinks;
 
   function _construct()
   {
-     $this->mimer = new roboMimeTyper();
+     $this->init();
   }
 
-  function mkLink($line,$label)
+  function parentDir($testPath)
+  {
+      //echo "testpath: ", $testPath, "<br/>";
+      if(strstr($testPath,'htm'))
+      { 
+        $testPath = dirname($testPath);
+        //echo " ttestpath: ", $testPath, "<br/>";
+      } 
+      $ret = basename(dirname($testPath));
+      //echo "ret: ", $ret, "<br/>";
+      return ($ret);
+  }
+  // makes a string hyperlink rather than new Link($line) object, for now anyway
+  // better not rely on it but right now mkLink only called by assembleGlobalLinks
+  function mkLink($url,$label)
   {
     $link = '';
-    //$label = basename($label);
-    $linkTargetType = $this->mimer->getRoboMimeType($line);    
+
+    $linkTargetType = $this->mimer->getRoboMimeType($url);    
      
     $highLightFlag = FALSE;
-    if(isset($_GET['robopage']) && $line == $_GET['robopage'])
+    if(isset($_GET['robopage']) && $url == $_GET['robopage'])
         $highLightFlag = TRUE;
-    $testAgain = $line . '/' . $_SESSION['currentDisplay'];
+    $testAgain = $url . '/' . $_SESSION['currentDisplay'];
  
     switch($linkTargetType)
     {
       case "link":
-        $link = '<a target="_blank" href="' .  $_SESSION['currentClickDirUrl'] . basename($line) . '">' . $label. '</a>'; 
+        $link = '<a target="_blank" href="' 
+         . $_SESSION['currentClickDirUrl'] . basename($url) . '">' . $label. '</a>'; 
       break;
       default:
-      if(isset($_GET['robopage']) && $line == $_GET['robopage'])
+      if(isset($_GET['robopage']) && $url == $_GET['robopage'])
       { 
-        $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>'."\n";
+        $link = '<a class="highlighted" href="?robopage='.$url.'">' 
+          . $label . '</a>'."\n";
       }
       else
       {
-        $thisDir = basename($_SESSION['currentDirPath']);
-        if(strstr($line, $thisDir) && preg_replace(':/$:','',$_SESSION['currentDirUrl']) != $_SESSION['bookTop'])
-         $link = '<a class="highlighted" href="?robopage='.$line.'">' . $label . '</a>' . "\n";
+        if($this->parentDir($_GET['robopage']) == basename($url)) 
+         $link = '<a class="highlighted" href="?robopage='.$url.'">' 
+            . $label . '</a>' . "\n";
         else
-         $link = '<a href="?robopage='.$line.'">' . $label . '</a>' . "\n";
+         $link = '<a href="?robopage='.$url.'">' . $label . '</a>' . "\n";
       }
     } 
 
+    $this->allP2nLinks[$url] = $link;
     return($link);
   }
 
@@ -62,12 +82,25 @@ class bookNav extends plugin
       $url = $this->currentBookName . '/' . $linkChunks[$i];
     
        if(is_dir($this->p2nFileDir . trim($linkChunks[$i])))
-           $label = ' <i class="material-icons" style="font-size: 80%; ">folder</i> ' .  $linkChunks[$i];
+           $label = ' <i class="material-icons" style="font-size: 80%; ">folder</i> ' 
+             . $linkChunks[$i];
        else
             $label = $linkChunks[$i];
       $link = $this->mkLink($url, $label);
       $this->globalChapterLinks[] = $link;
-    } } 
+    } 
+  } 
+
+
+  function chaptersPageLinkLabel($testpath)
+  {
+     $chunks = explode('/',$testpath);
+     $lastChunk = '';
+     if(isset($chunks[1]))
+        $lastChunk = StaticRoboUtils::mkLabel($chunks[1]);
+     return $chunks[0] . '/' . $lastChunk;
+  }
+
   function assembleLocalPageLinks($linksString)
   {
     $returningLeafLinks = array();
@@ -78,13 +111,18 @@ class bookNav extends plugin
       $line = trim($linkChunks[$i]);
       $url = $this->currentBookName . '/' . $line;
     
-      // need to support optional label option in link line 
-      //$label = basename($linkChunks[$i]);
-      $label = $line;
-      if(isset($_GET['robopage']) && $_GET['robopage'] == $url || strstr($label,$_SESSION['currentDisplay']))
-          $link = '<a class="lclhighlighted" href="?robopage='.$url.'">' . $label . '</a>';
+      // need to support optional label option in link line  grep -i actionItem *php
+      $label = preg_replace(":^.*?/:","",$line);
+      //$label = $this->chaptersPageLinkLabel($label);
+
+      if(isset($_GET['robopage']) && $_GET['robopage'] == $url 
+          || strstr($label,  $_SESSION['currentDirUrl'] .  $_SESSION['currentDisplay']))
+        $link = '<a class="lclhighlighted" href="?robopage='.$url.'">' 
+          . $label . '</a>';
        else
           $link = '<a href="?robopage='.$url.'">' . $label . '</a>';
+
+      $this->allP2nLinks[$url] = $link;
       $returningLeafLinks[] = $link;
     }
 
@@ -100,6 +138,7 @@ class bookNav extends plugin
     {
       $line = trim($lines[$i]);
       $tentativeDirPath = trim($this->p2nFileDir) .  trim($line);
+
       // top level directories are chapter names
       // we also want any leaf level *.htm files in the bookTop directory
       if(!strstr($line,'/'))
@@ -115,11 +154,10 @@ class bookNav extends plugin
   {
     $ret=FALSE;
     // this could work in numerous ways.
-    // Right now (anyway) when layout is roboBook
-    // chapters contain *.htm files and other subdirectories
-    // This could change.  But for now, if we strstr for *.htm
-    // then we have what we need.
+    // chapters only contain *.htm files or subdirectories
     if(strstr($path,'.htm'))
+     $ret = TRUE;
+    else if (is_dir($this->p2nFileDir . $path))
      $ret = TRUE;
 
     return($ret);
@@ -131,7 +169,6 @@ class bookNav extends plugin
     $lines = file($this->p2nFile);
     $p2nLineCnt = count($lines);
     
-
     $robopage = '';
     if(isset($_GET['robopage']))
     {
@@ -139,7 +176,8 @@ class bookNav extends plugin
          if(!is_dir($_SESSION['prgrmDocRoot'] . $robopage))
            $robopage = dirname($robopage) . '/';
     }
-    $chapterName = str_replace($this->p2nFileDir, "", $_SESSION['prgrmDocRoot'] . $robopage);
+    $chapterName = 
+       str_replace($this->p2nFileDir, "", $_SESSION['prgrmDocRoot'] . $robopage);
 
     for($i=0; $i<$p2nLineCnt; $i++)
     {
@@ -147,7 +185,7 @@ class bookNav extends plugin
 
       // top level directories are chapter names
       // we also want any leaf level *.htm files in the bookTop directory
-      if(strstr($line,'/') && $this->subPathIsLeaf($line) && strstr($line,$chapterName))
+      if(strstr($line,'/')&&$this->subPathIsLeaf($line)&&strstr($line,$chapterName))
       {
           $linksString .= $line . ',';
       }
@@ -155,7 +193,6 @@ class bookNav extends plugin
 
     return($this->assembleLocalPageLinks($linksString));
   }
-
 
   function findP2NFile($dir)
   {
@@ -183,23 +220,19 @@ class bookNav extends plugin
   {
     $this->p2nFile = $this->findP2NFile($_SESSION['currentDirPath']);
     $this->p2nFileDir = dirname($this->p2nFile) . '/';
-    $this->currentBookName = preg_replace(":\/$:",'',str_replace($_SESSION['prgrmDocRoot'],"" ,$this->p2nFileDir));
+    $this->currentBookName = preg_replace(":\/$:",'',
+      str_replace($_SESSION['prgrmDocRoot'],"" ,$this->p2nFileDir));
     $_SESSION['bookTop'] = $this->currentBookName; 
 
   }
 
   function init()
   {
+    $this->mimer = new roboMimeTyper();
     $this->setP2NFile();
     $this->nextPrevButtons = new nextPrevButtons();
 
-    $this->linkshash = array();
-    $this->fileKeys = array();
-    $this->imageKeys = array();
-    $this->dirKeys = array();
-    $this->mimer = new roboMimeTyper();
-
-    //$this->gatherLinks();
+    $this->missedLinks = array();
   }
 
   function inBookTopDir()
@@ -237,7 +270,6 @@ ENDO;
     return $ret;
   }
 
-
   function getDirlinksPath()
   {
      $ret = $this->p2nFile;
@@ -257,6 +289,57 @@ ENDO;
        }
      }
      return($lines);
+  }
+
+  function find_additional_pages()
+  {
+      global $sys_show_suffixes, $sys_thumb_links;
+
+      $linkTargetType = "unknown";
+
+      $handle = @opendir($_SESSION['currentDirPath']);
+      while ($handle && ($file = @readdir($handle)) !== FALSE)
+      {
+          if ($file[0] == '.')
+              continue;
+          else if (strstr($file, ".frag") || $file == 'roboresources'  
+              || $file == 'dirlinks')
+              continue;
+
+          // why not a link?
+          // if (is_link($this->currentDirPath . $file)) { continue; }
+
+          $label = ucfirst($file);
+          if (!$sys_show_suffixes)
+              $label = ucfirst(StaticRoboUtils::stripSuffix($file));
+
+          $linkTargetType = 
+              $this->mimer->getRoboMimeType($_SESSION['currentDirUrl'] . $file);
+
+          $url = '';
+          if (isset($linkTargetType) && $linkTargetType != "unknown")
+          {
+              $url = 
+                StaticRoboUtils::fixrobopageEqualParm($_SESSION['currentDirUrl'] 
+                  . $file);
+
+              if ($linkTargetType == 'link')
+              {
+                  $url = $_SESSION['currentClickDirUrl'] . $file;
+              }
+              else
+              {
+                $atest = @$this->allP2nLinks[$url];
+                  if (!isset($atest) || $atest == null)
+                  {
+                    $link = '<a href="?robopage=' . $url. '"><b class="redAlert">' 
+                      . $label. "</b></a>\n";
+                    $this->missedLinks[$url] = $link;
+                  }
+              }
+          }
+          //else{ echo "??? $file<br/>\n"; }
+      }
   }
 
   function getOutput($divid)
@@ -286,8 +369,15 @@ ENDO;
       }
 
     }
-
-
+    $this->find_additional_pages();
+    if($_SESSION['layout'] != 'bookGalleryNav')
+    {
+       foreach ($this->missedLinks as $alink)
+       {
+          $bottom .= $alink. "\n";
+       } 
+    }
+    
     $ret =  $top . $bottom . '</div>';
     return($ret);
   }

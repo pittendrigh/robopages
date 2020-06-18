@@ -17,7 +17,7 @@ a:hover
     text-decoration: underline;
 }
 
-#sacbanner { width: 70%; margin-left: 20%; text-align: center:}
+.redAlert{ color: magenta; }
 
 
 #headerbanner{
