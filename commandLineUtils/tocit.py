@@ -38,16 +38,12 @@ def processChapterUrlsDictionary(mode):
       line = os.path.join(chapterName + "/" + subUrl)
       line = line.replace('BOOKROOT','');
 
-      # if not printing any BOOKROOT line why do we have them?
-      # debug this at some point
-      #if not re.search('BOOKROOT',line):
       line = line.replace("BOOKROOT","")
       if line.startswith('/'):
         line = line[1:]
       if line.endswith('/'):
         line = line[:-1]
 
-      #print (line)
       if mode == 'write':
             fp.write(line + "\n") 
 
@@ -59,7 +55,6 @@ def processChapterUrlsDictionary(mode):
 def readExistingP2N(filepath):
     global args, chapterUrlsDictionary
 
-    #print ("readExisting")
     try:
         Path(filepath).touch()
         fp = open(filepath, "r")
@@ -69,7 +64,6 @@ def readExistingP2N(filepath):
     Lines = fp.readlines()
     for thisPath in Lines:
         thisPath = thisPath.strip()
-        print("read thisPath " + thisPath)
         thisChapter = getChapterName(thisPath).strip()
         subUrl = thisPath.replace(args.delFromPath, '').strip().replace(thisChapter + '/','').strip().replace("//","/")
         subUrl = re.sub("^/", "",subUrl)
@@ -85,6 +79,7 @@ def readExistingP2N(filepath):
 def getChapterName(thisPath):
   global args
 
+  thisPath = thisPath.replace(args.delFromPath,'')
   chapterName = 'xyz'
   # following should be unnecessary
   thisPath = thisPath.replace(args.delFromPath, '')
@@ -107,51 +102,39 @@ def getSubUrl(path, thisChapter):
 
   return(subUrl.strip())
 
-def doDir(dirPath):
-#  found = re.search('Gallery', dirPath)
-#  if found:
-#    print()
-#    print ("dddddddddoDir " + dirPath)
-
-  #print("dirPath: " + dirPath)
-  #if dirPath.count('/') < 1 and dirPath not in chapterUrlsDictionary.keys():
-  #  print("dirPath: " + dirPath)
-  if os.path.basename(dirPath) not in chapterUrlsDictionary.keys():
-      chapterUrlsDictionary[os.path.basename(dirPath)] = {}
-  doFile(dirPath)
-
-def doFile(filePath):
+def doFile(path):
   
-    #filePath = re.sub("BOOKROOT","",filePath)
-    filePath = filePath.replace("//","/").strip()
-    filePath = re.sub("^/","",filePath)
-    fileType = tocMimer(filePath)
-    #if fileType in ['dir','page']:
-    if fileType == 'page':
-      thisChapter = getChapterName(filePath).strip()
-      #print("chapter: " + thisChapter)
+    filePath = path.replace("//","/").strip()
+    filePath = filePath.replace(args.delFromPath,"")
+    fileType = tocMimer(path)
+
+    thisChapter = getChapterName(filePath).strip()
+  
+    if fileType == 'page' or fileType == 'dir':
       subUrl = getSubUrl(filePath,thisChapter).strip()
       subUrl = re.sub("^/","",subUrl)
       subUrl = re.sub("/$","",subUrl)
-      #if fileType == 'dir':
-      #  print ("doFile subUrl: " + subUrl)
 
+   
       if thisChapter not in chapterUrlsDictionary.keys():
-         chapterUrlsDictionary[thisChapter] = {}
+        chapterUrlsDictionary[thisChapter] = {}
 
-      if subUrl not in chapterUrlsDictionary[thisChapter]:
+      ## xxxx
+      if fileType == 'dir' and not re.search("BOOKROOT", thisChapter): 
+        chapterUrlsDictionary[thisChapter][subUrl] = subUrl
+      if fileType == 'page' and subUrl not in chapterUrlsDictionary[thisChapter]:
         chapterUrlsDictionary[thisChapter][subUrl] = subUrl
        
 
 def tocMimer(path):
     ret = 'unknown' 
-    #print (os.getcwd() + "/" + path)
-    #if os.path.isdir(os.getcwd() + "/" + path) == True:
-    #    ret = 'dir' 
-
     types = [".htm"]
     filePath, suffix = os.path.splitext(path)
-    if suffix in types:
+
+    found = re.search("Wiggler",os.path.basename(path))
+    if os.path.isdir(path):
+        ret = 'dir' 
+    elif suffix in types:
         ret = 'page' 
 
     return (ret)
@@ -191,7 +174,7 @@ def recurseDirs(path):
         skipRoboresources = re.search("roboresources", newpath)
         if skipRoboresources:
             continue
-        doDir(newpath)
+        doFile(newpath)
         recurseDirs(newpath)
 
 
