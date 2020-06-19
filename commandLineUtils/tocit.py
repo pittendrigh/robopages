@@ -9,11 +9,6 @@ from pathlib import Path
 rootPath = os.getcwd() + "/"
 chapterUrlsDictionary = {}
 
-## be forwarned.  This is development code. Use it to make a first draft of a p2n file
-## You will have to hand edit that file before using it.
-## This code is supposed to add new files to an existing p2n, roughly in the right place
-## That part does not work at all yet.
-
 parser = argparse.ArgumentParser(description='Create a recursive p2n file')
 parser.add_argument( "--delFromPath", default= "")
 args = parser.parse_args()
