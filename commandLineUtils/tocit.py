@@ -6,49 +6,29 @@ import os
 import re
 import mimetypes
 from pathlib import Path
-
 rootPath = os.getcwd() + "/"
 chapterUrlsDictionary = {}
 
-# edit default defFromPath as needed 
+## be forwarned.  This is development code. Use it to make a first draft of a p2n file
+## You will have to hand edit that file before using it.
+## This code is supposed to add new files to an existing p2n, roughly in the right place
+## That part does not work at all yet.
 
-# Buggy first take. Not prime time yet 
-# The idea is to preserve ordering from any existing p2n file
-# but then to find any NEW file additions under the book root
-# and then to append them to (approximately) the right chapter location.
-#
-# A chapter is any first child directory of the book root
-# Chapters may have subdirectories for organizational conveniente.
-# Sub-directories of chapters are not chapters.
-#
-# Each chapter and each chapter subdirectory (if exists)
-# Any index.htm in any chapter should be the first path in 
-# that chapter group (first link later on, in php codes)
-# So a warning: index.htm always comes first not yet implemented. 
-#
-# delFromPath can't be a simple cwd function because of robopages quirks
-# at the top of the fragments/ hierarchy -- that needs nandling too
-# delFromPath needs work
-#
-# debugging? Start by erasing any existing p2n
-# output (for now) is np2n.  Look at it.  copy it as p2n if you like what you see
-#
 parser = argparse.ArgumentParser(description='Create a recursive p2n file')
-parser.add_argument( "--delFromPath", default= "/var/www/html/photography/robopages/fragments/")
+parser.add_argument( "--delFromPath", default= "")
 args = parser.parse_args()
+if not args.delFromPath:
+  args.delFromPath = os.getcwd() + '/'
 
 # ======= debugging functions
-
-def ddbgChapterNames():
+def dbgChapterNames():
   global chapterUrlsDictionary
   
   for chapterName in chapterUrlsDictionary.keys():
     print (chapterName)
-  print ("end dbgChaperNames \n")
-
+  print ("end dbgChaperNames \n\n")
 #============ end debugging functions
 
-#======begin output functions
 def processChapterUrlsDictionary(mode):
   global chapterUrlsDictionary
 
@@ -57,17 +37,24 @@ def processChapterUrlsDictionary(mode):
     fp = open('np2n', "w")
 
   for chapterName in chapterUrlsDictionary.keys():
-    if mode == 'write' and not re.search('TOC',chapterName):
+    if mode == 'write' and not re.search('BOOKROOT',chapterName):
       fp.write(chapterName.rstrip('//') + "\n")
     for subUrl in chapterUrlsDictionary[chapterName].keys():
-      line = chapterName + subUrl 
+      line = os.path.join(chapterName + "/" + subUrl)
+      line = line.replace('BOOKROOT','');
 
-      # if not printing any TOC line why do we have them?
+      # if not printing any BOOKROOT line why do we have them?
       # debug this at some point
-      if not re.search('TOC',line):
-        print (line)
+      #if not re.search('BOOKROOT',line):
+      line = line.replace("BOOKROOT","")
+      if line.startswith('/'):
+        line = line[1:]
+      if line.endswith('/'):
+        line = line[:-1]
+
+      #print (line)
       if mode == 'write':
-          fp.write(line + "\n") 
+            fp.write(line + "\n") 
 
   if mode == 'write':
     fp.close()
@@ -76,22 +63,22 @@ def processChapterUrlsDictionary(mode):
 
 def readExistingP2N(filepath):
     global args, chapterUrlsDictionary
+
+    #print ("readExisting")
     try:
         Path(filepath).touch()
         fp = open(filepath, "r")
     except:
         print("No fp to open on p2n file")
-        exit
 
     Lines = fp.readlines()
     for thisPath in Lines:
-        #thisPath = thisPath.replace("\n",'')
         thisPath = thisPath.strip()
+        print("read thisPath " + thisPath)
         thisChapter = getChapterName(thisPath).strip()
         subUrl = thisPath.replace(args.delFromPath, '').strip().replace(thisChapter + '/','').strip().replace("//","/")
         subUrl = re.sub("^/", "",subUrl)
         subUrl = re.sub("/$", "",subUrl)
-          
         try:
             chapterUrlsDictionary[thisChapter][subUrl] = subUrl
         except:
@@ -108,10 +95,11 @@ def getChapterName(thisPath):
   thisPath = thisPath.replace(args.delFromPath, '')
 
   if thisPath.count('/') < 1:
-    chapterName = 'TOC/'
+    chapterName = 'BOOKROOT'
   else:
     dirs = thisPath.split('/')   
-    chapterName = dirs[0] + '/'
+    #chapterName = dirs[0] + '/'
+    chapterName = dirs[0] 
   
   return (chapterName.strip())
 
@@ -124,15 +112,34 @@ def getSubUrl(path, thisChapter):
 
   return(subUrl.strip())
 
+def doDir(dirPath):
+#  found = re.search('Gallery', dirPath)
+#  if found:
+#    print()
+#    print ("dddddddddoDir " + dirPath)
+
+  #print("dirPath: " + dirPath)
+  #if dirPath.count('/') < 1 and dirPath not in chapterUrlsDictionary.keys():
+  #  print("dirPath: " + dirPath)
+  if os.path.basename(dirPath) not in chapterUrlsDictionary.keys():
+      chapterUrlsDictionary[os.path.basename(dirPath)] = {}
+  doFile(dirPath)
+
 def doFile(filePath):
   
-    #filePath = re.sub("TOC","",filePath)
+    #filePath = re.sub("BOOKROOT","",filePath)
     filePath = filePath.replace("//","/").strip()
     filePath = re.sub("^/","",filePath)
-    if tocMimer(filePath):
+    fileType = tocMimer(filePath)
+    #if fileType in ['dir','page']:
+    if fileType == 'page':
       thisChapter = getChapterName(filePath).strip()
+      #print("chapter: " + thisChapter)
       subUrl = getSubUrl(filePath,thisChapter).strip()
       subUrl = re.sub("^/","",subUrl)
+      subUrl = re.sub("/$","",subUrl)
+      #if fileType == 'dir':
+      #  print ("doFile subUrl: " + subUrl)
 
       if thisChapter not in chapterUrlsDictionary.keys():
          chapterUrlsDictionary[thisChapter] = {}
@@ -142,18 +149,15 @@ def doFile(filePath):
        
 
 def tocMimer(path):
-    ret = False
-    if os.path.isdir(path) == True:
-        ret = True
+    ret = 'unknown' 
+    #print (os.getcwd() + "/" + path)
+    #if os.path.isdir(os.getcwd() + "/" + path) == True:
+    #    ret = 'dir' 
 
-    # zips pdf and everything else must be wrapped
-    # in an *.htm fragment. 
-    # Books have chapters, meaningless chapter subdirectories 
-    # and leaf level files ending in *.htm
     types = [".htm"]
     filePath, suffix = os.path.splitext(path)
     if suffix in types:
-        ret = True
+        ret = 'page' 
 
     return (ret)
 
@@ -186,18 +190,21 @@ def recurseDirs(path):
     for directory in dirs:
         if directory[0] == '.':
             continue
+        directory = re.sub("/$","",directory)
+        
         newpath = os.path.join(path, directory)
         skipRoboresources = re.search("roboresources", newpath)
         if skipRoboresources:
             continue
-        #doFile(newpath)
+        doDir(newpath)
         recurseDirs(newpath)
 
 
 # an existing p2n may not exist
-# chapterUrlsDictionary['TOC'] = {} 
-readExistingP2N(rootPath + 'p2n')
+# chapterUrlsDictionary['BOOKROOT'] = {} 
+#readExistingP2N(rootPath + 'p2n')
 recurseDirs(rootPath)
 
+#dbgChapterNames()
 #dbgChapterNames()
 processChapterUrlsDictionary('write')
