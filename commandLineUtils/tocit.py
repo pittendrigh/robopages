@@ -68,10 +68,9 @@ def readExistingP2N(filepath):
     Lines = fp.readlines()
     for thisLine in Lines:
         thisPath = thisLine.strip()
-        doFile(thisPath)
+        dodoFile(thisPath)
  
     fp.close()
-
 def getChapterName(thisPath):
   global args
 
@@ -84,7 +83,6 @@ def getChapterName(thisPath):
     chapterName = 'BOOKROOT'
   else:
     dirs = thisPath.split('/')   
-    #chapterName = dirs[0] + '/'
     chapterName = dirs[0] 
   
   return (chapterName.strip())
@@ -98,6 +96,13 @@ def getSubUrl(path, thisChapter):
 
   return(subUrl.strip())
 
+def dodoFile(path):
+  statPath = os.path.join(args.delFromPath + path)
+  if Path(statPath).exists():
+    doFile(path)
+  else:
+    print (statPath + " does not exist")
+
 #yyy
 def doFile(path):
  
@@ -109,13 +114,13 @@ def doFile(path):
     fileType = tocMimer(path).strip()
 
     thisChapter = getChapterName(filePath).strip()
-    print(thisChapter + " " + path + " " + fileType)
+    #print(thisChapter + " " + path + " " + fileType)
  
     if fileType == 'page' or fileType == 'dir':
       subUrl = getSubUrl(filePath,thisChapter).strip()
       subUrl = re.sub("^/","",subUrl)
       subUrl = re.sub("/$","",subUrl)
-      print(thisChapter + " " + fileType + " " + path + " [" + subUrl + "]") 
+      #print(thisChapter + " " + fileType + " " + path + " [" + subUrl + "]") 
 
       if thisChapter not in chapterUrlsDictionary.keys():
         chapterUrlsDictionary[thisChapter] = {}
