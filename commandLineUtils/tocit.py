@@ -52,6 +52,10 @@ def processChapterUrlsDictionary(mode):
 #======end output functions
 
 
+### needs same noPageDirs deal as recurse?
+## same general logic?
+# why recreate it?  Must be a way to factor the business lines
+# and use both ways
 def readExistingP2N(filepath):
     global args, chapterUrlsDictionary
 
@@ -62,18 +66,10 @@ def readExistingP2N(filepath):
         print("No fp to open on p2n file")
 
     Lines = fp.readlines()
-    for thisPath in Lines:
-        thisPath = thisPath.strip()
-        thisChapter = getChapterName(thisPath).strip()
-        subUrl = thisPath.replace(args.delFromPath, '').strip().replace(thisChapter + '/','').strip().replace("//","/")
-        subUrl = re.sub("^/", "",subUrl)
-        subUrl = re.sub("/$", "",subUrl)
-        try:
-            chapterUrlsDictionary[thisChapter][subUrl] = subUrl
-        except:
-            chapterUrlsDictionary[thisChapter] = {} 
-            chapterUrlsDictionary[thisChapter][subUrl] = subUrl
-         
+    for thisLine in Lines:
+        thisPath = thisLine.strip()
+        doFile(thisPath)
+ 
     fp.close()
 
 def getChapterName(thisPath):
@@ -102,28 +98,37 @@ def getSubUrl(path, thisChapter):
 
   return(subUrl.strip())
 
+#yyy
 def doFile(path):
-  
-    filePath = path.replace("//","/").strip()
+ 
+
+    ##filePath = path.replace("//","/").strip()
+    subUrl = ''
+    filePath = path  
     filePath = filePath.replace(args.delFromPath,"")
-    fileType = tocMimer(path)
+    fileType = tocMimer(path).strip()
 
     thisChapter = getChapterName(filePath).strip()
-  
+    print(thisChapter + " " + path + " " + fileType)
+ 
     if fileType == 'page' or fileType == 'dir':
       subUrl = getSubUrl(filePath,thisChapter).strip()
       subUrl = re.sub("^/","",subUrl)
       subUrl = re.sub("/$","",subUrl)
+      print(thisChapter + " " + fileType + " " + path + " [" + subUrl + "]") 
 
-   
       if thisChapter not in chapterUrlsDictionary.keys():
         chapterUrlsDictionary[thisChapter] = {}
 
-      ## xxxx
-      if fileType == 'dir' and not re.search("BOOKROOT", thisChapter): 
+      ## xxxx a Gallery has only images, so it contains  no *.htm file to 
+      ## trigger subUrl save 
+      noPageDirs = ["Gallery"]
+      if os.path.basename(subUrl) in noPageDirs or (fileType == 'dir' and not re.search("BOOKROOT", thisChapter)): 
         chapterUrlsDictionary[thisChapter][subUrl] = subUrl
+
       if fileType == 'page' and subUrl not in chapterUrlsDictionary[thisChapter]:
         chapterUrlsDictionary[thisChapter][subUrl] = subUrl
+
        
 
 def tocMimer(path):
@@ -157,8 +162,6 @@ def recurseDirs(path):
             typeFs.append(name)
 
     for file in typeFs:
-        if file[0] == '.':
-            continue
         joined = os.path.join(path, file).replace(args.delFromPath, '')
         skipRoboresources = re.search("roboresources", file)
         if skipRoboresources:
@@ -180,9 +183,8 @@ def recurseDirs(path):
 
 # an existing p2n may not exist
 # chapterUrlsDictionary['BOOKROOT'] = {} 
-#readExistingP2N(rootPath + 'p2n')
+readExistingP2N(rootPath + 'p2n')
 recurseDirs(rootPath)
 
-#dbgChapterNames()
 #dbgChapterNames()
 processChapterUrlsDictionary('write')
