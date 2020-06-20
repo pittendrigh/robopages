@@ -1,11 +1,10 @@
 #!/usr/bin/python
 
-import sys
 import argparse
 import os
 import re
-import mimetypes
 from pathlib import Path
+
 rootPath = os.getcwd() + "/"
 chapterUrlsDictionary = {}
 
@@ -14,6 +13,20 @@ parser.add_argument( "--delFromPath", default= "")
 args = parser.parse_args()
 if not args.delFromPath:
   args.delFromPath = os.getcwd() + '/'
+
+
+# ======= Notes 
+#  The idea here was to preserve the ordering of any already existing
+#  p2n file, and then to insert any new files found, roughly in the
+#  right place--at the end of the current book Chapter. 
+#  The idea was to rely on the python3 promise to perserve
+#  initial dictionary input ordering. It mostly but only mostly works.
+#  Will have to add a parallel list at some point, in order
+#  to guaraneed sequential ordering.
+#  That may take some tiptoe shenanigans in order to accomodate deletions
+#  and moves, since the original p2n creation. 
+#  Right now it is better than nothing.
+# ======= 
 
 # ======= debugging functions
 def dbgChapterNames():
@@ -24,7 +37,8 @@ def dbgChapterNames():
   print ("end dbgChaperNames \n\n")
 #============ end debugging functions
 
-def processChapterUrlsDictionary(mode):
+## prints to terminal or writes to file as per incoming mode argument
+def printAll(mode):
   global chapterUrlsDictionary
 
   fp = None
@@ -52,10 +66,8 @@ def processChapterUrlsDictionary(mode):
 #======end output functions
 
 
-### needs same noPageDirs deal as recurse?
-## same general logic?
-# why recreate it?  Must be a way to factor the business lines
-# and use both ways
+## if a p2n file exists try to preserve its ordering
+## but skip over any specified paths that do not exist anymore
 def readExistingP2N(filepath):
     global args, chapterUrlsDictionary
 
@@ -71,6 +83,9 @@ def readExistingP2N(filepath):
         dodoFile(thisPath)
  
     fp.close()
+
+## examine a path and return its top level dir, 
+## which is assumed to be a book chapter name
 def getChapterName(thisPath):
   global args
 
@@ -83,10 +98,14 @@ def getChapterName(thisPath):
     chapterName = 'BOOKROOT'
   else:
     dirs = thisPath.split('/')   
+    #chapterName = dirs[0] + '/'
     chapterName = dirs[0] 
   
   return (chapterName.strip())
 
+## examine a path.  Assume left-most dir is a chapter (thisChapter)
+## and strip it off, in order to get the subUrl that inserts
+## into the chapterUrlsDictionary for thisChapter
 def getSubUrl(path, thisChapter):
   global args
 
@@ -96,16 +115,21 @@ def getSubUrl(path, thisChapter):
 
   return(subUrl.strip())
 
+## used by readExistingP2N 
+## check first to see if the specified path still exists
+## skip if not.  Else call doFile, which
+## is the same insert into chapterUrlsDictionary routine
+## recurseDirs uses
 def dodoFile(path):
   statPath = os.path.join(args.delFromPath + path)
   if Path(statPath).exists():
+    print ("dodoFile: " + path)
     doFile(path)
   else:
     print (statPath + " does not exist")
 
-#yyy
+# inserts into chapterUrlsDictionary, if tocMimer allows
 def doFile(path):
- 
 
     ##filePath = path.replace("//","/").strip()
     subUrl = ''
@@ -114,7 +138,6 @@ def doFile(path):
     fileType = tocMimer(path).strip()
 
     thisChapter = getChapterName(filePath).strip()
-    #print(thisChapter + " " + path + " " + fileType)
  
     if fileType == 'page' or fileType == 'dir':
       subUrl = getSubUrl(filePath,thisChapter).strip()
@@ -125,8 +148,8 @@ def doFile(path):
       if thisChapter not in chapterUrlsDictionary.keys():
         chapterUrlsDictionary[thisChapter] = {}
 
-      ## xxxx a Gallery has only images, so it contains  no *.htm file to 
-      ## trigger subUrl save 
+      ## a Gallery has only images, so it contains  no *.htm file to 
+      ## trigger subUrl into chapterUrlsDictionary insert 
       noPageDirs = ["Gallery"]
       if os.path.basename(subUrl) in noPageDirs or (fileType == 'dir' and not re.search("BOOKROOT", thisChapter)): 
         chapterUrlsDictionary[thisChapter][subUrl] = subUrl
@@ -135,7 +158,7 @@ def doFile(path):
         chapterUrlsDictionary[thisChapter][subUrl] = subUrl
 
        
-
+## return unknown dir or page for use by doFile(path)
 def tocMimer(path):
     ret = 'unknown' 
     types = [".htm"]
@@ -149,6 +172,11 @@ def tocMimer(path):
 
     return (ret)
 
+## chapterUrlsDictionary may or may not already be populated
+## this routine examines the file system and adds any valid
+## new *.htm files (book pages) not already in the dictionary
+## This needs a way to add arbitraty new Galleries yet.
+## right now Gallery has to be hand edited into an existing p2n file
 def recurseDirs(path):
 
     if path[0] == '.':
@@ -186,10 +214,7 @@ def recurseDirs(path):
         recurseDirs(newpath)
 
 
-# an existing p2n may not exist
-# chapterUrlsDictionary['BOOKROOT'] = {} 
 readExistingP2N(rootPath + 'p2n')
 recurseDirs(rootPath)
-
 #dbgChapterNames()
-processChapterUrlsDictionary('write')
+printAll('write')
