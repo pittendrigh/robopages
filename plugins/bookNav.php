@@ -112,7 +112,7 @@ class bookNav extends plugin
       $url = $this->currentBookName . '/' . $line;
     
       // need to support optional label option in link line  grep -i actionItem *php
-      $label = preg_replace(":^.*?/:","",$line);
+      $label = StaticRoboUtils::mkLabel(preg_replace(":^.*?/:","",$line));
       //$label = $this->chaptersPageLinkLabel($label);
 
       if(isset($_GET['robopage']) && $_GET['robopage'] == $url 
