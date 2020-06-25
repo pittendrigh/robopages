@@ -5,10 +5,14 @@ import os
 import re
 from pathlib import Path
 
-rootPath = os.getcwd() + "/"
-
+## A p2n file is a sequential list of partial URLs
+## used by robopage's server-side ebook-like bookNav layout
+##
 ## chapters2UrlsDict is a dictionary of dictionaries.
 ## perhaps it should be a dictoriary of list
+##
+
+rootPath = os.getcwd() + "/"
 chapters2UrlsDict = {}
 
 parser = argparse.ArgumentParser(description='Create a recursive p2n file')
@@ -19,11 +23,10 @@ if not args.delFromPath:
 
 # ======= Notes 
 #  The idea here is to preserve the ordering of any already existing
-#  p2n file, and then to insert any new files found, roughly in the
+#  p2n file and then to insert any new files found, roughly in the
 #  right place--at the end of the current book Chapter. 
 #  The idea relies on the python3 promise to perserve
 #  initial dictionary input ordering. 
-#  It mostly works.
 # ======= 
 
 # ======= debugging functions
@@ -36,7 +39,7 @@ def dbgChapterNames():
 #============ end debugging functions
 
 ## prints to terminal or writes to file as per incoming mode argument
-def printAll(mode):
+def p2nFileSave(mode):
   global chapters2UrlsDict
 
   fp = None
@@ -77,7 +80,7 @@ def readExistingP2nFile(filepath):
     Lines = fp.readlines()
     for thisLine in Lines:
         thisPath = thisLine.strip()
-        dodoFile(thisPath)
+        statCheckFile(thisPath)
  
     fp.close()
 
@@ -117,15 +120,15 @@ def getSubUrl(path, thisChapter):
 ## skip if not.  Else call doFile, which
 ## is the same insert into chapters2UrlsDict routine
 ## checkForFileChanges uses
-def dodoFile(path):
+def statCheckFile(path):
   statPath = os.path.join(args.delFromPath + path)
   if Path(statPath).exists():
-    #print ("dodoFile: " + path)
+    #print ("statCheckFile: " + path)
     doFile(path)
   else:
     print (statPath + " does not exist")
 
-# inserts into chapters2UrlsDict, if tocMimer allows
+# inserts into chapters2UrlsDict, if tocMimer approves
 def doFile(path):
 
     ##filePath = path.replace("//","/").strip()
