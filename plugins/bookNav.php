@@ -72,9 +72,8 @@ class bookNav extends plugin
     $this->allP2nLinks[$url] = $link;
     return($link);
   }
-
-  function assembleGlobalChapterLinks($linksString)
-  {
+function assembleGlobalChapterLinks($linksString)
+{
     $linkChunks = explode(",", $linksString);
     $cnt = count($linkChunks) -1;
     for($i=0; $i<$cnt; $i++)
@@ -92,13 +91,15 @@ class bookNav extends plugin
   } 
 
 
-  function chaptersPageLinkLabel($testpath)
+  function eraseChapterFromLine($testPath)
   {
-     $chunks = explode('/',$testpath);
-     $lastChunk = '';
-     if(isset($chunks[1]))
-        $lastChunk = StaticRoboUtils::mkLabel($chunks[1]);
-     return $chunks[0] . '/' . $lastChunk;
+     
+     $chunks = explode('/',$testPath);
+     $chapter = $chunks[0];
+     $patt = $chapter . '/';
+     $ret = preg_replace(":$patt:","",$testPath);
+
+     return ($ret);
   }
 
   function assembleLocalPageLinks($linksString)
@@ -111,9 +112,8 @@ class bookNav extends plugin
       $line = trim($linkChunks[$i]);
       $url = $this->currentBookName . '/' . $line;
     
-      // need to support optional label option in link line  grep -i actionItem *php
-      $label = StaticRoboUtils::mkLabel(preg_replace(":^.*?/:","",$line));
-      //$label = $this->chaptersPageLinkLabel($label);
+      $label = $this->eraseChapterFromLine($line);
+      //echo "label: ", $label, "<br/>";
 
       if(isset($_GET['robopage']) && $_GET['robopage'] == $url 
           || strstr($label,  $_SESSION['currentDirUrl'] .  $_SESSION['currentDisplay']))
@@ -182,11 +182,12 @@ class bookNav extends plugin
     for($i=0; $i<$p2nLineCnt; $i++)
     {
       $line = trim($lines[$i]);
-
+      
       // top level directories are chapter names
       // we also want any leaf level *.htm files in the bookTop directory
-      if(strstr($line,'/')&&$this->subPathIsLeaf($line)&&strstr($line,$chapterName))
+      if(strstr($line,'/') && $this->subPathIsLeaf($line)&&strstr($line,$chapterName))
       {
+          //echo $line, "<br/>";
           $linksString .= $line . ',';
       }
     }
@@ -360,14 +361,14 @@ ENDO;
 
     if(!$this->inBookTopDir())
     {
-      $bottom .= "<hr/>";
+      $bottom .= '<div id="bookNavBottom"><hr/>' ;
       $localLinksArray = $this->getLocalPageLinks();
       $cnt = count($localLinksArray);
       for($i=0; $i<$cnt; $i++)
       {
         $bottom .= $localLinksArray[$i];
       }
-
+      $bottom .= '</div>';
     }
     $this->find_additional_pages();
     if($_SESSION['layout'] != 'bookGalleryNav')
