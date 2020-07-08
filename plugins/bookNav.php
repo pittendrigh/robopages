@@ -22,23 +22,18 @@ class bookNav extends plugin
      $this->init();
   }
 
-  function parentDir($testPath)
-  {
-      //echo "testpath: ", $testPath, "<br/>";
-      if(strstr($testPath,'htm'))
-      { 
-        $testPath = dirname($testPath);
-        //echo " ttestpath: ", $testPath, "<br/>";
-      } 
-      $ret = basename(dirname($testPath));
-      //echo "ret: ", $ret, "<br/>";
-      return ($ret);
-  }
   // makes a string hyperlink rather than new Link($line) object, for now anyway
   // better not rely on it but right now mkLink only called by assembleGlobalLinks
+  // change highlighted so ... both global and selected local get hightlighted
+  // albeit differently
+  // need thisChapter and robopage
   function mkLink($url,$label)
   {
     $link = '';
+    $chapter = $this->getThisChapter($url);
+    $labelString = str_replace($_SESSION['bookTop'] . '/','',$url);
+    $whereWeAreAtComparitor   = substr($labelString,0,strlen($labelString));
+    $parentChapterHightlightFlag = ($chapter == $whereWeAreAtComparitor) ? TRUE : FALSE; 
 
     $linkTargetType = $this->mimer->getRoboMimeType($url);    
      
@@ -46,32 +41,43 @@ class bookNav extends plugin
     if(isset($_GET['robopage']) && $url == $_GET['robopage'])
         $highLightFlag = TRUE;
     $testAgain = $url . '/' . $_SESSION['currentDisplay'];
- 
-    switch($linkTargetType)
+
+    // in bookNav we're only recognizing external links or internal book page links,
+    // which reference a *.htm page or an internal directory (which defaults to an assumed *.htm)
+    // internal directories may or may not be top level chapter directories
+    if($linkTargetType == 'link') 
     {
-      case "link":
         $link = '<a target="_blank" href="' 
          . $_SESSION['currentClickDirUrl'] . basename($url) . '">' . $label. '</a>'; 
-      break;
-      default:
-      if(isset($_GET['robopage']) && $url == $_GET['robopage'])
-      { 
-        $link = '<a class="highlighted" href="?robopage='.$url.'">' 
-          . $label . '</a>'."\n";
-      }
-      else
-      {
-        if($this->parentDir($_GET['robopage']) == basename($url)) 
-         $link = '<a class="highlighted" href="?robopage='.$url.'">' 
-            . $label . '</a>' . "\n";
-        else
-         $link = '<a href="?robopage='.$url.'">' . $label . '</a>' . "\n";
-      }
+    }
+    else  // not an external link
+    {
+        if(isset($_GET['robopage']) && $url == $_GET['robopage'])
+        { 
+            // If this url from the p2n list is also the current robopage
+            // whether it is in the top global chapter group or the bottom local chapter-pages group
+            $link = '<a class="highlighted" href="?robopage='.$url.'">' 
+              . $label . '</a>'."\n";
+        }
+        else 
+        {
+            // if the current robopage is a local chapter-page link 
+            // we still, also want to highlight the chapter that contains that local link,
+            // in the upper global chapters group
+            //
+            if($parentChapterHightlightFlag) 
+             $link = '<a class="highlighted" href="?robopage='.$url.'">' 
+                . $label . '</a>' . "\n";
+            else
+             $link = '<a href="?robopage='.$url.'">' . $label . '</a>' . "\n";
+        }
     } 
 
+    $link .= "\n";
     $this->allP2nLinks[$url] = $link;
     return($link);
   }
+
 function assembleGlobalChapterLinks($linksString)
 {
     $linkChunks = explode(",", $linksString);
@@ -90,14 +96,30 @@ function assembleGlobalChapterLinks($linksString)
     } 
   } 
 
-
-  function eraseChapterFromLine($testPath)
+  function getThisChapter()
   {
+
+     // is a bookTop never in DOCUMENT_ROOT? No. need to fix this. grep -i actionItem *php
+     $path = $_GET['robopage'];
+     if(strstr(basename($path),'.'))
+        $path = dirname($path);
+     $chapter = basename ($path);    
+
+     return($chapter);
+  }
+
+  function eraseChapterFromLine($path)
+  {
+     $isLeaf = FALSE;
+     if (substr_count($path,'/') > 1)
+       $isLeaf = TRUE;
      
-     $chunks = explode('/',$testPath);
-     $chapter = $chunks[0];
+     $chapter = $this->getThischapter($path);    
      $patt = $chapter . '/';
-     $ret = preg_replace(":$patt:","",$testPath);
+     $ret = preg_replace(":$patt:","",$path);
+
+     if($isLeaf)
+         $ret = ' &nbsp; &nbsp; &nbsp; ' . $ret;
 
      return ($ret);
   }
@@ -113,7 +135,6 @@ function assembleGlobalChapterLinks($linksString)
       $url = $this->currentBookName . '/' . $line;
     
       $label = $this->eraseChapterFromLine($line);
-      //echo "label: ", $label, "<br/>";
 
       if(isset($_GET['robopage']) && $_GET['robopage'] == $url 
           || strstr($label,  $_SESSION['currentDirUrl'] .  $_SESSION['currentDisplay']))
@@ -150,7 +171,7 @@ function assembleGlobalChapterLinks($linksString)
     $this->assembleGlobalChapterLinks($linksString);
   }
 
-  function subPathIsLeaf($path)
+  function subPathIsValid($path)
   {
     $ret=FALSE;
     // this could work in numerous ways.
@@ -182,12 +203,15 @@ function assembleGlobalChapterLinks($linksString)
     for($i=0; $i<$p2nLineCnt; $i++)
     {
       $line = trim($lines[$i]);
+      $charLen = strlen($chapterName);
       
-      // top level directories are chapter names
-      // we also want any leaf level *.htm files in the bookTop directory
-      if(strstr($line,'/') && $this->subPathIsLeaf($line)&&strstr($line,$chapterName))
+      // top level directories below $_SESSION['bookTop'] are chapter names
+      // We also want any leaf level *.htm files in the bookTop directory
+      // strstr($line,'/') means this is inside a chapter
+      // isValid means is_dir or is *.htm
+      // last condition insures where are looking at lines in p2n for this chapter only
+      if(strstr($line,'/') && $this->subPathIsValid($line) && substr($line,0, $charLen) == $chapterName)
       {
-          //echo $line, "<br/>";
           $linksString .= $line . ',';
       }
     }
@@ -379,6 +403,7 @@ ENDO;
        } 
     }
     
+    $bottom .= $this->nextPrevButtons->getOutput('');
     $ret =  $top . $bottom . '</div>';
     return($ret);
   }
