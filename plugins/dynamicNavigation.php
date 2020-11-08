@@ -45,10 +45,10 @@ class dynamicNavigation extends plugin
     function thumbMemer($img, $label)
     {
         $ret = '';
-        $ret = ' <div class="thumbMeme">' . "\n";
+        //$ret = ' <div class="thumbMeme">' . "\n";
         $ret .= ' <p class="thumbImg">' . $img . '</p>' . "\n";
         $ret .= ' <p class="thumblbl">' . $label . '</p>';
-        $ret .= '</div>' . "\n";
+        //$ret .= '</div>' . "\n";
         return $ret;
     }
 
@@ -109,7 +109,10 @@ class dynamicNavigation extends plugin
           }
           else
           {
-            $ret .= "\n" . '<a href="' . $link->href . '">' . $linklbl . ' </a>' . "\n";
+            if($linkTargetType == 'image')
+              $ret .= "\n" . '<div class="thumbMeme"><a href="' . $link->href . '">' . $linklbl . ' </a></div>' . "\n";
+            else
+              $ret .= "\n" . '<a href="' . $link->href . '">' . $linklbl . ' </a>' . "\n";
           }
         }
         return $ret;
@@ -129,9 +132,7 @@ class dynamicNavigation extends plugin
 
         if (!$slideshowFlag && @stat($this->currentDirPath . 'roboresources/slideshow'))
         {
-            //if($this->currentDirUrl != $_SESSION['bookTop'])
-            if(isset($_SESSION['bookTop']) && $this->currentDirUrl != $_SESSION['bookTop'])
-              $slideshowFlag = TRUE;
+            $slideshowFlag = TRUE;
             if( $slideshowFlag )
               $ret .= "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
                    . $this->currentDirUrl . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
