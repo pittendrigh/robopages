@@ -1,4 +1,6 @@
+
 <?php
+///
 @session_start();
 
 error_reporting(E_ALL);
@@ -537,12 +539,43 @@ class domDrone
         return ($ret);
     }
 
+
+    function determineOgUrl()
+    {
+      global $sys_ogurl;
+      $ret = $sys_ogurl;
+
+      if(isset($_GET['robopage']) && strstr($_GET['robopage'],"jpg"))
+      {
+          $ret = $_GET['robopage'];
+      }
+      return ($ret);
+    }
+
+    function determineOgImage()
+    {
+      global $sys_ogimage;
+      $ret = $sys_ogimage;
+
+      // need parse url??? grep -i actionItem *php
+      //  $query = parse_url($link->href, PHP_URL_QUERY);
+      //  parse_str($query, $parms);
+
+      if(isset($_GET['robopage']) && strstr($_GET['robopage'],"jpg"))
+      {
+          $ret = basename($_GET['robopage']);
+      }
+      return ($ret);
+    }
+
     function startHTML($sstatic_mode)
     {
         global $sys_nofollow, $sys_ogimage, $sys_ogurl;
 
         $static_mode = $sstatic_mode;
 
+        $ogimage = $this->determineOgImage();
+        $ogurl = $this->determineOgUrl();
 
         //<META name="verify-admitad" content="xxxx" />
 
@@ -557,8 +590,8 @@ class domDrone
   <META name="viewport" content="width=device-width, initial-scale=1.0"/>
   <META property="og:type"   content="website" />
   <META property="og:title"   content="$title" />
-  <META property="og:url"   content="$sys_ogurl" />
-  <META	property="og:image" content="$sys_ogimage" />
+  <META property="og:url"   content="$ogurl" />
+  <META	property="og:image" content="$ogimage" />
   <META name="google-site-verification" content="xxxyyyzzz" />
 ENDO;
 
