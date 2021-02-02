@@ -1,3 +1,17 @@
+/* wrapper, header-banner, stuff
+** stuff may have mkbreadcrumbs, blog, text, images and memes
+** imgs and memes float left
+*/
+
+/* reset box model */
+*, *::after, *::before 
+{
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
 html
 {
     width: 100%;
@@ -9,15 +23,32 @@ body {  background: #ffffff;
   font-family: Arial;
 }
 
-a { color: #660000;  text-decoration: none;} 
-#stuff a { color: #660000;  text-decoration: underline;} 
+#wrapper 
+{
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+a 
+{ 
+  color: #660000;  
+  text-decoration: none;
+} 
 
 a:hover 
 {
     text-decoration: underline;
 }
 
-.redAlert{ color: magenta; }
+/* not header not main-content->toc
+** but yes body wrapper main-content stuff
+*/
+#stuff a 
+{ 
+  color: #660000;  
+  text-decoration: underline;
+} 
 
 
 #headerbanner{
@@ -28,142 +59,6 @@ a:hover
   background-position: top left;
 }
 
-#h1banner 
-{ 
-text-align: center;
-margin: 1em 0 0 20%;
-} 
-
-#mkBreadcrumbs 
-{
-    width: 80%;
- /*   height: 1.75em; */
-    margin: 0 0 0 12em;
-    padding-top: 0.5em;
-}
-
-
-h1 { font-size: 120%; }
-h2 { font-size: 95%; }
-h3 { font-size: 85%; }
-
-
-#main-content
-{
-    width: 100%;
-    margin:  0;
-    padding: 1em;
-    overflow: hidden;
-    font-family: Garamond, serif
-}
-
-img { float: left; margin: 1em; }
-
-#stuff img {float: left; margin: 1em; width: 50%; border: 1px solid transparent;} 
-img.icon {width: 1em; margin: 0; padding: 0; border: 0; position: relative; bottom: 1em;}
-
-
-#footer
-{
- clear: both; 
-  color: black;
-  /* background-color: #dedede; */
-  padding: 1em;
-  width: 100%;
-  max-height: 6em;
-}
-
-#footer a{ text-decoration: none; }
-#footer a:hover{ text-decoration: underline; }
-
-#user_manage{ margin: 2em 0 2em 0; }
-#user_manage a{ margin: 2em 1em; }
-#user_manage, #mkBreadcrumbs a { color: #cc2244; margin: 0 0 0.5em 0; padding: 0;}
-
-
-#mkBreadcrumbs a:hover 
-{
-    background: #aaaaaa;
-}
-
-#cse { width: 59%; }
-
-
-a.slideshow{ background: #662222; color: white !important; border: 3px outset #aa6666; } 
-a.slideshow:hover{ background: #dedede; color: black; border: 1px solid black;} 
-
-
-#slideshow
-{
-    float: left;
-    padding: 1em;
-    border: 1px solid transparent;
-}
-#slideshow img { max-width: 90%; }
-
-#arcade {
-  width: 70%;
-  margin: 1em;
-}
-
-
-#currentArcadeImg { margin:1em; max-width: 50%;  }
-
-#googleSearch {float: left; max-width: 50%;}
-#googleBanner {color: white;}
-
-#flexyFileContent{ margin-top: 2em; }
-
-#mkGoogle { max-height: 5em; }
-
-
-
-div.dynamicNavigation
-{
-  clear: both;
-  float:left;
-  margin: 0.25em 0 0 0;
-}
-
-div.dynamicNavigation a
-{
-  display: block;
-  padding: 0;
-  border: 0;
-}
-
-div.thumbMeme { float: left; width: 8em; height: 7em; margin: 0; padding: 0; overflow: hidden; font-size: 80%;}
-div.thumbMeme:hover {background: #dedede; }
-div.thumbMeme img { max-width: 95%; }
-p.thumb { margin: 0 ; padding: 0; height: auto; }
-p.thumbImg img { adding: 0; margin: 0 auto;}
-p.thumblbl {  clear: both; margin: 0; padding: 0;  text-align: center;}
-
-p.thumblbl:hover {text-decoration: underline; }
-div.dynamicNavigation a:hover{ background: #dedede; }
-div.galleryNavigation {  float: left; width: 8em; height: 7em; margin: 0; padding: 0; text-align: center; border: 1px solid transparent;} 
-div.galleryNavigation a  { width: 80%; display: block; margin: 0 auto; padding: 0; }
-div.galleryNavigation a  img { display: block; width: 100%; max-height: 4em; margin: 0 auto; padding: 0; overflow: hidden;}
-
-div.galleryNavigationImage {  float: left; width: 8em; height: 7em; margin: 0.25em;} 
-
-/* ==========RobopageAdmin related==================================*/
-
-div.dirChanger { width: 45%; padding-right: 1em; float: right;}
-div.dirChanger h3 { width: 50%; margin-left: 45%; }
-
-
-/* ============================================*/
-
-
-
-#wrapper {
-  width: 95%;
-  height: 100%;
-  margin: 0 auto;
-}
-
-/* Navbar container */
 #bottombannerlinks 
 {
   display: flex;
@@ -185,17 +80,227 @@ div.dirChanger h3 { width: 50%; margin-left: 45%; }
   text-align: center;
   font-size: 85%;
 }
-/* .bottombannerlink a { color: black; font-size: 90%;   } */
+
+#mkBreadcrumbs 
+{
+    width: 80%;
+ /*   height: 1.75em; */
+    margin: 0 0 0 12em;
+    padding-top: 0.5em;
+}
+
+#mkBreadcrumbs a:hover 
+{
+    background: #aaaaaa;
+}
+
+h1 { font-size: 120%; }
+h2 { font-size: 95%; }
+h3 { font-size: 85%; }
+
+img { float: left; margin: 1em; }
+
+/* body, header, main-content, footer */
+#main-content
+{
+    width: 100%;
+    margin:  0;
+    padding: 1em;
+    overflow: hidden;
+    font-family: Garamond, serif
+}
+
+
+#footer
+{
+ clear: both; 
+  color: black;
+  padding: 1em;
+  width: 100%;
+  max-height: 6em;
+}
+
+#footer a
+{ 
+  text-decoration: none; 
+}
+
+#footer a:hover
+{ 
+  text-decoration: underline; 
+}
+
+
+#cse 
+{ 
+  width: 59%; 
+}
+
+a.slideshow
+{ 
+  background: #662222; 
+  color: white; 
+  border: 3px outset #aa6666; 
+} 
+
+a.slideshow:hover
+{ 
+  background: #dedede; 
+  color: black; 
+  border: 1px solid black;
+} 
+
+#slideshow
+{
+    float: left;
+    padding: 1em;
+    border: 1px solid transparent;
+}
+
+#slideshow img 
+{ 
+  max-width: 90%; 
+}
+
+#currentArcadeImg 
+{ 
+  margin:1em; 
+  max-width: 50%;  
+}
+
+#googleSearch 
+{
+  float: left; max-width: 50%;
+}
+
+#googleBanner 
+{
+  color: white;
+}
+
+#mkGoogle 
+{ 
+  max-height: 5em; 
+}
+
+div.dynamicNavigation
+{
+  clear: both;
+  float:left;
+  margin: 0.25em 0 0 0;
+}
+
+div.dynamicNavigation a
+{
+  display: block;
+  padding: 0;
+  border: 0;
+}
+
+div.thumbMeme 
+{ 
+  width: 8em; 
+  height: 8em; 
+  margin: 0; 
+  padding: 0; 
+  font-size: 80%;
+}
+
+/*
+div.thumbMeme:hover 
+{
+  background: #dedede; 
+}
+
+div.thumbMeme img 
+{ 
+  max-width: 95%; 
+}
+*/
+
+p.thumb 
+{ 
+  margin: 0; 
+  padding: 0; 
+  height: auto; 
+}
+
+p.thumbImg img 
+{ 
+  padding: 0; 
+  margin: 0 auto;
+}
+
+p.thumblbl 
+{  
+  clear: both; 
+  margin: 0; 
+  padding: 0;  
+  text-align: center;
+}
+
+p.thumblbl:hover 
+{
+  text-decoration: underline; 
+}
+
+div.dynamicNavigation a:hover{ background: #dedede; }
+
+div.galleryNavigation 
+{  
+  float: left; 
+  width: 8em; 
+  height: 7em; 
+  margin: 0; 
+  padding: 0; 
+  text-align: center; 
+  border: 1px solid transparent;
+} 
+
+div.galleryNavigation a  
+{ 
+  width: 80%; 
+  display: block; 
+  margin: 0 auto; 
+  padding: 0; 
+}
+
+div.galleryNavigation a  img 
+{ 
+  display: block; 
+  width: 100%; 
+  max-height: 4em; 
+  margin: 0 auto; 
+  padding: 0; 
+  overflow: hidden;
+}
+
+div.galleryNavigationImage 
+{  
+  float: left; 
+  width: 8em; 
+  height: 7em; 
+  margin: 0.25em;
+} 
+
+/* ==========RobopageAdmin related==================================*/
+div.dirChanger 
+{ 
+  width: 45%; 
+  padding-right: 1em; 
+  float: right;
+}
+
+div.dirChanger h3 
+{ 
+  width: 50%; 
+  margin-left: 45%; 
+}
 
 /* ============================================*/
-
-
-.clearboth{ clear: both; height: 1em; margin: 0; padding: 0;}
-
-
-
-
-div.subnav{
+/* book layout css? */
+div.subnav
+{
  margin: 1em;
  padding: 0.5em;
  min-height: 10em;
@@ -218,15 +323,16 @@ p.footnote
 }
 /* ======== start  TOC ============*/
 
-.toc {
-position: relative;
-background: #dedede;
-margin: 0  0.5em 0.5em 0;
-padding: 0.5em;
-float: left; 
-min-width: 20%;
-font-family: Arial;
-font-size: 60%;
+.toc 
+{
+  position: relative;
+  background: #dedede;
+  margin: 0  0.5em 0.5em 0;
+  padding: 0.5em;
+  float: left; 
+  min-width: 20%;
+  font-family: Arial;
+  font-size: 60%;
 }
 
 .toc a 
@@ -239,26 +345,12 @@ font-size: 60%;
   margin-bottom: 0.25em; 
 }
 
-
 .toc a 
 {
   display: block;
   padding: 0;
   border: 0;
 }
-
-/*
-.toc a.slideshow
-{ 
-  display: block; 
-  height: 1.25em; 
-  background: #884444; 
-  color: white !important; 
-  border: 2px outset white; 
-  padding: 2px; 
-  margin: 0;
-}
-*/
 
 a.highlighted
 {
@@ -297,17 +389,13 @@ p.buttonbox a.button
   font-size: 1vw;
 }
 
-a.button:hover { 
+a.button:hover 
+{ 
   text-decoration: underline;
   color: #660000;
   border: 1px solid black;
 }
-
-
 /* ======== end  TOC ============*/
-
-
-
 
 /* ======== start  media ============*/
 /* when the desktop browser minimizes to 700px or less */
@@ -318,7 +406,6 @@ a.button:hover {
   .toc {width: 30%;}
   p.buttonbox a.button{ font-size: 1.5vw;}
 }
-
 
 /* when the device is a typical phone */
 @media only screen and (max-device-width: 470px)
