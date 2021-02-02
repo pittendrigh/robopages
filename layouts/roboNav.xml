@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <plugins>
+      <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/roboNav.php</file>
+      <file>plugins/flexyFileContent.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
+      <file>plugins/file.php</file>
+      <file>plugins/arcade.php</file>
+      <file>plugins/arcader.php</file>
+      <file>plugins/targetedArcade.php</file>
+      <file>plugins/meme.php</file>
+      <file>plugins/memer.php</file>
+  </plugins>
+  <cssfiles>
+    <file>css/robo.css</file>
+    <file>css/meme.css</file>
+  </cssfiles>
+  <bodycontent>
+    <div id="wrapper" src="container">
+        <div id="headerbanner" src="container">
+        <div id="mkBreadcrumbs" src="mkBreadcrumbs"/> 
+        <div id="bottombannerlinks" src="file" />
+      </div>
+      <div id="main-content" src="container">
+         <div klass="toc" src="dynamicNavigation" />
+         <div id="stuff" src="flexyFileContent"/>
+      </div>
+      <div id="footer" src="file" />
+    </div>
+  </bodycontent>
+</layout>

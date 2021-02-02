@@ -1,0 +1,78 @@
+    function find_additional_filenames()
+    {
+        global $sys_show_suffixes, $sys_thumb_links;
+
+        $linkTargetType = "unknown";
+
+        //$handle = @opendir($this->currentDirPath);
+        $handle = $this->lookWhereForFiles();
+        while ($handle && ($file = @readdir($handle)) !== FALSE)
+        {
+            if ($file[0] == '.')
+                continue;
+            else if (strstr($file, ".frag") || $file == 'roboresources' || $file == 'dirlinks')
+                continue;
+
+            // why not a link?
+            if (is_link($this->currentDirPath . $file))
+            {
+                continue;
+            }
+
+            $label = ucfirst($file);
+            if (!$sys_show_suffixes)
+                $label = ucfirst(StaticRoboUtils::stripSuffix($file));
+
+            $linkTargetType = $this->mimer->getRoboMimeType($this->currentDirPath . $file);
+
+            $hrefKey = '';
+            if (isset($linkTargetType) && $linkTargetType != "unknown")
+            {
+                $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($this->currentDirUrl . $file);
+
+                if ($linkTargetType == 'link')
+                {
+                    $hrefKey = $this->currentClickDirUrl . $file;
+                }
+                else if ($linkTargetType == "url")
+                { // a url file is a special robopages file name whatever.url that has one or two lines.
+                    // second line (if exists) is the label. First is the href.  
+                    $rfile = $this->currentDirPath . $file;
+                    $lines = file($rfile);
+                    $hrefKey = trim($lines[0]);
+                    $label = $hrefKey;
+                    if (isset($lines[1]))
+                    {
+                        $label = $lines[1];
+                    }
+                }
+                else if ($linkTargetType == "label")
+                {
+                    $dbg = trim(file_get_contents($this->currentDirPath . $file));
+                    $linklbl = '<p class="tocLabel">' . $dbg . '</p>';
+                    $hrefKey = $file;
+                }
+                else
+                {
+                    //default and most common case
+                    $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($this->currentDirUrl . $file);
+                }
+
+                // Now test if already already exists from a pre-existing dirlinks file
+                // If not we'll add this link, which must be a file added since dirlinks was created
+                $atest = @$this->linkshash[$hrefKey];
+                if (!isset($atest) || $atest == null)
+                {
+                    $rline = $hrefKey . '::' . $file . "::$linkTargetType";
+                    $link = new Link($rline);
+                    $this->linkshash[$hrefKey] = $link;
+                    if ($linkTargetType == 'dir')
+                        $this->dirKeys[] = $hrefKey;
+                    else if ($linkTargetType == 'image')
+                        $this->imageKeys[] = $hrefKey;
+                    else
+                        $this->fileKeys[] = $hrefKey;
+                }
+            }
+        }
+    }

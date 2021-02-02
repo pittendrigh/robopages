@@ -11,10 +11,14 @@
 
 class Link
 {
-    public $fileLine;
-    public $href;
-    public $label;
-    public $linkTargetType;
+    protected
+            $fileLine;
+    public
+            $href;
+    public
+            $label;
+    public
+            $linkTargetType;
 
     // linkTargetType is determined externally, usually with roboMimeTyper(basename($someFilePathOrHref))
     // If ever needed--from a $link object--we could basename($this->href)
@@ -32,11 +36,6 @@ class Link
         //$this->dbg();
     }
 
-    function defaultLink()
-    {
-        return '<a href="?robopage='.$this->href.'">'.$this->label."</a>\n";
-    }
-
     function dbg()
     {
         echo "fileLine: ", $this->fileLine, "<br />";
@@ -45,5 +44,23 @@ class Link
         echo "linkTargetType: ", $this->linkTargetType, "<br />";
         echo "<br />";
     }
+
+    /*
+      function getFileline() {
+      return $this->fileLine;
+      }
+
+      function getHref() {
+      return $this->href;
+      }
+
+      function getLabel() {
+      return $this->label;
+      }
+
+      function getType() {
+      return $this->roboMimeType;
+      }
+     */
 }
 ?>

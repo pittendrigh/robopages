@@ -27,15 +27,21 @@ class blog extends plugin
 
     function formatDate($str)
     {
-        //echo "format: ", $str, "<br/>";
-
-        $bits = explode("-", $str);
+        //echo $str, "<br/>";
+        $darr = array();
+        //$bits = explode("_", $str);
+        //$darr[0] = preg_replace(":_|-:"," ", $bits[0]);
+        //$darr[1] = str_replace(".blog","", $bits[1]);
+/*
+        $date = $bits[1];
         $year = $bits[0];
         $month = $bits[1];
         $day = substr($bits[2], 0, 2);
 
         $darr = array($year, $month, $day);
-        return $darr;
+*/
+        //return $darr;
+      return ($str);
     }
 
     function mkFileLists()
@@ -55,7 +61,7 @@ class blog extends plugin
                 $test = basename($file);
                 if (strstr($test, "blog"))
                 {
-                    //$tmpArr[$fileCnt] = $file;
+                    //echo $file, "<br/>";
                     $tmpArr[$file] = $fileCnt;
                     $fileCnt++;
                 }
@@ -63,40 +69,40 @@ class blog extends plugin
          }
          $this->blogCnt = $fileCnt++;
          krsort($tmpArr);
-         array_reverse($tmpArr);
          $i=0;
          foreach(array_keys($tmpArr) as $ablogFile)
          { 
+             //echo $i, " " ,  $ablogFile , "<br/>";
              $this->indexedFiles[$i] = $ablogFile;
              $this->hashedFiles[$ablogFile] = $i;
-             //echo "[$i] $ablogFile <br/>";
              $i++;
          }
          
    }
 
-    function miniMeme($date, $text)
+    function miniMeme($text, $date)
     {
-        $ret = ' 
-<div class="miniMeme">
-<script type="text/javascript">
-protected el = document.getElementById(\'miniMeme\');
-el.style.margin-left = \'-4em\';
-</script>';
-
-        $ret .= ' <p class="miniDate">' . $date . '</p>' . "\n";
-        $ret .= ' <p class="miniText">' . $text . '</p>';
-        $ret .= '</div>' . "\n";
+        $ret = '';
+        $ret .= '<p><span class="miniText">' . $text . '</span>' . "\n";
+        $ret .= '<span class="miniDate">' . $date . '</span></p>';
         return $ret;
     }
 
     function getOutput($divid)
     {
+        $ret = '<div id="bblog"><h2>MRB Blog</h2>';
+        $ret .= $this->ggetOutput('');
+        $ret .= '</div>';
+        return ($ret);
+    }
+
+    function ggetOutput($divid)
+    {
 
         $this->mimer = new roboMimeTyper();
         $buff = $newer = $older = $robopage = '';
 
-        $ret = '';
+        //$blogbanner = '<h2 style="text-align: center;">MRB Blog</h2>';
 
         if (isset($_GET['robopage']))
             $robopage = $_GET['robopage'];
@@ -150,12 +156,17 @@ el.style.margin-left = \'-4em\';
         {
             $lcl = '';
             $ablogFile = $this->indexedFiles[$i];
-            $darr = $this->formatDate($ablogFile);
-            $dateMeme = $this->miniMeme($darr[1] . "/" . $darr[2], $darr[0]);
+            $ablogFileLabel = preg_replace("/:*/","",$this->indexedFiles[$i]);
+            //$darr = $this->formatDate($ablogFile);
+            //$dateMeme = $this->miniMeme($darr[0], $darr[1]);
+            //$dateMeme = $this->miniMeme($ablogFile, '');
+            //$dateMeme = "<h4> ".str_replace(".blog","",$ablogFile)." </h4>";
+            $dateMeme = "<h4> ".str_replace(".blog","",$ablogFileLabel)." </h4>";
+
             $lcl .= $dateMeme;
-            $lcl .= '<div class="blogEntry">';
+            //$lcl .= '<div class="blogEntry">';
             $lcl .= trim(file_get_contents($this->blogFilesDirPath . $ablogFile));
-            $lcl .= '</div>' . "\n";
+            //$lcl .= '</div>' . "\n";
             $cnt++;
             $buff .= $lcl;
         }
@@ -175,6 +186,7 @@ el.style.margin-left = \'-4em\';
             $older = '<a class="button" href="?robopage=' . $robopage . '&blogStart=' . $stopIdx . '"> Older (move down) </a><br/>' . "\n";
         }
 
+        //$ret = $blogbanner. $newer . $buff . $older. $top;
         $ret = $newer . $buff . $older. $top;
         //$ret = $buff;
         return ($ret );

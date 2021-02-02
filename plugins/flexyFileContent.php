@@ -170,11 +170,15 @@ ENDO;
         $ret = $caption = '';
         $base = StaticRoboUtils::stripSuffix($_SESSION['currentDisplay']);
         $capfile = $_SESSION['currentDirPath'] . '/' . $base . ".cap";
-        $caption = @file_get_contents($capfile);
+        if(@stat($capfile))
+           $caption = @file_get_contents($capfile);
+        else
+           $caption = StaticRoboUtils::mkLabel($_SESSION['currentDisplay']);
         if ($caption != null)
         {
-            $ret .= '<p class="image_caption">';
-            $ret .= $caption . '</p>';
+            //$ret .= '<p class="image_caption">';
+            //$ret .= $caption . '</p>';
+            $ret .= $caption;
         }
         return $ret;
     }
@@ -220,17 +224,22 @@ ENDO;
     function mkImageArea()
     {
         global $sys_maxImgWidth, $sys_maxImgHeight;
-        $ret = '';
+        $ret = $label = '';
         $caption = $this->getCaption();
 
         $src = preg_replace('://[\/]*:', '/', $_SESSION['currentClickDirUrl'] . $_SESSION['currentDisplay']);
-        $ret .= '<p><b>' . ucfirst(StaticRoboUtils::mkLabel($_SESSION['currentDisplay'])) . '</b></p>';
+        $label .= '<p><b>' . ucfirst(StaticRoboUtils::mkLabel($_SESSION['currentDisplay'])) . '</b></p>';
         $imgtag = '<img class="main-image" src="' . $src . '" alt="' . $_SESSION['currentDisplay'] . '" />';
-        //$ret .= htmlentities($imgtag);
 
-        $ret .= $imgtag;
-        if ($caption != null)
-            $ret .= $caption;
+$ret .= <<<ENDO
+<div class="Meme">
+<img class="MemeImg" alt="$label"  src="$src" /> 
+<p class="MemeCaption">$caption</p>
+</div>
+ENDO;
+        //$ret .= $imgtag;
+        //if ($caption != null)
+        //    $ret .= $caption;
         return $ret;
     }
 

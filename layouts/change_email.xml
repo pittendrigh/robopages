@@ -1,23 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/change_email.php</file>
   </plugins>
-    <cssfiles>
-        <file>css/robo.css</file>
-    </cssfiles>
-    <bodycontent>
-        <div id="wrapper" src="container" >
-            <div id="headerbanner" src="container" >
-                <h1 id="hbanner/" src="file" />
-                <div id="bottombannerlinks" src="file" />
-            </div>
-            <div id="main-content" src="container" >
-                <div id="stuff" src="change_email" />   
-            </div> 
-        </div> 
-    </bodycontent>
+  <cssfiles>
+    <file>css/robo.css</file>
+  </cssfiles>
+  <bodycontent>
+      <div id="wrapper" src="container">
+        <div id="headerbanner" src="container">
+          <h1 id="hbanner" src="file" />
+          <nav id="bottombannerlinks" src="file"></nav>
+          <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+        </div>
+        <div id="main-content" src="container">
+          <div id="stuff" src="user_manage:file,change_email">
+          </div>
+        </div>
+        <div id="footer" src="file" />
+      </div>
+  </bodycontent>
 </layout>

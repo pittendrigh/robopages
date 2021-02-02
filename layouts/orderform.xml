@@ -3,20 +3,23 @@
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
-      <file>plugins/galleryNavigation.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/orderform.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
+    <file>css/dropdowns.css</file>
   </cssfiles>
   <jsfiles></jsfiles>
   <bodycontent>
     <div id="wrapper" src="container">
       <div id="headerbanner" src="container">
         <div id="bottombannerlinks" src="file" />
+        <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
       </div>
       <div id="main-content" src="container">
+        <div id="notice" src="file"/>
         <div id="orderform" src="orderform" />
       </div>
       <!-- end main-content -->

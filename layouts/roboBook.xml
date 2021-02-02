@@ -2,7 +2,7 @@
 <layout>
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
-      <file>plugins/flexyFileContent.php</file>
+      <file>plugins/flexyBook.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/meme.php</file>
@@ -19,7 +19,7 @@
       <div id="wrapper" src="container">
         <div id="main-content" src="container">
           <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
-          <div id="stuff" src="flexyFileContent">
+          <div id="stuff" src="flexyBook">
             <div klass="toc" src="bookNav" />
           </div>
         </div>

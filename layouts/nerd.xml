@@ -4,6 +4,7 @@
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/galleryNavigation.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/RobopageAdmin.php</file>
       <file>plugins/dirChanger.php</file>
@@ -15,6 +16,7 @@
   </plugins>
     <cssfiles>
         <file>css/robo.css</file>
+        <file>css/user_manage.css</file>
     </cssfiles>
     <jsfiles>
         <file>js/jquery.min.js</file>
@@ -26,8 +28,9 @@
     <bodycontent>
         <div id="wrapper" src="container" >
             <div id="headerbanner" src="container" >
-                <h1 id="hbanner/" src="file" />
+                <div id="hbanner" src="file" />
                 <div id="bottombannerlinks" src="file" /> 
+                <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
             <div id="main-content" src="container" >
                 <div id="stuff" src="RobopageAdmin" />   

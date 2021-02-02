@@ -1,0 +1,13 @@
+Retrieve the current scroll position, you can use:
+
+window.pageYOffset
+
+Store the position, this has two parts, when and where:
+
+You can chose to store the data, when the window closes, or every time the user scrolls, or on a set interval...
+
+for the "where", depending on your app, you may want to store it, in a cookie, local-storage, on the server-side (if the user needs to log in to read the eBook)...
+
+Restore the position when the user returns by retrieving the stored data, and scroll to that position using
+
+window.scrollTo(0, position);

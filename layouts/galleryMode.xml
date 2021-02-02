@@ -25,7 +25,7 @@
         <div id="main-content" src="container">
           <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
           <div id="stuff" src="galleryMode">
-            <div id="toc" src="bookNav" />
+            <div klass="toc" src="bookNav" />
           </div>
         </div>
         <div id="footer" src="file" />

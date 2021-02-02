@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+  <cssfiles>
+    <file>robo.css</file>
+  </cssfiles>
+  <bodycontent>
+  <div id="wrapper" src="container">
+
+      <div id="banner" src="container"> 
+           <div id="btitle" src="file" /> 
+      </div>
+
+      <div id="leftcol" src="container">
+           <div id="photochapters" src="file"/>
+           <div id="dynamicNavigation" src="dynamicNavigation"/>
+      </div>
+      <div id="rightcol" src="mkGoogle"/>
+
+       // if it has an id="name' it must also have a src="contentPluginName" 
+       //which means plugins/contentPlugin.php as the content provider for this div or block element
+      <div id="main-disp" src="container" >
+           <div id="breadcrumbs" src="mkBreadcrumbs"/>
+           <div id="main-content" src="flexyFileContent" />
+      </div>
+
+ </div>
+</bodycontent>
+</layout>

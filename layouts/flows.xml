@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+  <cssfiles>
+    <file>robo.css</file>
+  </cssfiles>
+  <bodycontent>
+
+      <div id="banner" src="file" > 
+        <div id="bottombannerlinks" src="file" />
+      </div>
+
+      <div id="main-content" src="mkBreadcrumbs,dynamicNavigation,mkGoogle,flows" />
+      <div id="footer" src="file" />
+  </bodycontent>
+</layout>

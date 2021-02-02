@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
   <plugins>
-      <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/galleryNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
-      <file>plugins/galleryNavigation.php</file>
+      <file>plugins/arcade.php</file>
+      <file>plugins/arcader.php</file>
+      <file>plugins/targetedArcade.php</file>
+      <file>plugins/meme.php</file>
+      <file>plugins/memer.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
+    <file>css/meme.css</file>
   </cssfiles>
   <bodycontent>
     <div id="wrapper" src="container">
         <div id="headerbanner" src="container">
-          <h1 id="hbanner/" src="file" />
-          <div id="bottombannerlinks" src="file" />
-        </div>
+        <div id="hbanner" src="file" />
+        <div id="mkBreadcrumbs" src="mkBreadcrumbs"/> 
+        <div id="bottombannerlinks" src="file" />
+      </div>
         <div id="main-content" src="container">
-          <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
-          <div id="stuff" src="galleryNavigation">
-            <div id="toc" src="flexyFileContent" />
+          <div id="galleryNavigation" src="galleryNavigation">
+            <div id="stuff" src="flexyFileContent" />
           </div>
         </div>
-        <div id="footer" src="file" />
-      </div>
+
+      <div id="footer" src="file" />
+    </div>
   </bodycontent>
 </layout>

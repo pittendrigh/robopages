@@ -3,6 +3,7 @@
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/blog.php</file>
       <file>plugins/longColumn.php</file>
@@ -13,8 +14,9 @@
     <bodycontent>
         <div id="wrapper" src="container">
             <div id="headerbanner" src="container" >
-                <h1 id="hbanner/" src="file" />
+                <div id="hbanner" src="file" />
                 <div id="bottombannerlinks" src="file" />
+                <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
             <div id="main-content" src="container" >
                 <div id="blog" src="blog" />   

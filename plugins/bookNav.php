@@ -84,13 +84,19 @@ function assembleGlobalChapterLinks($linksString)
     $cnt = count($linkChunks) -1;
     for($i=0; $i<$cnt; $i++)
     {
-      $url = $this->currentBookName . '/' . $linkChunks[$i];
+      $label = $subpath = $linkChunks[$i];
+      if(strstr($linkChunks[$i], '|'))
+      {
+         $pieces = explode("|", $linkChunks[$i]);
+         $subpath = $pieces[0];
+         $label = $pieces[1];
+      } 
+
+      $url = $this->currentBookName . '/' . $subpath;
     
        if(is_dir($this->p2nFileDir . trim($linkChunks[$i])))
            $label = ' <i class="material-icons" style="font-size: 80%; ">folder</i> ' 
-             . $linkChunks[$i];
-       else
-            $label = $linkChunks[$i];
+             . $label;
       $link = $this->mkLink($url, $label);
       $this->globalChapterLinks[] = $link;
     } 

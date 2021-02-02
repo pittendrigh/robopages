@@ -3,12 +3,13 @@
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
-      <file>plugins/galleryNavigation.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/lost_login_name.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
+    <file>css/dropdowns.css</file>
   </cssfiles>
   <jsfiles></jsfiles>
   <bodycontent>
@@ -17,10 +18,8 @@
         <div id="bottombannerlinks" src="file" />
       </div>
       <div id="main-content" src="container">
-        <div id="lost_login_name"
-        src="user_manage:file,lost_login_name" />
+        <div id="lost_login_name" src="user_manage:file,lost_login_name" />
       </div>
-      <!-- end main-content -->
       <div id="footer" src="file" />
     </div>
   </bodycontent>

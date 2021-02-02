@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <plugins>
+      <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/flexyFileContent.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
+      <file>plugins/file.php</file>
+      <file>plugins/galleryNavigation.php</file>
+  </plugins>
+  <cssfiles>
+    <file>css/robo.css</file>
+  </cssfiles>
+  <bodycontent>
+    <div id="wrapper" src="container">
+      <div id="headerbanner" src="container">
+        <div id="hbanner" src="file" />
+        <div id="bottombannerlinks" src="file" />
+        <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+      </div>
+      <div id="main-content" src="container">
+        <div id="galleryNavigation" src="galleryNavigation">
+          <div id="main-disp" src="flexyFileContent" />
+        </div>
+      </div>
+      <div id="footer" src="file" />
+    </div>
+  </bodycontent>
+</layout>

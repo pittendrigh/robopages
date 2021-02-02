@@ -91,7 +91,9 @@ class contactus extends plugin
 
         $ret .= '
        <div><textarea style="width: 80%; min-height: 10em;" name="message" cols="50" rows="10"></textarea></div>
-       <p> <input type="hidden" name="layout" value="contactus"/> <input type="submit" name="submit" value="Send"/>  
+       <p> <input type="hidden" name="layout" value="contactus"/>   
+       <p style="display: none;"> Tags <input type="text" name="keywords" value=""/>  </p>
+       <input type="submit" name="submit" value="Send"/>  
        <input type="button" name="cancel" value="Cancel" onclick="window.history.back()"/>
        </p>
        </form></fieldset>';
@@ -160,6 +162,9 @@ class contactus extends plugin
         if (strlen($_POST['fromname']) > 32 || strstr($_POST['fromname'], '\n') || strstr($_POST['fromname'], '\r'))
             exit;
 
+
+        if(stristr($_POST['subject'],"seo"))
+           exit;
         // the following--an @ in the toName--is not what could from the mkToSelect function,
         // which suggests a hackign attempt.
         //

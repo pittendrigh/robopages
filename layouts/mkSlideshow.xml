@@ -4,6 +4,7 @@
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/galleryNavigation.php</file>
+      <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/mkSlides.php</file>
   </plugins>
@@ -19,8 +20,9 @@
     <bodycontent>
         <div id="wrapper" src="container" >
             <div id="headerbanner" src="container" >
-                <h1 id="hbanner/" src="file" />
+                <div id="hbanner" src="file" />
                 <div id="bottombannerlinks" src="file" />
+                <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
             <div id="main-content" src="container" >
                 <div id="stuff" src="mkSlideshow" />   
