@@ -1,69 +1,76 @@
-     .displayCard{
-      display: grid;
-      grid-tremplate-columns: 100%;
-      float: left;
-      max-width: 85%;
-      max-width: 98%;
-      background: rgb(245,245,250);
-      padding: 0.25rem;
-      margin: 1rem;
-     }
+/**** cards.css ***/
+.displayCard {
+    display: grid;
+    grid-tremplate-columns: 100%;
+    float: left;
+    max-width: 85%;
+    max-width: 98%;
+    background: rgb(245,245,250);
+    padding: 0.25rem;
+    margin: 1rem;
+}
 
-     .displayCard img { width: 95%; }
+.displayCard img {
+    width: 95%;
+}
 
-     .displayCardbanner {
-        height: 10%;
-        text-align: center;
-        padding: 0.25rem 0;
-     }
-     .displayCardbody {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  justify-content: center;
+.displayCardbanner {
+    height: 10%;
+    text-align: center;
+    padding: 0.25rem 0;
+}
 
-        margin: 0;
-        padding: 0;
-     }
+.displayCardbody {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
 
-     .displayCardcaption {
-        text-align: center;
-        padding: 0.25rem 0;
-     }
+.displayCardcaption {
+    text-align: center;
+    padding: 0.25rem 0;
+}
 
-     .navCard{
-      display: grid;
-      grid-tremplate-columns: 100%;
-      float: left;
-      background: rgb(245,245,250);
-      margin: 1rem;
-      width: 6rem;
-      height: 6rem;
-      padding: 0.25rem;
-     }
+.navCard {
+    display: grid;
+    grid-tremplate-columns: 100%;
+    float: left;
+    background: rgb(245,245,250);
+    margin: 1rem;
+    width: 6rem;
+    height: 6rem;
+    padding: 0.25rem;
+}
 
+.navCardbanner {
+    height: 10%;
+    padding: 0.25rem 0;
+}
 
-     .navCardbanner {
-        height: 10%;
-        padding: 0.25rem 0;
-     }
-     .navCardbody {
-        height: 80%;
-        padding: 0.25rem 0;
-        margin: 0 auto;
-     }
+.navCardbody {
+    height: 80%;
+    padding: 0.25rem 0;
+    margin: 0 auto;
+}
 
-     a.navCardLink{ font-size: 1.5vw; margin: 0; padding: 0;}
+a.navCardLink {
+    font-size: 1.5vw;
+    margin: 0;
+    padding: 0;
+}
 
-     .navCardbody img{
-          display: block;
-          margin: 0 auto;
-          max-width: 95%;
-          max-height: 90%;
-      }
-     
-     .navCardcaption {
-        height: 10%;
-        text-align: center;
-        padding: 0.25rem 0;
-     }
+.navCardbody img {
+    display: block;
+    margin: 0 auto;
+    max-width: 95%;
+    max-height: 90%;
+}
+
+.navCardcaption {
+    height: 10%;
+    text-align: center;
+    padding: 0.25rem 0;
+}
