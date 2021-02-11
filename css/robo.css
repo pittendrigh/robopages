@@ -36,6 +36,7 @@ a:hover {
 
 #headerbanner {
     position: relative;
+    /* change this path as needed, in order to display a background logo  */
     background: url("/Github/robopages/systemimages/logo.png") no-repeat rgb(245,245,250);
     background-position: right center;
     min-height: 3.5rem;
