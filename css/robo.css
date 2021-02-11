@@ -3,28 +3,39 @@
          margin: 0;
 }
 
-html
-{
+html {
     width: 100%;
     height: 100%;
     padding: 0;
 }
 
-body {  background: #ffffff;  
-  font-family: Arial;
+body {  
+  background: #ffffff;  
 }
 
-a { color: #660000;  text-decoration: none;} 
-#stuff a { color: #660000;  text-decoration: underline;} 
+#wrapper {
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+
+a { 
+  color: #660000;  
+  text-decoration: none;
+} 
+
+#stuff a { 
+  color: #660000;  
+  text-decoration: underline;
+} 
 
 a:hover 
 {
     text-decoration: underline;
 }
 
-.redAlert{ color: magenta; }
-
-#headerbanner{
+#headerbanner {
   position: relative;
   background: url("/Github/robopages/systemimages/logo.png") no-repeat rgb(245,245,250);
   background-position: right center;
@@ -42,105 +53,6 @@ a:hover
     width: 80%;
     margin: 0 0 0 25%;
     padding-top: 0.5rem;
-}
-
-h1 { font-size: 120%; }
-h2 { font-size: 95%; }
-h3 { font-size: 85%; }
-
-#main-content
-{
-    width: 100%;
-    margin:  0;
-    padding: 1rem;
-    overflow: hidden;
-    font-family: Garamond, serif
-}
-
-img { float: left; margin: 1rem; }
-
-#stuff img {float: left; margin: 1rem; max-width: 70%; border: 1px solid transparent;} 
-
-/*
-#blog:active{ width: 852px !important; }
-#bblog:active{ width: 851px !important; }
-#bblog img:active{ border: 3px solid magenta; width: 850px !important; }
-*/
-
-img.icon {width: 1rem; margin: 0; padding: 0; border: 0; position: relative; bottom: 1rem;}
-
-#footer
-{
- clear: both; 
-  color: black;
-  padding: 1rem;
-  width: 100%;
-  max-height: 6rem;
-}
-
-#footer a{ text-decoration: none; }
-#footer a:hover{ text-decoration: underline; }
-
-#user_manage{ margin: 2rem 0 2rem 0; }
-#user_manage a{ margin: 2rem 1rem; }
-#user_manage, #mkBreadcrumbs a { color: #cc2244; margin: 0 0 0.5rem 0; padding: 0;}
-
-#mkBreadcrumbs a:hover 
-{
-    background: #aaaaaa;
-}
-
-#cse { width: 59%; }
-
-#slideshow
-{
-    float: left;
-    padding: 1rem;
-    border: 1px solid transparent;
-}
-#slideshow img { max-width: 90%; }
-
-#arcade {
-  width: 70%;
-  margin: 1rem;
-}
-
-#currentArcadeImg { margin:1rem; max-width: 50%;  }
-
-#googleSearch {float: left; max-width: 50%;}
-#googleBanner {color: white;}
-
-#flexyFileContent{ margin-top: 2rem; }
-
-#mkGoogle { max-height: 5rem; }
-
-div.dynamicNavigation
-{
-  clear: both;
-  float:left;
-  margin: 0.25rem 0 0 0;
-}
-
-div.dynamicNavigation a
-{
-  display: block;
-  padding: 0;
-  border: 0;
-}
-
-div.dynamicNavigation a:hover{ background: #dedede; }
-
-/* ==========RobopageAdmin related==================================*/
-
-div.dirChanger { width: 45%; padding-right: 1rem; float: right;}
-div.dirChanger h3 { width: 50%; margin-left: 45%; }
-
-/* ============================================*/
-
-#wrapper {
-  width: 95%;
-  height: 100%;
-  margin: 0 auto;
 }
 
 /* Navbar container */
@@ -171,17 +83,128 @@ div.dirChanger h3 { width: 50%; margin-left: 45%; }
   border: 1px solid #bdbdbd;
   border-radius: 3px;
 }
-/* ============================================*/
 
-.clearboth{ clear: both; height: 0.25rem; margin: 0; padding: 0; }
+h1 { font-size: 120%; }
+h2 { font-size: 95%; }
+h3 { font-size: 85%; }
 
-div.subnav{
- margin: 1rem;
- padding: 0.5rem;
- min-height: 10rem;
- border-top: 2px groove gray;
- font-size: 75%;
+#main-content
+{
+    width: 100%;
+    margin:  0;
+    padding: 1rem;
+    overflow: hidden;
 }
+
+img { 
+  margin: 1rem; 
+}
+
+#stuff img {
+  /* float: left; */
+  margin: 1rem; 
+  max-width: 70%; 
+  border: 1px solid transparent;
+} 
+
+#footer
+{
+  clear: both; 
+  color: black;
+  padding: 1rem;
+  width: 100%;
+  max-height: 6rem;
+}
+
+#footer a { 
+  text-decoration: none; 
+}
+
+#footer a:hover { 
+  text-decoration: underline; 
+}
+
+
+#mkBreadcrumbs a:hover 
+{
+    background: #aaaaaa;
+}
+
+#slideshow
+{
+    float: left;
+    padding: 1rem;
+    border: 1px solid transparent;
+}
+
+#slideshow img 
+{ 
+  max-width: 90%; 
+}
+
+#googleSearch {
+  float: left; 
+  max-width: 50%;
+}
+
+#googleBanner {
+  color: white;
+}
+
+/*
+#flexyFileContent{ margin-top: 2rem; }
+*/
+
+/*
+#mkGoogle { max-height: 5rem; }
+*/
+
+/*
+div.dynamicNavigation
+{
+  clear: both;
+  float:left;
+  margin: 0.25rem 0 0 0;
+}
+
+div.dynamicNavigation a
+{
+  display: block;
+  padding: 0;
+  border: 0;
+}
+div.dynamicNavigation a:hover{ background: #dedede; }
+*/
+
+
+/* ==========RobopageAdmin related==================================*/
+
+div.dirChanger { 
+  width: 45%; 
+  padding-right: 1rem; 
+  float: right;
+}
+
+div.dirChanger h3 { 
+  width: 50%; 
+  margin-left: 45%; 
+}
+
+#user_manage { 
+  margin: 2rem 0 2rem 0; 
+}
+
+#user_manage a { 
+  margin: 2rem 1rem; 
+}
+
+#user_manage, #mkBreadcrumbs a { 
+  color: #cc2244; 
+  margin: 0 0 0.5rem 0; 
+  padding: 0;
+}
+
+/* ============================================*/
 
 sup 
 { 
@@ -196,19 +219,19 @@ p.footnote
   font-size: 70% ;
   font-style:  
 }
-/* ======== start  TOC ============*/
 
+/* ======== start  TOC ============*/
 .toc {
-position: relative;
-background: #dedede;
-margin: 0  1rem 0.5rem 0;
-padding: 0.5rem;
-float: left; 
-min-width: 20%;
-font-family: Arial;
-font-size: 60%;
-border: 2px solid #cdcdcd;
-border-radius: 4px;
+  position: relative;
+  background: #dedede;
+  margin: 0  1rem 0.5rem 0;
+  padding: 0.5rem;
+  float: left; 
+  min-width: 20%;
+  font-family: Arial;
+  font-size: 60%;
+  border: 2px solid #cdcdcd;
+  border-radius: 4px;
 }
 
 .toc a 
@@ -221,7 +244,10 @@ border-radius: 4px;
   margin-bottom: 0.25rem; 
 }
 
-.toc a:hover{text-decoration: underline !important;}
+.toc a:hover{
+  /* why trouble without important? */
+  text-decoration: underline !important;
+}
 
 a.highlighted
 {
@@ -230,14 +256,13 @@ a.highlighted
   padding: 2px;
 }
 
-a.lclhighlighted
-{
+a.lclhighlighted {
   display: block;
   background: #cdcdcd;
   padding: 2px;
 }
 
-.buttonbox{
+.buttonbox {
   width: 100%; 
   display: flex;
   flex-wrap: wrap;
@@ -246,8 +271,7 @@ a.lclhighlighted
   font-size: 1.5vw;
 }
 
-p.buttonbox a.button
-{ 
+p.buttonbox a.button { 
   background-color: #efefef; /* Green */
   border: 1px outset #ababab;
   color: black;
@@ -265,57 +289,39 @@ a.button:hover {
   color: #660000;
   border: 1px solid black;
 }
-
-#bottomNav { clear: both; }
-
-#bookNavBottom { margin-left: 3rem;} 
-#bookNavBottom a:hover{ color: black; text-shadow: 1px 1px #ffffff; background: rgba(255,240,240,0.5); border: 1px solid #660000;}
-
 /* ======== end  TOC ============*/
 
-#blog
-{
-float:right;
-right: 0;
-width: 30%;
-height: auto;
-max-height: 20rem;
-padding: 3px;
-margin: 1rem 1rem 4rem 1rem;
+#blog {
+  float:right;
+  right: 0;
+  width: 30%;
+  height: auto;
+  max-height: 20rem;
+  padding: 3px;
+  margin: 1rem 1rem 4rem 1rem;
 }
 
-#bblog
-{
-border: 4px groove #aaaaaa; 
-border-radius: 4px;
-overflow-y: scroll;
-overflow-x: hidden;
-height: auto;
-max-height: 20rem;
-padding: 0.5rem;
+#bblog {
+  border: 4px groove #aaaaaa; 
+  border-radius: 4px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: auto;
+  max-height: 20rem;
+  padding: 0.5rem;
 }
 
-#bblog img 
-{
+#bblog img {
  margin: 1rem;
  max-width: 90%;
 }
-#bblog img::after
-{
-}
 
-.blogEntry{
+.blogEntry {
  margin: 3px;
  border: 0;
  padding: 1rem;
 }
 
-.miniText{ font-weight: bold;}
-
-@media screen and (max-width: 900px)
-{
-  div.Mreme{clear:both;}
-}
 
 /* ======== start  media ============*/
 /* when the desktop browser minimizes to 700px or less */
@@ -326,7 +332,6 @@ padding: 0.5rem;
   .toc {width: 30%;}
   p.buttonbox a.button{ font-size: 1.5vw;}
   #blog { display: none; }   
-
 }
 
 /* when the device is a typical phone */
