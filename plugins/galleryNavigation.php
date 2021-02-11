@@ -2,17 +2,20 @@
 @session_start();
 include_once("conf/globals.php");
 include_once("Link.php");
+include_once("navCard.php");
 include_once("dynamicNavigation.php");
 
 class galleryNavigation extends dynamicNavigation
 {
 
+/*
     function lookWhereForFiles()
     {
         // oops no opendir error handling grep -i actionItem *php
         $handle = @opendir($this->currentDirPath . 'roboresources/pics');
         return ($handle);
     }
+*/
 
 
     function hasIndexImg($link, $mode = null)
@@ -40,39 +43,38 @@ class galleryNavigation extends dynamicNavigation
             $test = @stat($testPath);
             if ($test != null)
             {
-                $ret = '<img src="' . $thumbUrl . '" alt="' . $base . '"/>';
+                //$ret = '<img src="' . $thumbUrl . '" alt="' . $base . '"/>';
+                $ret = $thumbUrl ;
             }
         }
 
         return $ret;
     }
 
+    function getSlideshowLink()
+   {
+          $slideshowLink = '?robopage=' . $_GET['robopage'] . '&amp;layout=slideshow';
+          $card = new navCard($slideshowLink, "Slideshow","","slideshow" );
+          $ret = $card->getOutput('');
+          return ($ret);
+    }
+
+
     function mkLink($link, $LinkTargetType=null)
     {
         global $sys_thumb_links;
-        $ret = "\n\n" . '<div class="' . get_class($this) . '">' . "\n";
-        $ret .= '<a href="' . $link->href . '">';
+        $ret = '';
 
-        // get a default linklbl
-        $linklbl = StaticRoboUtils::mkLabel($link->label);
+        $href=$link->href;
+        $text = StaticRoboUtils::mkLabel($link->label);
+        $imgPath='';
 
         $linkTargetType = $link->linkTargetType;
 
         if ($linkTargetType == 'dir')
         {
-
-            $indexImageTest = $this->hasIndexImg($link);
-
-            if ($indexImageTest != null)
-            {
-                $linklbl = $linklbl . '<br/>' . $indexImageTest;
-            }
-            else
-                $linklbl = "\n" . '<i class="material-icons" style="font-size: 80%; ">folder</i>' . $linklbl;
+            $imgPath = $this->hasIndexImg($link);
         }
-
-        // grep -iH actionItem *php which of the follwing ifs?
-        //else if ($linkTargetType == 'image' && $sys_thumb_links && strstr($link->href, 'robopage=')) 
         else if ($linkTargetType == 'image' && $sys_thumb_links)
         {
             $query = parse_url($link->href, PHP_URL_QUERY);
@@ -84,16 +86,29 @@ class galleryNavigation extends dynamicNavigation
 
                 if (@stat($tpath))
                 {
-                    $thumb = '<img src="' . $_SESSION['currentClickDirUrl'] . "roboresources/thumbs/tn-" . $base . '" alt="' . 'xxx' . '"/>';
-                    //echo htmlentities($linklbl), "<br/>";
-                    $linklbl = "\n" . $this->thumbMemer($thumb, $linklbl) . "\n";
+                    $imgPath = $_SESSION['currentClickDirUrl'] . "roboresources/thumbs/tn-" . $base;
                 }
             }
         }
 
+        $label = StaticRoboUtils::mkLabel(basename($imgPath));
+        $body = '<img src="' . $imgPath . '" alt="' . $label . '"/>';
 
-        $ret .= $linklbl . '</a>' . "\n";
-        $ret .= '</div>';
+if ($linkTargetType  == 'dir')
+{
+        $body = '<i class="material-icons" style="font-size: 80%; ">folder</i> '  . basename($href);
+        if(isset($imgPath) && $imgPath != null)
+            $label = '<img src="' . $imgPath . '" alt="' . $label . '"/>'; 
+        else
+            $label = '';
+        $card = new navCard($href,$body, $label);
+}
+else 
+{
+        $card = new navCard($href,$body, $label);
+}
+        $ret .= $card->getOutput('');
+
         return $ret;
     }
 

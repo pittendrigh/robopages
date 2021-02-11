@@ -13,7 +13,6 @@
   <bodycontent>
       <div id="wrapper" src="container">
         <div id="headerbanner" src="container">
-          <h1 id="hbanner" src="file" />
           <nav id="bottombannerlinks" src="file"></nav>
           <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
         </div>

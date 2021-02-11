@@ -118,6 +118,13 @@ class dynamicNavigation extends plugin
         return $ret;
     }
 
+    function getSlideshowLink()
+    {
+          $ret = "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
+                   . $this->currentDirUrl . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
+          return ($ret);
+    }
+
     function getOutput($divid)
     {
         global $sys_show_suffixes, $sys_thumb_links;
@@ -134,8 +141,7 @@ class dynamicNavigation extends plugin
         {
             $slideshowFlag = TRUE;
             if( $slideshowFlag )
-              $ret .= "\n" . '<div class="'.get_class($this).'"><a class="slideshow" href="?robopage='
-                   . $this->currentDirUrl . '&amp;layout=slideshow">Slideshow</a></div>' . "\n";
+              $ret .= $this->getSlideshowLink();
         }
 
 

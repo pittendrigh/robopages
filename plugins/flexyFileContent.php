@@ -2,8 +2,8 @@
 include_once("roboPather.class.php");
 include_once("Link.php");
 include_once("processBackTics.class.php");
-//include_once("upload.php");
 include_once("roboMimeTyper.php");
+include_once("displayCard.php");
 
 @session_start();
 
@@ -172,12 +172,8 @@ ENDO;
         $capfile = $_SESSION['currentDirPath'] . '/' . $base . ".cap";
         if(@stat($capfile))
            $caption = @file_get_contents($capfile);
-        else
-           $caption = StaticRoboUtils::mkLabel($_SESSION['currentDisplay']);
         if ($caption != null)
         {
-            //$ret .= '<p class="image_caption">';
-            //$ret .= $caption . '</p>';
             $ret .= $caption;
         }
         return $ret;
@@ -225,21 +221,23 @@ ENDO;
     {
         global $sys_maxImgWidth, $sys_maxImgHeight;
         $ret = $label = '';
+
         $caption = $this->getCaption();
 
         $src = preg_replace('://[\/]*:', '/', $_SESSION['currentClickDirUrl'] . $_SESSION['currentDisplay']);
-        $label .= '<p><b>' . ucfirst(StaticRoboUtils::mkLabel($_SESSION['currentDisplay'])) . '</b></p>';
-        $imgtag = '<img class="main-image" src="' . $src . '" alt="' . $_SESSION['currentDisplay'] . '" />';
+        $label = StaticRoboUtils::mkLabel($_SESSION['currentDisplay']);
 
-$ret .= <<<ENDO
-<div class="Meme">
-<img class="MemeImg" alt="$label"  src="$src" /> 
-<p class="MemeCaption">$caption</p>
-</div>
-ENDO;
-        //$ret .= $imgtag;
-        //if ($caption != null)
-        //    $ret .= $caption;
+
+        $theImage = '<img src="'. $src . '" alt="' . $label. '"/>';
+
+        if(isset($caption) && $caption != null)  
+           $displayCard = new displayCard($label,$theImage,$caption); 
+        else
+        {
+           $displayCard = new displayCard($label,$theImage); 
+        }
+
+        $ret = $displayCard->getOutput('');
         return $ret;
     }
 
