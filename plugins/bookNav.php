@@ -377,6 +377,10 @@ ENDO;
   {
     $ret = $top = $bottom = '';
 
+echo "youmammasan<br/>";
+foreach($this->allP2nLinks as $key => $value) {
+  print ($key, " == ", $value<br/>";
+}
     $top .= '<button id="tcdo" onClick="tocToggle()">toc</button>';
     $top .= $this->getTOCJs();
     $top .= $this->nextPrevButtons->getOutput('');
