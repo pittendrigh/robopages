@@ -6,6 +6,10 @@ include_once("nextPrevButtons.php");
 include_once("roboMimeTyper.php");
 include_once("dynamicNavigation.php");
 
+function eecho($str){
+  echo $str, "<br/>";
+}
+
 class bookNav extends plugin 
 {
   protected   $nextPrevButtons;
@@ -30,6 +34,8 @@ class bookNav extends plugin
   function mkLink($url,$label)
   {
     $link = '';
+
+    $url = StaticRoboUtils::fixPageEqualParm($url);
     $chapter = $this->getThisChapter($url);
     $labelString = str_replace($_SESSION['bookTop'] . '/','',$url);
     $whereWeAreAtComparitor   = substr($labelString,0,strlen($labelString));
@@ -74,7 +80,8 @@ class bookNav extends plugin
     } 
 
     $link .= "\n";
-    $this->allP2nLinks[$url] = $link;
+    //eecho("put:  ". $_SESSION['currentDirUrl'] . $url);
+    $this->allP2nLinks[$_SESSION['currentDirUrl'] . $url] = $link;
     return($link);
   }
 
@@ -105,11 +112,15 @@ function assembleGlobalChapterLinks($linksString)
   function getThisChapter()
   {
 
+     $path = $chapter = '';
      // is a bookTop never in DOCUMENT_ROOT? No. need to fix this. grep -i actionItem *php
+   if(isset($_GET['robopage']) && $_GET['robopage'] != null)
+   {
      $path = $_GET['robopage'];
      if(strstr(basename($path),'.'))
         $path = dirname($path);
      $chapter = basename ($path);    
+    }
 
      return($chapter);
   }
@@ -166,8 +177,8 @@ function assembleGlobalChapterLinks($linksString)
       $line = trim($lines[$i]);
       $tentativeDirPath = trim($this->p2nFileDir) .  trim($line);
 
-      // top level directories are chapter names
-      // we also want any leaf level *.htm files in the bookTop directory
+      // top level directories are chapter names and have no path slashes 
+      // but we do also want any leaf level *.htm files in the bookTop directory
       if(!strstr($line,'/'))
       {
           $linksString .= $line . ',';
@@ -262,7 +273,6 @@ function assembleGlobalChapterLinks($linksString)
     $this->mimer = new roboMimeTyper();
     $this->setP2NFile();
     $this->nextPrevButtons = new nextPrevButtons();
-
     $this->missedLinks = array();
   }
 
@@ -351,23 +361,27 @@ ENDO;
           if (isset($linkTargetType) && $linkTargetType != "unknown")
           {
               $url = 
-                StaticRoboUtils::fixrobopageEqualParm($_SESSION['currentDirUrl'] 
+                StaticRoboUtils::fixPageEqualParm($_SESSION['currentDirUrl'] 
                   . $file);
 
+/*
               if ($linkTargetType == 'link')
               {
                   $url = $_SESSION['currentClickDirUrl'] . $file;
               }
               else
               {
-                $atest = @$this->allP2nLinks[$url];
+*/
+                  //eecho ("testLink: " . $url);
+                  $testArr = array_merge($this->allP2nLinks, $this->globalChapterLinks);
+                  $atest = $testArr ;
                   if (!isset($atest) || $atest == null)
                   {
                     $link = '<a href="?robopage=' . $url. '"><b class="redAlert">' 
-                      . $label. "</b></a>\n";
+                      . 'm: ' . $label. "</b></a>\n";
                     $this->missedLinks[$url] = $link;
                   }
-              }
+              //}
           }
           //else{ echo "??? $file<br/>\n"; }
       }
@@ -377,15 +391,12 @@ ENDO;
   {
     $ret = $top = $bottom = '';
 
-echo "youmammasan<br/>";
-foreach($this->allP2nLinks as $key => $value) {
-  print ($key, " == ", $value<br/>";
-}
     $top .= '<button id="tcdo" onClick="tocToggle()">toc</button>';
     $top .= $this->getTOCJs();
     $top .= $this->nextPrevButtons->getOutput('');
     $top .= '<div id="ttoc">';
 
+    // global chapter links are the top level directories plus any *.htm files, with no path slashes
     $this->getGlobalChapterLinks();
     $cnt = count($this->globalChapterLinks);
     for($i=0; $i<$cnt; $i++)
@@ -393,22 +404,34 @@ foreach($this->allP2nLinks as $key => $value) {
        $top .= $this->globalChapterLinks[$i];
     }
 
+    // if NOT in the Books top chapter directory then we are in a chapter
+    // if so we want to display, at bottom, all available page links in that chapter
     if(!$this->inBookTopDir())
     {
       $bottom .= '<div id="bookNavBottom"><hr/>' ;
       $localLinksArray = $this->getLocalPageLinks();
       $cnt = count($localLinksArray);
+      $bottom .= '<h3 class="bookNavThisChapter"> -- ' .  $this->getThisChapter() . " -- </h3>"; 
+
       for($i=0; $i<$cnt; $i++)
       {
         $bottom .= $localLinksArray[$i];
       }
       $bottom .= '</div>';
     }
+
+
+    // Everything above came from the p2n file.  What about last minute page additions
+    // that might not be in the p2n file yet?  
+    //
     $this->find_additional_pages();
     if($_SESSION['layout'] != 'bookGalleryNav')
     {
-       foreach ($this->missedLinks as $alink)
+       //foreach ($this->missedLinks as $alink)
+       foreach(array_keys($this->missedLinks) as $aUrl)
        {
+          //eecho("missed:  $aUrl");
+          $alink = $this->missedLinks[$aUrl];
           $bottom .= $alink. "\n";
        } 
     }
