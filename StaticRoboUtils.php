@@ -36,7 +36,7 @@ class StaticRoboUtils
     }
 
 
-    static function fixrobopageEqualParm($tentativelink)
+    static function fixPageEqualParm($tentativelink)
     {
         // zap any leading slash from the value of  $_GET['robopage']
         $tentativelink = preg_replace(":^\/:", "", $tentativelink);
