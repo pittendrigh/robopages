@@ -52,56 +52,53 @@ class bookNav extends plugin
   }
 
   // makes a string hyperlink rather than new Link($line) object, for now anyway
-  // better not rely on it but right now mkLink only called by assembleGlobalLinks
-  // change highlighted so ... both global and selected local get hightlighted
-  // albeit differently
-  // need thisChapter and robopage
   function mkLink($url,$label)
   {
     $link = $getRobopageComparitor  = '';
     $url = StaticRoboUtils::fixPageEqualParm($url);
     if(isset($_GET['robopage']))
+    {
         $getRobopageComparitor  = StaticRoboUtils::fixPageEqualParm($_GET['robopage']);
+    }
     
     $chapter = $this->getThisChapter($url);
+
     $labelString = str_replace($_SESSION['bookTop'] . '/','',$url);
+
+    // ?????????????
     $whereWeAreAtComparitor   = substr($labelString,0,strlen($labelString));
-    $parentChapterHightlightFlag = ($chapter == $whereWeAreAtComparitor) ? TRUE : FALSE; 
 
     $linkTargetType = $this->mimer->getRoboMimeType($url);    
-     
-    $highLightFlag = FALSE;
-    if(isset($getRobopageComparitor) && $url == $getRobopageComparitor)
-        $highLightFlag = TRUE;
 
-    // in bookNav we're only recognizing external links or internal book page links,
-    // which reference a *.htm page or an internal directory (which defaults to an assumed *.htm)
+    $highlightFlag=FALSE;
+      $hightlightFlag = ($chapter == $whereWeAreAtComparitor) ? TRUE : FALSE; 
+
+    // can still set $highlightFlag TRUE yet again
+    if(isset($getRobopageComparitor) && $getRobopageComparitor == $url 
+        || stristr($label,$_SESSION['currentDirUrl']. $_SESSION['currentDisplay']))
+    {
+     $highlightFlag = TRUE;
+    }
+ 
+    // in bookNav we're only recognizing external links or internal book page links
+    // referencing a *.htm page or internal directory (defaults to an assumed *.htm)
     // internal directories may or may not be top level chapter directories
+    $linkClass='';
+    if ($highlightFlag == TRUE)
+       $linkClass = ' class="highlighted" ';
+
     if($linkTargetType == 'link') 
     {
-        $link = '<a target="_blank" href="' 
+        $link = '<a ' . $linkClass . ' target="_blank" href="' 
          . $_SESSION['currentClickDirUrl'] . basename($url) . '">' . $label. '</a>'; 
     }
     else  // not an external link
     {
-        if(isset($getRobopageComparitor) && $url == $getRobopageComparitor)
-        { 
-            // If this url from the p2n list is also the current robopage
-            // whether it is in the top global chapter group or the bottom local chapter-pages group
-            $link = '<a class="highlighted" href="?robopage='.$url.'">' . $label . '</a>'."\n";
-        }
-        else 
-        {
-            // if the current robopage is a local chapter-page link 
-            // we still, also want to highlight the chapter that contains that local link,
-            // in the upper global chapters group
-            if($parentChapterHightlightFlag || isset($getRobopageComparitor) && $getRobopageComparitor == $url 
-               || stristr($label,  $_SESSION['currentDirUrl'] .  $_SESSION['currentDisplay']))
-             $link = '<a class="highlighted" href="?robopage='.$url.'">' . $label . '</a>' . "\n";
-            else
-             $link = '<a href="?robopage='.$url.'">' . $label . '</a>' . "\n";
-        }
-    } 
+      // if the current robopage is a local chapter-page link 
+      // we still, also want to highlight the chapter that contains that local link,
+      // in the upper global chapters group
+             $link = '<a '.$linkClass.' href="?robopage='.$url.'">' . $label . '</a>' . "\n";
+     }   
 
     $link .= "\n";
     $this->allP2nLinks[$url] = $link;
@@ -426,7 +423,7 @@ ENDO;
     $top .= $this->nextPrevButtons->getOutput('');
     $top .= '<div id="ttoc">';
 
-    // global chapter links are the top level directories plus any *.htm files, with no path slashes
+   // global chapter links are the top level directories plus any *.htm files, with no path slashes
     $this->getGlobalChapterLinks();
     $cnt = count($this->globalChapterLinks);
     for($i=0; $i<$cnt; $i++)
