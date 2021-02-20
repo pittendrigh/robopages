@@ -10,8 +10,12 @@ html
     padding: 0;
 }
 
-body {  background: #ffffff;  
+body {  
+  background: #ffffff;  
   font-family: Arial;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 a { color: #660000;  text-decoration: none;} 
@@ -59,7 +63,7 @@ h3 { font-size: 85%; }
 
 img { float: left; margin: 1rem; }
 
-#stuff img {float: left; margin: 1rem; max-width: 70%; border: 1px solid transparent;} 
+#stuff img {float: left; margin: 1rem; min-width: 50%; max-width: 60%;  border: 1px solid transparent;} 
 
 /*
 #blog:active{ width: 852px !important; }
@@ -76,6 +80,7 @@ img.icon {width: 1rem; margin: 0; padding: 0; border: 0; position: relative; bot
   padding: 1rem;
   width: 100%;
   max-height: 6rem;
+  margin-top: auto;
 }
 
 #footer a{ text-decoration: none; }
@@ -174,14 +179,6 @@ div.dirChanger h3 { width: 50%; margin-left: 45%; }
 /* ============================================*/
 
 
-div.subnav{
- margin: 1rem;
- padding: 0.5rem;
- min-height: 10rem;
- border-top: 2px groove gray;
- font-size: 75%;
-}
-
 sup 
 { 
   color: red; 
@@ -218,9 +215,10 @@ border-radius: 4px;
   border: 1px solid transparent; 
   text-decoration: none !important;
   margin-bottom: 0.25rem; 
+  color: red;
 }
 
-.toc a:hover{text-decoration: underline !important;}
+.toc a:hover{text-decoration: underline !important; color: green;}
 
 a.highlighted
 {
@@ -267,8 +265,9 @@ a.button:hover {
 
 #bottomNav { clear: both; }
 
-#bookNavBottom { margin-left: 3rem;} 
-#bookNavBottom a:hover{ color: black; text-shadow: 1px 1px #ffffff; background: rgba(255,240,240,0.5); border: 1px solid #660000;}
+#bookNavBottom { margin-left: 1em; } 
+#bookNavBottom a { text-align: left; } 
+#bookNavBottom a:hover{ color: black; text-shadow: 1px 1px #ffffff; background: rgba(255,240,240,0.5); }
 
 /* ======== end  TOC ============*/
 
