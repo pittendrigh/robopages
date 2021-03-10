@@ -19,7 +19,7 @@
       </div>
       <div id="main-content" src="container">
         <div id="new_login_name"
-        src="user_manage:file,new_login_name" />
+        src="nerd:file,new_login_name" />
       </div>
       <!-- end main-content -->
       <div id="footer" src="file" />

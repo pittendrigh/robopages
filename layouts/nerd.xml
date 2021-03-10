@@ -16,7 +16,7 @@
   </plugins>
     <cssfiles>
         <file>css/robo.css</file>
-        <file>css/user_manage.css</file>
+        <file>css/nerd.css</file>
     </cssfiles>
     <jsfiles>
         <file>js/jquery.min.js</file>
