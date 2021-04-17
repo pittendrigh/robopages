@@ -21,18 +21,30 @@ class navCard extends plugin {
 $href = $this->href;
 $body = $this->body;
 $label = $this->label;
+/*
+  <div class="navCardcaption">
+       $label
+  </div>
+*/
 
+//echo htmlentities($label),"<br/>";
+
+/*
+       <a class="navCardLink" href="$href">
+          $label
+       </a>
+*/
 $ret .= <<<ENDO
-<a class="navCardLink" href="$href">
 <div class="navCard">
   <div class="navCardbody">
       $body
   </div>
   <div class="navCardcaption">
-       $label
+       <a class="navCardLink" href="$href">
+          $label
+       </a>
   </div>
 </div>
-</a>
 ENDO;
 
 

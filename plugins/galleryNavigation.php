@@ -66,10 +66,12 @@ class galleryNavigation extends dynamicNavigation
         $ret = '';
 
         $href=$link->href;
-        $text = StaticRoboUtils::mkLabel($link->label);
+        $label = StaticRoboUtils::mkLabel($link->label);
+        //$label = $link->label;
         $imgPath='';
 
         $linkTargetType = $link->linkTargetType;
+        //if($linkTargetType == 'fragment') echo "label: ", $label, "<br/>";
 
         if ($linkTargetType == 'dir')
         {
@@ -89,22 +91,27 @@ class galleryNavigation extends dynamicNavigation
                     $imgPath = $_SESSION['currentClickDirUrl'] . "roboresources/thumbs/tn-" . $base;
                 }
             }
+            $label = StaticRoboUtils::mkLabel(basename($imgPath));
+            $body = '<img class="navCardImg" src="' . $imgPath . '" alt="' . $label . '"/>';
         }
 
-        $label = StaticRoboUtils::mkLabel(basename($imgPath));
-        $body = '<img src="' . $imgPath . '" alt="' . $label . '"/>';
 
 if ($linkTargetType  == 'dir')
 {
-        $body = '<i class="material-icons" style="font-size: 80%; ">folder</i> '  . basename($href);
-        if(isset($imgPath) && $imgPath != null)
-            $label = '<img src="' . $imgPath . '" alt="' . $label . '"/>'; 
-        else
-            $label = '';
+        $label = '<i class="material-icons" style="font-size: 80%; ">folder</i> '  . basename($href);
+        //if(isset($imgPath) && $imgPath != null)
+            $body = '<img src="' . $imgPath . '" alt="' . basename($imgPath) . '"/>'; 
+
+        
         $card = new navCard($href,$body, $label);
 }
 else 
 {
+   //if($linkTargetType == 'fragment') 
+    //      echo "label: ", $label, "<br/>";
+    //    echo "href: ", $href, " body: ", $body, " label: ", $label, "<br/>";
+      if(!isset($body) || $body == null)
+         $body = '&nbsp;';
         $card = new navCard($href,$body, $label);
 }
         $ret .= $card->getOutput('');
