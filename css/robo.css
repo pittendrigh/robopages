@@ -1,7 +1,10 @@
-/*** setup ***/
 .* .*::after .*::before{
          padding: 0;
          margin: 0;
+}
+
+*{
+  box-sizing: border-box;
 }
 
 html
@@ -14,10 +17,17 @@ html
 body {  background: #ffffff;  
   font-family: Arial;
 }
-/*** end setup ***/
 
+a { color: #660000;  text-decoration: none;} 
+#stuff a { color: #660000;  text-decoration: underline;} 
 
-/*** main blocks ***/
+a:hover 
+{
+    text-decoration: underline;
+}
+
+.redAlert{ color: magenta; }
+
 #headerbanner{
   position: relative;
   background: url("/systemimages/logo.png") no-repeat rgb(245,245,250);
@@ -38,12 +48,9 @@ body {  background: #ffffff;
     padding-top: 0.5rem;
 }
 
-#mkBreadcrumbs a:hover, #mkBreadcrumbs a:focus 
-{
-    background: #aaaaaa;
-}
-
-/*** main-content and stuff?????? ***/
+h1 { font-size: 120%; }
+h2 { font-size: 95%; }
+h3 { font-size: 85%; }
 
 #main-content
 {
@@ -54,12 +61,96 @@ body {  background: #ffffff;
     font-family: Garamond, serif
 }
 
+img { float: left; margin: 1rem; max-width: 98%; }
+
 #stuff img {
-  float: left; 
-  margin: 1rem; 
-  max-width: 70%; 
-  border: 1px solid transparent;
+float: left; 
+margin: 1rem; 
+max-width: 100%; 
+width: auto;
+height: auto;
 } 
+
+
+/*
+#blog:active{ width: 852px !important; }
+#bblog:active{ width: 851px !important; }
+#bblog img:active{ border: 3px solid magenta; width: 850px !important; }
+*/
+
+img.icon {width: 1rem; margin: 0; padding: 0; border: 0; position: relative; bottom: 1rem;}
+
+#footer
+{
+ clear: both; 
+  color: black;
+  padding: 1rem;
+  width: 100%;
+  max-height: 6rem;
+}
+
+#footer a{ text-decoration: none; }
+#footer a:hover{ text-decoration: underline; }
+
+#user_manage{ margin: 2rem 0 2rem 0; }
+#user_manage a{ margin: 2rem 1rem; }
+#user_manage, #mkBreadcrumbs a { color: #cc2244; margin: 0 0 0.5rem 0; padding: 0;}
+
+#mkBreadcrumbs a:hover 
+{
+    background: #aaaaaa;
+}
+
+#cse { width: 59%; }
+
+#slideshow
+{
+    float: left;
+    padding: 1rem;
+    border: 1px solid transparent;
+}
+#slideshow img { max-width: 90%; }
+
+#slideShowContainer img{
+   object-fit: contain;
+}
+
+#arcade {
+  width: 70%;
+  margin: 1rem;
+}
+
+#currentArcadeImg { margin:1rem; max-width: 50%;  }
+
+#googleSearch {float: left; max-width: 50%;}
+#googleBanner {color: white;}
+
+#flexyFileContent{ margin-top: 2rem; }
+
+#mkGoogle { max-height: 5rem; }
+
+div.dynamicNavigation
+{
+  clear: both;
+  float:left;
+  margin: 0.25rem 0 0 0;
+}
+
+div.dynamicNavigation a
+{
+  display: block;
+  padding: 0;
+  border: 0;
+}
+
+div.dynamicNavigation a:hover{ background: #dedede; }
+
+/* ==========RobopageAdmin related==================================*/
+
+div.dirChanger { width: 45%; padding-right: 1rem; float: right;}
+div.dirChanger h3 { width: 50%; margin-left: 45%; }
+
+/* ============================================*/
 
 #wrapper {
   width: 95%;
@@ -76,9 +167,7 @@ body {  background: #ffffff;
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
-
 /*  justify-content: center; */
-
   margin: 2rem 0.5rem 0 12%;
   padding: 0;
   font-family: Arial;
@@ -87,101 +176,27 @@ body {  background: #ffffff;
 
 .bottombannerlink
 {
-  height: 1em;
+  height: 1.5em;
   margin: 2px;
   padding: 2px; 
   background-color: #dedede;
+  /* text-align: center; */
   font-size: 85%;
   border: 1px solid #cdcdcd;
   border: 1px solid #bdbdbd;
   border-radius: 3px;
 }
+/* ============================================*/
 
-#footer
-{
- clear: both; 
-  color: black;
-  padding: 1rem;
-  width: 100%;
-  max-height: 6rem;
+
+div.subnav{
+ margin: 1rem;
+ padding: 0.5rem;
+ min-height: 10rem;
+ border-top: 2px groove gray;
+ font-size: 75%;
 }
 
-#footer a{ text-decoration: none; }
-#footer a:hover{ text-decoration: underline; }
-
-#slideshow
-{
-    float: left;
-    padding: 1rem;
-    border: 1px solid transparent;
-}
-#slideshow img { 
-  max-width: 90%; 
-}
-/*** end main blocks ***/
-
-/*** elements ***/
-a { 
-  color: #660000;  
-  text-decoration: none;
-} 
-
-#stuff a { 
-  color: #660000;  
-  text-decoration: underline;
-} 
-
-/** :is() list? **/
-a:hover, a:focus
-{
-    text-decoration: underline;
-}
-
-h1 { 
-  font-size: 120%; 
-}
-
-h2 { 
-  font-size: 95%; 
-}
-
-h3 { 
-  font-size: 85%; 
-}
-
-img { 
-  float: left; 
-  margin: 1rem; 
-}
-/*** end elements ***/
-
-/* ==========RobopageAdmin related==================================*/
-#user_manage{ 
-  margin: 2rem 0 2rem 0; 
-}
-
-#user_manage a{ 
-  margin: 2rem 1rem; 
-}
-
-#user_manage, #mkBreadcrumbs a { 
-  color: #cc2244; 
-  margin: 0 0 0.5rem 0; padding: 0;
-}
-
-div.dirChanger { 
-  width: 45%; 
-  padding-right: 1rem; 
-  float: right;
-}
-
-div.dirChanger h3 { 
-  width: 50%; 
-  margin-left: 45%; 
-}
-/* ==========end RobopageAdmin related==================================*/
-
-/*** footnotes ***/
 sup 
 { 
   color: red; 
@@ -195,20 +210,19 @@ p.footnote
   font-size: 70% ;
   font-style:  
 }
-/*** end footnotes ***/
-
 /* ======== start  TOC ============*/
+
 .toc {
-  position: relative;
-  background: #dedede;
-  margin: 0  1rem 0.5rem 0;
-  padding: 0.5rem;
-  float: left; 
-  min-width: 20%;
-  font-family: Arial;
-  font-size: 60%;
-  border: 2px solid #cdcdcd;
-  border-radius: 4px;
+position: relative;
+background: #dedede;
+margin: 0  1rem 0.5rem 0;
+padding: 0.5rem;
+float: left; 
+min-width: 20%;
+font-family: Arial;
+font-size: 60%;
+border: 2px solid #cdcdcd;
+border-radius: 4px;
 }
 
 .toc a 
@@ -221,17 +235,7 @@ p.footnote
   margin-bottom: 0.25rem; 
 }
 
-div.subnav{
- margin: 1rem;
- padding: 0.5rem;
- min-height: 10rem;
- border-top: 2px groove gray;
- font-size: 75%;
-}
-
-.toc a:hover, .toc a:focus {
-  text-decoration: underline !important;
-}
+.toc a:hover{text-decoration: underline !important;}
 
 a.highlighted
 {
@@ -252,6 +256,7 @@ a.lclhighlighted
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
+  /* justify-content: center; */
   font-size: 1.5vw;
 }
 
@@ -275,24 +280,13 @@ a.button:hover {
   border: 1px solid black;
 }
 
-#bottomNav { 
-  clear: both; 
-}
+#bottomNav { clear: both; }
 
-#bookNavBottom { 
-  margin-left: 3rem;
-} 
+#bookNavBottom { margin-left: 3rem;} 
+#bookNavBottom a:hover{ color: black; text-shadow: 1px 1px #ffffff; background: rgba(255,240,240,0.5); border: 1px solid #660000;}
 
-#bookNavBottom a:hover{ 
-  color: black; 
-  text-shadow: 1px 1px #ffffff; 
-  background: rgba(255,240,240,0.5); 
-  border: 1px solid #660000;
-}
 /* ======== end  TOC ============*/
 
-/*** blog separate css? ***/
-/*** blog ***/`
 #blog
 {
 float:right;
@@ -320,6 +314,9 @@ padding: 0.5rem;
  margin: 1rem;
  max-width: 90%;
 }
+#bblog img::after
+{
+}
 
 .blogEntry{
  margin: 3px;
@@ -327,17 +324,14 @@ padding: 0.5rem;
  padding: 1rem;
 }
 
-.miniText{ 
-  font-weight: bold;
-}
-/*** end blog ***/`
+.miniText{ font-weight: bold;}
 
-/* ======== media ============*/
 @media screen and (max-width: 900px)
 {
   div.Mreme{clear:both;}
 }
 
+/* ======== start  media ============*/
 /* when the desktop browser minimizes to 700px or less */
 @media screen and (max-width: 700px)
 {
@@ -356,9 +350,9 @@ padding: 0.5rem;
  .bottombannerlink {font-size: large; }
   p.buttonbox a.button{ font-size: 3vw;}
   .bottombannerlink { font-size: 70%; }
-	#headerbanner { display: inline-block; min-height: 9rem;}
-	#h1banner {font-size: 4vw; margin: 1rem; padding: 0;}
-	#bottombannerlinks {font-size: 6vw; margin: 1rem; padding: 0}
+  #headerbanner { display: inline-block; min-height: 9rem;}
+  #h1banner {font-size: 4vw; margin: 1rem; padding: 0;}
+  #bottombannerlinks {font-size: 6vw; margin: 1rem; padding: 0}
 }
 	/* ======== end  media ============*/
 
