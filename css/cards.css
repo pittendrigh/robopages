@@ -1,14 +1,24 @@
-
-.dispCard{
+.displayCard {
+  display: grid;
   float: left;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  width: auto;
-  height: auto;
-  margin: 1rem 1rem 2rem 1rem;
-  background: #ddeeff;
+  min-width: 80%;
+  max-width: 98%;
+  background: rgb(245,245,250);
+  padding: 0.25rem;
+  margin: 0.5rem;
 }
+
+.displayCardbody {
+  align-content: space-between;
+       align-items: center;
+     }
+
+     .displayCardcaption {
+        text-align: center;
+        padding: 0.25rem 0;
+     }
+
+
 
 .navCard{
   float: left;
@@ -35,18 +45,20 @@ a.navCardLink {
 
 .navCardbody{
   display: flex;
-  width: 100%;
   flex: 2;
+  flex-grow: 1;
+  flex-basis: 75%;
+  width: 100%;
   align-items: center;
   justify-content: center;
+  /*border-top: 2px solid #ddeeff;*/
 }
 
 img.navCardImg {
   display: flex;
-  flex: 2;
+  flex: 2 0 75%;
   padding: 0;
-  max-width: 90%;
-  max-height: 60%;
+  max-height: 6rem;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -54,16 +66,17 @@ img.navCardImg {
 
 .navCardcaption{
   background: #88aaee;
+  /* background: #ddeeff; */
   display: flex;
-  flex: 1;
+  flex: 1 0 25%;
   width: 100%;
   text-align: center;
-  padding: .5em 0 .5em 0;
+  padding: .25rem 0 0 0;
   margin: 0 auto;
-  padding: 0.25em .5em 0.25em .5em;
+  /*border-top: 2px solid #ddeeff;*/
 }
 
 @media only screen and (max-device-width: 480px)
 {
-  .navCard{ max-width: 100%; width: auto; height: auto; |
+      .navCard{ width: 20rem; height: 16rem; font-size: 125%;}
 }
