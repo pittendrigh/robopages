@@ -351,7 +351,7 @@ ENDO;
           if (isset($linkTargetType) && $linkTargetType != "unknown")
           {
               $url = 
-                StaticRoboUtils::fixrobopageEqualParm($_SESSION['currentDirUrl'] 
+                StaticRoboUtils::fixPageEqualParm($_SESSION['currentDirUrl'] 
                   . $file);
 
               if ($linkTargetType == 'link')

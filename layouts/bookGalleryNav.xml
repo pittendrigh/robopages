@@ -16,15 +16,15 @@
     <file>css/cards.css</file>
   </cssfiles>
   <bodycontent>
-      <div id="wrapper" src="container">
-        <div id="main-content" src="container">
-          <div id="mkBreadcrumbs" src="mkBreadcrumbs" />
+      <div klass="wrapper" src="container">
+        <div klass="main-content" src="container">
+          <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
           <div src="galleryNavigation">
             <div klass="toc" src="bookNav" />
-            <div id="stuff" src="flexyFileContent" />
+            <div klass="stuff" src="flexyFileContent" />
           </div>
         </div>
-        <div id="footer" src="file" />
+        <div klass="footer" src="file" />
       </div>
   </bodycontent>
 </layout>

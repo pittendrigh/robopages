@@ -13,16 +13,16 @@
   </cssfiles>
   <jsfiles></jsfiles>
   <bodycontent>
-    <div id="wrapper" src="container">
-      <div id="headerbanner" src="container">
-        <div id="bottombannerlinks" src="file" />
+    <div klass="wrapper" src="container">
+      <div klass="headerbanner" src="container">
+        <div klass="bottombannerlinks" src="file" />
       </div>
-      <div id="main-content" src="container">
-        <div id="new_login_name"
+      <div klass="main-content" src="container">
+        <div klass="new_login_name"
         src="nerd:file,new_login_name" />
       </div>
       <!-- end main-content -->
-      <div id="footer" src="file" />
+      <div klass="footer" src="file" />
     </div>
   </bodycontent>
 </layout>
