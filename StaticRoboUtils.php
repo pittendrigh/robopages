@@ -146,15 +146,17 @@ class StaticRoboUtils
 
     static function mkLabel($str)
     {
-        //$suffix = StaticRoboUtils::getSuffix($str);
+        global $sys_show_suffixes;
+        $suffix = StaticRoboUtils::getSuffix($str);
         $base = StaticRoboUtils::stripSuffix(basename($str));
         $ret = preg_replace(":^.*_:", '', $base);
-/*
-        ....label keeps suffix iff image?
-        $images = array("jpg", "gif", "png");
-        if (in_array($suffix, $images) && $suffix != null)
+
+       // ....label keeps suffix iff image?
+       // $images = array("jpg", "gif", "png");
+       // if (in_array($suffix, $images) && $suffix != null)
+       if($sys_show_suffixes != null && $suffix != null) 
             $ret .= '.' . $suffix;
-*/
+
 
         return ($ret);
     }
