@@ -139,8 +139,9 @@ class domDrone
         // or perhaps override with locally defined direcdtory level title
         else if (@stat($_SESSION['currentDirPath'] . 'roboresources/title'))
         {
-            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/' . $_SESSION['currentDisplay'];
-            $title = @file_get_contents($overridefile);
+            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title' ;
+            //echo "$overridefile<br/>";
+            $title = trim(@file_get_contents($overridefile));
         }
         else // else try to use $_SESSION['currentDisplay'] or directory of $_SESSION['currentDisplay']
         {
