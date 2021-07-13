@@ -13,14 +13,14 @@
   </cssfiles>
   <jsfiles></jsfiles>
   <bodycontent>
-    <div klass="wrapper" src="container">
-      <div klass="headerbanner" src="container">
+    <div id="wrapper" src="container">
+      <div id="headerbanner" src="container">
         <div klass="bottombannerlinks" src="file" />
       </div>
-      <div klass="main-content" src="container">
+      <div id="main-content" src="container">
         <div klass="lost_login_name" src="nerd:file,lost_login_name" />
       </div>
-      <div klass="footer" src="file" />
+      <div id="footer" src="file" />
     </div>
   </bodycontent>
 </layout>

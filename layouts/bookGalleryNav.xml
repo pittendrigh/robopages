@@ -13,18 +13,17 @@
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
-    <file>css/cards.css</file>
   </cssfiles>
   <bodycontent>
-      <div klass="wrapper" src="container">
-        <div klass="main-content" src="container">
+      <div id="wrapper" src="container">
+        <div id="main-content" src="container">
           <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
           <div src="galleryNavigation">
             <div klass="toc" src="bookNav" />
             <div klass="stuff" src="flexyFileContent" />
           </div>
         </div>
-        <div klass="footer" src="file" />
+        <div id="footer" src="file" />
       </div>
   </bodycontent>
 </layout>

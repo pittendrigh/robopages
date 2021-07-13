@@ -10,7 +10,7 @@
         <div klass="bottombannerlinks" src="file" />
       </div>
 
-      <div klass="main-content" src="mkBreadcrumbs,dynamicNavigation,mkGoogle,lazyLoadSlideshow" />
-      <div klass="footer" src="file" />
+      <div id="main-content" src="mkBreadcrumbs,dynamicNavigation,mkGoogle,lazyLoadSlideshow" />
+      <div id="footer" src="file" />
   </bodycontent>
 </layout>

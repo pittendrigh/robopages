@@ -55,7 +55,7 @@ class dynamicNavigation extends plugin
     function mkLink($link, $LinkTargetType=null)
     {
         global $sys_thumb_links, $sys_show_suffixes;
-        $ret = '';
+        $ret = $target = '';
 
         $highlightFlag=FALSE;
         $hrefComparitor  = preg_replace("/^.*=/", "", $link->href);
@@ -244,6 +244,7 @@ foreach($allOfEm as $aKey)
  
             $linkTargetType = $this->mimer->getRoboMimeType($ordered_hrefKey);
             $linkline = $ordered_hrefKey . "::" . $label . "::$linkTargetType";
+
             $link = new Link($linkline);
  
             //echo $ordered_hrefKey." ". $linkTargetType. "<br/>";
@@ -305,7 +306,9 @@ foreach($allOfEm as $aKey)
                     $hrefKey = $this->currentClickDirUrl . $file;
                 }
                 else if ($linkTargetType == "url")
-                { // a url file is a special robopages file name whatever.url that has one or two lines.
+                { 
+                    // a url file is a special robopages file name 
+                    // whatever.url that has one or two lines.
                     // second line (if exists) is the label. First is the href.  
                     $rfile = $this->currentDirPath . $file;
                     $lines = file($rfile);
@@ -315,6 +318,9 @@ foreach($allOfEm as $aKey)
                     {
                         $label = $lines[1];
                     }
+
+                    // url targetTypes hacked to open in a separate tab
+                    $target = "_blank";
                 }
                 else if ($linkTargetType == "label")
                 {
@@ -334,6 +340,8 @@ foreach($allOfEm as $aKey)
                 if (!isset($atest) || $atest == null)
                 {
                     $rline = $hrefKey . '::' . $file . "::$linkTargetType";
+                    if(isset($target) && $target == 'url')
+                      $rline .= "::$target";
                     $link = new Link($rline);
                     $this->linkshash[$hrefKey] = $link;
                     if ($linkTargetType == 'dir')

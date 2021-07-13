@@ -10,17 +10,16 @@
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
-    <file>css/cards.css</file>
   </cssfiles>
   <bodycontent>
-      <div klass="wrapper" src="container">
-        <div klass="main-content" src="container">
+      <div id="wrapper" src="container">
+        <div id="main-content" src="container">
           <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
           <div klass="stuff" src="flexyBook">
             <div klass="toc" src="bookNav" />
           </div>
         </div>
-        <div klass="footer" src="file" />
+        <div id="footer" src="file" />
       </div>
   </bodycontent>
 </layout>

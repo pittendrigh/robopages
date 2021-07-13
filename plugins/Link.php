@@ -11,20 +11,20 @@
 
 class Link
 {
-    protected
-            $fileLine;
-    public
-            $href;
-    public
-            $label;
-    public
-            $linkTargetType;
+    protected $fileLine;
+    public $href;
+    public $label;
+    public $linkTargetType;
+    public $target;
 
     // linkTargetType is determined externally, usually with roboMimeTyper(basename($someFilePathOrHref))
     // If ever needed--from a $link object--we could basename($this->href)
 
     function __construct($fileLine)
     {
+        $this->fileLine=$this->href=$this->label
+          =$this->linkTargetType=$this->target='';
+
         $this->fileLine = trim($fileLine);
         $tokens = explode("::", $this->fileLine);
         $this->href = trim($tokens[0]);
@@ -33,6 +33,9 @@ class Link
             $this->linkTargetType = trim($tokens[2]);
         else
             $this->linkTargetType = 'unknown';
+        if(isset($tokens[2]) && $tokens[2] != null && $tokens[2] == 'url')
+            $target = "_blank";
+
         //$this->dbg();
     }
 

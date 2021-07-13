@@ -5,7 +5,7 @@
   </cssfiles>
   <bodycontent>
 
-      <div klass="main-content" src="googleBanner:file,bannerad:file,bottombannerlinks:file,dynamicNavigation,mkBreadCrumbs,AuthUtils" />
-      <div klass="footer" src="file" />
+      <div id="main-content" src="googleBanner:file,bannerad:file,bottombannerlinks:file,dynamicNavigation,mkBreadCrumbs,AuthUtils" />
+      <div id="footer" src="file" />
   </bodycontent>
 </layout>
