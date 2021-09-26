@@ -16,11 +16,12 @@
   <bodycontent>
       <div id="wrapper" src="container">
         <div id="headerbanner" src="container">
-          <nav klass="bottombannerlinks" src="file"></nav>
+          <h1 id="hbanner/" src="file" />
+          <nav id="bottombannerlinks" src="file"></nav>
         </div>
         <div id="main-content" src="container">
           <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
-          <div klass="stuff" src="bookGallery">
+          <div id="stuff" src="bookGallery">
             <div klass="toc" src="bookNav" />
           </div>
         </div>

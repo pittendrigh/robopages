@@ -6,8 +6,8 @@
   </cssfiles>
   <bodycontent>
 
-      <div klass="banner" src="file" > 
-        <div klass="bottombannerlinks" src="file" />
+      <div id="banner" src="file" > 
+        <div id="bottombannerlinks" src="file" />
       </div>
 
       <div id="main-content" src="mkBreadcrumbs,dynamicNavigation,mkGoogle,lazyLoadSlideshow" />

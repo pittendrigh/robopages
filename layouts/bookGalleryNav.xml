@@ -20,7 +20,7 @@
           <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
           <div src="galleryNavigation">
             <div klass="toc" src="bookNav" />
-            <div klass="stuff" src="flexyFileContent" />
+            <div id="stuff" src="flexyFileContent" />
           </div>
         </div>
         <div id="footer" src="file" />

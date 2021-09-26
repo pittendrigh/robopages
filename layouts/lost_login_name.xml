@@ -15,10 +15,10 @@
   <bodycontent>
     <div id="wrapper" src="container">
       <div id="headerbanner" src="container">
-        <div klass="bottombannerlinks" src="file" />
+        <div id="bottombannerlinks" src="file" />
       </div>
       <div id="main-content" src="container">
-        <div klass="lost_login_name" src="nerd:file,lost_login_name" />
+        <div id="lost_login_name" src="user_manage:file,lost_login_name" />
       </div>
       <div id="footer" src="file" />
     </div>

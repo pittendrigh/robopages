@@ -14,6 +14,7 @@ protected $pageNum2NodeHash;
 protected $orderedUrls;
 protected $pageLinkedList;
 protected $mimer;
+protected $getRobopage;
 public $urlCount;
 
 function __construct()
@@ -23,9 +24,9 @@ function __construct()
   $this->url2PageNodeHash = array();
   $this->pageNum2NodeHash = array();
   $this->orderedUrls = array();
-  $this->pageLinkedList = new LinkedList();
+  //$this->pageLinkedList = new LinkedList();
   $this->p2nFile = $this->findP2NFile($_SESSION['currentDirPath']);
-  $this->p2nFileDir = trim(dirname($this->p2nFile) . '/');
+  $this->p2nFileDir = dirname($this->p2nFile) . '/';
 
   $this->bookRootSubPath = str_replace($_SESSION['prgrmDocRoot'],'',$this->p2nFileDir);
   $this->urlCount=0;
@@ -48,53 +49,18 @@ function findP2NFile($dir)
 
 protected function readP2NFile()
 {
-  $pageNum = 0;
+  $this->urlCount=0;
+  $this->pageLinkedList = null;
+  $this->pageLinkedList = new LinkedList();
   $lines = file ($this->p2nFile);
-
-  $lastDir=' -- ';
   foreach ($lines as $aline)
   {
-    //echo $aline, "<br/>";
-    $aline = trim($aline);
     $url = $this->bookRootSubPath . trim($aline);
-
-    $testDirPath = $this->p2nFileDir . $aline;
-    //if(!is_dir($testDirPath) || $testDirPath == $lastDir)
-    if(!is_dir($testDirPath))
-    {
-       $testDirPath = dirname($testDirPath);
-       if($lastDir == $testDirPath)
-       {
-          $lastDir = "--";
-       }
-       else{
-          $pageNum += 1;
-       }
-       //echo "a $pageNum $url<br/>";
-       $pageNode = new node($url,null,null,$pageNum);
-    }
-    else
-    { 
-          // is_dir
-          if($lastDir != $testDirPath)
-          {
-             //echo "b $pageNum $url || $lastDir || $testDirPath<br/>";
-             $pageNum += 1;
-             $lastDir = $testDirPath;
-          }
-          else{
-           //echo "c $pageNum $url || $lastDir || $testDirPath<br/>";
-           $pageNum -= 1 ;
-          }
-          $url = $this->bookRootSubPath . trim($aline);
-          $pageNode = new node($url,null,null,$pageNum);
-             //else{ }
-    }
-
-
+    $pageNode = new node($url,null,null,$this->urlCount);
+    //$pageNode->nodeDbg();
     $this->pageLinkedList->ListAppend($pageNode);
     $this->url2PageNodeHash[$url] = $pageNode;
-    $this->orderedUrls[] = $pageNode;
+    $this->orderedUrls[] = $url;
     $this->pageNum2NodeHash[$this->urlCount] = $pageNode;
     $this->urlCount++;
   }
@@ -103,22 +69,18 @@ protected function readP2NFile()
 
 function u2pDbg()
 {
-   //echo "urlCount: ", $this->urlCount, "<br/>";
    echo '<table style="font-size: 50%;">';
-   
-   //for($i=0; $i < $this->urlCount; $i++)
-   for($i=0; $i < 10; $i++)
+   for($i=0; $i < $this->urlCount; $i++)
    {
-     //$key = $this->orderedUrls[$i];
-     //$node = $this->url2PageNodeHash[$key];
-     $node = $this->orderedUrls[$i];
+     $key = $this->orderedUrls[$i];
+     $node = $this->url2PageNodeHash[$key];
      $prev=$next=' -- ';
      if(isset($node->prev))
         $prev = $node->prev->dataObj;
      if(isset($node->next))
         $next = $node->next->dataObj;
 
-     echo "<tr><td>",$prev, "</td><td>" , $node->idx, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
+     echo "<tr><td>",$prev, "</td><td>" , $node->idx + 1, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
    }
    echo "</table>";
 }
@@ -163,48 +125,36 @@ function getOutput($divid)
   $ret .= $this->getPrevCookieJS();
   $this->readP2NFile();
   //$this->u2pDbg();
-  $nowNum = 1; // set a default?
+  $nowNum = -1;
 
- $robopage = '';
- $nowNode = NULL;
- if(isset($_GET['robopage']))
+ $this->getRobopage = '';
+ if(isset($_GET['robopage']) && $_GET['robopage'] != null)
  {
-    $robopage = $_GET['robopage'];
+    $this->getRobopage = StaticRoboUtils::fixPageEqualParm($_GET['robopage']);
  }
 
- if($robopage == '')
+ if($this->getRobopage == '')
  {
-     $nowNum = 1;
+     $nowNum = 0;
      $nowNode = reset($this->pageNum2NodeHash);
  }
  else
  {
      //$nowNode = $this->pageNum2NodeHash[0];
-     if(isset($this->orderedUrls[0])) 
-        $nowNode = $this->orderedUrls[0];
-    
-     if(isset($this->url2PageNodeHash[$robopage]))
+   
+     if(isset($this->url2PageNodeHash[$this->getRobopage]))
      {
-       $nowNode = $this->url2PageNodeHash[$robopage];
-       //echo "found ", $nowNode->idx, " " , $nowNode->dataObj, " on ", $robopage, "<br/>"; 
+       $nowNode = $this->url2PageNodeHash[$this->getRobopage];
      }
-     if(isset($nowNode) && $nowNode != NULL)
-       $nowNum = $nowNode->idx;
-     //$nowNode->nodeDbg();
+     $nowNum = $nowNode->idx;
  }
-
- // robopages accepts ?robopage=somdir as a url by finding a default display $_SESSION['currentDisplay']
- // if next buttons accept empty dir urls then next and prev will occasionally show same page twice
- if( (isset($nowNode) &&  $nowNode != NULl) && @is_dir($_SESSION['prgrmDocRoot'] . $nowNode->dataObj) && $nowNode->next != null)
-    $nowNode = $nowNode->next;
 
   //$nowNode->nodeDbg();
 
   $nextNode = $prevNode = $nowNode;
-  if(isset($nowNode))
-     $nextUrl = $prevUrl = $nowNode->dataObj;
+  $nextUrl = $prevUrl = $nowNode->dataObj;
 
-  if($nowNode && $nowNode->next != null)
+  if($nowNode->next != null)
   {
     $nextNode = $nowNode->next;
     $nextUrl = $nextNode->dataObj;
@@ -212,9 +162,7 @@ function getOutput($divid)
   else
   {
     $nextNode = $nowNode;
-    $nextUrl =  '';
-    if(isset($nowNode) && isset($nowNode->dataObj))
-      $nextUrl = $nowNode->dataObj;
+    $nextUrl = $nowNode->dataObj;
   } 
 
   if(isset($nowNode->prev) && $nowNode->prev != null)
@@ -229,21 +177,10 @@ function getOutput($divid)
   else
   {
     $prevNode = $nowNode;
-    $prevUrl = '';
-    if(isset($nowNode) && isset($nowNode->dataObj))
-      $prevUrl = $nowNode->dataObj;
+    $prevUrl = $nowNode->dataObj;
   } 
 
- // if next or prev is_dir increment or decrement
- /*
-   needs work.  nowNum starts at zero. DisplayNum is nowNum+1
-   what about dirs? Robopages gets a default page which causes trouble.
-   maybe the page numbers should be in the p2n file?
-   .......or, listNode->idx is arbitrary.
-   The dir and the next node can have the same idx if is_dir
- */
-
-// if not mime type link
+  // if not mime type link
   $nextTargetType = $this->mimer->getRoboMimeType($nextUrl);
   $prevTargetType = $this->mimer->getRoboMimeType($prevUrl);
   if ($nextTargetType != 'link')
@@ -255,20 +192,10 @@ function getOutput($divid)
    else
     $prevUrl = $_SESSION['currentClickDirUrl'] . basename($prevUrl);
     
-  //$displayNum = $nowNum + 1;
-  $displayNum = $nowNum;
+  $displayNum = $nowNum + 1;
   $ret .=  '<b class="pageNumber"> Page ' . $displayNum . '</b>';
   $ret .= '<p class="buttonbox">';
 
-/*
-  if(@stat($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages'))
-  {
-    $ret .=  "\n". '<a class="button" href="?robopage='.$_GET['robopage'] . '&amp;layout=galleryMode' .'">Gallery mode</a><br/>'. "\n";
-    $ret .=  '<a class="button" href="?robopage='.$_GET['robopage'] . '">Book mode</a><br/>'. "\n";
-  }
-*/
-
- 
  //echo "nextTargetType: " , $nextTargetType, "<br/>"; 
  if($nextTargetType != 'link')
     $ret .=  '<a id="nextPageButton" class="button" onClick="clickNext()"  href="'.$nextUrl  .'">Next Page </a><br/>';
@@ -280,30 +207,21 @@ function getOutput($divid)
     $ret .=  '<a id="prevPageButton" class="button" onClick="clickPrev()"  href="'.$prevUrl  .'">Prev Page </a><br/>';
   else
     $ret .=  '<a target="_blank" id="prevPageButton" class="button" onClick="clickPrev()"  href="'.$prevUrl  .'">Prev Page </a><br/>';
-  //$ret .=  '<a class="button" href="'.$prevUrl.'">Prev Page </a><br/>';
-  //if(isset($_COOKIE['lastRobopage']))
+
   $bookTopDirComparitor = str_replace($_SESSION['prgrmDocRoot'], '',  $_SESSION['bookTop']);
   $lastPageFlag = isset($_COOKIE['lastRobopage']) ? 1 : 0;
-  
-/* 
-  if( isset($_GET['robopage']) && $_GET['robopage'] == $bookTopDirComparitor )
+   
+  if( isset($this->getRobopage) && $this->getRobopage == $bookTopDirComparitor )
   {
      $lastPageFlag=0;
   }
-*/
   if($lastPageFlag)
   {
     $ret .=  "\n". '<a class="button" href="?robopage='.$_COOKIE['lastRobopage'] .'">Last Read</a><br/>'. "\n";
   }
   $ret .= '</p>';
 
-
-  /*
-  foreach (array_keys($this->p2nHash) as $aPath)
-  {
-  $ret .= $aPath . " :: " . $this->p2nHash[$aPath] . "<br/>";
-  }
-  */
+ 
   return($ret);
 }
 }

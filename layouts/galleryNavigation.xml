@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
   <plugins>
+      <file>plugins/dynamicNavigation.php</file>
       <file>plugins/galleryNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
-      <file>plugins/memer.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
@@ -16,12 +16,9 @@
         <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
         <div klass="bottombannerlinks" src="file" />
       </div>
-        <div id="main-content" src="container">
-          <div klass="galleryNavigation" src="galleryNavigation">
-            <div klass="stuff" src="flexyFileContent" />
-          </div>
-        </div>
-
+      <div id="main-content" src="container">
+         <div klass="stuff" src="flexyFileContent,galleryNavigation"/>
+      </div>
       <div id="footer" src="file" />
     </div>
   </bodycontent>

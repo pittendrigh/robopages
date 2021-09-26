@@ -5,19 +5,19 @@
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
-      <file>plugins/memer.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
   </cssfiles>
   <bodycontent>
     <div id="wrapper" src="container">
-      <div id="headerbanner" src="container">
+        <div id="headerbanner" src="container">
         <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
         <div klass="bottombannerlinks" src="file" />
       </div>
-      <div id="main-content" src="flexyFileContent">
+      <div id="main-content" src="container">
          <div klass="toc" src="dynamicNavigation" />
+         <div klass="stuff" src="flexyFileContent"/>
       </div>
       <div id="footer" src="file" />
     </div>

@@ -13,11 +13,12 @@
   <bodycontent>
       <div id="wrapper" src="container">
         <div id="headerbanner" src="container">
-          <nav klass="bottombannerlinks" src="file"></nav>
+          <h1 id="hbanner" src="file" />
+          <nav id="bottombannerlinks" src="file"></nav>
           <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
         </div>
         <div id="main-content" src="container">
-          <div klass="stuff" src="nerd:file,change_email">
+          <div id="stuff" src="user_manage:file,change_email">
           </div>
         </div>
         <div id="footer" src="file" />

@@ -20,18 +20,19 @@ class displayCard extends plugin {
     function getOutput($divid) {
         $ret = '';
 $ret .= <<<ENDO
-<div class="displayCard">
-  <div class="displayCardbanner">
+<div class="displaycard">
+  <div class="cardtitle">
        $this->banner
   </div>
-  <div class="displayCardbody">
+  <div class="cardbody">
       $this->body
   </div>
+</div>
 ENDO;
 
   if($this->caption != null)
 $ret .= <<<cENDO
-  <div class="displayCardcaption">
+  <div class="cardcaption">
        $this->caption
   </div>
 cENDO;

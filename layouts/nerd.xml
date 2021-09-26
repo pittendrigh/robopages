@@ -16,7 +16,7 @@
   </plugins>
     <cssfiles>
         <file>css/robo.css</file>
-        <file>css/nerd.css</file>
+        <file>css/user_manage.css</file>
     </cssfiles>
     <jsfiles>
         <file>js/jquery.min.js</file>
@@ -28,11 +28,12 @@
     <bodycontent>
         <div id="wrapper" src="container" >
             <div id="headerbanner" src="container" >
-                <div klass="bottombannerlinks" src="file" /> 
+                <div id="hbanner" src="file" />
+                <div id="bottombannerlinks" src="file" /> 
                 <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
             <div id="main-content" src="container" >
-                <div klass="stuff" src="RobopageAdmin" />   
+                <div id="stuff" src="RobopageAdmin" />   
             </div> 
         </div> 
     </bodycontent>

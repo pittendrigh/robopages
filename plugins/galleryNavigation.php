@@ -18,12 +18,33 @@ class galleryNavigation extends dynamicNavigation
 */
 
 
+    function findFirstJpg($dir)
+    {
+       $ret = '';
+       $dh = opendir($dir);
+      
+       //echo "findFirstJpg dir: " . $dir . "<br/>"; 
+       while ($file = readdir($dh)) 
+       {
+           if ($file != "." && $file != "..") 
+           {
+               if(preg_match('/jpg/', $file)) 
+               {
+                   //echo "findFirstJpg: " . $file . "<br/>"; 
+                   
+                   $ret = $file;
+                   break;
+               }
+           }
+       }
+       return ($ret);
+    }
+
     function hasIndexImg($link, $mode = null)
     {
         $ret = '';
         $thumbName = 'tn-index.jpg';
 
-        // tn-index.jpg needs to be generalized to is_image in index plus suffix
         $query = parse_url($link->href, PHP_URL_QUERY);
         parse_str($query, $parms);
 
@@ -31,20 +52,25 @@ class galleryNavigation extends dynamicNavigation
         if (isset($parms['robopage']))
         {
             $base = basename($parms['robopage']);
-            $thumbUrl = $_SESSION['currentClickDirUrl'] . $base . '/roboresources/thumbs/' . $thumbName;
-            $testPath = $_SESSION['currentDirPath'] . $base . '/roboresources/thumbs/' . $thumbName;
+            $thumbDirUrl = $_SESSION['currentClickDirUrl'] . $base . '/roboresources/thumbs/';
+            $thumbUrl = $thumbDirUrl . $thumbName;
+            $testDir = $_SESSION['currentDirPath'] . $base . '/roboresources/thumbs/';
+            $testPath = $testDir . $thumbName;
+/*          ......assuming directory behavior for now. 
             if ($mode != null && $mode == 'file')
             {
                 $thumbName = 'tn-' . StaticRoboUtils::stripSuffix(basename($parms['robopage'])) . '.jpg';
                 $testPath = $_SESSION['currentDirPath'] . 'roboresources/thumbs/' . $thumbName;
                 $thumbUrl = $_SESSION['currentClickDirUrl'] . 'roboresources/thumbs/' . $thumbName;
             }
-            //echo "testPath: ", $testPath, "<br/>";
-            $test = @stat($testPath);
-            if ($test != null)
+*/
+            if(file_exists($testPath))
             {
-                //$ret = '<img src="' . $thumbUrl . '" alt="' . $base . '"/>';
                 $ret = $thumbUrl ;
+            }
+            else{
+              $thumb = $this->findFirstJpg($testDir);
+              $ret  = $thumbDirUrl . $thumb;
             }
         }
 
@@ -54,30 +80,38 @@ class galleryNavigation extends dynamicNavigation
     function getSlideshowLink()
    {
           $slideshowLink = '?robopage=' . $_GET['robopage'] . '&amp;layout=slideshow';
-          $card = new navCard($slideshowLink, "Slideshow","","slideshow" );
+          $card = new navcard($slideshowLink, "Slideshow","","slideshow" );
           $ret = $card->getOutput('');
           return ($ret);
     }
 
 
+    /* link is to an 1 external page, 2 to an internal page or 3 to an internal directory 
+           The link object has a label that is (usually) what is expected 
+           link objects have only one constructor and are made from a file line
+           ?robopage=Flies/Fred-Nelson::Fred-Nelson::dir
+
+           body is link label
+           body is link label unless thumb available
+           body is link label unless thumb available
+    */
     function mkLink($link, $LinkTargetType=null)
     {
         global $sys_thumb_links;
-        $ret = '';
+        $ret = $testPath = $body = '';
 
+        /* the navcard as a whole will be the incoming href
+           if thumb available body is thumb, else empty 
+           label is incomding label unless $linkTargetType is "dir"
+           if dir label is prepended with folder font symbol 
+        */
         $href=$link->href;
         $label = StaticRoboUtils::mkLabel($link->label);
-        //$label = $link->label;
-        $imgPath='';
+        $thumbPath='';
 
         $linkTargetType = $link->linkTargetType;
-        //if($linkTargetType == 'fragment') echo "label: ", $label, "<br/>";
 
-        if ($linkTargetType == 'dir')
-        {
-            $imgPath = $this->hasIndexImg($link);
-        }
-        else if ($linkTargetType == 'image' && $sys_thumb_links)
+        if ($linkTargetType == 'image' && $sys_thumb_links)
         {
             $query = parse_url($link->href, PHP_URL_QUERY);
             parse_str($query, $parms);
@@ -88,31 +122,38 @@ class galleryNavigation extends dynamicNavigation
 
                 if (@stat($tpath))
                 {
-                    $imgPath = $_SESSION['currentClickDirUrl'] . "roboresources/thumbs/tn-" . $base;
+                    $thumbPath = $_SESSION['currentClickDirUrl'] . "roboresources/thumbs/tn-" . $base;
                 }
             }
-            $label = StaticRoboUtils::mkLabel(basename($imgPath));
-            $body = '<img class="navCardImg" src="' . $imgPath . '" alt="' . $label . '"/>';
         }
 
+        /* at this point thumbPath may or may not be empty 
+           label (should) be set by incoming $link object 
+           only the body now needs adjustment
+        */
+
+        // thumbPath is not null iff there is an appropriate thumbnail
+        if(isset($thumbPath) && $thumbPath != null)
+        {
+          $body = '<img src="' . $thumbPath . '" alt="' . $label . '"/>';
+        }
 
 if ($linkTargetType  == 'dir')
 {
-        $label = '<i class="material-icons" style="font-size: 80%; ">folder</i> '  . basename($href);
-        //if(isset($imgPath) && $imgPath != null)
-            $body = '<img src="' . $imgPath . '" alt="' . basename($imgPath) . '"/>'; 
-
-        
-        $card = new navCard($href,$body, $label);
+        $body='';
+        $partPath = $this->hasIndexImg($link);
+        $testPath = $_SERVER['DOCUMENT_ROOT'] . $partPath; 
+        //if(@stat($testPath))
+        if($partPath != null)
+        {
+           $body = '<img src="' . $partPath . '" alt="'. $label. '"/>';
+        }
+        $label = '<i class="material-icons" style="font-size: 80%; ">folder</i> '  . $label;
+        $card = new navcard($href,$body, $label);
 }
 else 
 {
-   //if($linkTargetType == 'fragment') 
-    //      echo "label: ", $label, "<br/>";
-    //    echo "href: ", $href, " body: ", $body, " label: ", $label, "<br/>";
-      if(!isset($body) || $body == null)
-         $body = '&nbsp;';
-        $card = new navCard($href,$body, $label);
+        $card = new navcard($href,$body, $label);
 }
         $ret .= $card->getOutput('');
 

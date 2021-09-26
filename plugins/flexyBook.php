@@ -3,6 +3,7 @@
 
 include_once("plugin.php");
 include_once("flexyFileContent.php");
+include_once("displayCard.php");
 
 class flexyBook extends flexyFileContent 
 {

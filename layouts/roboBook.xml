@@ -5,6 +5,7 @@
       <file>plugins/flexyBook.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
+      <file>plugins/targetedSlideshow.php</file>
       <file>plugins/nextPrevButtons.php</file>
       <file>plugins/bookNav.php</file>
   </plugins>
@@ -15,7 +16,7 @@
       <div id="wrapper" src="container">
         <div id="main-content" src="container">
           <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
-          <div klass="stuff" src="flexyBook">
+          <div id="stuff" src="flexyBook">
             <div klass="toc" src="bookNav" />
           </div>
         </div>

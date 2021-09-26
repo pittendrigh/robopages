@@ -6,6 +6,24 @@ include_once("nextPrevButtons.php");
 include_once("roboMimeTyper.php");
 include_once("dynamicNavigation.php");
 
+
+function arrcho($arr, $label=null)
+{
+  foreach (array_keys($arr) as $akey)
+  {
+    if(isset($label) && $label != null)
+     echo $label, " " , $akey, ' || ' , htmlentities($arr[$akey]) , "<br/>"; 
+    else
+     echo $akey, ' || ' , htmlentities($arr[$akey]) , "<br/>"; 
+  }
+  echo "<br/>";
+}
+
+function eecho($str)
+{
+  echo $str, "<br/>";
+}
+
 class bookNav extends plugin 
 {
   protected   $nextPrevButtons;
@@ -13,6 +31,7 @@ class bookNav extends plugin
   protected   $p2nFile;
   protected   $currentBookName;
   protected   $mimer;
+
   protected   $allP2nLinks;
   protected   $missedLinks;
   protected   $globalChapterLinks;
@@ -22,56 +41,64 @@ class bookNav extends plugin
      $this->init();
   }
 
+  // doesn't do much, sets P2NFile path
+  // nothing happens after init until getOutput('')
+  function init()
+  {
+    $this->mimer = new roboMimeTyper();
+    $this->setP2NFile();
+    $this->nextPrevButtons = new nextPrevButtons();
+    $this->missedLinks = array();
+  }
+
   // makes a string hyperlink rather than new Link($line) object, for now anyway
-  // better not rely on it but right now mkLink only called by assembleGlobalLinks
-  // change highlighted so ... both global and selected local get hightlighted
-  // albeit differently
-  // need thisChapter and robopage
   function mkLink($url,$label)
   {
-    $link = '';
+    $link = $getRobopageComparitor  = '';
+    $url = StaticRoboUtils::fixPageEqualParm($url);
+    if(isset($_GET['robopage']))
+    {
+        $getRobopageComparitor  = StaticRoboUtils::fixPageEqualParm($_GET['robopage']);
+    }
+    
     $chapter = $this->getThisChapter($url);
+
     $labelString = str_replace($_SESSION['bookTop'] . '/','',$url);
+
+    // ?????????????
     $whereWeAreAtComparitor   = substr($labelString,0,strlen($labelString));
-    $parentChapterHightlightFlag = ($chapter == $whereWeAreAtComparitor) ? TRUE : FALSE; 
 
     $linkTargetType = $this->mimer->getRoboMimeType($url);    
-     
-    $highLightFlag = FALSE;
-    if(isset($_GET['robopage']) && $url == $_GET['robopage'])
-        $highLightFlag = TRUE;
-    $testAgain = $url . '/' . $_SESSION['currentDisplay'];
 
-    // in bookNav we're only recognizing external links or internal book page links,
-    // which reference a *.htm page or an internal directory (which defaults to an assumed *.htm)
+    $highlightFlag=FALSE;
+      $hightlightFlag = ($chapter == $whereWeAreAtComparitor) ? TRUE : FALSE; 
+
+    // can still set $highlightFlag TRUE yet again
+    if(isset($getRobopageComparitor) && $getRobopageComparitor == $url 
+        || stristr($label,$_SESSION['currentDirUrl']. $_SESSION['currentDisplay']))
+    {
+     $highlightFlag = TRUE;
+    }
+ 
+    // in bookNav we're only recognizing external links or internal book page links
+    // referencing a *.htm page or internal directory (defaults to an assumed *.htm)
     // internal directories may or may not be top level chapter directories
+    $linkClass='';
+    if ($highlightFlag == TRUE)
+       $linkClass = ' class="highlighted" ';
+
     if($linkTargetType == 'link') 
     {
-        $link = '<a target="_blank" href="' 
+        $link = '<a ' . $linkClass . ' target="_blank" href="' 
          . $_SESSION['currentClickDirUrl'] . basename($url) . '">' . $label. '</a>'; 
     }
     else  // not an external link
     {
-        if(isset($_GET['robopage']) && $url == $_GET['robopage'])
-        { 
-            // If this url from the p2n list is also the current robopage
-            // whether it is in the top global chapter group or the bottom local chapter-pages group
-            $link = '<a class="highlighted" href="?robopage='.$url.'">' 
-              . $label . '</a>'."\n";
-        }
-        else 
-        {
-            // if the current robopage is a local chapter-page link 
-            // we still, also want to highlight the chapter that contains that local link,
-            // in the upper global chapters group
-            //
-            if($parentChapterHightlightFlag) 
-             $link = '<a class="highlighted" href="?robopage='.$url.'">' 
-                . $label . '</a>' . "\n";
-            else
-             $link = '<a href="?robopage='.$url.'">' . $label . '</a>' . "\n";
-        }
-    } 
+      // if the current robopage is a local chapter-page link 
+      // we still, also want to highlight the chapter that contains that local link,
+      // in the upper global chapters group
+             $link = '<a '.$linkClass.' href="?robopage='.$url.'">' . $label . '</a>' . "\n";
+     }   
 
     $link .= "\n";
     $this->allP2nLinks[$url] = $link;
@@ -80,6 +107,7 @@ class bookNav extends plugin
 
 function assembleGlobalChapterLinks($linksString)
 {
+    // this is the p2n file as s comma delimeted string (should be a hash?)
     $linkChunks = explode(",", $linksString);
     $cnt = count($linkChunks) -1;
     for($i=0; $i<$cnt; $i++)
@@ -100,16 +128,21 @@ function assembleGlobalChapterLinks($linksString)
       $link = $this->mkLink($url, $label);
       $this->globalChapterLinks[] = $link;
     } 
-  } 
+} 
 
   function getThisChapter()
   {
 
+     $path = $chapter = '';
      // is a bookTop never in DOCUMENT_ROOT? No. need to fix this. grep -i actionItem *php
+   if(isset($_GET['robopage']) && $_GET['robopage'] != null)
+   {
      $path = $_GET['robopage'];
      if(strstr(basename($path),'.'))
         $path = dirname($path);
      $chapter = basename ($path);    
+    }
+
 
      return($chapter);
   }
@@ -144,18 +177,23 @@ function assembleGlobalChapterLinks($linksString)
 
       if(isset($_GET['robopage']) && $_GET['robopage'] == $url 
           || strstr($label,  $_SESSION['currentDirUrl'] .  $_SESSION['currentDisplay']))
-        $link = '<a class="lclhighlighted" href="?robopage='.$url.'">' 
-          . $label . '</a>';
+          $link = '<a class="lclhighlighted" href="?robopage='.$url.'">' . $label . '</a>';
        else
           $link = '<a href="?robopage='.$url.'">' . $label . '</a>';
 
       $this->allP2nLinks[$url] = $link;
-      $returningLeafLinks[] = $link;
+      $returningLeafLinks[$url] = $link;
     }
 
     return($returningLeafLinks);
   }
 
+
+  // Makes a string to explode later
+  // Might be cleaner to have one more hashed array
+  // Said string is the contents of p2n, which are all value $_GET['robopage'] values mapping to plages
+  // Any robopage value might be an empty dirctory name, 
+  // which would resolve to a default page with $_SESSION['currentDisplay']
   function getGlobalChapterLinks()
   {
     $linksString = '';
@@ -166,8 +204,8 @@ function assembleGlobalChapterLinks($linksString)
       $line = trim($lines[$i]);
       $tentativeDirPath = trim($this->p2nFileDir) .  trim($line);
 
-      // top level directories are chapter names
-      // we also want any leaf level *.htm files in the bookTop directory
+      // top level directories are chapter names and have no path slashes 
+      // but we do also want any leaf level *.htm files in the bookTop directory
       if(!strstr($line,'/'))
       {
           $linksString .= $line . ',';
@@ -219,9 +257,11 @@ function assembleGlobalChapterLinks($linksString)
       if(strstr($line,'/') && $this->subPathIsValid($line) && substr($line,0, $charLen) == $chapterName)
       {
           $linksString .= $line . ',';
+          $this->allP2nLinks[$line] = $line;
       }
     }
 
+       
     return($this->assembleLocalPageLinks($linksString));
   }
 
@@ -257,14 +297,6 @@ function assembleGlobalChapterLinks($linksString)
 
   }
 
-  function init()
-  {
-    $this->mimer = new roboMimeTyper();
-    $this->setP2NFile();
-    $this->nextPrevButtons = new nextPrevButtons();
-
-    $this->missedLinks = array();
-  }
 
   function inBookTopDir()
   {
@@ -332,21 +364,26 @@ ENDO;
       while ($handle && ($file = @readdir($handle)) !== FALSE)
       {
           if ($file[0] == '.')
+          {
               continue;
+          }
           else if (strstr($file, ".frag") || $file == 'roboresources'  
               || $file == 'dirlinks')
+          {
               continue;
+          }
+
 
           // why not a link?
           // if (is_link($this->currentDirPath . $file)) { continue; }
 
-          $label = ucfirst($file);
-          if (!$sys_show_suffixes)
-              $label = ucfirst(StaticRoboUtils::stripSuffix($file));
+          $label = $file;
+          //$label = ucfirst($file);
+          //if (!$sys_show_suffixes)
+          //    $label = ucfirst(StaticRoboUtils::stripSuffix($file));
 
           $linkTargetType = 
               $this->mimer->getRoboMimeType($_SESSION['currentDirUrl'] . $file);
-
           $url = '';
           if (isset($linkTargetType) && $linkTargetType != "unknown")
           {
@@ -354,25 +391,29 @@ ENDO;
                 StaticRoboUtils::fixPageEqualParm($_SESSION['currentDirUrl'] 
                   . $file);
 
+              // the following a link in the "is downloadable' sense
               if ($linkTargetType == 'link')
               {
                   $url = $_SESSION['currentClickDirUrl'] . $file;
               }
               else
               {
-                $atest = @$this->allP2nLinks[$url];
+                  //arrcho($this->allP2nLinks, "all"); 
+                  //arrcho($this->globalChapterLinks,"globalChap"); 
+                  //$testArr = array_merge($this->allP2nLinks, $this->globalChapterLinks);
+                  $testArr = $this->allP2nLinks;
+                  $atest = @$testArr[$url];
                   if (!isset($atest) || $atest == null)
                   {
-                    $link = '<a href="?robopage=' . $url. '"><b class="redAlert">' 
-                      . $label. "</b></a>\n";
+                    $link = $this->mkLink($url,$label);
                     $this->missedLinks[$url] = $link;
                   }
               }
           }
-          //else{ echo "??? $file<br/>\n"; }
       }
   }
 
+  // action starts here
   function getOutput($divid)
   {
     $ret = $top = $bottom = '';
@@ -382,32 +423,43 @@ ENDO;
     $top .= $this->nextPrevButtons->getOutput('');
     $top .= '<div id="ttoc">';
 
+   // global chapter links are the top level directories plus any *.htm files, with no path slashes
     $this->getGlobalChapterLinks();
-
-    $cnt=0;
-    if(isset($this->globalChapterLinks))
-       $cnt = count($this->globalChapterLinks);
+    $cnt = count($this->globalChapterLinks);
     for($i=0; $i<$cnt; $i++)
     {
        $top .= $this->globalChapterLinks[$i];
     }
 
+    // if NOT in the Books top chapter directory then we are in a chapter
+    // if so we want to display, at bottom, all available page links in that chapter
     if(!$this->inBookTopDir())
     {
       $bottom .= '<div id="bookNavBottom"><hr/>' ;
       $localLinksArray = $this->getLocalPageLinks();
       $cnt = count($localLinksArray);
-      for($i=0; $i<$cnt; $i++)
+      $bottom .= '<h3 class="bookNavThisChapter"> -- ' .  $this->getThisChapter() . " -- </h3>"; 
+
+      //for($i=0; $i<$cnt; $i++)
+      foreach(array_keys($localLinksArray) as $akey)
       {
-        $bottom .= $localLinksArray[$i];
+        $link = $localLinksArray[$akey];
+        $bottom .= $link;
       }
       $bottom .= '</div>';
     }
+
+
+    // Everything above came from the p2n file.  What about last minute page additions
+    // that might not be in the p2n file yet?  
+    //
     $this->find_additional_pages();
     if($_SESSION['layout'] != 'bookGalleryNav')
     {
-       foreach ($this->missedLinks as $alink)
+       //foreach ($this->missedLinks as $alink)
+       foreach(array_keys($this->missedLinks) as $aUrl)
        {
+          $alink = @$this->missedLinks[$aUrl];
           $bottom .= $alink. "\n";
        } 
     }
@@ -417,4 +469,5 @@ ENDO;
     return($ret);
   }
 }
+
 ?>

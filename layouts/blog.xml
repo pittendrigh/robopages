@@ -14,12 +14,13 @@
     <bodycontent>
         <div id="wrapper" src="container">
             <div id="headerbanner" src="container" >
-                <div klass="bottombannerlinks" src="file" />
+                <div id="hbanner" src="file" />
+                <div id="bottombannerlinks" src="file" />
                 <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
             <div id="main-content" src="container" >
-                <div klass="blog" src="blog" />   
-                <div klass="longColumn" src="longColumn" />   
+                <div id="blog" src="blog" />   
+                <div id="longColumn" src="longColumn" />   
             </div> 
         </div>
     </bodycontent>

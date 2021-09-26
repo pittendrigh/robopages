@@ -5,11 +5,12 @@ include_once("plugin.php");
 include_once("Link.php");
 include_once("StaticRoboUtils.php");
 
-class navCard extends plugin {
+class navcard extends plugin {
 
     var $body;
     var $label;
 
+/* body is a thumbnail, label is arbitrary, perhaps from href */
     function __construct($href, $body,$label) {
        $this->href=$href;
        $this->body=$body; 
@@ -21,30 +22,18 @@ class navCard extends plugin {
 $href = $this->href;
 $body = $this->body;
 $label = $this->label;
-/*
-  <div class="navCardcaption">
-       $label
-  </div>
-*/
 
-//echo htmlentities($label),"<br/>";
-
-/*
-       <a class="navCardLink" href="$href">
-          $label
-       </a>
-*/
 $ret .= <<<ENDO
-<div class="navCard">
-  <div class="navCardbody">
+<a class="cardlink" href="$href">
+<div class="navcard">
+  <div class="cardbody">
       $body
   </div>
-  <div class="navCardcaption">
-       <a class="navCardLink" href="$href">
-          $label
-       </a>
+  <div class="cardcaption">
+       $label
   </div>
 </div>
+</a>
 ENDO;
 
 

@@ -15,11 +15,11 @@
   <bodycontent>
     <div id="wrapper" src="container">
       <div id="headerbanner" src="container">
-        <div klass="bottombannerlinks" src="file" />
+        <div id="bottombannerlinks" src="file" />
         <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
       </div>
       <div id="main-content" src="container">
-        <div klass="slideshow" src="lazyLoadSlideshow" />
+        <div id="slideshow" src="lazyLoadSlideshow" />
       </div>
       <!-- end main-content -->
       <div id="footer" src="file" />
