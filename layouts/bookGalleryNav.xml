@@ -7,7 +7,6 @@
       <file>plugins/galleryNavigation.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
-      <file>plugins/targetedSlideshow.php</file>
       <file>plugins/nextPrevButtons.php</file>
       <file>plugins/bookNav.php</file>
   </plugins>
