@@ -27,7 +27,6 @@ $ret .= <<<ENDO
   <div class="cardbody">
       $this->body
   </div>
-</div>
 ENDO;
 
   if($this->caption != null)
@@ -36,6 +35,7 @@ $ret .= <<<cENDO
        $this->caption
   </div>
 cENDO;
+$ret .= '</div>';
 
         return ($ret);
     }

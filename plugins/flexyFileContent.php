@@ -143,7 +143,13 @@ ENDO;
                 $ret .= $this->mkAudioArea();
                 break;
             case "url":
-                header("location: " . $url);
+                $url = NULL;
+                if(isset($tentativeDisplayFile))
+                  $lines = file($tentativeDisplayFile);
+                if(isset($lines) && isset($lines[0]))
+                  $url = $lines[0];
+                if(isset($url) && strstr($url, "http"))
+                  header("location: " . $url);
                 break;
             default:
                 $ret .= $this->mkHTMLFragmentArea();
@@ -169,7 +175,8 @@ ENDO;
     {
         $ret = $caption = '';
         $base = StaticRoboUtils::stripSuffix($_SESSION['currentDisplay']);
-        $capfile = $_SESSION['currentDirPath'] . '/' . $base . ".cap";
+        $capfile = StaticRoboUtils::fixpath($_SESSION['currentDirPath'] . '/') . $base . ".cap";
+        //echo $capfile, "<br/>";
         if(@stat($capfile))
            $caption = @file_get_contents($capfile);
         if ($caption != null)
@@ -228,16 +235,19 @@ ENDO;
         $label = StaticRoboUtils::mkLabel($_SESSION['currentDisplay']);
 
 
-        $theImage = '<img src="'. $src . '" alt="' . $label. '"/>';
+        $theImage = '<img src="'. $src . '" alt="' . $label. '" loading="lazy"/>';
 
         if(isset($caption) && $caption != null)  
-           $displayCard = new displayCard($label,$theImage,$caption); 
+        {
+           //echo $caption, "<br/>";
+           $displaycard = new displaycard($label,$theImage,$caption); 
+        }
         else
         {
-           $displayCard = new displayCard($label,$theImage); 
+           $displaycard = new displaycard($label,$theImage); 
         }
 
-        $ret = $displayCard->getOutput('');
+        $ret = $displaycard->getOutput('');
         return $ret;
     }
 

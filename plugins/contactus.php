@@ -83,7 +83,7 @@ class contactus extends plugin
 
         $ret .= '
          <p style="margin: 0.5em;">  Your Name <input type="text" size="32" name="fromname"/></p>
-         <p style="margin: 0.5em;"> <span style="color: red; text-shadow: #ffffff 1px 1px 2px; font-weight: bold"> 
+         <p style="margin: 0.5em;"> <span style="color: red; font-weight: bold"> 
                 Return email address <input type="text"  size="32" name="fromaddress"/> required! </span> </p>
          <p style="margin: 0 0.5em;"> Subject <input type="text"  size="32"  name="subject"/></p>';
 

@@ -1,4 +1,3 @@
-/*** setup ***/
 .* .*::after .*::before{
          padding: 0;
          margin: 0;
@@ -8,62 +7,139 @@ html
 {
     width: 100%;
     height: 100%;
+    min-height: 100vh;
     padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
 body{
     width: 100%;
     height: 100%;
+    min-height: 100vh;
   --navbg: rgb(200,200,205,1);
   --navbgdark: rgb(175,175,190,1);
   --navbglight: rgb(175,175,190,0.25);
   --navhover: rgb(225,225,255,0.5);
+  --linkcolor: rgb(5,5,15,1);
+  --textcolor: rgb(0,0,5,1);
+  color: var(--textcolor);
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
 }
+
 
 /* misc */
-a {
-  text-decoration: none;
+quote { display: block; max-width: 50%; margin: 1em 1em 1em 6em; font-weight: bold; font-style:italic;}
+.bold {font-weight: bold;}
+.pageNumber { font-weight: bold;}
+a {display: inline; text-decoration: none; font-weight: bold; color: var(--linkcolor); }
+a:hover,a:focus,a:visited { 
+  text-decoration: underline:
+  background: var(--navhover);
+  color: black;
+  font-weight: normal;
 }
+a.slideshow { font-size: 200%; color: #660000;  }
+a.extra{ color: #990000; font-size: large; font-style: italic;}
 
-.h1banner  h1 { font-size: 90%; margin-left: 20%; }
+sup { font-size: 50%; color: red;}
+h1 { font-size: 2vw; margin-top: 1rem;} 
+
+.h1banner {  margin-left: 30%; font-size: 140%; font-weight: bold;}
+
+img.img70{ max-width: 50%;}
 
 img{ 
    float: left;
+   width: auto;
    margin: 1rem;
-   object-fit: scale-down;
+   object-fit: cover;
+   border-radius: .5rem;
 }
- 
-a:hover{
-  text-decoration: underline;
-  background: var(--navhover);
+
+.nextPrevButtonsWrapper,
+.buttonbox{
+  max-width: 100%;
+  clear: both;
+  float: left;
+  display: flex;
+  flex-direction: row;
+}
+
+i.material-icons{font-size: small;}
+
+.user_manage a, mkBreadcrumbs a {
+  display: inline;
+}
+
+.user_manage {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+a.button{ 
+  /* display: block;  */
+  float: left;
+  background:  rgb(200,200, 255,0.5); 
+  border: 1px groove blue;
+  padding: .25rem;
+  margin: .25rem;
+  font-size: small;
 }
 /* end misc */
 
+/* main blocks */
+#mainwrapper{
+  background: url(/systemimages/background.jpg) no-repeat; 
+  background-color: #4f6aad;
+  width: 100%%;
+  height: 100%; 
+  min-height: 1800px;
+}
+
 #wrapper{
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 100%%;
+  height: 100%; 
+  margin: 0 .5rem 0 .5rem;
 }
 
 #headerbanner{
   width: 100%;
+  min-height: 5rem;
   background-color: var(--navbg); 
-  background-image: url(/mrb/systemimages/smrb_logo_04.png);
+  background-image: url(/systemimages/smrb_logo_04.png);
   background-position: left center;
   background-repeat: no-repeat;
   margin: 0;
   padding: 0 0 0 1rem; 
-  border-bottom: 10px solid var(--navbg); 
+  border-radius: .5rem .5rem 0 0;
+  
 }
 
+#mmmmain-content
+{
+  display: flex;
+  flex-direction: row;
+}
+
+#main-content
+{
+  float: left; 
+  width: 100%;
+  padding: 0; 
+}
+
+/* end main blocks */
+
+/* classes */
 .bottombannerlinks 
 {
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
-  margin: 0 0 0 10%;
+  margin: 0 0 0 15%;
   padding: 0;
   font-family: Arial;
   border-bottom: 1px solid var(--navbg);
@@ -71,160 +147,182 @@ a:hover{
 
 .bottombannerlink
 {
-  /* width: 6em; */
-  height: 1em;
-  margin: 0.5em;
-  padding: 0.25em; 
+  max-height: 1.5rem;
+  max-width: 15`rem;
+  margin-right: .25rem;
+  padding:  0 1rem 0 0; 
   text-align: center;
-  font-size: 85%;
+  font-size: 1.5vw;
+  float:left;
 }
 
 .mkBreadcrumbs 
 {
-    width: 100%;
-    margin: 0 0 0 15%;
+    font-size: 200%;
+    margin: 0 0 0 20%;
     padding: 0.5rem 0 0 0;
 }
+.mkBreadcrumbs a { display: inline; color: #660000; }
 
-/*
-.mkBreadcrumbs a:hover, #mkBreadcrumbs a:focus 
-{
-}
-*/
 
-/*** main-content  ***/
 .toc{
-  float: left;
+  float: left; 
   background: var(--navbg);
-  min-width: 8rem;
-  margin: 0 1rem 0 0;
-  padding: .5rem;
-  font-size: 75%;
+  min-width: 15%;
+  max-width: 20%;
+  height: auto;
+  margin:  0 1rem 0 0;
+  padding: 0.25rem;
+  font-size: 90%;
   position: relative;
-  bottom: 1px;
+  bottom: 1.5rem;
+  border-radius: 0 0 .5rem .5rem;
 }
 
 .toc a{
  display: block; 
 }
 
-#main-content
-{
-  width: 100%;
-  margin: 0;
-  padding: 0 0.5rem 0.5rem 0;
-  border: 1px solid transparent;
-  position: relative;
-  /* flex-basis: 20rem; */*/
-}
-
-.stuff  > img {
-  width: auto;
-  height: auto;
-  max-width: 30%;
-}
-
-#footer{
-  clear: both;
-  padding: 0.5rem;
-  width: 100%;
-  background: gray;
-  margin-top: 1rem;
-}
-
 .displaycard{
   float: left;
-  margin-right: 0.5rem;
+  background: var(--navbg);
+  width: auto;
+  max-width: 70%;
+  height: auto;
+  margin: .5rem 1rem; 
   display: flex;
   flex-direction: column;
+  justify-content: center;
   text-align: center;
-  overflow: visible;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: .5rem;
+}
+
+.stuff{
+ padding: 2rem;
+
+}
+
+.displaycard img{
+ display: block;
+ float: left;
+ width: auto;
+ max-width: 100%;
+ height: auto;
+ margin: 0 auto; 
+ background: var(--navbg);
+ border-radius: .5rem .5rem 0 0;
+ object-position: center; 
+ object-fit: scale-down;
 }
 
 .navcard{
   float: left;
-  background: var(--navbglight);
-  width: 7rem;
-  height: 6rem;
-  max-width: 7rem;
-  max-height: 6rem;
-  margin: 0.5em; 
+  background: var(--navbg);
+  width: 10rem;
+  max-width: 10rem;
+  height: 8rem;
+  max-height: 8rem;
+
+  margin: .25em; 
   display: flex;
   flex-direction: column;
-  border-radius: 0.25rem 0.25rem 0 0;
   text-align: center;
+/*
+  justify-content: center;
+  align-items: center;
+*/
+  padding: 0.5rem;
+  border-radius: .5rem;
 }
 
 .navcard img{
- width: auto;
- height: auto;
+ display: block;
+ width: 100%;
  max-width: 100%;
- margin: 0;
+ /* height: auto; */
+ max-height: 100%;
+ margin: 0; 
  padding: 0;
+ background: var(--navbg);
+ border-radius: .5rem .5rem 0 0;
+ object-position: center; 
  object-fit: scale-down;
- /* object-position: center; */
  overflow: hidden;
+ position: relative;
 }
 
 .cardtitle{
   border-radius: 0.25rem 0.25rem 0 0;
-  width: 100%;
-  flex-basis: 1rem;
+  width: auto;
+  height: auto;
   font-weight: bold;
 }
 
 .cardbody
 {
   border-radius: 0.25rem 0.25rem 0 0;
-  width: 100%;
-  flex-direction: column nowrap;
-  flex-basis: 6em;
+  width: 100%; 
+  max-width: 100%;
+  height: auto; 
+  max-height: 80%;
   text-align: center;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  flex: 2;
 }
 
+.cardbody img{ margin-top: 4px; }
+
 .cardcaption{
-  border-radius: 0 0 0.25rem 0.25rem;
+  border-radius: 0 0 0.5rem 0.5rem;
   width: 100%;
-  padding: 0.5rem 0 0 0;
-  margin: 0;
-  text-align: center;
+  max-width: 100%;
+  /* height: auto; */
+  padding: 0;
+  margin-top: .25em;
+  font-weight: bold;
+  /* text-align: center; */
   background: var(--navbgdark);
-  flex-direction: column nowrap;
-  flex-basis: 2em;
-  font-size: 75%;
+  font-size: 70%;
+  line-height: 1rem; 
 }
 
 a.cardlink{
 color: rgb(200,200,255,1,0);
-/* display: block; */
-max-width: 80%;
+/* max-width: 80%; */
+font-size: small;
 text-decoration: none;
 }
 
 a.cardlink:hover{
 text-decoration: underline;
 }
+/* end classes */
 
 /* <blog> */
-
 #blog
 {
-max-height: 25rem; 
-width: 2020%%;
-padding: 1rem;
-margin: 1rem 1rem 4rem 1rem;
-border: 8px groove #aaaaee;
+background: white;
+height: auto; 
+min-height: 20rem;
+max-height: 50rem;
+padding: .5rem;
+margin: 0 0 0 1rem;
+border: 2px solid var(--navbg); 
+border-radius: 0.5rem;
 overflow-y: scroll;
+overflow-x: hidden;
 color: black;
-float: right;
-max-width: 30%;
 }
 
 #blog img 
 {
  max-width: 100%;
  object-fit: scale-down;
- object-position: center;
+ /* object-position: center; */
 }
 
 .blogEntry{
@@ -234,3 +332,54 @@ max-width: 30%;
 
 .miniText{ font-weight: bold;}
 /* </blog> */
+
+.clearboth{ clear: both; margin: 0; padding: 0; max-height: 1rem; }
+
+#footer{
+  clear: both;
+  float: left;
+
+}
+
+/* <media> */
+
+/* when the device is a typical phone */
+@media only screen and (max-device-width: 480px)
+{
+  .mkBreadcrumbs {margin: 0;}
+  #headerbanner {background:  var(--navbg);}
+  #headerbanner {background-image: url(/systemimages/onepix.gif);}
+  h1 { 
+   clear: both; 
+   font-size: medium;
+  }
+  #blog { 
+     display: block; 
+     clear: both; 
+     width: 100%; 
+     height: auto;
+     margin: 0;
+  }
+  .h1banner { margin: 0; font-size: 60%;}
+  .bottombannerlinks{ margin: 0;}
+  .bottombannerlink{ font-size: 3vw; }
+  .toc {width: 100%;}
+  .displaycard { float: left; width: auto;}
+  .navcard{
+    margin: 1rem 1px;
+    width: 8em;
+    max-width: 8em;
+    height: 6em;
+    max-height: 6em;
+    padding: 0;
+    font-size: 60%; 
+ }
+#main-main-content
+{
+ display: block; 
+}
+ .navcard .cardcaption{
+    font-size: 60%;
+  }
+}
+/* </media> */

@@ -287,6 +287,17 @@ foreach($allOfEm as $aKey)
             else if (strstr($file, ".frag") || $file == 'roboresources' || $file == 'dirlinks')
                 continue;
 
+
+////this is a special mrb hack don't worry about it but
+// to make sure it does not get checked into Github
+            if(!isset($_GET['robopage']) || isset($_GET['robopage']) && strstr($_GET['robopage'],'FliesBook'))
+            {
+                  if(!isset($_SESSION['FliesBook']))
+                     continue;
+            }
+
+              
+
             // why not a link?
             //if (is_link($this->currentDirPath . $file)) { continue; }
 
@@ -299,7 +310,7 @@ foreach($allOfEm as $aKey)
             $hrefKey = '';
             if (isset($linkTargetType) && $linkTargetType != "unknown")
             {
-                $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($this->currentDirUrl . $file);
+                $hrefKey = '?robopage=' . StaticRoboUtils::fixroboPageEqualParm($this->currentDirUrl . $file);
 
                 if ($linkTargetType == 'link')
                 {
@@ -326,7 +337,7 @@ foreach($allOfEm as $aKey)
                 else
                 {
                     //default and most common case
-                    $hrefKey = '?robopage=' . StaticRoboUtils::fixPageEqualParm($this->currentDirUrl . $file);
+                    $hrefKey = '?robopage=' . StaticRoboUtils::fixroboPageEqualParm($this->currentDirUrl . $file);
                 }
 
                 // Now test if already already exists from a pre-existing dirlinks file

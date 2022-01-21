@@ -3,7 +3,7 @@
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
-      <file>plugins/galleryNavigation.php</file>
+      <file>plugins/gallery.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/lazyLoadSlideshow.php</file>
@@ -11,16 +11,17 @@
   <cssfiles>
     <file>css/robo.css</file>
   </cssfiles>
+  <jsfiles></jsfiles>
   <bodycontent>
     <div id="wrapper" src="container">
       <div id="headerbanner" src="container">
-        <div id="hbanner" src="file" />
         <div id="bottombannerlinks" src="file" />
         <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
       </div>
-      <div id="slidewhow-content" src="container">
+      <div id="main-content" src="container">
         <div id="slideshow" src="lazyLoadSlideshow" />
       </div>
+      <!-- end main-content -->
       <div id="footer" src="file" />
     </div>
   </bodycontent>

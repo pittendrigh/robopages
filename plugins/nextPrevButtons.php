@@ -3,125 +3,20 @@
 include_once("plugin.php");
 include_once("LinkedList.php");
 include_once("roboMimeTyper.php");
+include_once("p2nHandler.php");
 
 class nextPrevButtons extends plugin
 {
-protected $p2nFile;
-protected $p2nFileDir;
-protected $bookRootSubPath;
-protected $url2PageNodeHash;
-protected $pageNum2NodeHash;
-protected $orderedUrls;
-protected $pageLinkedList;
-protected $mimer;
-public $urlCount;
+ protected $mimer;
+ protected $p2nHandler; 
 
 function __construct()
 {
-  $this->init();
   $this->mimer = new RoboMimeTyper();
-  $this->url2PageNodeHash = array();
-  $this->pageNum2NodeHash = array();
-  $this->orderedUrls = array();
-  $this->pageLinkedList = new LinkedList();
-  $this->p2nFile = $this->findP2NFile($_SESSION['currentDirPath']);
-  $this->p2nFileDir = trim(dirname($this->p2nFile) . '/');
-
-  $this->bookRootSubPath = str_replace($_SESSION['prgrmDocRoot'],'',$this->p2nFileDir);
-  $this->urlCount=0;
-}
-
-function findP2NFile($dir)
-{
-  if(!is_dir($dir))
-  {
-      $dir = dirname($dir) . '/';
-  }
-  if(@stat($dir . 'p2n'))
-  {
-    return($dir . 'p2n');
-  }
-  else
-    return($this->findP2NFile(dirname($dir) . '/'));
+  $this->p2nHandler=new p2nHandler();
 }
 
 
-protected function readP2NFile()
-{
-  $pageNum = 0;
-  $lines = file ($this->p2nFile);
-
-  $lastDir=' -- ';
-  foreach ($lines as $aline)
-  {
-    //echo $aline, "<br/>";
-    $aline = trim($aline);
-    $url = $this->bookRootSubPath . trim($aline);
-
-    $testDirPath = $this->p2nFileDir . $aline;
-    //if(!is_dir($testDirPath) || $testDirPath == $lastDir)
-    if(!is_dir($testDirPath))
-    {
-       $testDirPath = dirname($testDirPath);
-       if($lastDir == $testDirPath)
-       {
-          $lastDir = "--";
-       }
-       else{
-          $pageNum += 1;
-       }
-       //echo "a $pageNum $url<br/>";
-       $pageNode = new node($url,null,null,$pageNum);
-    }
-    else
-    { 
-          // is_dir
-          if($lastDir != $testDirPath)
-          {
-             //echo "b $pageNum $url || $lastDir || $testDirPath<br/>";
-             $pageNum += 1;
-             $lastDir = $testDirPath;
-          }
-          else{
-           //echo "c $pageNum $url || $lastDir || $testDirPath<br/>";
-           $pageNum -= 1 ;
-          }
-          $url = $this->bookRootSubPath . trim($aline);
-          $pageNode = new node($url,null,null,$pageNum);
-             //else{ }
-    }
-
-
-    $this->pageLinkedList->ListAppend($pageNode);
-    $this->url2PageNodeHash[$url] = $pageNode;
-    $this->orderedUrls[] = $pageNode;
-    $this->pageNum2NodeHash[$this->urlCount] = $pageNode;
-    $this->urlCount++;
-  }
-}
-
-
-function u2pDbg()
-{
-   //echo "urlCount: ", $this->urlCount, "<br/>";
-   echo '<table style="font-size: 50%;">';
-   
-   //for($i=0; $i < $this->urlCount; $i++)
-   for($i=0; $i < 10; $i++)
-   {
-     //$key = $this->orderedUrls[$i];
-     //$node = $this->url2PageNodeHash[$key];
-     $node = $this->orderedUrls[$i];
-     $prev=$next=' -- ';
-     if(isset($node->prev))
-        $prev = $node->prev->dataObj;
-     if(isset($node->next))
-        $next = $node->next->dataObj;
-
-     echo "<tr><td>",$prev, "</td><td>" , $node->idx, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
-   }
-   echo "</table>";
-}
 
 function getNextCookieJS()
 {
@@ -130,7 +25,7 @@ function getNextCookieJS()
 function clickNext()
 { 
  var value = document.getElementById("nextPageButton").getAttribute("href").replace("?robopage=",'');
- var cookie="lastRobopage=" + value ;
+ var cookie="lastRobopage=" + value +";max-age=1296000;" ;
  document.cookie=cookie;
 }
 </script>
@@ -146,7 +41,7 @@ function getPrevCookieJS()
 function clickPrev()
 { 
  var value = document.getElementById("prevPageButton").getAttribute("href").replace("?robopage=",'');
- var cookie="lastRobopage=" + value ;
+ var cookie="lastRobopage=" + value +";max-age=1296000;" ;
  document.cookie=cookie;
 }
 </script>
@@ -158,11 +53,9 @@ return($ret);
 function getOutput($divid)
 {
   $ret = '';
-
   $ret .= $this->getNextCookieJS();
   $ret .= $this->getPrevCookieJS();
-  $this->readP2NFile();
-  //$this->u2pDbg();
+  //$this->p2nHandler->u2pDbg();
   $nowNum = 1; // set a default?
 
  $robopage = '';
@@ -174,20 +67,20 @@ function getOutput($divid)
  if($robopage == '')
  {
      $nowNum = 1;
-     $nowNode = reset($this->pageNum2NodeHash);
+     $nowNode = reset($this->p2nHandler->pageNum2NodeHash);
  }
  else
- {
-     //$nowNode = $this->pageNum2NodeHash[0];
-     $nowNode = $this->orderedUrls[0];
+{
+     //echo "count this->p2nHandler->orderedP2NUrls: ", count($this->p2nHandler->orderedP2NUrls), "<br/>";
+     $nowNode = $this->p2nHandler->orderedP2NUrls[0];
     
-     if(isset($this->url2PageNodeHash[$robopage]))
+     if(isset($this->p2nHandler->url2PageNodeHash[$robopage]))
      {
-       $nowNode = $this->url2PageNodeHash[$robopage];
+       $nowNode = $this->p2nHandler->url2PageNodeHash[$robopage];
        //echo "found ", $nowNode->idx, " " , $nowNode->dataObj, " on ", $robopage, "<br/>"; 
      }
      else{
-       $nowNode = $this->orderedUrls[0];
+       $nowNode = $this->p2nHandler->orderedP2NUrls[0];
      }
      $nowNum = $nowNode->idx;
      //$nowNode->nodeDbg();
@@ -213,7 +106,6 @@ function getOutput($divid)
     $nextNode = $nowNode;
     $nextUrl = $nowNode->dataObj;
   } 
-
   if(isset($nowNode->prev) && $nowNode->prev != null)
   {
     $prevNode = $nowNode->prev;
@@ -252,8 +144,8 @@ function getOutput($divid)
     
   //$displayNum = $nowNum + 1;
   $displayNum = $nowNum;
-  $ret .=  '<b class="pageNumber"> Page ' . $displayNum . '</b>';
-  $ret .= '<p class="buttonbox">';
+  //$ret .=  '<p class="pageNumber"> Page ' . $displayNum . '</p>';
+  $ret .= '<div class="buttonbox">';
 
 /*
   if(@stat($_SESSION['currentDirPath'] . 'roboresources/galleryMode/chapterImages'))
@@ -290,13 +182,13 @@ function getOutput($divid)
   {
     $ret .=  "\n". '<a class="button" href="?robopage='.$_COOKIE['lastRobopage'] .'">Last Read</a><br/>'. "\n";
   }
-  $ret .= '</p>';
+  $ret .= '</div>';
 
 
   /*
-  foreach (array_keys($this->p2nHash) as $aPath)
+  foreach (array_keys($this->p2nHandler->p2nHash) as $aPath)
   {
-  $ret .= $aPath . " :: " . $this->p2nHash[$aPath] . "<br/>";
+  $ret .= $aPath . " :: " . $this->p2nHandler->p2nHash[$aPath] . "<br/>";
   }
   */
   return($ret);

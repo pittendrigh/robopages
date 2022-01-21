@@ -3,7 +3,7 @@
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
-      <file>plugins/galleryNavigation.php</file>
+      <file>plugins/gallery.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/lazyLoadSlideshow.php</file>

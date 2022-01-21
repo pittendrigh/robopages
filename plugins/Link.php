@@ -11,10 +11,14 @@
 
 class Link
 {
-    protected $fileLine;
-    public $href;
-    public $label;
-    public $linkTargetType;
+    protected
+            $fileLine;
+    public
+            $href;
+    public
+            $label;
+    public
+            $linkTargetType;
 
     // linkTargetType is determined externally, usually with roboMimeTyper(basename($someFilePathOrHref))
     // If ever needed--from a $link object--we could basename($this->href)

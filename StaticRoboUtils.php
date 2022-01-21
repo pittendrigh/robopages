@@ -35,8 +35,17 @@ class StaticRoboUtils
         return $ret;
     }
 
+    static function fixDoubleSlash($tentativelink)
+    {
+        return(preg_replace(":\/\/[\/]*:", "/", $tentativelink));
+    }
 
-    static function fixPageEqualParm($tentativelink)
+    static function removeLeadingPathSlash($tentativelink)
+    {
+       return preg_replace(":^\/:", "", $tentativelink);
+    }
+
+    static function fixrobopageEqualParm($tentativelink)
     {
         // zap any leading slash from the value of  $_GET['robopage']
         $tentativelink = preg_replace(":^\/:", "", $tentativelink);
@@ -146,18 +155,13 @@ class StaticRoboUtils
 
     static function mkLabel($str)
     {
-        global $sys_show_suffixes;
         $suffix = StaticRoboUtils::getSuffix($str);
-        $base = StaticRoboUtils::stripSuffix(basename($str));
-        $ret = preg_replace(":^.*_:", '', $base);
+        //$base = StaticRoboUtils::stripSuffix(basename($str));
+        $base = StaticRoboUtils::stripSuffix($str);
 
-       // ....label keeps suffix iff image?
-       // $images = array("jpg", "gif", "png");
-       // if (in_array($suffix, $images) && $suffix != null)
-       if($sys_show_suffixes != null && $suffix != null) 
-            $ret .= '.' . $suffix;
-
-
+        $base = preg_replace(":^.*_:", '', $base);
+        $base = str_replace('tn-','',$base); 
+        $ret = ($suffix != null) ? $base . '.' . $suffix : $base;
         return ($ret);
     }
 
@@ -272,37 +276,36 @@ class StaticRoboUtils
         global $sys_layout;
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
-            if (isset($_GET['page']))
+            if (isset($_GET['robopage']))
             {
-
                 // strip off any end of URL directory slash--to keep the permutations manageable
-                $_GET['page'] = preg_replace(':/$:', '', $_GET['page']);
-                if (substr($_GET['page'], 0, 1) == '/')
-                    $_GET['page'][0] = '';
-                if (substr($_GET['page'], 0, 1) == '.')
+                $_GET['robopage'] = preg_replace(':/$:', '', $_GET['robopage']);
+                if (substr($_GET['robopage'], 0, 1) == '/')
+                    $_GET['robopage'] = substr($_GET['robopage'], 1);
+                if (substr($_GET['robopage'], 0, 1) == '.')
                     StaticRoboUtils::ouch("get dots");
-                else if (strstr($_GET['page'], '..'))
+                else if (strstr($_GET['robopage'], '..'))
                     StaticRoboUtils::ouch("embeded get dots");
-                else if (substr($_GET['page'], 0, 5) == 'nimda')
-                    unset($_GET['page']);
+                else if (substr($_GET['robopage'], 0, 5) == 'nimda')
+                    unset($_GET['robopage']);
             }
         }
         else if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            if (isset($_POST['page']))
+            if (isset($_POST['robopage']))
             {
 
-                if (substr($_GET['page'], 0, 1) == '/')
-                    $_GET['page'][0] = '';
+                if (substr($_GET['robopage'], 0, 1) == '/')
+                    $_GET['robopage'][0] = '';
 
-                if (substr($_POST['page'], 0, 1) == '/')
+                if (substr($_POST['robopage'], 0, 1) == '/')
                     StaticRoboUtils::ouch("post slash");
-                else if (substr($_POST['page'], 0, 1) == '.')
+                else if (substr($_POST['robopage'], 0, 1) == '.')
                     StaticRoboUtils::ouch("post dots");
-                else if (strstr($_POST['page'], '..') == '.')
+                else if (strstr($_POST['robopage'], '..') == '.')
                     StaticRoboUtils::ouch("embeded post dots");
-                else if (substr($_POST['page'], 0, 5) == 'nimda')
-                    unset($_POST['page']);
+                else if (substr($_POST['robopage'], 0, 5) == 'nimda')
+                    unset($_POST['robopage']);
             }
         }
 

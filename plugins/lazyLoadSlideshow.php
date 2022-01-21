@@ -24,7 +24,7 @@ class lazyLoadSlideShow extends plugin {
    <input type="button" value="pause" id="stoggle" onclick="toggle()"/>
    <input type="button" value="next" id="ntoggle" onclick="nextImage()"/>
    <input type="button" value="prev" id="ptoggle" onclick="prevImage()"/>
-   &nbsp; &nbsp; &nbsp; '."\n".'<b "> Frame Rate </b><input type="button" value="-" onclick="decInterval()"/> 
+   &nbsp; &nbsp; &nbsp; '."\n".'<b> Frame Rate </b><input type="button" value="-" onclick="decInterval()"/> 
    <p style="display: inline;" id="incrementDisplay">' . $intervalDisplay . '</p>
    <input type="button" value="+" onclick="incInterval()"/> 
 </div>
@@ -36,7 +36,7 @@ class lazyLoadSlideShow extends plugin {
     function mkJS() {
 
     $ret = '
-    <script type="text/javascript">
+    <script>
 
        var defaultName = \''. $this->firstSlide . '\';
        var cnt=-1;
@@ -277,7 +277,7 @@ class lazyLoadSlideShow extends plugin {
         $ret .= '<div id="slideShowContainer" > ';
         $ret .= $this->mkButtons();
 
-        $ret .= '<script type="text/javascript"> rollNow(); </script>';
+        $ret .= '<script> rollNow(); </script>';
         $ret .=  '<p id="Dbg"><b>' . preg_replace("/^.*_/"," ", basename($this->firstSlide)) . '</b></p>
                  <img id="currentSlideImg" src="'.$this->firstSlide.'" alt="'.basename($this->firstSlide).'" /> ';
         $ret .=  '</div>' . "\n\n";

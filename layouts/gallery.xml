@@ -2,25 +2,22 @@
 <layout>
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/gallery.php</file>
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
-      <file>plugins/galleryNavigation.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
   </cssfiles>
   <bodycontent>
     <div id="wrapper" src="container">
-      <div id="headerbanner" src="container">
-        <div id="hbanner" src="file" />
-        <div id="bottombannerlinks" src="file" />
-        <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
+        <div id="headerbanner" src="container">
+        <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
+        <div klass="bottombannerlinks" src="file" />
       </div>
       <div id="main-content" src="container">
-        <div id="galleryNavigation" src="galleryNavigation">
-          <div id="main-disp" src="flexyFileContent" />
-        </div>
+         <div klass="stuff" src="flexyFileContent,gallery"/>
       </div>
       <div id="footer" src="file" />
     </div>

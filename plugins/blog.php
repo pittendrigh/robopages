@@ -89,8 +89,8 @@ class blog extends plugin
     }
 
     function getOutput($divid)
-    {
-        $ret = '<div id="bblog"><h2>MRB Blog</h2>';
+    {   $ret = '';
+        $ret .= '<h2> MRBoats Blog </h2>';
         $ret .= $this->ggetOutput('');
         $ret .= '</div>';
         return ($ret);
@@ -102,12 +102,12 @@ class blog extends plugin
         $this->mimer = new roboMimeTyper();
         $buff = $newer = $older = $robopage = '';
 
-        //$blogbanner = '<h2 style="text-align: center;">MRB Blog</h2>';
-
         if (isset($_GET['robopage']))
             $robopage = $_GET['robopage'];
+        if(!isset($_GET['robopage']) || $_GET['robopage'] == null)
+          $robopage = '';
 
-        $iterations = 4; /////?????
+        $iterations = 8; /////????? class contant?
         // do this in ctor?
         $this->mkFileLists();
 
@@ -155,8 +155,11 @@ class blog extends plugin
         for ($i = $blogStart; $i < $stopIdx; $i++)
         {
             $lcl = '';
-            $ablogFile = $this->indexedFiles[$i];
-            $ablogFileLabel = preg_replace("/:*/","",$this->indexedFiles[$i]);
+            if(isset($this->indexedFiles[$i]) && $this->indexedFiles[$i] != null)
+            {
+              $ablogFile = $this->indexedFiles[$i];
+              $ablogFileLabel = preg_replace("/:*/","",$this->indexedFiles[$i]);
+            }
             //$darr = $this->formatDate($ablogFile);
             //$dateMeme = $this->miniMeme($darr[0], $darr[1]);
             //$dateMeme = $this->miniMeme($ablogFile, '');
@@ -171,7 +174,12 @@ class blog extends plugin
             $buff .= $lcl;
         }
 
-        $top = '<a class="button" href="?robopage=' . $robopage . '&blogStart=0"> Blog Start </a><br/><br/>' . "\n";
+       
+        if(isset($robopage) && $robopage != null) 
+         $top='<a class="button" href="?robopage='.$robopage.'&blogStart=0"> Blog Start</a><br/><br/>' ."\n";
+         else 
+         $top='<a class="button" href="?blogStart=0"> Blog Start</a><br/><br/>' ."\n";
+         
         if ($blogStart > 0)
         {
             $cnt = $cnt - (2 * $iterations);
@@ -179,11 +187,14 @@ class blog extends plugin
             {
                 $cnt = 0;
             }
-            $newer = $top . '<a class="button" href="?robopage=' . $robopage . '&blogStart=' . $cnt . '"> Newer (move up) </a><br/>' . "\n";
+            $newer = $top . '<a class="button" href="?robopage=' . $robopage . '&blogStart=' . $cnt . '"> Newer  </a><br/>' . "\n";
         }
         if ($stopIdx < $this->blogCnt)
         {
-            $older = '<a class="button" href="?robopage=' . $robopage . '&blogStart=' . $stopIdx . '"> Older (move down) </a><br/>' . "\n";
+           if(isset($robopage) && $robopage != null)
+            $older = '<a class="button" href="?robopage=' . $robopage . '&blogStart=' . $stopIdx . '"> Older <br/> </a>' . "\n";
+           else
+            $older = '<a class="button" href="?blogStart=' . $stopIdx . '"> Older <br/>  </a>' . "\n";
         }
 
         //$ret = $blogbanner. $newer . $buff . $older. $top;

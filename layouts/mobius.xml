@@ -2,7 +2,6 @@
 <layout>
     <cssfiles>
         <file>css/robo.css</file>
-        <file>css/dropdowns.css</file>
     </cssfiles>
     <jsfiles>
     </jsfiles>
