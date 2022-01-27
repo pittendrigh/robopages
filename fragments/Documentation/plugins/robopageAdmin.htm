@@ -1,3 +1,6 @@
 <h1> Robopage Admin </h1>
 
-There was an interactive vaguely phpMyAdmin-like interface for targeting non-programmers. It was too much work to maintain. Admin interfaces are a security pandora's box.  Robopages is now officially for commandline programmers only.
+There was an interactive vaguely phpMyAdmin-like interface for providing non-programmers a way to create a website. It was too much work to maintain. Admin interfaces are a security Pandora's box.  Robopages is now officially for commandline programmers only.
+<br/><br/>
+Robopages uses the file system rather than a database.  That makes is an order of magnitude more secure than Drupal or WordPress.  You develop on localhost and then use scp to copy files up to the server. Then make the fragments directory hierarchy belong to you the developer rather than the apache process pseudo-user.  Make the file system not writable to anybody, including you. Now it's secure, more so than anything to do with a database. Any web based way to change content other than ssh or scp is...vulnerable.  
+
