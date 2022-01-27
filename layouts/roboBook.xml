@@ -6,7 +6,6 @@
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/globalTOC.php</file>
-      <file>plugins/nextPrevButtonsWrapper.php</file> 
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>

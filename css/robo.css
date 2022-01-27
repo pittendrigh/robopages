@@ -45,7 +45,10 @@ a.slideshow { font-size: 200%; color: #660000;  }
 a.extra{ color: #990000; font-size: large; font-style: italic;}
 
 sup { font-size: 50%; color: red;}
-h1 { font-size: 2vw; margin-top: 1rem;} 
+h1 { font-size: 2.6vw; margin-top: 1rem;} 
+h2 { font-size: 1.75vw; } 
+h3 { font-size: 1.5vw; } 
+h4 { font-size: 1.25vw; } 
 
 .h1banner {  margin-left: 30%; font-size: 140%; font-weight: bold;}
 
@@ -201,7 +204,7 @@ a.button{
 
 .stuff{
  padding: 2rem;
-
+ float: left;
 }
 
 .displaycard img{
@@ -364,7 +367,7 @@ color: black;
   .bottombannerlinks{ margin: 0;}
   .bottombannerlink{ font-size: 3vw; }
   .toc {width: 100%;}
-  .displaycard { float: left; width: auto;}
+  .displaycard { float: left; width: 100%;}
   .navcard{
     margin: 1rem 1px;
     width: 8em;

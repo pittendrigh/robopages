@@ -1,39 +1,40 @@
 <?php
 
+  include_once("LinkedList.php");
+
   class p2nHandler
   {
+
     public $p2nFile;
     public $p2nFileDir;
     public $bookRootSubPath;
-    public $url2PageNodeHash;
-    public $pageNum2NodeHash;
-    public $orderedP2NUrls;
-    public $additionalLinksHash;
-    public $pageLinkedList;
     public $mimer;
-    public $urlCount;
-    public $allP2NLinks;
-    public $globalChapterLihks;
+    //protected $dbg = 0;
+
+    // data
+    public $url2PageNodeHash; // stores nodes, see LinkedList.php
+    public $additionalLinksHash; // stores HTML hyperlinks
+    public $globalChapterLihks; // hyperlinks to top level chapter dirs  and *.htm files
+    public $pageLinkedList; // only partially used. Initializes nodes.
 
     function __construct()
     {
       $this->mimer = new roboMimeTyper();
       $this->setP2NFile();
       $this->missedLinks = array();
-      $this->allP2NLinks = array();
       $this->mimer = new RoboMimeTyper();
       $this->url2PageNodeHash = array();
-      $this->pageNum2NodeHash = array();
-      $this->orderedP2NUrls = array();
       $this->additionalLinksHash = array();
       $this->globalChapterLinks = array();
       $this->pageLinkedList = new LinkedList();
-
       $this->init();
     }
 
+    //static $beenthere=0;
     function init()
     {
+      global $beenthere;
+      //$this->urlCount = 0;
       $this->setP2NFile($_SESSION['currentDirPath']);
       $this->p2nFileDir = trim(dirname($this->p2nFile) . '/');
       //echo "p2nFile: ", $this->p2nFile, "<br/>";
@@ -44,8 +45,14 @@
       $this->readP2NFile();
       $this->getGlobalChapterLinks();
       $this->find_additional_pages();
-      $this->urlCount = 0;
-      //$this->U2pDbg();
+      /* 
+        if($this->dbg && $beenthere == 0)
+        {
+        $this->U2pDbg();
+        $beenthere++;
+        }
+      */
+       
     }
 
     function readP2NFile($who = null)
@@ -56,7 +63,7 @@
       $lastDir = ' -- ';
       foreach ($lines as $aline)
       {
-        $pageNum ++;
+        $pageNum++;
         $aline = trim($aline);
         $url = $this->bookRootSubPath . trim($aline);
 
@@ -77,45 +84,39 @@
           {
             $lastDir = $testDirPath;
           }
-          
+
           $url = $this->bookRootSubPath . trim($aline);
           $pageNode = new node($url, null, null, $pageNum);
         }
 
+        // 
         $this->pageLinkedList->ListAppend($pageNode);
         $this->url2PageNodeHash[$url] = $pageNode;
-        $this->orderedP2NUrls[$pageNum] = $pageNode;
-        $this->pageNum2NodeHash[$this->urlCount] = $pageNode;
-        $this->urlCount++;
       }
     }
 
-    function u2pDbg()
+    function U2pDbg()
     {
-      echo '<table style="font-size: 50%;">';
-
-      //for($i=0; $i < $this->urlCount; $i++)
-      for ($i = 0; $i < 10; $i++)
+      echo '<table style="margin-left: 2rem; font-size: 75%;">';
+      echo '<tr><th> Prev </th><th> This </th><th> Next </th></tr>';
+      foreach (array_keys($this->url2PageNodeHash) as $akey)
       {
-        //$key = $this->orderedP2NUrls[$i];
-        //$node = $this->url2PageNodeHash[$key];
-        $node = $this->orderedP2NUrls[$i];
+        $node = $this->url2PageNodeHash[$akey];
         $prev = $next = ' -- ';
         if (isset($node->prev))
           $prev = $node->prev->dataObj;
         if (isset($node->next))
           $next = $node->next->dataObj;
 
-        echo "<tr><td>", $prev, "</td><td>", $node->idx, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
+        if (isset($node) && $node != null)
+          echo "<tr><td>", $prev, "</td><td>", $node->idx, "</td><td><b>", $node->dataObj, "</b> </td><td>", $next, "</td></tr>";
       }
       echo "</table>";
     }
 
     function mmkLink($uurl, $label)
     {
-
-      // zap eventually? Guard against double double prefix
-      $url = str_replace($this->bookRootSubPath,'',trim($uurl));
+      $url = trim(str_replace($this->bookRootSubPath, '', trim($uurl)));
       $url = $this->bookRootSubPath . $url;
 
       $link = $getRobopageComparitor = '';
@@ -157,14 +158,15 @@
       }
       else
       {  // not an external link
-         // if the current robopage is a local chapter-page link
-         // we still, also want to highlight the chapter that contains that local link,
-         // in the upper global chapters group
+        // if the current robopage is a local chapter-page link
+        // we still, also want to highlight the chapter that contains that local link,
+        // in the upper global chapters group
         $link = '<a ' . $linkClass . ' href="?robopage=' . $url . '">' . $label . '</a>' . "\n";
       }
 
       $link .= "\n";
 
+     // $this->urlCount++;
       return($link);
     }
 
@@ -175,7 +177,7 @@
       for ($i = 0; $i < $cnt; $i++)
       {
         $label = $subpath = $linkChunks[$i];
-        $label = str_replace($this->bookRootSubPath,'',$label);
+        $label = str_replace($this->bookRootSubPath, '', $label);
 
         // ouch. I think '|' is a not documented or commented
         // alternate label mechanism
@@ -193,7 +195,6 @@
 
         //$url = $this->bookRootSubPath . $url;
         $link = $this->mmkLink($url, $label);
-        $this->allP2NLinks[$url] = $link; //xxxxxxxxx 
         $this->globalChapterLinks[] = $link;
       }
     }
@@ -249,7 +250,6 @@
         else
           $link = '<a href="?robopage=' . $url . '">' . $label . '</a>';
 
-        $this->allP2NLinks[$url] = $link;
         $returningLeafLinks[$url] = $link;
       }
 
@@ -269,12 +269,7 @@
       for ($i = 0; $i < $p2nLineCnt; $i++)
       {
         $line = trim($lines[$i]);
-        $lineTest = $line;
-        $line = $this->bookRootSubPath . $line;
-
-        // top level directories are chapter names and have no path slashes
-        // but we do also want any leaf level *.htm files in the bookTop directory
-        if (!strstr($lineTest, '/'))
+        if (!strstr($line, '/'))
         {
           $linksString .= $line . ',';
         }
@@ -325,11 +320,9 @@
         // strstr($line,'/') means this is inside a chapter
         // isValid means is_dir or is *.htm
         // last condition insures where are looking at lines in p2n for this chapter only
-        if (strstr($line, '/') && $this->subPathIsValid($line) 
-             && substr($line, 0, $charLen) == $chapterName)
+        if (strstr($line, '/') && $this->subPathIsValid($line) && substr($line, 0, $charLen) == $chapterName)
         {
           $linksString .= $line . ',';
-          $this->allP2NLinks[$line] = $this->mmkLink($line, $line);
         }
       }
 
@@ -341,7 +334,7 @@
       $dir = trim($dir);
       $ret = '';
       $checkThis = StaticRoboUtils::fixDoubleSlash($dir . '/p2n');
-      if(@stat($checkThis))
+      if (@stat($checkThis))
       {
         return $checkThis;
       }
@@ -398,7 +391,10 @@
 
 
 // why not a link?
-        if (is_link($_SESSION['currentDirPath'] . $file)) { continue; }
+        if (is_link($_SESSION['currentDirPath'] . $file))
+        {
+          continue;
+        }
 
         $label = basename($file);
         $linkTargetType = $this->mimer->getRoboMimeType($_SESSION['currentDirUrl'] . $file);
@@ -416,19 +412,15 @@
           }
           else // not a roboMimeType link
           {
-            $atest = @$this->allP2NLinks[$url];
-            if(!$atest)
+            $atest = @$this->url2PageNodeHash[$url];
+            if (!$atest)
             {
               $link = $this->mmkLink($url, basename($label));
               $link = preg_replace(":href:", 'class="extra" href', $link);
 
-              if(!isset($this->allP2NLinks[$url] ) || $this->allP2NLinks[$url] == NULL)
-                  $this->additionalLinksHash[$url] = $link;
-            } else {
-              foreach(array_keys($this->allP2NLinks) as $akey){
+              if (!isset($this->url2PageNodeHash[$url]) || $this->url2PageNodeHash[$url] == NULL)
+                $this->additionalLinksHash[$url] = $link;
             }
-
-            } 
           }
         }
       }

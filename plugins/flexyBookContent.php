@@ -15,6 +15,7 @@ function getTentativeDisplayFile()
     {
       $ret = '';
       $ret = $_SESSION['currentDirPath'] . $_SESSION['currentDisplay'];
+
       return($ret);
     }
 

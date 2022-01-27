@@ -10,16 +10,17 @@
     <file>css/robo.css</file>
   </cssfiles>
   <bodycontent>
-     <div id="wrapper">
+    <div id="wrapper" src="container">
         <div id="headerbanner" src="container">
         <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
         <div klass="bottombannerlinks" src="file" />
       </div>
       <div id="main-content" src="container">
-         <div klass="toc" src="dynamicNavigation" />
-         <div klass="stuff" src="flexyFileContent"/>
+          <div id="stuff" src="flexyFileContent">
+            <div klass="toc" src="dynamicNavigation" />
+          </div>
       </div>
       <div id="footer" src="file" />
-   </div>
+    </div>
   </bodycontent>
 </layout>

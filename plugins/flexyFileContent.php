@@ -19,7 +19,7 @@ class flexyFileContent extends plugin
     {
         $this->mimer = new roboMimeTyper();
     }
-
+/*
     function mkNextPrevButtons()
     {
         $ret = '';
@@ -41,7 +41,9 @@ ENDO;
         }
         return ($ret);
     }
+*/
 
+/*
     function handleForm()
     {
         // grep -iHn actionItem fix this with an is_image function later
@@ -89,6 +91,13 @@ ENDO;
         if (isset($headerlink) && $headerlink != '')
             @header("location: $headerlink");
     }
+*/
+
+function getTentativeDisplayFile()
+    {
+         $ret =  $_SESSION['currentDirPath'] . $_SESSION['currentDisplay'];
+         return($ret);
+    }
 
     function getOutput($divid)
     {
@@ -96,12 +105,14 @@ ENDO;
             $this->mimer = new roboMimeTyper();
         $ret = $linkTargetType = '';
 
-
+/*
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $ret .= $this->handleForm();
         }
-        $tentativeDisplayFile = $_SESSION['currentDirPath'] . $_SESSION['currentDisplay'];
+*/
+        //$tentativeDisplayFile = $_SESSION['currentDirPath'] . $_SESSION['currentDisplay'];
+        $tentativeDisplayFile = $this->getTentativeDisplayFile();
         $linkTargetType = "unknown";
         if (@stat($tentativeDisplayFile))
             $linkTargetType = $this->mimer->getRoboMimeType($tentativeDisplayFile);
