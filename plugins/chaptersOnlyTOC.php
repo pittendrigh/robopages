@@ -5,7 +5,7 @@ include_once("plugin.php");
 include_once("roboMimeTyper.php");
 include_once("p2nHandler.php");
 
-class localTOC extends plugin
+class chaptersOnlyTOC extends plugin
 {
   public   $mimer;
   public   $p3nHandler;
