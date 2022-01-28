@@ -42,7 +42,7 @@ a:hover,a:focus,a:visited {
   font-weight: normal;
 }
 a.slideshow { font-size: 200%; color: #660000;  }
-a.extra{ color: #990000; font-size: large; font-style: italic;}
+a.highlighted{ color: #990000; font-size: large; font-style: italic;}
 
 sup { font-size: 50%; color: red;}
 h1 { font-size: 2.6vw; margin-top: 1rem;} 
