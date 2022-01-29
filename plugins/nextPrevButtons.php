@@ -17,42 +17,8 @@
       $this->p2nHandler = new p2nHandler();
     }
 
-    function getNextCookieJS()
-    {
-      $ret = <<<ENDO
-<script>
-function clickNext()
-{ 
- var value = document.getElementById("nextPageButton").getAttribute("href").replace("?robopage=",'');
- var cookie="lastRobopage=" + value +"; max-age=1296000;" ;
- document.cookie=cookie;
-}
-</script>
-ENDO;
-
-      return($ret);
-    }
-
-    function getPrevCookieJS()
-    {
-      $ret = <<<ENDO
-<script>
-function clickPrev()
-{ 
- var value = document.getElementById("prevPageButton").getAttribute("href").replace("?robopage=",'');
- var cookie="lastRobopage=" + value +"; max-age=1296000;" ;
- document.cookie=cookie;
-}
-</script>
-ENDO;
-
-      return($ret);
-    }
-
     function getOutput($divid)
     {
-      $ret = $this->getNextCookieJS();
-      $ret .= $this->getPrevCookieJS();
       $ret = '<div class="buttonbox">';
 
       // what is the incoming landscape?
@@ -157,18 +123,18 @@ ENDO;
       $ret .= '<div class="buttonbox">';
 
       if ($nextTargetType != 'link')
-        $ret .= '<a class="button" onClick="clickNext()"  
+        $ret .= '<a class="button"   
              href="' . $nextUrl . '">Next Page </a><br/>';
       else
         $ret .= '<a target="_blank" class="button" 
-             onClick="clickNext()"  href="' . $nextUrl . '">Next Page </a><br/>';
+              href="' . $nextUrl . '">Next Page </a><br/>';
 
       if ($prevTargetType != 'link')
         $ret .= '<a class="button" 
-              onClick="clickPrev()"  href="' . $prevUrl . '">Prev Page </a><br/>';
+               href="' . $prevUrl . '">Prev Page </a><br/>';
       else
         $ret .= '<a target="_blank" class="button" 
-              onClick="clickPrev()"  href="' . $prevUrl . '">Prev Page </a><br/>';
+               href="' . $prevUrl . '">Prev Page </a><br/>';
 
       $bookTopDirComparitor = str_replace($_SESSION['prgrmDocRoot'], '', $_SESSION['bookTop']);
       $lastPageFlag = isset($_COOKIE['lastRobopage']) ? 1 : 0;
