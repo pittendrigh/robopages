@@ -21,12 +21,11 @@
       $ret = <<<ENDO
 <script>
 function clickNext(){ 
- document.cookie = "lastRobopage=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
  var value = document.getElementById("nextPageButton").getAttribute("href").replace("?robopage=",'');
  var date = new Date();
  date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000)); 
- const expires = "expires=" + date.toUTCString();
- var str = 'lastRobopage' + "=" + value + "; SameSite=Lax;"; 
+ var expiresStr = "expires=" + date.toUTCString();
+ var str = 'lastRobopage=' + value + "; " + expiresStr + "; SameSite=Lax;"; 
  document.cookie = str;
 }
 </script>
@@ -42,8 +41,8 @@ function clickPrev(){
  var value = document.getElementById("prevPageButton").getAttribute("href").replace("?robopage=",'');
  var date = new Date();
  date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000)); 
- const expires = "expires=" + date.toUTCString();
- var str = 'lastRobopage' + "=" + value + "; SameSite=Lax;"; 
+ var expiresStr = "expires=" + date.toUTCString();
+ var str = 'lastRobopage=' + value + "; " + expiresStr + "; SameSite=Lax;"; 
  document.cookie = str;
 }
 </script>
