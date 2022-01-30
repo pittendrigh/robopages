@@ -7,7 +7,6 @@
 
   class nextPrevButtons extends plugin
   {
-
     protected $mimer;
     protected $p2nHandler;
 
@@ -17,9 +16,49 @@
       $this->p2nHandler = new p2nHandler();
     }
 
+ //var str = 'lastRobopage' + "=" + value + "; " + expires + "; path=/mrb; SameSite=Lax;"; 
+    function getNextCookieJS(){
+      $ret = <<<ENDO
+<script>
+function clickNext(){ 
+ document.cookie = "lastRobopage=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+ var value = document.getElementById("nextPageButton").getAttribute("href").replace("?robopage=",'');
+ var date = new Date();
+ date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000)); 
+ const expires = "expires=" + date.toUTCString();
+ var str = 'lastRobopage' + "=" + value + "; SameSite=Lax;"; 
+ document.cookie = str;
+}
+</script>
+ENDO;
+
+      return($ret);
+    }  
+
+    function getPrevCookieJS(){
+      $ret = <<<ENDO
+<script>
+function clickPrev(){ 
+ var value = document.getElementById("prevPageButton").getAttribute("href").replace("?robopage=",'');
+ var date = new Date();
+ date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000)); 
+ const expires = "expires=" + date.toUTCString();
+ var str = 'lastRobopage' + "=" + value + "; SameSite=Lax;"; 
+ document.cookie = str;
+}
+</script>
+ENDO;
+
+      return($ret);
+    }  
+//document.cookie = 'lastRobopage' + "=" + value + "; " + expires + "; path=/; SameSite=Lax;";
+
     function getOutput($divid)
     {
-      $ret = '<div class="buttonbox">';
+      $ret = '';
+      $ret .= $this->getNextCookieJS();
+      $ret .= $this->getPrevCookieJS();
+      $ret .= '<div class="buttonbox">';
 
       // what is the incoming landscape?
       // $_SESSION['currentDirUrl']
@@ -120,31 +159,32 @@
       else
         $prevUrl = $_SESSION['currentClickDirUrl'] . basename($prevUrl);
 
-      $ret .= '<div class="buttonbox">';
+      //$ret .= '<div class="buttonbox">';
 
       if ($nextTargetType != 'link')
-        $ret .= '<a class="button"   
+        $ret .= '<a class="button" id="nextPageButton" onClick="clickNext()"  
              href="' . $nextUrl . '">Next Page </a><br/>';
       else
-        $ret .= '<a target="_blank" class="button" 
-              href="' . $nextUrl . '">Next Page </a><br/>';
+        $ret .= '<a target="_blank" id="nextPageButton" class="button" 
+             onClick="clickNext()"  href="' . $nextUrl . '">Next Page </a><br/>';
 
       if ($prevTargetType != 'link')
-        $ret .= '<a class="button" 
-               href="' . $prevUrl . '">Prev Page </a><br/>';
+        $ret .= '<a class="button" id="prevPageButton" 
+              onClick="clickPrev();"  href="' . $prevUrl . '">Prev Page </a><br/>';
       else
-        $ret .= '<a target="_blank" class="button" 
-               href="' . $prevUrl . '">Prev Page </a><br/>';
+        $ret .= '<a target="_blank" class="button" id="prevPageButton"   
+              onClick="clickPrev();"  href="' . $prevUrl . '">Prev Page </a><br/>';
 
       $bookTopDirComparitor = str_replace($_SESSION['prgrmDocRoot'], '', $_SESSION['bookTop']);
       $lastPageFlag = isset($_COOKIE['lastRobopage']) ? 1 : 0;
 
+
       if ($lastPageFlag)
       {
-        $ret .= "\n" . '<a class="button" href="?robopage='
+        $ret .= "\n" . '<a class="button" id="lastReadPageButton" href="?robopage='
                 . $_COOKIE['lastRobopage'] . '">Last Read</a><br/>' . "\n";
       }
-      $ret .= '</div>';
+      //$ret .= '</div>';
 
       /*
         foreach (array_keys($this->p2nHandler->p2nHash) as $aPath)
