@@ -21,7 +21,9 @@
       $ret = <<<ENDO
 <script>
 function clickNext(){ 
- var value = document.getElementById("nextPageButton").getAttribute("href").replace("?robopage=",'');
+ var buttons = document.getElementsByClassName("nextPageButton");
+ var firstButton = buttons[0];
+ var value = firstButton.getAttribute("href").replace("?robopage=",'');
  var date = new Date();
  date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000)); 
  var expiresStr = "expires=" + date.toUTCString();
@@ -38,11 +40,13 @@ ENDO;
       $ret = <<<ENDO
 <script>
 function clickPrev(){ 
- var value = document.getElementById("prevPageButton").getAttribute("href").replace("?robopage=",'');
+ var buttons = document.getElementsByClassName("prevPageButton");
+ var firstButton = buttons[0];
+ var value = firstButton.getAttribute("href").replace("?robopage=",'');
  var date = new Date();
- date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000)); 
+ date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
  var expiresStr = "expires=" + date.toUTCString();
- var str = 'lastRobopage=' + value + "; " + expiresStr + "; SameSite=Lax;"; 
+ var str = 'lastRobopage=' + value + "; " + expiresStr + "; SameSite=Lax;";
  document.cookie = str;
 }
 </script>
@@ -158,20 +162,18 @@ ENDO;
       else
         $prevUrl = $_SESSION['currentClickDirUrl'] . basename($prevUrl);
 
-      //$ret .= '<div class="buttonbox">';
-
       if ($nextTargetType != 'link')
-        $ret .= '<a class="button" id="nextPageButton" onClick="clickNext()"  
+        $ret .= '<a  class="nextPageButton" onClick="clickNext()"  
              href="' . $nextUrl . '">Next Page </a><br/>';
       else
-        $ret .= '<a target="_blank" id="nextPageButton" class="button" 
+        $ret .= '<a target="_blank"  class="nextPageButton"  
              onClick="clickNext()"  href="' . $nextUrl . '">Next Page </a><br/>';
 
       if ($prevTargetType != 'link')
-        $ret .= '<a class="button" id="prevPageButton" 
+        $ret .= '<a  class="prevPageButton" 
               onClick="clickPrev();"  href="' . $prevUrl . '">Prev Page </a><br/>';
       else
-        $ret .= '<a target="_blank" class="button" id="prevPageButton"   
+        $ret .= '<a target="_blank"  class="prevPageButton"   
               onClick="clickPrev();"  href="' . $prevUrl . '">Prev Page </a><br/>';
 
       $bookTopDirComparitor = str_replace($_SESSION['prgrmDocRoot'], '', $_SESSION['bookTop']);
@@ -180,7 +182,7 @@ ENDO;
 
       if ($lastPageFlag)
       {
-        $ret .= "\n" . '<a class="button" id="lastReadPageButton" href="?robopage='
+        $ret .= "\n" . '<a  class="lastReadPageButton" href="?robopage='
                 . $_COOKIE['lastRobopage'] . '">Last Read</a><br/>' . "\n";
       }
       //$ret .= '</div>';

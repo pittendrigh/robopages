@@ -23,6 +23,9 @@ body{
   --navhover: rgb(225,225,255,0.5);
   --linkcolor: rgb(5,5,15,1);
   --textcolor: rgb(0,0,5,1);
+  --highlightedcolor: blue;
+  --extracolor: magenta;
+  --slideshowcolor: #660000;
   color: var(--textcolor);
   padding: 0;
   margin: 0;
@@ -39,10 +42,10 @@ a:hover,a:focus,a:visited {
   text-decoration: underline:
   background: var(--navhover);
   color: black;
-  font-weight: normal;
 }
-a.slideshow { font-size: 200%; color: #660000;  }
-a.highlighted{ color: #990000; font-size: large; font-style: italic;}
+a.slideshow  { color: var(--slideshowcolor); font-style: italic; font-size: 150%; }
+a.highlighted{ color: var(--highlightedcolor); font-style: italic; margin-left: .5rem;}
+a.extra      { color: var(--extracolor); font-style: italic; margin-left: .5rem;}
 
 sup { font-size: 50%; color: red;}
 h1 { font-size: 2.6vw; margin-top: 1rem;} 
@@ -62,13 +65,16 @@ img{
    border-radius: .5rem;
 }
 
-.nextPrevButtonsWrapper,
 .buttonbox{
-  max-width: 100%;
+  width: 90%; min-width: 90%; max-width: 90%;
   clear: both;
   float: left;
   display: flex;
   flex-direction: row;
+}
+
+.buttonbox{
+  font-size: 60%;
 }
 
 i.material-icons{font-size: small;}
@@ -82,7 +88,7 @@ i.material-icons{font-size: small;}
   font-weight: bold;
 }
 
-a.button{ 
+a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{ 
   /* display: block;  */
   float: left;
   background:  rgb(200,200, 255,0.5); 
@@ -363,10 +369,11 @@ color: black;
      height: auto;
      margin: 0;
   }
+  .buttonbox{ border: 1px solid black;}
   .h1banner { margin: 0; font-size: 60%;}
   .bottombannerlinks{ margin: 0;}
   .bottombannerlink{ font-size: 3vw; }
-  .toc {width: 100%;}
+  .toc {width: 100%; min-width: 100%; max-width: 100%;}
   .displaycard { float: left; width: 100%;}
   .navcard{
     margin: 1rem 1px;

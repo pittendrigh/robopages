@@ -30,18 +30,15 @@
       $ret = '';
       $ret .= <<<ENDO
 <script>
-function tocToggle()
-{
+function tocToggle(){
   var x = document.getElementById("ttoc");
   var b = document.getElementById("tcdo");
 
-  if (x.style.display == "none")
-  {
+  if (x.style.display == "none"){
     x.style.display = "block";
     b.innerHTML="toc";
   }
-  else
-  {
+  else{
     x.style.display = "none";
     b.innerHTML="TOC";
   }
@@ -57,8 +54,8 @@ ENDO;
       //static $oops = 0;
       //echo "getOutput [",$oops," ]<br/>";
       //$oops++;
+      //
       $ret = $top = $bottom = '';
-      //echo 'globalTOC<br/>';
       $top .= $this->getTOCJs();
       $top .= '<button id="tcdo" onClick="tocToggle();">toc</button>';
       $top .= '<div id="ttoc">';
@@ -77,19 +74,18 @@ ENDO;
       if (!$this->p2nHandler->inBookTopDir())
       {
         $bottom .= '<div id="roboBookBottom"><hr/>';
-        $localLinksArray = $this->p2nHandler->getLocalPageLinks();
-        $cnt = count($localLinksArray);
+        $cnt = count($this->p2nHandler->localChapterLinks);
         $bottom .= '<h3 class="roboBookThisChapter"> -- ' . $this->p2nHandler->getThisChapter() . " -- </h3>";
 
-        foreach (array_keys($localLinksArray) as $akey)
+        foreach (array_keys($this->p2nHandler->localChapterLinks) as $akey)
         {
-          $link = $localLinksArray[$akey];
+          $link = $this->p2nHandler->localChapterLinks[$akey];
           $bottom .= $link;
         }
-        $bottom .= '</div>';
+        //$bottom .= '</div>';
       }
 
-// Everything above came from the p2n file.  What about last minute page additions
+// Everything above came from the p2n file.  Last minute page additions
 // that might not be in the p2n file yet?
 //
       foreach ($this->p2nHandler->additionalLinksHash as $alink)
@@ -97,7 +93,7 @@ ENDO;
         $bottom .= $alink . "\n";
       }
 
-      $ret = $top . $bottom . '</div>';
+      $ret = $top . $bottom . "\n".'</div>'."\n".'</div>';
       return($ret);
     }
 

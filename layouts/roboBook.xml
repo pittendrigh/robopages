@@ -5,7 +5,7 @@
       <file>plugins/flexyBookContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
-      <file>plugins/globalTOC.php</file>
+      <file>plugins/mainTOC.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
@@ -18,10 +18,10 @@
       </div>
       <div id="main-content" src="container">
           <div id="stuff" src="flexyBookContent">
-            <div klass="toc" src="globalTOC" />
+            <div klass="toc" src="mainTOC" />
           </div>
-      <div klass="nextPrevButtons"  src="nextPrevButtons" /> 
       </div>
+      <div klass="nextPrevButtons"  src="nextPrevButtons" /> 
       <div id="footer" src="file" />
     </div>
   </bodycontent>

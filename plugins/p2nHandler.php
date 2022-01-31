@@ -9,50 +9,39 @@
     public $p2nFileDir;
     public $bookRootSubPath;
     public $mimer;
-    //protected $dbg = 0;
-
     // data
     public $url2PageNodeHash; // stores nodes, see LinkedList.php
     public $additionalLinksHash; // stores HTML hyperlinks
     public $globalChapterLihks; // hyperlinks to top level chapter dirs  and *.htm files
+    public $localChapterLinks; // hyperlinks to files in current chapter 
     public $pageLinkedList; // only partially used. Initializes nodes.
 
     function __construct()
     {
-      $this->mimer = new roboMimeTyper();
-      $this->setP2NFile();
-      $this->missedLinks = array();
-      $this->mimer = new RoboMimeTyper();
-      $this->url2PageNodeHash = array();
-      $this->additionalLinksHash = array();
-      $this->globalChapterLinks = array();
-      $this->pageLinkedList = new LinkedList();
       $this->init();
     }
 
-    //static $beenthere=0;
     function init()
     {
-      global $beenthere;
-      //$this->urlCount = 0;
-      $this->setP2NFile($_SESSION['currentDirPath']);
-      $this->p2nFileDir = trim(dirname($this->p2nFile) . '/');
+      //global $beenthere;
+      $this->mimer = new RoboMimeTyper();
+      $this->pageLinkedList = new LinkedList();
+      $this->url2PageNodeHash = array();
+      $this->additionalLinksHash = array();
+      $this->globalChapterLinks = array();
+      $this->localChapterLinks = array();
+
       //echo "p2nFile: ", $this->p2nFile, "<br/>";
       //echo "p2nFileDir: ", $this->p2nFileDir, "<br/>";
       //echo "bookRootSubPath: ", $this->bookRootSubPath, "<br/>";
       //echo "currentBookName: ", $this->currentBookName, "<br/><br/>";
+
       $this->setP2NFile();
+      $this->p2nFileDir = trim(dirname($this->p2nFile) . '/');
       $this->readP2NFile();
-      $this->getGlobalChapterLinks();
+      $this->mkGlocalChapterLinks();
+      $this->mkLocalInThisChapterLinks();
       $this->find_additional_pages();
-      /* 
-        if($this->dbg && $beenthere == 0)
-        {
-        $this->U2pDbg();
-        $beenthere++;
-        }
-      */
-       
     }
 
     function readP2NFile($who = null)
@@ -114,59 +103,38 @@
       echo "</table>";
     }
 
-    function mmkLink($uurl, $label)
-    {
-      $url = trim(str_replace($this->bookRootSubPath, '', trim($uurl)));
-      $url = $this->bookRootSubPath . $url;
 
-      $link = $getRobopageComparitor = '';
-      $url = StaticRoboUtils::fixroboPageEqualParm($url);
-      if (isset($_GET['robopage']))
+    function mmkLink($uurl, $llabel, $llinkClass=null)
+    {
+      $link = $getRobopageComparitor = $linkClass = '';
+
+      if(isset($llinkClass) && $llinkClass != null)
       {
-        $getRobopageComparitor = StaticRoboUtils::fixroboPageEqualParm($_GET['robopage']);
+        $linkClass = ' class="'. $llinkClass . '" ';
+        //echo $linkClass, "<br/>";
       }
 
-      $chapter = $this->getThisChapter($url);
+      // make sure bookRootSubPath does not get doubled up
+      // and get rid of any double slashes //
+      //echo "a: ", $uurl," ", $llabel, " <br/>";
+      $label = trim(str_replace($this->bookRootSubPath, '', trim($llabel)));
 
-      $labelString = str_replace($_SESSION['bookTop'] . '/', '', $url);
 
-// ?????????????
-      $whereWeAreAtComparitor = substr($labelString, 0, strlen($labelString));
+      $url = trim(str_replace($this->bookRootSubPath, '', trim($uurl)));
+      $url = $this->bookRootSubPath . $url;
+      $url = StaticRoboUtils::fixroboPageEqualParm($url);
+      //echo "b: ", $url," ", $label, " <br/>";
 
       $linkTargetType = $this->mimer->getRoboMimeType($url);
 
-      $highlightFlag = FALSE;
-      $hightlightFlag = ($chapter == $whereWeAreAtComparitor) ? TRUE : FALSE;
-
-// can still set $highlightFlag TRUE yet again
-      if (isset($getRobopageComparitor) && $getRobopageComparitor == $url || stristr($label, $_SESSION['currentDirUrl'] . $_SESSION['currentDisplay']))
-      {
-        $highlightFlag = TRUE;
-      }
-
-// in roboBook we're only recognizing external links or internal book page links
-// referencing a *.htm page or internal directory (defaults to an assumed *.htm)
-// internal directories may or may not be top level chapter directories
-      $linkClass = '';
-      if ($highlightFlag == TRUE)
-        $linkClass = ' class="highlighted" ';
-
-      if ($linkTargetType == 'link')
-      {
-        $link = '<a ' . $linkClass . ' target="_blank" href="'
-                . $_SESSION['currentClickDirUrl'] . basename($url) . '">' . $label . '</a>';
-      }
-      else
-      {  // not an external link
-        // if the current robopage is a local chapter-page link
-        // we still, also want to highlight the chapter that contains that local link,
-        // in the upper global chapters group
-        $link = '<a ' . $linkClass . ' href="?robopage=' . $url . '">' . $label . '</a>' . "\n";
-      }
-
+      // not an external link
+      // if the current robopage is a local chapter-page link
+      // we still, also want to highlight the chapter that contains that local link,
+      // in the upper global chapters group
+      $link = '<a ' . $linkClass . ' href="?robopage=' . $url . '">' . $label . '</a>' . "\n";
       $link .= "\n";
 
-     // $this->urlCount++;
+ 
       return($link);
     }
 
@@ -233,27 +201,19 @@
 
     function assembleLocalPageLinks($linksString)
     {
-      $returningLeafLinks = array();
       $linkChunks = explode(",", $linksString);
       $cnt = count($linkChunks) - 1;
-      for ($i = 0;
-              $i < $cnt;
-              $i++)
+      for ($i = 0; $i < $cnt; $i++)
       {
         $line = trim($linkChunks[$i]);
         $url = $this->currentBookName . '/' . $line;
 
         $label = $this->eraseChapterFromLine($line);
 
-        if (isset($_GET['robopage']) && $_GET['robopage'] == $url || strstr($label, $_SESSION['currentDirUrl'] . $_SESSION['currentDisplay']))
-          $link = '<a class="lclhighlighted" href="?robopage=' . $url . '">' . $label . '</a>';
-        else
-          $link = '<a href="?robopage=' . $url . '">' . $label . '</a>';
+        $link = $this->mmkLink($url,$label,"highlighted"); 
 
-        $returningLeafLinks[$url] = $link;
+        $this->localChapterLinks[$url] = $link;
       }
-
-      return($returningLeafLinks);
     }
 
     // Makes a string to explode later
@@ -261,7 +221,7 @@
     // Said string is the contents of p2n, which are all value $_GET['robopage'] values mapping to plages
     // Any robopage value might be an empty dirctory name,
     // which would resolve to a default page with $_SESSION['currentDisplay']
-    function getGlobalChapterLinks()
+    function mkGlocalChapterLinks()
     {
       $linksString = '';
       $lines = file($this->p2nFile);
@@ -284,8 +244,6 @@
       // this could work in numerous ways.
       // for now chapters only contain *.htm files or subdirectories
       // images are stored in roboresources/pics and ..thumbs ...slideshow
-      // chapters might contain a Gallery, that is not part of next prev
-      // Galleries can only be entered from TOC links
       if (strstr($path, '.htm'))
         $ret = TRUE;
       else if (is_dir($this->p2nFileDir . $path))
@@ -294,7 +252,7 @@
       return($ret);
     }
 
-    function getLocalPageLinks()
+    function mkLocalInThisChapterLinks()
     {
       $linksString = $chaptername = '';
       $lines = file($this->p2nFile);
@@ -312,21 +270,22 @@
       for ($i = 0; $i < $p2nLineCnt; $i++)
       {
         $line = trim($lines[$i]);
-        $line = $this->bookRootSubPath . $line;
-        $charLen = strlen($chapterName);
+        //$line = $this->bookRootSubPath . $line;
 
         // top level directories below $_SESSION['bookTop'] are chapter names
         // We also want any leaf level *.htm files in the bookTop directory
         // strstr($line,'/') means this is inside a chapter
         // isValid means is_dir or is *.htm
         // last condition insures where are looking at lines in p2n for this chapter only
+        $charLen = strlen($chapterName);
         if (strstr($line, '/') && $this->subPathIsValid($line) && substr($line, 0, $charLen) == $chapterName)
         {
           $linksString .= $line . ',';
         }
       }
 
-      return($this->assembleLocalPageLinks($linksString));
+      //return($this->assembleLocalPageLinks($linksString));
+     $this->assembleLocalPageLinks($linksString);
     }
 
     function findP2NFile($dir)
@@ -389,8 +348,7 @@
           continue;
         }
 
-
-// why not a link?
+// why not a link? ....same Gallery in two places?
         if (is_link($_SESSION['currentDirPath'] . $file))
         {
           continue;
@@ -415,11 +373,11 @@
             $atest = @$this->url2PageNodeHash[$url];
             if (!$atest)
             {
-              $link = $this->mmkLink($url, basename($label));
-              $link = preg_replace(":href:", 'class="extra" href', $link);
-
               if (!isset($this->url2PageNodeHash[$url]) || $this->url2PageNodeHash[$url] == NULL)
+              {
+                $link = $this->mmkLink($url, basename($label), "extra");
                 $this->additionalLinksHash[$url] = $link;
+              }
             }
           }
         }
