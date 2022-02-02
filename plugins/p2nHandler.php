@@ -5,10 +5,12 @@
   class p2nHandler
   {
 
+    // variables
     public $p2nFile;
     public $p2nFileDir;
     public $bookRootSubPath;
     public $mimer;
+
     // data
     public $url2PageNodeHash;    // stores nodes, see LinkedList.php
     public $additionalLinksHash; // stores HTML hyperlinks
@@ -23,7 +25,6 @@
 
     function init()
     {
-      //global $beenthere;
       $this->mimer = new RoboMimeTyper();
       $this->pageLinkedList = new LinkedList();
       $this->url2PageNodeHash = array();
@@ -36,7 +37,7 @@
       //echo "bookRootSubPath: ", $this->bookRootSubPath, "<br/>";
       //echo "currentBookName: ", $this->currentBookName, "<br/><br/>";
 
-      // now do it to it
+      // do it now 
       $this->setP2NFile();
       $this->p2nFileDir = trim(dirname($this->p2nFile) . '/');
       $this->readP2NFile();
@@ -57,7 +58,7 @@
         $url = $this->bookRootSubPath . trim($aline);
 
         $testDirPath = $this->p2nFileDir . $aline;
-        //if(!is_dir($testDirPath) || $testDirPath == $lastDir)
+
         if (!is_dir($testDirPath))
         {
           $testDirPath = dirname($testDirPath);
@@ -120,22 +121,15 @@
       //echo "a: ", $uurl," ", $llabel, " <br/>";
       $label = trim(str_replace($this->bookRootSubPath, '', trim($llabel)));
 
-
       $url = trim(str_replace($this->bookRootSubPath, '', trim($uurl)));
       $url = $this->bookRootSubPath . $url;
       $url = StaticRoboUtils::fixroboPageEqualParm($url);
-      //echo "b: ", $url," ", $label, " <br/>";
 
       $linkTargetType = $this->mimer->getRoboMimeType($url);
 
-      // not an external link
-      // if the current robopage is a local chapter-page link
-      // we still, also want to highlight the chapter that contains that local link,
-      // in the upper global chapters group
-      $link = '<a ' . $linkClass . ' href="?robopage=' . $url . '">' . $label . '</a>' . "\n";
+      $link = '<a '.$linkClass.' href="?robopage='.$url.'">'.$label.'</a>'."\n";
       $link .= "\n";
 
- 
       return($link);
     }
 
@@ -143,7 +137,9 @@
     function getThisChapter()
     {
       $path = $chapter = '';
-// is a bookTop never in DOCUMENT_ROOT? No. need to fix this. grep -i actionItem *php
+
+      // is a bookTop never in DOCUMENT_ROOT? No. 
+      // need to fix this. grep -i actionItem *php
       if (isset($_GET['robopage']) && $_GET['robopage'] != null)
       {
         $path = $_GET['robopage'];
@@ -155,7 +151,7 @@
       return($chapter);
     }
 
-// not just basename($oath), as in sub-directory of chapters
+    // not just basename($oath), as in sub-directory of chapters
     function eraseChapterFromLine($path)
     {
       $isLeaf = FALSE;
@@ -238,15 +234,15 @@
       for ($i = 0; $i < $p2nLineCnt; $i++)
       {
         $line = trim($lines[$i]);
-        //$line = $this->bookRootSubPath . $line;
 
         // top level directories below $_SESSION['bookTop'] are chapter names
         // We also want any leaf level *.htm files in the bookTop directory
         // strstr($line,'/') means this is inside a chapter
         // isValid means is_dir or is *.htm
-        // last condition insures where are looking at lines in p2n for this chapter only
+        // last condition insures looking at lines in p2n for this chapter only
         $charLen = strlen($chapterName);
-        if (strstr($line, '/') && $this->subPathIsValid($line) && substr($line, 0, $charLen) == $chapterName)
+        if (strstr($line, '/') && $this->subPathIsValid($line) 
+            && substr($line, 0, $charLen) == $chapterName)
         {
           $linksString .= $line . ',';
         }
@@ -309,19 +305,22 @@
         {
           continue;
         }
-        else if (strstr($file, ".frag") || $file == 'roboresources' || $file == 'dirlinks')
+        else if (strstr($file, ".frag") 
+                 || $file == 'roboresources' || $file == 'dirlinks')
         {
           continue;
         }
 
-// why not a link? ....same Gallery in two places?
+        // why not a link? ....same Gallery in two places?
         if (is_link($_SESSION['currentDirPath'] . $file))
         {
           continue;
         }
 
         $label = basename($file);
-        $linkTargetType = $this->mimer->getRoboMimeType($_SESSION['currentDirUrl'] . $file);
+        $linkTargetType = 
+          $this->mimer->getRoboMimeType($_SESSION['currentDirUrl'] . $file);
+
         $url = '';
 
         if (isset($linkTargetType) && $linkTargetType != "unknown")
@@ -339,7 +338,8 @@
             $atest = @$this->url2PageNodeHash[$url];
             if (!$atest)
             {
-              if (!isset($this->url2PageNodeHash[$url]) || $this->url2PageNodeHash[$url] == NULL)
+              if (!isset($this->url2PageNodeHash[$url]) 
+                  || $this->url2PageNodeHash[$url] == NULL)
               {
                 $link = $this->mmkLink($url, basename($label), "extra");
                 $this->additionalLinksHash[$url] = $link;
@@ -349,6 +349,5 @@
         }
       }
     }
-
-  }
+}
   
