@@ -5,10 +5,10 @@ include_once("Link.php");
 include_once("plugin.php");
 
 /*
- * * grep -i actionItem *php 
- * * Can we and dow we want to redirect to layout=gallery if more than N links?
- * * perhaps during gatherlinks()
- * * ...output is buffered and delayed so would be possible
+ ** grep -i actionItem *php 
+ ** Can we and do we want to redirect to layout=gallery if more than N links?
+ ** perhaps during gatherlinks()
+ ** ...output is buffered and delayed so perhaps possible
  */
 
 class dynamicNavigation extends plugin

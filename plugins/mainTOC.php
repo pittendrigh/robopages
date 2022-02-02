@@ -75,7 +75,7 @@ ENDO;
       {
         $bottom .= '<div id="roboBookBottom"><hr/>';
         $cnt = count($this->p2nHandler->localChapterLinks);
-        $bottom .= '<h3 class="roboBookThisChapter"> -- ' . $this->p2nHandler->getThisChapter() . " -- </h3>";
+        $bottom .= '<h4 class="roboBookThisChapter"> -- ' . $this->p2nHandler->getThisChapter() . " -- </h4>";
 
         foreach (array_keys($this->p2nHandler->localChapterLinks) as $akey)
         {

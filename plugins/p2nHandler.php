@@ -10,11 +10,11 @@
     public $bookRootSubPath;
     public $mimer;
     // data
-    public $url2PageNodeHash; // stores nodes, see LinkedList.php
+    public $url2PageNodeHash;    // stores nodes, see LinkedList.php
     public $additionalLinksHash; // stores HTML hyperlinks
-    public $globalChapterLihks; // hyperlinks to top level chapter dirs  and *.htm files
-    public $localChapterLinks; // hyperlinks to files in current chapter 
-    public $pageLinkedList; // only partially used. Initializes nodes.
+    public $globalChapterLihks;  // to top level chapter dirs and htm files
+    public $localChapterLinks;   // hyperlinks to files in current chapter 
+    public $pageLinkedList;      // only partially used. Initializes nodes.
 
     function __construct()
     {
@@ -36,11 +36,11 @@
       //echo "bookRootSubPath: ", $this->bookRootSubPath, "<br/>";
       //echo "currentBookName: ", $this->currentBookName, "<br/><br/>";
 
+      // now do it to it
       $this->setP2NFile();
       $this->p2nFileDir = trim(dirname($this->p2nFile) . '/');
       $this->readP2NFile();
-      $this->mkGlocalChapterLinks();
-      $this->mkLocalInThisChapterLinks();
+      $this->createLinks();
       $this->find_additional_pages();
     }
 
@@ -106,6 +106,7 @@
 
     function mmkLink($uurl, $llabel, $llinkClass=null)
     {
+      //echo $uurl , " || ", $llabel, " <br/>";
       $link = $getRobopageComparitor = $linkClass = '';
 
       if(isset($llinkClass) && $llinkClass != null)
@@ -138,34 +139,6 @@
       return($link);
     }
 
-    function assembleGlobalChapterLinks($linksString)
-    {
-      $linkChunks = explode(",", $linksString);
-      $cnt = count($linkChunks) - 1;
-      for ($i = 0; $i < $cnt; $i++)
-      {
-        $label = $subpath = $linkChunks[$i];
-        $label = str_replace($this->bookRootSubPath, '', $label);
-
-        // ouch. I think '|' is a not documented or commented
-        // alternate label mechanism
-        if (strstr($linkChunks[$i], '|'))
-        {
-          $pieces = explode("|", $linkChunks[$i]);
-          $subpath = $pieces[0];
-        }
-
-        $url = $this->currentBookName . '/' . $subpath;
-
-        if (is_dir($this->p2nFileDir . trim($linkChunks[$i])))
-          $label = ' <i class="material-icons" style="font-size: 80%; ">folder</i> '
-                  . $label;
-
-        //$url = $this->bookRootSubPath . $url;
-        $link = $this->mmkLink($url, $label);
-        $this->globalChapterLinks[] = $link;
-      }
-    }
 
     function getThisChapter()
     {
@@ -199,29 +172,7 @@
       return ($ret);
     }
 
-    function assembleLocalPageLinks($linksString)
-    {
-      $linkChunks = explode(",", $linksString);
-      $cnt = count($linkChunks) - 1;
-      for ($i = 0; $i < $cnt; $i++)
-      {
-        $line = trim($linkChunks[$i]);
-        $url = $this->currentBookName . '/' . $line;
-
-        $label = $this->eraseChapterFromLine($line);
-
-        $link = $this->mmkLink($url,$label,"highlighted"); 
-
-        $this->localChapterLinks[$url] = $link;
-      }
-    }
-
-    // Makes a string to explode later
-    // Might be cleaner to have one more hashed array
-    // Said string is the contents of p2n, which are all value $_GET['robopage'] values mapping to plages
-    // Any robopage value might be an empty dirctory name,
-    // which would resolve to a default page with $_SESSION['currentDisplay']
-    function mkGlocalChapterLinks()
+    function createLinks()
     {
       $linksString = '';
       $lines = file($this->p2nFile);
@@ -229,14 +180,31 @@
       for ($i = 0; $i < $p2nLineCnt; $i++)
       {
         $line = trim($lines[$i]);
+        $label = $subpath = $lines[$i];
+        $label = str_replace($this->bookRootSubPath, '', $label);
+        $url = $this->currentBookName . '/' . $subpath;
+
         if (!strstr($line, '/'))
         {
-          $linksString .= $line . ',';
+          if (is_dir($this->p2nFileDir . trim($lines[$i])))
+          $label = ' <i class="material-icons">folder</i> '
+                  . $label;
+
+          $link = $this->mmkLink($url, $label);
+          $this->globalChapterLinks[] = $link;
+        }
+        else
+        {
+           if (strstr($line, '/') && $this->subPathIsValid($line))
+           {
+             $link = $this->mmkLink($url, $label);
+             $this->localChapterLinks[] = $link;
+           }
+        }
+
+           
         }
       }
-
-      $this->assembleGlobalChapterLinks($linksString);
-    }
 
     function subPathIsValid($path)
     {
@@ -284,8 +252,6 @@
         }
       }
 
-      //return($this->assembleLocalPageLinks($linksString));
-     $this->assembleLocalPageLinks($linksString);
     }
 
     function findP2NFile($dir)
