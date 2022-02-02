@@ -21,15 +21,14 @@ body{
   --navbgdark: rgb(175,175,190,1);
   --navbglight: rgb(175,175,190,0.25);
   --navhover: rgb(225,225,255,0.5);
-  --linkcolor: rgb(5,5,15,1);
+  --linkcolor: rgb(7,15,1);
   --textcolor: rgb(0,0,5,1);
-  --highlightedcolor: blue;
-  --extracolor: magenta;
+  --highlightedcolor: rgb(50,50,200,1);
+  --extracolor: rgb(200,50,50,1);
   --slideshowcolor: #660000;
   color: var(--textcolor);
   padding: 0;
   margin: 0;
-  font-size: 100%;
 }
 
 
@@ -43,17 +42,15 @@ a:hover,a:focus,a:visited {
   background: var(--navhover);
   color: black;
 }
-a.slideshow  { color: var(--slideshowcolor); font-style: italic; font-size: 150%; }
+a.slideshow  { color: var(--slideshowcolor); font-style: italic;  }
 a.highlighted{ color: var(--highlightedcolor); font-style: italic; margin-left: .5rem;}
 a.extra      { color: var(--extracolor); font-style: italic; margin-left: .5rem;}
 
-sup { font-size: 50%; color: red;}
-h1 { font-size: 2.6vw; margin-top: 1rem;} 
-h2 { font-size: 1.75vw; } 
-h3 { font-size: 1.5vw; } 
-h4 { font-size: 1.25vw; } 
+i.material-icons{ font-size: 70%;} 
 
-.h1banner {  margin-left: 30%; font-size: 140%; font-weight: bold;}
+sup { color: red;}
+.roboBookThisChapter{margin:0; padding: 0; }
+.h1banner {  margin-left: 30%; font-weight: bold;}
 
 img.img70{ max-width: 50%;}
 
@@ -74,10 +71,9 @@ img{
 }
 
 .buttonbox{
-  font-size: 60%;
 }
 
-i.material-icons{font-size: small;}
+i.material-icons{}
 
 .user_manage a, mkBreadcrumbs a {
   display: inline;
@@ -95,7 +91,6 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
   border: 1px groove blue;
   padding: .25rem;
   margin: .25rem;
-  font-size: small;
 }
 /* end misc */
 
@@ -116,7 +111,9 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
 
 #headerbanner{
   width: 100%;
-  min-height: 5rem;
+  height: 7rem;
+  min-height: 7rem;
+  max-height: 7rem;
   background-color: var(--navbg); 
   background-image: url(/systemimages/smrb_logo_04.png);
   background-position: left center;
@@ -124,7 +121,6 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
   margin: 0;
   padding: 0 0 0 1rem; 
   border-radius: .5rem .5rem 0 0;
-  
 }
 
 #mmmmain-content
@@ -161,13 +157,11 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
   margin-right: .25rem;
   padding:  0 1rem 0 0; 
   text-align: center;
-  font-size: 1.5vw;
   float:left;
 }
 
 .mkBreadcrumbs 
 {
-    font-size: 200%;
     margin: 0 0 0 20%;
     padding: 0.5rem 0 0 0;
 }
@@ -180,11 +174,9 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
   min-width: 15%;
   max-width: 20%;
   height: auto;
-  margin:  0 1rem 0 0;
-  padding: 0.25rem;
-  font-size: 90%;
+  margin:  -1.5rem 1rem 0 0;
+  padding: 0.5rem;
   position: relative;
-  bottom: 1.5rem;
   border-radius: 0 0 .5rem .5rem;
 }
 
@@ -295,14 +287,12 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
   font-weight: bold;
   /* text-align: center; */
   background: var(--navbgdark);
-  font-size: 70%;
   line-height: 1rem; 
 }
 
 a.cardlink{
 color: rgb(200,200,255,1,0);
 /* max-width: 80%; */
-font-size: small;
 text-decoration: none;
 }
 
@@ -360,7 +350,6 @@ color: black;
   #headerbanner {background-image: url(/systemimages/onepix.gif);}
   h1 { 
    clear: both; 
-   font-size: medium;
   }
   #blog { 
      display: block; 
@@ -370,9 +359,8 @@ color: black;
      margin: 0;
   }
   .buttonbox{ border: 1px solid black;}
-  .h1banner { margin: 0; font-size: 60%;}
+  .h1banner { margin: 0; }
   .bottombannerlinks{ margin: 0;}
-  .bottombannerlink{ font-size: 3vw; }
   .toc {width: 100%; min-width: 100%; max-width: 100%;}
   .displaycard { float: left; width: 100%;}
   .navcard{
@@ -382,14 +370,12 @@ color: black;
     height: 6em;
     max-height: 6em;
     padding: 0;
-    font-size: 60%; 
  }
 #main-main-content
 {
  display: block; 
 }
  .navcard .cardcaption{
-    font-size: 60%;
   }
 }
 /* </media> */
