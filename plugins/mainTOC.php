@@ -55,6 +55,7 @@ ENDO;
       //echo "getOutput [",$oops," ]<br/>";
       //$oops++;
       //
+
       $ret = $top = $bottom = '';
       $top .= $this->getTOCJs();
       $top .= '<button id="tcdo" onClick="tocToggle();">toc</button>';
@@ -77,12 +78,13 @@ ENDO;
         $cnt = count($this->p2nHandler->localChapterLinks);
         $bottom .= '<h4 class="roboBookThisChapter"> -- ' . $this->p2nHandler->getThisChapter() . " -- </h4>";
 
+        //echo "localChapterLinks cnt: ", count($this->p2nHandler->localChapterLinks), "<br/>";
         foreach (array_keys($this->p2nHandler->localChapterLinks) as $akey)
         {
           $link = $this->p2nHandler->localChapterLinks[$akey];
+          //echo "mainTOC: ", htmlentities($link), "<br/>"; 
           $bottom .= $link;
         }
-        //$bottom .= '</div>';
       }
 
 // Everything above came from the p2n file.  Last minute page additions
