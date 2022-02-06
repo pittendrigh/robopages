@@ -125,8 +125,8 @@ ENDO;
       }
       else
       {
-        $nextNode = $nowNode;
-        $nextUrl = $nowNode->dataObj;
+        $nextNode = $this->p2nHandler->pageLinkedList->getHead();
+        $nextUrl = $nextNode->dataObj;
       }
 
       if (isset($nowNode->prev) && $nowNode->prev != null)

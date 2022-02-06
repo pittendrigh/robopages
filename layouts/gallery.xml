@@ -6,6 +6,7 @@
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
+      <file>plugins/nextPrevButtons.php</file>
   </plugins>
   <cssfiles>
     <file>css/robo.css</file>
@@ -17,7 +18,7 @@
         <div klass="bottombannerlinks" src="file" />
       </div>
       <div id="main-content" src="container">
-         <div klass="stuff" src="flexyFileContent,gallery"/>
+         <div klass="stuff" src="nextPrevButtons,flexyFileContent,gallery"/>
       </div>
       <div id="footer" src="file" />
     </div>
