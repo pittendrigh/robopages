@@ -127,7 +127,6 @@
       $url = trim(str_replace($this->bookRootSubPath, '', trim($uurl)));
       $url = $this->bookRootSubPath . $url;
       $url = StaticRoboUtils::fixroboPageEqualParm($url);
-      //echo "b: ", $url," ", $label, " <br/>";
 
       $linkTargetType = $this->mimer->getRoboMimeType($url);
 
@@ -187,6 +186,7 @@
         $label = str_replace($this->bookRootSubPath, '', $label);
         $url = $this->currentBookName . '/' . $subpath;
         //echo $line, "<br/>";
+        $label = basename($label);
 
         $thisChapter = $this->GetThisChapter();
 

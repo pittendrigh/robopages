@@ -25,42 +25,34 @@
       $this->p2nHandler = new p2nHandler();
     }
 
-    function getTOCJs()
-    {
-      $ret = '';
-      $ret .= <<<ENDO
-<script>
-function tocToggle(){
-  var x = document.getElementById("ttoc");
-  var b = document.getElementById("tcdo");
-
-  if (x.style.display == "none"){
-    x.style.display = "block";
-    b.innerHTML="toc";
-  }
-  else{
-    x.style.display = "none";
-    b.innerHTML="TOC";
-  }
-}
-</script>
-ENDO;
-
-      return $ret;
-    }
 
     function getOutput($divid)
     {
-      //static $oops = 0;
-      //echo "getOutput [",$oops," ]<br/>";
-      //$oops++;
-      //
-
+      $state = 'toc';
+      if (!isset($_COOKIE['buttonState']))
+      {
+        $_COOKIE['buttonState'] = $state;
+      }
+  
+      if (isset($_COOKIE['buttonState']) && in_array($_COOKIE['buttonState'], ['toc', 'TOC']))
+      {
+        $state = $_COOKIE['buttonState'];
+      }
+ 
       $ret = $top = $bottom = '';
-      $top .= $this->getTOCJs();
-      $top .= '<button id="tcdo" onClick="tocToggle();">toc</button>';
-      $top .= '<div id="ttoc">';
+      global $sys_home_link_label;
+      $homeLabel = '';
+      if(isset($sys_home_link_label) && $sys_home_link_label != '')
+      {
+          $homeLabel = $sys_home_link_label;
+          $top .= '<h3><a href="' . $_SESSION['prgrmUrlRoot'] . '">'.$homeLabel.'</a></h3>';
+      }
+      //$top .= $this->getTOCJs();
+      //`$top .= '<h3><a href="' . $_SESSION['prgrmUrlRoot'] . '">'.$homeLabel.'</a></h3>';
+      //$top .= '<button id="tcdo" onClick="tocToggle();">toc</button>';
+      $top .= "<button id=\"tcdo\" onClick=\"flipAndRedraw();\">toc</button>";
       $top .= $this->nextPrevButtons->getOutput('');
+      $top .= '<div id="ttoc">';
 
 // global chapter links are the top level directories plus any *.htm files, with no path slashes
       $cnt = count($this->p2nHandler->globalChapterLinks);
@@ -68,6 +60,7 @@ ENDO;
       {
         $top .= $this->p2nHandler->globalChapterLinks[$i];
       }
+      $top .= '<script> fixItUp("' . $state . '");</script>';
 
 // if NOT in the Books top chapter directory then we are inside a chapter directory
 // if so we want to display, at bottom, all available page links inside that chapter
@@ -96,6 +89,7 @@ ENDO;
       }
 
       $ret = $top . $bottom . "\n".'</div>'."\n".'</div>';
+      //echo '<script> alert("this works"); </script>';
       return($ret);
     }
 

@@ -59,6 +59,7 @@ ENDO;
     function getOutput($divid)
     {
       $ret = '';
+      //$ret .= '<a href="'.$_SESSION['prgrmUrlRoot'].'">Home</a>';
       $ret .= $this->getNextCookieJS();
       $ret .= $this->getPrevCookieJS();
       $ret .= '<div class="buttonbox">';
@@ -125,8 +126,8 @@ ENDO;
       }
       else
       {
-        $nextNode = $this->p2nHandler->pageLinkedList->getHead();
-        $nextUrl = $nextNode->dataObj;
+        $nextNode = $nowNode;
+        $nextUrl = $nowNode->dataObj;
       }
 
       if (isset($nowNode->prev) && $nowNode->prev != null)
