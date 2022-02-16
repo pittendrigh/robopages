@@ -88,7 +88,8 @@
         $bottom .= $alink . "\n";
       }
 
-      $ret = $top . $bottom . "\n".'</div>'."\n".'</div>';
+      //$ret = $top . $bottom . "\n".'</div>'."\n".'</div>';
+      $ret = $top . $bottom . "\n".'</div>'."\n";
       //echo '<script> alert("this works"); </script>';
       return($ret);
     }
