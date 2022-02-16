@@ -26,6 +26,7 @@ body{
   --highlightedcolor: rgb(50,50,200,1);
   --extracolor: rgb(200,50,50,1);
   --slideshowcolor: #660000;
+  --hovercolor: #cc0000;
   color: var(--textcolor);
   padding: 0;
   margin: 0;
@@ -36,11 +37,11 @@ body{
 quote { display: block; max-width: 50%; margin: 1em 1em 1em 6em; font-weight: bold; font-style:italic;}
 .bold {font-weight: bold;}
 .pageNumber { font-weight: bold;}
-a {display: inline; text-decoration: none; font-weight: bold; color: var(--linkcolor); }
-a:hover,a:focus,a:visited { 
+a {display: inline; text-decoration: none; font-style: italic; font-weight: bold; color: var(--linkcolor); }
+a:hover { 
   text-decoration: underline:
   background: var(--navhover);
-  color: black;
+  color: var(--hovercolor);
 }
 a.slideshow  { color: var(--slideshowcolor); font-style: italic;  }
 a.highlighted{ color: var(--highlightedcolor); font-style: italic; margin-left: .5rem;}
@@ -68,6 +69,7 @@ img{
   float: left;
   display: flex;
   flex-direction: row;
+  font-size: 60%%;
 }
 
 .buttonbox{
@@ -115,7 +117,7 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
   min-height: 7rem;
   max-height: 7rem;
   background-color: var(--navbg); 
-  background-image: url(/systemimages/smrb_logo_04.png);
+  background-image: url(/systemimages/smrb-logo.png);
   background-position: left center;
   background-repeat: no-repeat;
   margin: 0;
@@ -144,9 +146,10 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
-  margin: 0 0 0 15%;
+  margin: 0 0 0 25%;
   padding: 0;
   font-family: Arial;
+  font-size: 90%;
   border-bottom: 1px solid var(--navbg);
 }
 
@@ -174,10 +177,14 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton{
   min-width: 15%;
   max-width: 20%;
   height: auto;
-  margin:  -1.5rem 1rem 0 0;
-  padding: 0.5rem;
+  margin:  0 1em 0  0;
+  padding: 1rem 0 .25rem 0.5rem;
   position: relative;
   border-radius: 0 0 .5rem .5rem;
+  font-size: 75%;
+
+  position: relative;
+  bottom: 1.5rem;
 }
 
 .toc a{
@@ -345,11 +352,12 @@ color: black;
 /* when the device is a typical phone */
 @media only screen and (max-device-width: 480px)
 {
-  .mkBreadcrumbs {margin: 0;}
-  #headerbanner {background:  var(--navbg);}
-  #headerbanner {background-image: url(/systemimages/onepix.gif);}
-  h1 { 
-   clear: both; 
+  #headerbanner {
+    color: black; 
+    background:  var(--navbg);
+    background-image: url(/systemimages/onepix.gif);
+    width: 100%;
+    padding-top: 2em;
   }
   #blog { 
      display: block; 
@@ -358,11 +366,17 @@ color: black;
      height: auto;
      margin: 0;
   }
-  .buttonbox{ border: 1px solid black;}
-  .h1banner { margin: 0; }
-  .bottombannerlinks{ margin: 0;}
-  .toc {width: 100%; min-width: 100%; max-width: 100%;}
-  .displaycard { float: left; width: 100%;}
+  .toc {
+    margin: 0;
+    padding: 0 0 .5em 1em;
+    width: 100%; 
+    min-width: 100%; 
+    max-width: 100%; 
+   }
+  .displaycard { 
+    float: left; 
+    width: 100%;
+  }
   .navcard{
     margin: 1rem 1px;
     width: 8em;
@@ -371,11 +385,5 @@ color: black;
     max-height: 6em;
     padding: 0;
  }
-#main-main-content
-{
- display: block; 
-}
- .navcard .cardcaption{
-  }
 }
 /* </media> */
