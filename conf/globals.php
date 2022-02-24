@@ -2,6 +2,7 @@
 
 //directory paths should end in a slash
 $sys_not_configed_yet = TRUE;
+$sys_home_label="Pittendrigh-Home";
 $sys_robosauce = "yoursaucestring";
 $sys_title = "Robopages";
 $sys_layout = "robo";
