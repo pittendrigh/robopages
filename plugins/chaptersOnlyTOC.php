@@ -29,16 +29,10 @@ class chaptersOnlyTOC extends plugin
   {
   $ret = '';
       $homeLabel = '';
-      global $sys_home_link_label;
-      if(isset($sys_home_link_label) && $sys_home_link_label != '')
-      {
-          $homeLabel = $sys_home_link_label;
-          $ret .= '<h3><a href="' . $_SESSION['prgrmUrlRoot'] . '">'.$homeLabel.'</a></h3>';
-      }
 
-      $ret .= "<button id=\"tcdo\" onClick=\"flipAndRedraw();\">toc</button>";
+      $ret .= "<button id=\"tocPopper\" onClick=\"flipAndRedraw();\">toc</button>";
       $ret .= $this->nextPrevButtons->getOutput('');
-      $ret .= '<div id="ttoc">';
+      $ret .= '<div id="tocComesAndGoes">';
 
       $state = 'toc';
       if (!isset($_COOKIE['buttonState']))

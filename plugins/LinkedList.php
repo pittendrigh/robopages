@@ -208,7 +208,6 @@
       $tmp = $this->head;
       while ($tmp->next != null)
       {
-        //$tmp->dbg();
         $tmp = $tmp->next;
       }
     }

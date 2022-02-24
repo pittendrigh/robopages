@@ -29,10 +29,16 @@
     function getOutput($divid)
     {
       $state = 'toc';
+      $cookieOptions = array('expires' => time() + 86400,
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict');
       if (!isset($_COOKIE['buttonState']))
       {
-        $_COOKIE['buttonState'] = $state;
+          setcookie("buttonState",'toc',$cookieOptions); 
       }
+         
   
       if (isset($_COOKIE['buttonState']) && in_array($_COOKIE['buttonState'], ['toc', 'TOC']))
       {
@@ -40,19 +46,9 @@
       }
  
       $ret = $top = $bottom = '';
-      global $sys_home_link_label;
-      $homeLabel = '';
-      if(isset($sys_home_link_label) && $sys_home_link_label != '')
-      {
-          $homeLabel = $sys_home_link_label;
-          $top .= '<h3><a href="' . $_SESSION['prgrmUrlRoot'] . '">'.$homeLabel.'</a></h3>';
-      }
-      //$top .= $this->getTOCJs();
-      //`$top .= '<h3><a href="' . $_SESSION['prgrmUrlRoot'] . '">'.$homeLabel.'</a></h3>';
-      //$top .= '<button id="tcdo" onClick="tocToggle();">toc</button>';
-      $top .= "<button id=\"tcdo\" onClick=\"flipAndRedraw();\">toc</button>";
+      $top .= "<button id=\"tocPopper\" onClick=\"flipAndRedraw();\">toc</button>";
       $top .= $this->nextPrevButtons->getOutput('');
-      $top .= '<div id="ttoc">';
+      $top .= '<div id="tocComesAndGoes">';
 
 // global chapter links are the top level directories plus any *.htm files, with no path slashes
       $cnt = count($this->p2nHandler->globalChapterLinks);
@@ -78,6 +74,7 @@
           //echo "mainTOC: ", htmlentities($link), "<br/>"; 
           $bottom .= $link;
         }
+        $bottom .= '</div>';
       }
 
 // Everything above came from the p2n file.  Last minute page additions
@@ -88,9 +85,7 @@
         $bottom .= $alink . "\n";
       }
 
-      //$ret = $top . $bottom . "\n".'</div>'."\n".'</div>';
-      $ret = $top . $bottom . "\n".'</div>'."\n";
-      //echo '<script> alert("this works"); </script>';
+      $ret = $top . $bottom . "\n".'</div>';
       return($ret);
     }
 

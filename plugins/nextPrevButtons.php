@@ -16,7 +16,6 @@
       $this->p2nHandler = new p2nHandler();
     }
 
- //var str = 'lastRobopage' + "=" + value + "; " + expires + "; path=/mrb; SameSite=Lax;"; 
     function getNextCookieJS(){
       $ret = <<<ENDO
 <script>
@@ -59,9 +58,10 @@ ENDO;
     function getOutput($divid)
     {
       $ret = '';
-      //$ret .= '<a href="'.$_SESSION['prgrmUrlRoot'].'">Home</a>';
       $ret .= $this->getNextCookieJS();
       $ret .= $this->getPrevCookieJS();
+
+      // the following needs to be a plugin and not hard coded? 
       $ret .= '<div class="buttonbox">';
 
       // what is the incoming landscape?
@@ -73,36 +73,38 @@ ENDO;
       // Synching roboBook's lastRobopage with currentDispaly
       // would require refactoring higher up the oop food chain
       //
-      // For now any not leaf level url ?robopage=SomeRoboBook might open to
-      // $_SESSION['currentDirUrl'] . $_SESSION['currentDisplay']
-      // without knowledge of $_COOKIE['lastRobopage']
-      //
-      // If properly synched the user can now click the "Last Read" button
-      //
-      // That leaves the possibility of synching 
-      // lastRobopage with initial button states
-      // For now punt.  The display opens to what ever it opens to.
-      // The user can still click the "Last Read" button and go there.
-      //
-
-
       $robopage = '' ;
+
+      // make a fall back default for nowNode
       $nowNode = $this->p2nHandler->pageLinkedList->getHead();
-      $nowUrl = $_SESSION['currentDirUrl'] . $_SESSION['currentDisplay'];
-      if(isset($this->p2nHandler->url2PageNodeHash[$nowUrl]))
-        $nowNode = $this->p2nHandler->url2PageNodeHash[$nowUrl];
 
       if(isset($_GET['robopage']) && $_GET['robopage'] != '') 
         $robopage = $_GET['robopage'];
- 
-      if($robopage != '') 
-      {
+
+      if(isset($robopage) && $robopage != '') {
         if (isset($this->p2nHandler->url2PageNodeHash[$robopage]))
         {
           $nowNode = $this->p2nHandler->url2PageNodeHash[$robopage];
+          $nowUrl = $robopage;
+          $_SESSION['lastP2nUrl'] = $nowUrl;
         }
+        else
+        {
+        // else maybe we descended into a gallery and clicked a
+        // gallery link, and are hence out of the p2n system  
+        if(isset($_SESSION['lastP2nUrl'])){
+           $lastP2nUrl = $_SESSION['lastP2nUrl'];
+           $lastGoodNode 
+                 = $this->p2nHandler->url2PageNodeHash[$lastP2nUrl];
+           //$nowUrl = $lastGoodNode->next->dataObj;
+           $nowUrl = $lastGoodNode->dataObj;
+           $nowNode = $this->p2nHandler->url2PageNodeHash[$nowUrl];
+         }
       }
+   }
 
+      ///////////// should have the right nowNode by now
+      //
       // the following is a hack to fix not leaf level urls to book chapters 
       // like the p2n convention of:
       // somedirectory
@@ -111,7 +113,6 @@ ENDO;
       if (@is_dir($_SESSION['prgrmDocRoot'] . $nowNode->dataObj) && $nowNode->next != null)
         $nowNode = $nowNode->next;
 
-      // set some more defaults
       $nextNode = $prevNode = $nowNode;
       $nextUrl = $prevUrl = $nowNode->dataObj;
 
@@ -165,17 +166,17 @@ ENDO;
 
       if ($nextTargetType != 'link')
         $ret .= '<a  class="nextPageButton" onClick="clickNext()"  
-             href="' . $nextUrl . '">Next Page </a><br/>';
+             href="' . $nextUrl . '">Next Page </a>';
       else
         $ret .= '<a target="_blank"  class="nextPageButton"  
-             onClick="clickNext()"  href="' . $nextUrl . '">Next Page </a><br/>';
+             onClick="clickNext()"  href="' . $nextUrl . '">Next Page </a>';
 
       if ($prevTargetType != 'link')
         $ret .= '<a  class="prevPageButton" 
-              onClick="clickPrev();"  href="' . $prevUrl . '">Prev Page </a><br/>';
+              onClick="clickPrev();"  href="' . $prevUrl . '">Prev Page </a>';
       else
         $ret .= '<a target="_blank"  class="prevPageButton"   
-              onClick="clickPrev();"  href="' . $prevUrl . '">Prev Page </a><br/>';
+              onClick="clickPrev();"  href="' . $prevUrl . '">Prev Page </a>';
 
       $bookTopDirComparitor = str_replace($_SESSION['prgrmDocRoot'], '', $_SESSION['bookTop']);
       $lastPageFlag = isset($_COOKIE['lastRobopage']) ? 1 : 0;
@@ -184,7 +185,7 @@ ENDO;
       if ($lastPageFlag)
       {
         $ret .= "\n" . '<a  class="lastReadPageButton" href="?robopage='
-                . $_COOKIE['lastRobopage'] . '">Last Read</a><br/>' . "\n";
+                . $_COOKIE['lastRobopage'] . '">Last Read</a>' . "\n";
       }
       //$ret .= '</div>';
 

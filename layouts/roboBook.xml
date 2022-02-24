@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-  <jsfiles>
-     <file>js/roboBook.js</file> 
-  </jsfiles>
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
+      <file>plugins/mainTOC.php</file>
       <file>plugins/flexyBookContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
-      <file>plugins/mainTOC.php</file>
   </plugins>
+  <jsfiles>
+    <file>js/roboBook.js</file>
+  </jsfiles>
   <cssfiles>
     <file>css/robo.css</file>
   </cssfiles>
   <bodycontent>
-    <div id="wrapper" src="container">
-      <div id="main-content" src="container">
-          <div id="stuff" src="flexyBookContent">
-            <div klass="toc" src="mainTOC" />
-          </div>
-      </div>
-      <div klass="nextPrevButtons"  src="nextPrevButtons" /> 
-      <div id="footer" src="file" />
-    </div>
+   <div id="wrapper" src="container">
+        <div klass="toc" src="mainTOC" />
+        <div klass="headerbanner" src="container">
+           <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
+           <div klass="bottombannerlinks" src="file" />
+        </div>
+        <div klass="main-content" src="container">
+           <div src="flexyBookContent"/>
+        </div>
+        <div id="footer" src="file" />
+   </div>
   </bodycontent>
 </layout>

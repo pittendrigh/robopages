@@ -287,6 +287,17 @@ foreach($allOfEm as $aKey)
             else if (strstr($file, ".frag") || $file == 'roboresources' || $file == 'dirlinks')
                 continue;
 
+
+////this is a special mrb hack don't worry about it but
+// to make sure it does not get checked into Github
+            if(!isset($_GET['robopage']) || isset($_GET['robopage']) && strstr($_GET['robopage'],'FliesBook'))
+            {
+                  if(!isset($_SESSION['FliesBook']))
+                     continue;
+            }
+
+              
+
             // why not a link?
             //if (is_link($this->currentDirPath . $file)) { continue; }
 

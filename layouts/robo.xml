@@ -6,21 +6,23 @@
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
   </plugins>
+  <jsfiles>
+    <file>js/roboBook.js</file>
+  </jsfiles>
   <cssfiles>
     <file>css/robo.css</file>
   </cssfiles>
   <bodycontent>
-    <div id="wrapper" src="container">
-        <div id="headerbanner" src="container">
-        <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
-        <div klass="bottombannerlinks" src="file" />
-      </div>
-      <div id="main-content" src="container">
-          <div id="stuff" src="flexyFileContent">
-            <div klass="toc" src="dynamicNavigation" />
-          </div>
-      </div>
-      <div id="footer" src="file" />
-    </div>
+   <div id="wrapper" src="container">
+        <div klass="toc" src="dynamicNavigation" />
+        <div klass="headerbanner" src="container">
+           <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
+           <div klass="bottombannerlinks" src="file" />
+        </div>
+        <div klass="main-content" src="container">
+           <div src="flexyFileContent"/>
+        </div>
+        <div id="footer" src="file" />
+   </div>
   </bodycontent>
 </layout>
