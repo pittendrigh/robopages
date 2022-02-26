@@ -14,7 +14,7 @@
   <jsfiles></jsfiles>
   <bodycontent>
     <div id="wrapper" src="container">
-      <div id="headerbanner" src="container">
+      <div klass=headerbanner src="container">
         <div id="bottombannerlinks" src="file" />
         <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
       </div>

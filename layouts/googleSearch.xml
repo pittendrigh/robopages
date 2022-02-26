@@ -3,25 +3,27 @@
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
       <file>plugins/flexyFileContent.php</file>
-      <file>plugins/gallery.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
       <file>plugins/googleSearch.php</file>
   </plugins>
+  <jsfiles>
+    <file>js/roboBook.js</file>
+  </jsfiles>
   <cssfiles>
     <file>css/robo.css</file>
   </cssfiles>
-  <jsfiles></jsfiles>
   <bodycontent>
-    <div id="wrapper" src="container">
-      <div id="headerbanner" src="container">
-        <div klass="bottombannerlinks" src="file" />
-      </div>
-      <div id="main-content" src="container">
-        <div id="googlesearch" src="googleSearch" />
-      </div>
-      <!-- end main-content -->
-      <div id="footer" src="file" />
-    </div>
+   <div id="wrapper" src="container">
+        <div klass="toc" src="dynamicNavigation" />
+        <div klass="headerbanner" src="container">
+           <div klass="bottombannerlinks" src="file" />
+           <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
+        </div>
+        <div klass="main-content" src="container">
+           <div src="googleSearch"/>
+        </div>
+        <div id="footer" src="file" />
+   </div>
   </bodycontent>
 </layout>

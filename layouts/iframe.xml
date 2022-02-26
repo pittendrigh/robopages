@@ -5,7 +5,7 @@
     </cssfiles>
     <bodycontent>
         <div id="wrapper">
-            <div id="headerbanner" src="container" >
+            <div klass=headerbanner src="container" >
 
                 <div id="hbanner" src="file" />
                 <div id="bottombannerlinks" src="file" />
