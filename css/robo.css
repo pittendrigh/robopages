@@ -1,6 +1,6 @@
 
-
 .* .*::after .*::before {
+
     padding: 0;
     margin: 0;
 }
@@ -27,24 +27,26 @@ body {
     --extracolor: rgb(200,50,50,1); 
     --slideshowcolor: #660000; 
     --hovercolor: #cc0000; 
-    background-color: white; 
     color: var(--textcolor);
 }
 
-.wrapper {
+#wrapper {
     width: 96%;
-
+    max-width: 96%;
+    min-width: 96%;
     height: auto;
     min-height: 100%;
-
-    border: 2px solid magenta;
-    margin: 0px auto;
-    padding: 0px auto;
+    margin: 1rem auto;
     position: relative;
-    overflow: visible;
+    background-color: white; 
+}
+
+#footer{
+  clear: both;
 }
 
 .toc {
+    float: left;
     background-color: var(--navbg);
     float: left;
     margin: 0 1rem 0 0;
@@ -59,9 +61,14 @@ body {
     display: block;
 }
 
+#tocPopper{ float: left; margin-bottom: .5rem; }
+#tocComesAndGoes{ clear: bothl; }
+
 .headerbanner {
-    /* float: left; */
     background: var(--navbg);
+    background-image: url(/systemimages/smrb-logo.png);
+    background-repeat: no-repeat;
+    background-position: center right;
     width: auto;
     padding: 0;
     height: 6rem;
@@ -80,14 +87,6 @@ p.notes {
     padding: 1rem; 
     font-weight: bold;
     border: 2px solid magenta;
-}
-
-#wrapper {
-    clear: both;
-    width: 90%;
-    margin: 1rem;
-    padding: 1rem; 
-    font-weight: bold;
 }
 
       /* general classes */
@@ -174,36 +173,37 @@ img.img70 {
 }
 
 img {
-    float: left;
-    width: auto;
-    margin: 1rem;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: .5rem;
 }
 
 .buttonbox {
+/*
+    clear: both;
     float: left;
-    width: 90%;
-    min-width: 90%;
-    max-width: 90%;
+*/
+    width: 12rem;
+    height: 3rem;
+    max-height: 3rem;
     display: flex;
+    margin: .5rem 0 0 .25rem;
+    padding: 0;
     flex-direction: row;
+    justify-content: space-between;
     font-size: 60%%;
 }
 
 .user_manage {
-    margin-bottom: 1rem;
+    margin: 1rem;
     font-weight: bold;
 }
 
 a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
-    /* display: block;  */
     display: inline;
-    /* float: left; */
     background: rgb(200,200, 255,0.5);
     border: 1px groove blue;
     padding: .25rem;
-    margin: .25rem;
+    margin: 0;
 }
 /* end misc */
 
@@ -213,7 +213,7 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
     width: auto;
     flex-wrap: wrap;
     align-content: space-between;
-    margin: 0 0 0 25%;
+    margin: auto;
     padding: 0;
     font-family: Arial;
     font-size: 90%;
@@ -226,17 +226,20 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
     margin-right: .25rem;
     padding: 0 .5rem 0 0;
     text-align: center;
-    float: left;
+    text-shadow: 1px 1px white;
 }
 
 .mkBreadcrumbs {
+    float: left;
     margin: 0;
     padding: 1rem 0 0 0;
+    text-shadow: 1px 1px white;
 }
 
 .mkBreadcrumbs a {
     display: inline;
     color: #660000;
+    font-size: 140%;
 }
 
 .mkBreadcrumbs a:hover {
@@ -249,33 +252,25 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
 
 
 .displaycard {
-    float: left;
     background: var(--navbg);
-    width: auto;
+    width: 100%;
     max-width: 70%;
     height: auto;
     margin: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     text-align: center;
-    align-items: center;
     padding: 0.5rem;
     border-radius: .5rem;
+    justify-content: center;
+    align-items: center;
 }
 
 .displaycard img {
-    display: block;
-    float: left;
-    width: auto;
-    min-width: 60%;
-    max-width: 79%;
-    height: auto;
     margin: 0 auto;
+    max-width: 100%;
     background: var(--navbg);
     border-radius: .5rem .5rem 0 0;
-    object-position: center;
-    object-fit: scale-down;
 }
 
 .navcard {
@@ -285,15 +280,15 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
     max-width: 10rem;
     height: 8rem;
     max-height: 8rem;
-    margin: .25em;
+    margin: .5rem; 
     display: flex;
     flex-direction: column;
     text-align: center;
-/*
+
   justify-content: center;
   align-items: center;
-*/
-    padding: 0.5rem;
+
+    padding: 0;
     border-radius: .5rem;
 }
 
@@ -325,34 +320,25 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
     border-radius: 0.25rem 0.25rem 0 0;
     width: 100%;
     max-width: 100%;
-    height: auto;
+    /* `height: auto; */
     max-height: 80%;
     margin: 0 auto;
-    text-align: center;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
     flex: 2;
-}
-
-.cardbody img {
-    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .cardcaption {
     border-radius: 0 0 0.5rem 0.5rem;
     width: 100%;
     max-width: 100%;
-    height: auto;
-    min-height: 1.5rem;
-    padding: .5rem;
-    margin-top: .25em;
+    padding: .5rem 0 .25rem 0;
+    margin: .25em 0 0 0;
     font-weight: bold;
-  /* text-align: center; */
+    text-align: center; 
     background: var(--navbgdark);
     line-height: 1rem;
 }
-
 a.cardlink {
     color: rgb(200,200,255,1,0);
 /* max-width: 80%; */
@@ -396,13 +382,27 @@ a.cardlink:hover {
 
 /* when the device is a typical phone */
 @media only screen and (max-device-width: 480px) {
-    #headerbanner {
+    .mkBreadcrumbs{ font-size: 125%;}
+    .main-content { clear: both; }
+    .headerbanner {
         color: black;
         background: var(--navbg);
         background-image: url(/systemimages/onepix.gif);
+        margin-top: 2em;
         width: 100%;
-        padding-top: 2em;
+        height: 50%; 
+        min-height: 50%; 
+        max-height: 50%; 
+        font-size: small;
     }
+    .bottombannerlinks{
+       clear: both;
+       font-size: small; 
+       height: auto; 
+       background: var(--navbg);
+     }
+
+    .bottombannerlink{height: 1.25rem; line-height: 1rem; padding: 0; margin: .25rem;}
 
     #blog {
         display: block;
@@ -414,10 +414,11 @@ a.cardlink:hover {
 
     .toc {
         margin: 0;
-        padding: 0 0 .5em 1em;
+        padding: 1rem 0 .5em 1em;
         width: 100%;
         min-width: 100%;
         max-width: 100%;
+        height: auto;
     }
 
     .displaycard {

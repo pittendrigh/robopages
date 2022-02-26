@@ -29,15 +29,12 @@
     function getOutput($divid)
     {
       $state = 'toc';
-      $cookieOptions = array('expires' => time() + 86400,
-    'path' => '/',
-    'secure' => true,
-    'httponly' => true,
-    'samesite' => 'Strict');
+/*
       if (!isset($_COOKIE['buttonState']))
       {
-          setcookie("buttonState",'toc',$cookieOptions); 
+         setcookie("buttonState",'toc',time()+60*60*24*30);   
       }
+*/
          
   
       if (isset($_COOKIE['buttonState']) && in_array($_COOKIE['buttonState'], ['toc', 'TOC']))
@@ -49,6 +46,9 @@
       $top .= "<button id=\"tocPopper\" onClick=\"flipAndRedraw();\">toc</button>";
       $top .= $this->nextPrevButtons->getOutput('');
       $top .= '<div id="tocComesAndGoes">';
+
+
+      $top .= '<p class="clearboth"> &nbsp; </p>';
 
 // global chapter links are the top level directories plus any *.htm files, with no path slashes
       $cnt = count($this->p2nHandler->globalChapterLinks);

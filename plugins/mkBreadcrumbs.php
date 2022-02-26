@@ -21,7 +21,7 @@ class mkBreadcrumbs extends plugin
         $cnt = count($dirs);
         $base = '';
 
-        $breadcrumbs = "\n" . '<a class="breadcrumbs" href="' . $who . '"><b>..(home)</b>/</a>';
+        $breadcrumbs = "\n" . '<a class="breadcrumbs" href="' . $who . '"><b>..(MRBHome)</b>/</a>';
 
         for ($i = 0; $i < $cnt; $i++)
         {
