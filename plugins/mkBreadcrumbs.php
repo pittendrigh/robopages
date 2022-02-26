@@ -12,6 +12,12 @@ class mkBreadcrumbs extends plugin
 
     function mkBreadcrumbs($who = null)
     {
+        global $sys_home_link_label;
+        $home = 'home';
+
+        if(isset($sys_home_link_label) && $sys_home_link_label != '')
+           $home = $sys_home_link_label;
+
         if (!isset($who))
             $who = $_SERVER['PHP_SELF'];
 
@@ -21,7 +27,7 @@ class mkBreadcrumbs extends plugin
         $cnt = count($dirs);
         $base = '';
 
-        $breadcrumbs = "\n" . '<a class="breadcrumbs" href="' . $who . '"><b>..(MRBHome)</b>/</a>';
+        $breadcrumbs = "\n" . '<a class="breadcrumbs" href="' . $who . '"><b>..('.$home.')</b>/</a>';
 
         for ($i = 0; $i < $cnt; $i++)
         {
