@@ -8,7 +8,7 @@
             <div klass=headerbanner src="container" >
 
                 <div id="hbanner" src="file" />
-                <div id="bottombannerlinks" src="file" />
+                <div id="bannerlinks" src="file" />
                 <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
             </div>
             <div id="main-content" src="container" >

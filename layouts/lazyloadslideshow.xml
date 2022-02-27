@@ -15,7 +15,7 @@
   <bodycontent>
     <div id="wrapper" src="container">
       <div klass=headerbanner src="container">
-        <div id="bottombannerlinks" src="file" />
+        <div id="bannerlinks" src="file" />
         <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
       </div>
       <div id="main-content" src="container">

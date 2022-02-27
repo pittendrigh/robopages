@@ -17,7 +17,7 @@
    <div id="wrapper" src="container">
         <div klass="toc" src="dynamicNavigation" />
         <div klass="headerbanner" src="container">
-           <div klass="bottombannerlinks" src="file" />
+           <div klass="bannerlinks" src="file" />
            <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
         </div>
         <div klass="main-content" src="container">
