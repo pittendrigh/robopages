@@ -1,21 +1,7 @@
 
 <h3> Mission Statement </h3>
-Robopages is a small footprint rapid-application CMS without graphical or content complexity limitations of any kind, geared primarily toward unix-savvy developers. Most Content Management Systems seek to make development "easier" for non-professionals.  Robopages concedes that market, targeting professionals instead. This does not mean Robopages is difficult. Quite the contrary. If you are familiar with ssh, scp, bash, sed, perl, php, css and most of all with terminal windows and the keyboard, you can mock up a complex website faster--with Robopages--than with any other system. Robopages, among other things, seeks to limit the use of databases as much as possible. There is an new Admin Interface now. I don't use it but one of my customers does.  
+Robopages is a small footprint rapid-application CMS without graphical or content complexity limitations of any kind, geared primarily toward unix-savvy developers. Most Content Management Systems seek to make development "easier" for non-professionals.  Robopages concedes that market, targeting professionals instead. This does not mean Robopages is difficult. Quite the contrary. If you are familiar with ssh, scp, bash, sed, perl, php, css and most of all with terminal windows and the keyboard, you can mock up a complex website faster--with Robopages--than with any other system. Robopages, among other things, seeks to limit the use of databases as much as possible. There used to be an aministration GUI. It's gone now.  Develop on localhost.  Then push the content up with scp.
 <br/><br/>
-
-<h3> Admin Interface </h3>
-I don't like to make login links inside the code any of the HTML fragments. They are an advertisement to spider bots.
-Instead, to see the Admin Interface manually hand type <b>https://yourdomain.xxx/pathtorobo/?layout=nerd</b> into the browser address bar, or make a bookmark to that address.<br/><br/>
-Then login with <b>username:</b> gitgit and <b>password:</b> gotgot
-For your own or your customer's use create a loginname/password pair with <b>commandLineUtils/phppw </b>
-Use that password inside plugins/RobopagePasswords.php. See the documentation.
-<br/><br/>
-For ongoing use by you or a customer make a browser bookmarket whose codes are given elsewhere
-in the Documentation. Look under <a href="?robopage=Documentation/AdminInterface"> Documentation/AdminInterface </a>
-To actually use the Admin Interface you have to make (the robopages portion) of the DOCUMENT_ROOT writable to the
-Apache process.  I never do that. It's safer not to. But I do have a few friends and customers who require it.
-It's important to <b> log out </b> of the The Admin Interface when done, so robopages can recursively reset the file permissions to
-0555 in between changes.
 
 <h3> Static Output </h3>
 Robopages can now produce (optional) static output.  The details are in the documentation. You might want to make static output on localhost and then scp to a domain. I made it (the static output generator) as a hobby exercise. I worked flawlessly on a big site I used for test purposes, and then never used it again.  What I do is a bit different than other systems.  I use php dom parsing to make a list of all links and another list of all images, and then wrote php codes to transform those urls. The system then writes to a file. To write out a whole site I use a bash script (on localhost) to traverse the entire site with <b> wget -r </b>.  If you do that with robopages set to static mode (conf/globals.php) a hierarchical file system is created, with static HTML for every page, with all hyperlinks and images adjusted so they work with relative paths.
