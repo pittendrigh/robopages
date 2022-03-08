@@ -7,9 +7,6 @@ global $sys_static_mode;
 
 $page = new domDrone();
 
-echo $page->startHTML(FALSE);
-echo $page->printDivs();
-echo StaticRoboUtils::endHTML();
 
 if (isset($sys_static_mode) && $sys_static_mode == TRUE)
 {
@@ -17,5 +14,9 @@ if (isset($sys_static_mode) && $sys_static_mode == TRUE)
     $spage->EchoStatic($page->startHTML(TRUE), "w");
     $spage->staticDrone();
     $spage->EchoStatic(StaticRoboUtils::endHTML(), "a");
+} else {
+echo $page->startHTML(FALSE);
+echo $page->printDivs();
+echo StaticRoboUtils::endHTML();
 }
 ?>
