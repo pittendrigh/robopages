@@ -76,7 +76,7 @@ ENDO;
       $robopage = '' ;
 
       // make a fall back default for nowNode
-      $nowNode = $this->p2nHandler->pageLinkedList->getHead();
+      $nowNode = $lastGoodNode = $this->p2nHandler->pageLinkedList->getHead();
 
       if(isset($_GET['robopage']) && $_GET['robopage'] != '') 
         $robopage = $_GET['robopage'];
@@ -94,11 +94,13 @@ ENDO;
         // gallery link, and are hence out of the p2n system  
         if(isset($_SESSION['lastP2nUrl'])){
            $lastP2nUrl = $_SESSION['lastP2nUrl'];
-           $lastGoodNode 
+           if(isset($this->p2nHandler->url2PageNodeHash[$lastP2nUrl]))
+           {
+              $lastGoodNode 
                  = $this->p2nHandler->url2PageNodeHash[$lastP2nUrl];
-           //$nowUrl = $lastGoodNode->next->dataObj;
            $nowUrl = $lastGoodNode->dataObj;
            $nowNode = $this->p2nHandler->url2PageNodeHash[$nowUrl];
+           }
          }
       }
    }

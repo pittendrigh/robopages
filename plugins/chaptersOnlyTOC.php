@@ -9,7 +9,7 @@ include_once("p2nHandler.php");
 class chaptersOnlyTOC extends plugin
 {
   public   $mimer;
-  public   $p3nHandler;
+  public   $p2nHandler;
   public   $nextPrevButtons;
   
   function _construct()
