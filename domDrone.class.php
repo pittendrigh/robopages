@@ -37,7 +37,6 @@ class domDrone
         $this->definitionFile = null;
         $this->definitionFile = 'layouts/robo.xml';
         if(isset($layout) && $layout != null){
-          echo "incoming layout: ", $layout, "<br/>";
           $this->definitionFile = 'layouts/'.$layout.'.xml';
         }
  
@@ -93,7 +92,6 @@ class domDrone
             }
 
          $test = $_SESSION['prgrmDocRoot'] . $_GET['robopage'];
-         echo "test: ", $test, "<br/>";
          if(isset($this->dirlayouts)){
             foreach (array_keys($this->dirlayouts) as $akey)
             {
