@@ -89,8 +89,16 @@ class blog extends plugin
     }
 
     function getOutput($divid)
-    {   $ret = '';
-        $ret .= '<h2> MRBoats Blog </h2>';
+    {   
+        global $sys_blog_title;
+        $blogtitle = 'Blog';
+        if(isset($sys_blog_title) && $sys_blog_title != null){
+            $blogtitle = $sys_blog_title;
+        }
+       
+
+        $ret = '';
+        $ret .= '<h2> '.$blogtitle.' </h2>';
         $ret .= $this->ggetOutput('');
         $ret .= '</div>';
         return ($ret);

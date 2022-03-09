@@ -277,9 +277,9 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
 
 .displaycard {
     float: left;
-    background: var(--navbg);
-    width: 100%;
+    width: auto;
     max-width: 70%;
+    background: var(--navbg);
     height: auto;
     margin: 1rem;
     display: flex;
@@ -382,21 +382,23 @@ a.cardlink:hover {
 /* end classes */
 
 /* <blog> */
-#blog {
+.blog {
+    float: left;
     background: white;
-    height: auto;
+    min-width: 20%;
+    max-width: 25%;
     min-height: 20rem;
     max-height: 50rem;
     padding: .5rem;
-    margin: 0 0 0 1rem;
+    margin: 0;
     border: 2px solid var(--navbg);
     border-radius: 0.5rem;
     overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-x: hidden; 
     color: black;
 }
 
-#blog img {
+.blog img {
     max-width: 100%;
     object-fit: scale-down;
  /* object-position: center; */
@@ -407,6 +409,11 @@ a.cardlink:hover {
     color: black;
 }
 
+    div.stuff{
+      float: left;
+      max-width: 70% !important;
+      margin-right: 1rem;
+    }
 
 
 /* <media> */
@@ -435,7 +442,7 @@ a.cardlink:hover {
 
     .bannerlink{height: 1.25rem; line-height: 1rem; padding: 0; margin: .25rem;}
 
-    #blog {
+    .blog {
         display: block;
         clear: both;
         width: 100%;
@@ -454,10 +461,11 @@ a.cardlink:hover {
 
     .displaycard {
         float: left;
-        width: 100%;
+        width: 100%; 
         min-width: 100%;
         max-width: 100%;
     }
+
 
     .navcard {
         margin: 1rem 1px;

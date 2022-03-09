@@ -1,6 +1,4 @@
-
 <?php
-///
 @session_start();
 
 error_reporting(E_ALL);
@@ -24,19 +22,29 @@ class domDrone
     protected $layoutXML;
     protected $dirlayouts;
 
-    function __construct()
+    /*
+    ** We have page specific layouts (in the local ./roboresources dir)
+    ** ...if and only if $_GET['robopage'] is defined.
+    ** What about a missing and assumed index.htm or index.jpg?
+    ** ...when we want the main page to have a custom layout?
+    ** Passing an optional layout to the ctor is ugly but it works
+    */
+    function __construct($layout=null)
     {
         $this->mimer = new roboMimeTyper();
         $this->cssfiles = null;
         $this->jsfiles = null;
+        $this->definitionFile = null;
+        $this->definitionFile = 'layouts/robo.xml';
+        if(isset($layout) && $layout != null){
+          $this->definitionFile = 'layouts/'.$layout.'.xml';
+        }
+ 
         $this->init();
-        $this->readDefinitionFile();
     }
 
     function init()
     {
-        global $sys_layout;
-
         StaticRoboUtils::getpostClean();
 
         if (isset($_GET['dbg']))
@@ -46,16 +54,18 @@ class domDrone
         $_SESSION['prgrmUrlRoot'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', getcwd() . '/');
 
         $this->setPathAndUrlParms();
-        $this->determineLayout();
         $this->determineTitle();
+        if(!isset($this->definitionFile) || $this->definitionFile == null)
+           $this->determineLayout();
+        $this->readDefinitionFile();
         if ($this->dbg)
             $this->dbg();
     }
 
     function determineLayout()
     {
+        // if we get this far we know a layout was not passed to the ctor
         global $sys_layout;
-
 
         $this->definitionFile = 'layouts/robo.xml';
         if (isset($sys_layout) && $sys_layout != null)
@@ -80,12 +90,7 @@ class domDrone
                 $this->dirlayouts[$tmp[0]] = $tmp[1];
             }
 
-            $test = $_SESSION['prgrmDocRoot'] . $_GET['robopage'];
-/*
-           ///no dirlayouts apply at the directory level only, not on individual leaf-level files
-            if (!is_dir($test))
-                $test = dirname($test);
-*/
+         $test = $_SESSION['prgrmDocRoot'] . $_GET['robopage'];
 
          if(isset($this->dirlayouts))
             foreach (array_keys($this->dirlayouts) as $akey)
@@ -133,20 +138,23 @@ class domDrone
         // now perhaps override with locally defined page level title
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/title-' . basename($_SESSION['currentDisplay'])))
         {
+//echo "a";
             $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title-' . $_SESSION['currentDisplay'];
             $title = @file_get_contents($overridefile);
         }
         // or perhaps override with locally defined direcdtory level title
         else if (@stat($_SESSION['currentDirPath'] . 'roboresources/title'))
         {
-            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title' ;
-            //echo "$overridefile<br/>";
-            $title = trim(@file_get_contents($overridefile));
+//echo "b";
+            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title';
+            $title = @file_get_contents($overridefile);
         }
         else // else try to use $_SESSION['currentDisplay'] or directory of $_SESSION['currentDisplay']
         {
+//echo "c";
             if (isset($_SESSION['currentDisplay']) && $_SESSION['currentDisplay'] != '' && !strstr($_SESSION['currentDisplay'], 'index'))
             {
+//echo "d";
                 $title = $_SESSION['currentDisplay'];
             }
             else
@@ -155,6 +163,8 @@ class domDrone
                 $testdir = dirname($_SESSION['currentDirUrl']);
                 if ($testdir != '' && $testdir != '.')
                 {
+ 
+//echo "e";
                     $title = $testdir;
                 }
             }
@@ -197,7 +207,8 @@ class domDrone
                 $this->plugins = array();
             $this->plugins[] = $anode;
             */
-            include_once("$anode");
+            global $sys_path_prefix;
+            include_once($anode);
         }
     }
 
@@ -224,13 +235,18 @@ class domDrone
                     $subPluginName = $subPieces[1];
                 }
 
+                //echo "subPluginName: ", $subPluginName, "<br/>";
                 $subPlugin = new $subPluginName();
                 $ret .= $subPlugin->getOutput($divid);
             }
         }
 
         if (isset($plugin) && $plugin != null)
-            $ret .= $plugin->getOutput($divid);
+        {
+            $dbg = $plugin->getOutput($divid);
+                 
+            $ret .= $dbg;
+        }
 
         return $ret;
     }
@@ -540,47 +556,17 @@ class domDrone
         return ($ret);
     }
 
-
-    function determineOgUrl()
-    {
-      global $sys_ogurl;
-      $ret = $sys_ogurl;
-
-      if(isset($_GET['robopage']) && strstr($_GET['robopage'],"jpg"))
-      {
-          $ret = $_GET['robopage'];
-      }
-      return ($ret);
-    }
-
-    function determineOgImage()
-    {
-      global $sys_ogimage;
-      $ret = $sys_ogimage;
-
-      // need parse url??? grep -i actionItem *php
-      //  $query = parse_url($link->href, PHP_URL_QUERY);
-      //  parse_str($query, $parms);
-
-      if(isset($_GET['robopage']) && strstr($_GET['robopage'],"jpg"))
-      {
-          $ret = basename($_GET['robopage']);
-      }
-      return ($ret);
-    }
-
     function startHTML($sstatic_mode)
     {
         global $sys_nofollow, $sys_ogimage, $sys_ogurl;
 
         $static_mode = $sstatic_mode;
 
-        $ogimage = $this->determineOgImage();
-        $ogurl = $this->determineOgUrl();
 
         //<META name="verify-admitad" content="xxxx" />
 
         $title = $_SESSION['title'];
+  //<META http-equiv="content-language" content="en"/> 
         $ret = '';
         $ret .= <<<ENDO
 <!DOCTYPE html>
@@ -591,8 +577,8 @@ class domDrone
   <META name="viewport" content="width=device-width, initial-scale=1.0"/>
   <META property="og:type"   content="website" />
   <META property="og:title"   content="$title" />
-  <META property="og:url"   content="$ogurl" />
-  <META	property="og:image" content="$ogimage" />
+  <META property="og:url"   content="$sys_ogurl" />
+  <META	property="og:image" content="$sys_ogimage" />
   <META name="google-site-verification" content="xxxyyyzzz" />
 ENDO;
 
@@ -744,6 +730,10 @@ ENDO;
         foreach (array_keys($_POST) as $akey)
         {
             print " $akey p= <b>$_POST[$akey]</b><br/>";
+        }
+        foreach (array_keys($_COOKIE) as $akey)
+        {
+            print " $akey c= <b>$_COOKIE[$akey]</b><br/>";
         }
     }
 
