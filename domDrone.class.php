@@ -37,6 +37,7 @@ class domDrone
         $this->definitionFile = null;
         $this->definitionFile = 'layouts/robo.xml';
         if(isset($layout) && $layout != null){
+          echo "incoming layout: ", $layout, "<br/>";
           $this->definitionFile = 'layouts/'.$layout.'.xml';
         }
  
@@ -55,8 +56,10 @@ class domDrone
 
         $this->setPathAndUrlParms();
         $this->determineTitle();
-        if(!isset($this->definitionFile) || $this->definitionFile == null)
-           $this->determineLayout();
+
+        // this->definitionFile should be set to a default
+        // ...however, determinLayout() may override that default
+        $this->determineLayout();
         $this->readDefinitionFile();
         if ($this->dbg)
             $this->dbg();
@@ -73,8 +76,7 @@ class domDrone
 
         // perhaps a relevant conf/dirlayouts.ini entry exists
         // this layout override method is useful for all files in a directory
-        if (isset($_GET['robopage']))
-        {
+        if (isset($_GET['robopage'])) {
             $dirlayoutLines = file("conf/dirlayouts.ini");
             $dlcnt = count($dirlayoutLines);
             /*
@@ -91,8 +93,8 @@ class domDrone
             }
 
          $test = $_SESSION['prgrmDocRoot'] . $_GET['robopage'];
-
-         if(isset($this->dirlayouts))
+         echo "test: ", $test, "<br/>";
+         if(isset($this->dirlayouts)){
             foreach (array_keys($this->dirlayouts) as $akey)
             {
                 if (strstr($test, $akey))
@@ -101,6 +103,7 @@ class domDrone
                     //echo $this->definitionFile. "<br/>";
                 }
             }
+          }
         }
 
         // perhaps a current directory wide override exists, as  '/roboresources/layout'
