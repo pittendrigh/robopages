@@ -1,0 +1,46 @@
+<h1> Getting started </h1>
+
+I will assume a linux environment plus basic bash skills.  Windows and Mac users can interpolate.<br/>
+<br/>
+Clone the sources into the document root on localhost with:<br/>
+git clone https://github.com/pittendrigh/robopages<br/>
+<br/>
+<br/>
+Make a new directory in the localhost installation fragments directory named something like Delme.<br/>
+Move all current content (Gallery and Documentation etc) into the fragments/Delme directory. This way you still have the documentaion to refer to.<br/>
+<br/>
+Edit a new fragments/index.htm file. This is an HTML fragment with no HTML header.<br/>
+Make a directory of any name. Put some new *.htm files there.  Add some images.<br/>
+For each such image, perhaps boat.jpg edit a text file name boat.cap and take a look.
+Now delete all the *.cap files.
+<br/>
+In the new directory you just made do the following:  mkdir -p roboresources/pics &lt;enter&gt;<br/>
+<br/>
+Now move the images in the new directory into roboresources/pics<br/>
+Now edit index.htm or any other filename.htm file so it makes use fo the images you just moved into roboresources/pics<br/>
+with something like &lt;img alt="whatever" src="_ROBOPATH_roboresources/pics/mypic.jpg" /><br/>
+<br/>
+Now the images you first copied into this directory now no longer appear as dynamic links, but they are still useable.<br/>
+<br/>
+_ROBOPATH_ in the image src= attribute is a macro that allows you to move directories and still have the ./roboresources/pics images travel with that directory.
+<br/>
+
+<h3> New layouts </h3>
+cd into the layouts directory. <br/>
+copy robo.xml to test.xml<br/>
+Edit conf/globals.php so $sys_layout="test";<br/>
+Now experiment with edit changes to layouts/test.xml<br/>
+
+<h3> Static Ouput </h3>
+Read the Documentation for further changes.  You might want to edit dynamically on localhost and then make a static version by edting conf/globals.php so $sys_static_mode="TRUE";<br/>
+
+<br/>
+Then, from a terminal:  wget -r localhost/xxx/robopages,<br/>
+if and only if the local file system was writable to the apache process.  You never want to do that on a real remote server.<br/>
+Now copy the static output up to your server.<br/>
+This will create a directory hierarchy under fragments/Pages with static HTML, with relative links,<br/>
+if and only if the local file system was writable to the apache process.  You never want to do that on a real remote server.<br/>
+Now copy the static output up to your server.<br/>
+<br/>
+<br/>
+<br/>
