@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <plugins>
       <file>plugins/dynamicNavigation.php</file>
@@ -8,20 +8,24 @@
       <file>plugins/blog.php</file>
       <file>plugins/longColumn.php</file>
   </plugins>
-    <cssfiles>
-        <file>css/robo.css</file>
-    </cssfiles>
-    <bodycontent>
-        <div id="wrapper" src="container">
-            <div klass=headerbanner src="container" >
-                <div id="hbanner" src="file" />
-                <div id="bannerlinks" src="file" />
-                <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
-            </div>
-            <div id="main-content" src="container" >
-                <div id="blog" src="blog" />   
-                <div id="longColumn" src="longColumn" />   
-            </div> 
+  <jsfiles>
+    <file>js/roboBook.js</file>
+  </jsfiles>
+  <cssfiles>
+    <file>css/robo.css</file>
+  </cssfiles>
+  <bodycontent>
+   <div id="wrapper" src="container">
+        <div klass="toc" src="dynamicNavigation" />
+        <div klass="headerbanner" src="container">
+           <div klass="bannerlinks" src="file" />
+           <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
         </div>
-    </bodycontent>
+        <div klass="main-content" src="container">
+             <div id="blog" src="blog" />
+             <div id="longColumn" src="longColumn" /> 
+        </div>
+        <div id="footer" src="file" />
+   </div>
+  </bodycontent>
 </layout>

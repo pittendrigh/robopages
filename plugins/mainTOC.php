@@ -39,9 +39,10 @@
   
       if (isset($_COOKIE['buttonState']) && in_array($_COOKIE['buttonState'], ['toc', 'TOC']))
       {
-        $state = $_COOKIE['buttonState'];
+       if($_SESSION['layout'] == 'roboBook')
+           $state = $_COOKIE['buttonState'];
       }
- 
+
       $ret = $top = $bottom = '';
       $top .= "<button id=\"tocPopper\" onClick=\"flipAndRedraw();\">toc</button>";
       $top .= $this->nextPrevButtons->getOutput('');

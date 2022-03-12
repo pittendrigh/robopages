@@ -176,7 +176,7 @@ class blog extends plugin
 
             $lcl .= $dateMeme;
             //$lcl .= '<div class="blogEntry">';
-            $lcl .= trim(file_get_contents($this->blogFilesDirPath . $ablogFile));
+            $lcl .= trim(file_get_contents($this->blogFilesDirPath.$ablogFile));
             //$lcl .= '</div>' . "\n";
             $cnt++;
             $buff .= $lcl;

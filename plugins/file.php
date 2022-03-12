@@ -44,7 +44,7 @@ class file extends plugin
 /*
   RE> processBackTics() above.
   a default boilerplate fragment file like
-  ....../fragments/roboresources/bannerlinks.frag
+  ....../fragments/roboresources/bottombannerlinks.frag
   might have:
   <a href="?layout=contactus"> Contact - </a>
   but that URL will only work if Robopages installed inside the server DOCUMENT_ROOT

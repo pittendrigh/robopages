@@ -5,6 +5,7 @@
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
+      <file>plugins/roboRootTOC.php</file>
       <file>plugins/blog.php</file>
   </plugins>
   <jsfiles>
@@ -15,7 +16,9 @@
   </cssfiles>
   <bodycontent>
    <div id="wrapper" src="container">
-        <div klass="toc" src="dynamicNavigation" />
+    <div klass="navColumn">
+        <div klass="toc" src="roboRootTOC" /> 
+    </div>
         <div klass="headerbanner" src="container">
            <div klass="bannerlinks" src="file" />
            <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
