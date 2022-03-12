@@ -1,11 +1,10 @@
-
 .* .*::after .*::before {
 
     padding: 0;
     margin: 0;
 }
 
-
+/* elements */
 html{
   width: 100%;
   height: 100%;
@@ -23,124 +22,19 @@ body {
     --navhover: rgb(225,225,255,0.5);
     --linkcolor: rgb(7,15,1);
     --textcolor: rgb(0,0,5,1);
-    --highlightedcolor: rgb(50,50,200,1); 
     --extracolor: rgb(200,50,50,1); 
+    --highlightedcolor: rgb(200,50,50,1); 
     --slideshowcolor: #660000; 
     --hovercolor: #cc0000; 
     color: var(--textcolor);
 }
 
-#wrapper {
-    width: 96%;
-    max-width: 96%;
-    min-width: 96%;
-    height: auto;
-    min-height: 100%;
-    margin: 1rem auto;
-    position: relative;
-    background-color: white; 
-}
-
-#footer{
-  clear: both;
-}
-
-.toc {
-    float: left;
-    background-color: var(--navbg);
-    float: left;
-    margin: 0 1rem 0 0;
-    padding: .5rem;
-    width: 20%;
-    min-width: 20%;
-    max-width: 20%;
-    border-bottom-right-radius: 1rem;
-}
-
-.toc a {
-    display: block;
-}
-
-
-
-#bannerlinks 
-{
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  justify-content: center;
-  margin-left: 5%;
-  padding: 0;
-  font-family: Arial;
-}
-
-.bannerlink
-{
-  max-width: 6rem;
-  height: 1rem;
-  margin: 0.5rem .5rem 0 0;
-  padding: 0.25rem; 
-  text-align: center;
-  font-size: 1rem;
-}
-.bannerlink a { color: black; font-size: 90%;   }
-
-#tocPopper{ float: left; margin-bottom: .5rem; }
-#tocComesAndGoes{ clear: bothl; }
-
-.headerbanner {
-    background: var(--navbg);
-    background-image: url(/systremimages/smrb-logo.png);
-    background-repeat: no-repeat;
-    background-position: center right;
-    width: auto;
-    padding: 0;
-    height: 6rem;
-    min-height: 6rem;
-    max-height: 6rem;
-    border-bottom-right-radius: 1rem;
-}
-
-.clearboth{
-  clear: both;
-}
-
-p.notes {
-    clear: both;
-    width: 90%;
-    margin: 1rem;
-    padding: 1rem; 
-    font-weight: bold;
-    border: 2px solid magenta;
-}
-
-      /* general classes */
-.centertext {
-    margin: 0 auto;
-    text-align: center;
-}
- 
-
-.max50 {
-    max-width: 50%
-}
-      /* end general classes */
-
-/* misc */
 quote {
     display: block;
     max-width: 50%;
     margin: 1rem 1rem 1rem 6rem;
     font-weight: bold;
     font-style: italic;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-.pageNumber {
-    font-weight: bold;
 }
 
 a {
@@ -162,11 +56,6 @@ a.slideshow {
     font-style: italic;
 }
 
-a.highlighted {
-    color: var(--highlightedcolor);
-    font-style: italic;
-    margin-left: .5rem;
-}
 
 a.extra {
     color: var(--extracolor);
@@ -181,27 +70,113 @@ i.material-icons {
 }
 
 sup {
-    color: red;
-}
-
-.roboBookThisChapter {
-    margin: 0;
-    padding: 0;
-    color: magenta;
-}
-
-.h1banner {
-    margin-left: 30%;
-    font-weight: bold;
-}
-
-img.img70 {
-    max-width: 50%;
+    color: var(--highlightedcolor);
 }
 
 img {
+    max-width: 700px;
     object-fit: contain;
     border-radius: .5rem;
+}
+/* end elements */
+
+/* id blocks */
+#wrapper {
+    width: 98%;
+    min-width: 98%;
+    max-width: 98%;
+    height: auto;
+    min-height: 100%;
+    margin: 1rem auto;
+    position: relative;
+    background-color: white; 
+}
+
+#footer{
+  clear: both;
+}
+
+#tocPopper{ 
+  float: left; 
+  margin-bottom: .5rem; 
+}
+
+#tocComesAndGoes{ 
+  clear: both; 
+}
+
+/* end id blocks */
+
+/* named classes */
+.navColumn{
+    float: left;
+    background-color: var(--navbg);
+    margin: 0 1rem 0 0;
+    padding: .5rem;
+    width: 13rem;
+    border-bottom-right-radius: 1rem;
+}
+
+.navColumn a {
+ display: block;
+ font-size: 85%;
+}
+
+.toc {
+    background-color: var(--navbg);
+    margin: 0 1rem 0 0;
+    padding: 0 .5rem .25rem;
+    border-color: 1px solid magenta;
+}
+
+.toc a {
+    display: block;
+}
+
+.bannerlinks 
+{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: center;
+  padding: 0;
+  font-family: Arial;
+}
+
+.bannerlink
+{
+  max-width: 6rem;
+  height: 1rem;
+  margin: 0.5rem .5rem 0 0;
+  padding: 0.25rem; 
+  text-align: center;
+}
+
+.bannerlink a { 
+  color: black; 
+  font-size: 90%;   
+}
+
+.headerbanner {
+    background: var(--navbg);
+    background-image: url('/systemimages/smrb-logo.png');
+    background-repeat: no-repeat;
+    background-position: center right;
+    width: auto;
+    padding: 0;
+    height: 6rem;
+    min-height: 6rem;
+    max-height: 6rem;
+    border-bottom-right-radius: 1rem;
+}
+
+.notes {
+    clear: both;
+    width: 90%;
+    margin: 1rem;
+    padding: 1rem; 
+    font-weight: bold;
+    border: 2px solid magenta;
 }
 
 .buttonbox {
@@ -225,13 +200,11 @@ img {
 a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
     display: inline;
     background: rgb(200,200, 255,0.5);
-    border: 1px groove blue;
     padding: .25rem;
     margin: 0;
+    border: 1px solid blue;
 }
-/* end misc */
 
-/* classes */
 .bannerlinks {
     display: flex;
     width: auto;
@@ -269,12 +242,32 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
 .mkBreadcrumbs a:hover {
    text-decoration: underline;
 }
+/* end named classes */
 
 
+/* utility classes */
+.clearboth{
+  clear: both;
+}
 
-/* end main blocks */
+.centertext {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.highlighted {
+    color: var(--highlightedcolor);
+    font-style: italic;
+    margin-left: .5rem;
+}
+/* end utility classes */
 
 
+/* cards */
 .displaycard {
     float: left;
     width: auto;
@@ -327,7 +320,6 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
     display: block;
     width: 100%;
     max-width: 100%;
- /* height: auto; */
     max-height: 100%;
     margin: 0;
     padding: 0;
@@ -351,7 +343,7 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
     border-radius: 0.25rem 0.25rem 0 0;
     width: 100%;
     max-width: 100%;
-    /* `height: auto; */
+    /* height: auto; */
     max-height: 80%;
     margin: 0 auto;
     flex: 2;
@@ -370,26 +362,25 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
     background: var(--navbgdark);
     line-height: 1rem;
 }
+
 a.cardlink {
     color: rgb(200,200,255,1,0);
-/* max-width: 80%; */
     text-decoration: none;
 }
 
 a.cardlink:hover {
     text-decoration: underline;
 }
-/* end classes */
+/* end cards */
 
 /* <blog> */
 .blog {
-    float: left;
     background: white;
     min-width: 20%;
     max-width: 25%;
     min-height: 20rem;
     max-height: 50rem;
-    padding: .5rem;
+    padding: .25rem;
     margin: 0;
     border: 2px solid var(--navbg);
     border-radius: 0.5rem;
@@ -401,23 +392,16 @@ a.cardlink:hover {
 .blog img {
     max-width: 100%;
     object-fit: scale-down;
- /* object-position: center; */
 }
 
 .blogEntry {
     border: 0;
     color: black;
 }
-
-    div.stuff{
-      float: left;
-      max-width: 70% !important;
-      margin-right: 1rem;
-    }
+/* end <blog> */
 
 
 /* <media> */
-
 /* when the device is a typical phone */
 @media only screen and (max-device-width: 480px) {
     .mkBreadcrumbs{ font-size: 125%;}
