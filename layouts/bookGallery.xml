@@ -12,7 +12,7 @@
       <file>plugins/gallery.php</file>
   </plugins>
   <jsfiles>
-    <file>js/roboBook.js</file>
+    <file>js/roboLib.js</file>
   </jsfiles>
   <cssfiles>
     <file>css/robo.css</file>
