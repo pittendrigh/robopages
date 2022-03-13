@@ -25,13 +25,6 @@ if(isset($_GET['robopage']))
  }
 }
 
-// hack any cookies now before any output
-if (!isset($_COOKIE['buttonState'])) {
-          $time = time()+60*60*24*30;
-          setcookie("buttonState",'toc',$time,"/");
-}
-
-
 $page = new domDrone($layout);
 
 $comparitor='';
