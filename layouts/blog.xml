@@ -9,7 +9,7 @@
       <file>plugins/longColumn.php</file>
   </plugins>
   <jsfiles>
-    <file>js/roboLib.js</file>
+    <file>js/roboBook.js</file>
   </jsfiles>
   <cssfiles>
     <file>css/robo.css</file>
