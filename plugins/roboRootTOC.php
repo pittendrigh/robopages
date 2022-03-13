@@ -10,7 +10,6 @@ class roboRootTOC  extends dynamicNavigation
 
    function init()
     {
-        //echo "dynamicNavigation init <br/>";
         $this->linkshash = null;
         $this->linkshash = array();
 
@@ -34,13 +33,36 @@ class roboRootTOC  extends dynamicNavigation
 
     function lookWhereForFiles()
     {
-        // oops no opendir error handling grep -i actionItem *php
-        // echo "roboRoot LookWhere: ", $_SESSION['prgrmDocRoot'], "<br/>";
         $handle = @opendir($_SESSION['prgrmDocRoot']);
         return ($handle);
     }
 
 
+function getTOCJs()
+{
+$ret = '';
+$ret .= <<<ENDO
+<script>
+function flipAndRedraw()
+{
+var x = document.getElementById("tocComesAndGoes");
+var b = document.getElementById("tocPopper");
+if (x.style.display === "none")
+{
+x.style.display = "block";
+b.innerHTML="toc";
+}
+else
+{
+x.style.display = "none";
+b.innerHTML="TOC";
+}
+}
+</script>
+ENDO;
+
+return $ret;
+}
     function getOutput($divid)
     {
         global $sys_show_suffixes, $sys_thumb_links;
@@ -48,9 +70,29 @@ class roboRootTOC  extends dynamicNavigation
         $indexFlag = FALSE;
         $slideshowFlag = FALSE;
         $ret=$indexHref = '';
+/* 
+       foreach(array_keys($_COOKIE) as $akey){
+        $ret .= "$akey $_COOKIE[$akey]<br/>";
+       }
+*/
 
-        //$ret .= $this->currentDirPath . "<br/>";
-        //$ret .= $this->getDirLinksPath() . "<br/>";
+      $ret .= $_COOKIE['buttonState']."xxx<br/>";
+
+      $state = 'toc';
+      if (isset($_COOKIE['buttonState']) 
+          && in_array($_COOKIE['buttonState'], ['toc', 'TOC']))
+      {
+        //if($_SESSION['layout'] == 'robo'){
+           $state = $_COOKIE['buttonState'];
+        //} 
+      }
+
+
+ if($_SESSION['layout'] != 'main'){
+        $ret .= '<button id="tocPopper" onClick="flipAndRedraw()">'.$state.'</button>';
+        $ret .= $this->getTOCJs();
+ }
+        $ret .= '<div id="tocComesAndGoes">';
 
         $cnt = count($this->linkshash);
 
@@ -115,7 +157,11 @@ foreach($allOfEm as $aKey)
         {
             $ret .= "\n" . $this->mkLink($indexLink) . "\n";
         }
+ 
+        $ret .= '</div>';
+        $ret .= "................. fixItUp $state <br/>";
 
+        $ret .= '<script> fixItUp("' . $state . '");</script>';
         return $ret;
     }
 }

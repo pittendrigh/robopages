@@ -5,6 +5,8 @@
       <file>plugins/flexyFileContent.php</file>
       <file>plugins/mkBreadcrumbs.php</file>
       <file>plugins/file.php</file>
+      <file>plugins/roboRootTOC.php</file>
+      <file>plugins/localNav.php</file>
       <file>plugins/chaptersOnlyTOC.php</file>
       <file>plugins/nextPrevButtons.php</file>
       <file>plugins/gallery.php</file>
@@ -17,16 +19,17 @@
   </cssfiles>
   <bodycontent>
    <div id="wrapper" src="container">
-        <div klass="toc" src="chaptersOnlyTOC"/>
+    <div klass="navColumn">
+        <div klass="toc" src="roboRootTOC" /> 
+    </div>
         <div klass="headerbanner" src="container">
            <div klass="bannerlinks" src="file" />
            <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
         </div>
         <div klass="main-content" src="container">
-               <div src="flexyFileContent,gallery"/>
+           <div klass="fxyFContent" src="flexyFileContent,gallery"/>
         </div>
-   </div>
-        <div src="nextPrevButtons" />
         <div id="footer" src="file" />
+   </div>
   </bodycontent>
 </layout>
