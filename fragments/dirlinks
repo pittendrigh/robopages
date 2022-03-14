@@ -1,4 +1,4 @@
-?robopage=index.htm::index.htm
-?robopage=Background.htm::Background.htm
-?robopage=Gallery::Gallery
 ?robopage=Documentation::Documentation
+?robopage=Gallery::Gallery
+?robopage=LoremIpsum::LoremIpsum
+?robopage=Background.htm::Background.htm
