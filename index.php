@@ -7,31 +7,17 @@ global $sys_static_mode;
 
    $layout=null;
    if(!isset($_GET['layout']) && (!isset($_GET['robopage'])
-     || $_GET['robopage'] == "index.php"))
+     || $_GET['robopage'] == "index.php")){
         $layout='main';
 
-if(isset($_GET['robopage']))
-{
- if (strstr($_GET['robopage'],'Ebook') 
-      || stristr($_GET['robopage'],'diagrams')  
-      || stristr($_GET['robopage'],'buffalo-boat-online-plans')) 
-   {
-       if(!isset($_SESSION['to_the_plans'])  || $_SESSION['to_the_plans'] != 1
-            || !isset($_SESSION['mrb'])  || $_SESSION['mrb'] != 'milkandhoney')
-       {
-                 $_GET['robopage'] = null;
-                 $_GET['layout'] = "userlogin";
-       }
- }
-}
+        // the following, for now, so you can switch from one roboBook
+        // to another without problems. $_SESSION variable name-spacing 
+        // has not happened yet. 
+        session_unset();
+   }
+
 
 $page = new domDrone($layout);
-
-$comparitor='';
-if(isset($_GET['robopage']) && $_GET['robopage'] != '')
-  $comparitor = $_GET['robopage'];
-$freepages = array("FliesBook","index.htm","cover.htm","preface.htm","introduction.htm","In-the-beginning");
-
 
 if (isset($sys_static_mode) && $sys_static_mode == TRUE)
 {
@@ -44,6 +30,5 @@ if (isset($sys_static_mode) && $sys_static_mode == TRUE)
    echo $page->printDivs();
    echo StaticRoboUtils::endHTML();
 }
-
 
 ?>

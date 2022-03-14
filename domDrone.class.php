@@ -31,6 +31,7 @@ class domDrone
     */
     function __construct($layout=null)
     {
+        $layout = trim($layout);
         $this->mimer = new roboMimeTyper();
         $this->cssfiles = null;
         $this->jsfiles = null;
@@ -58,6 +59,7 @@ class domDrone
 
         // this->definitionFile should be set to a default
         // ...however, determinLayout() may override that default
+        //
         $this->determineLayout();
         $this->readDefinitionFile();
         if ($this->dbg)
@@ -69,10 +71,11 @@ class domDrone
         // if we get this far we know a layout was not passed to the ctor
         global $sys_layout;
 
+if(!isset($this->definitionFile)) {
         $this->definitionFile = 'layouts/robo.xml';
         if (isset($sys_layout) && $sys_layout != null)
             $this->definitionFile = 'layouts/' . $sys_layout . '.xml';
-
+}
         // perhaps a relevant conf/dirlayouts.ini entry exists
         // this layout override method is useful for all files in a directory
         if (isset($_GET['robopage'])) {
@@ -98,10 +101,10 @@ class domDrone
                 if (strstr($test, $akey))
                 {
                     $this->definitionFile = 'layouts/' . $this->dirlayouts[$akey] . '.xml';
-                    //echo $this->definitionFile. "<br/>";
                 }
             }
           }
+           
         }
 
         // perhaps a current directory wide override exists, as  '/roboresources/layout'
@@ -140,7 +143,7 @@ class domDrone
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/title-' . basename($_SESSION['currentDisplay'])))
         {
 //echo "a";
-            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title-' . $_SESSION['currentDisplay'];
+            $overridefile = $_SESSION['currentDirPath'].'roboresources/title-'.$_SESSION['currentDisplay'];
             $title = @file_get_contents($overridefile);
         }
         // or perhaps override with locally defined direcdtory level title
