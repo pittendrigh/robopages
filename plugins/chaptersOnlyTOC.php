@@ -34,7 +34,6 @@ class chaptersOnlyTOC extends plugin
       if (isset($_COOKIE['buttonState']) 
           && in_array($_COOKIE['buttonState'], ['toc', 'TOC'])) {
         $state = $_COOKIE['buttonState'];
-        echo "chaptersOnlyTOC toc to $state <br/>";
       } 
 
       $ret .= "<button id=\"tocPopper\" 
