@@ -56,7 +56,7 @@ class roboRootTOC  extends dynamicNavigation
       }
 
 
- if($_SESSION['layout'] != 'mmmain'){
+ if($_SESSION['layout'] != 'main'){
         $ret .= '<button id="tocPopper" onClick="flipAndRedraw()">'.$state.'</button>';
  } 
         $ret .= '<div id="tocComesAndGoes">';
