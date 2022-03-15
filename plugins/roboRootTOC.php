@@ -38,31 +38,6 @@ class roboRootTOC  extends dynamicNavigation
     }
 
 
-function getTOCJs()
-{
-$ret = '';
-$ret .= <<<ENDO
-<script>
-function flipAndRedraw()
-{
-var x = document.getElementById("tocComesAndGoes");
-var b = document.getElementById("tocPopper");
-if (x.style.display === "none")
-{
-x.style.display = "block";
-b.innerHTML="toc";
-}
-else
-{
-x.style.display = "none";
-b.innerHTML="TOC";
-}
-}
-</script>
-ENDO;
-
-return $ret;
-}
     function getOutput($divid)
     {
         global $sys_show_suffixes, $sys_thumb_links;
@@ -75,18 +50,17 @@ return $ret;
       if (isset($_COOKIE['buttonState']) 
           && in_array($_COOKIE['buttonState'], ['toc', 'TOC']))
       {
-        //if($_SESSION['layout'] == 'robo'){
+        if($_SESSION['layout'] != 'main'){
            $state = $_COOKIE['buttonState'];
-        //} 
+           echo "roboRootTOC cookie main layout $state <br/>";
+        } 
       }
 
 
- if($_SESSION['layout'] != 'main'){
+ if($_SESSION['layout'] != 'mmmain'){
         $ret .= '<button id="tocPopper" onClick="flipAndRedraw()">'.$state.'</button>';
-        $ret .= $this->getTOCJs();
- } else {
-  $state = 'toc';
- }
+ } 
+        echo "roboRootTOC now $state <br/>";
         $ret .= '<div id="tocComesAndGoes">';
 
         $cnt = count($this->linkshash);

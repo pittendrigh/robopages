@@ -41,6 +41,7 @@
       {
        if($_SESSION['layout'] == 'roboBook')
            $state = $_COOKIE['buttonState'];
+           echo "mainTOC toc to $state<br/>";
       }
 
       $ret = $top = $bottom = '';

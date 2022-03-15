@@ -271,7 +271,7 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
 .displaycard {
     float: left;
     width: auto;
-    max-width: 70%;
+    width: 70%;
     background: var(--navbg);
     height: auto;
     margin: 1rem;
@@ -286,7 +286,7 @@ a.button, a.nextPageButton, a.prevPageButton,a.lastReadPageButton {
 
 .displaycard img {
     margin: 0 auto;
-    max-width: 100%;
+    width: 100%;
     background: var(--navbg);
     border-radius: .5rem .5rem 0 0;
 }
