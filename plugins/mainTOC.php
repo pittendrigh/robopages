@@ -41,7 +41,6 @@
       {
        if($_SESSION['layout'] == 'roboBook')
            $state = $_COOKIE['buttonState'];
-           echo "mainTOC toc to $state<br/>";
       }
 
       $ret = $top = $bottom = '';
@@ -69,11 +68,9 @@
         $cnt = count($this->p2nHandler->localChapterLinks);
         $bottom .= '<h4 class="roboBookThisChapter"> -- ' . $this->p2nHandler->getThisChapter() . " -- </h4>";
 
-        //echo "localChapterLinks cnt: ", count($this->p2nHandler->localChapterLinks), "<br/>";
         foreach (array_keys($this->p2nHandler->localChapterLinks) as $akey)
         {
           $link = $this->p2nHandler->localChapterLinks[$akey];
-          //echo "mainTOC: ", htmlentities($link), "<br/>"; 
           $bottom .= $link;
         }
         $bottom .= '</div>';
