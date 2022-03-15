@@ -52,7 +52,6 @@ class roboRootTOC  extends dynamicNavigation
       {
         if($_SESSION['layout'] != 'main'){
            $state = $_COOKIE['buttonState'];
-           echo "roboRootTOC cookie main layout $state <br/>";
         } 
       }
 
@@ -60,7 +59,6 @@ class roboRootTOC  extends dynamicNavigation
  if($_SESSION['layout'] != 'mmmain'){
         $ret .= '<button id="tocPopper" onClick="flipAndRedraw()">'.$state.'</button>';
  } 
-        echo "roboRootTOC now $state <br/>";
         $ret .= '<div id="tocComesAndGoes">';
 
         $cnt = count($this->linkshash);
