@@ -20,9 +20,8 @@
   <bodycontent>
    <div id="wrapper" src="container">
     <div klass="navColumn">
-        <div klass="toc" src="roboRootTOC" /> 
-        <div klass="toc" src="nextPrevButtons" /> 
-    </div>
+        <div klass="toc" src="chaptersOnlyTOC" /> 
+  </div>
         <div klass="headerbanner" src="container">
            <div klass="bannerlinks" src="file" />
            <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
