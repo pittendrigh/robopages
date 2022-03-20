@@ -51,6 +51,7 @@ body {
     margin: 0 1rem 0 0;
     padding: .5rem;
     width: 13rem;
+    min-height: 6rem;
     border-bottom-right-radius: 1rem;
 }
 .navColumn a {
