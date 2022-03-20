@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
   <plugins>
-      <file>plugins/dynamicNavigation.php</file>
-      <file>plugins/flexyFileContent.php</file>
-      <file>plugins/mkBreadcrumbs.php</file>
-      <file>plugins/file.php</file>
-      <file>plugins/roboRootTOC.php</file>
-      <file>plugins/localNav.php</file>
-      <file>plugins/chaptersOnlyTOC.php</file>
-      <file>plugins/nextPrevButtons.php</file>
-      <file>plugins/gallery.php</file>
+    <file>plugins/dynamicNavigation.php</file>
+    <file>plugins/flexyFileContent.php</file>
+    <file>plugins/mkBreadcrumbs.php</file>
+    <file>plugins/file.php</file>
+    <file>plugins/chaptersOnlyTOC.php</file>
+    <file>plugins/nextPrevButtons.php</file>
+    <file>plugins/gallery.php</file>
   </plugins>
   <jsfiles>
     <file>js/roboLib.js</file>
@@ -18,18 +16,16 @@
     <file>css/robo.css</file>
   </cssfiles>
   <bodycontent>
-   <div id="wrapper" src="container">
-    <div klass="navColumn">
-        <div klass="toc" src="chaptersOnlyTOC" /> 
-  </div>
-        <div klass="headerbanner" src="container">
-           <div klass="bannerlinks" src="file" />
-           <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
-        </div>
-        <div klass="main-content" src="container">
-           <div klass="fxyFContent" src="flexyFileContent,gallery"/>
-        </div>
-        <div id="footer" src="file" />
-   </div>
+    <div id="wrapper" src="container">
+      <!-- <div klass="toc" src="chaptersOnlyTOC"/> -->
+      <div klass="headerbanner" src="container">
+        <div klass="bannerlinks" src="file"/>
+        <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/>
+      </div>
+      <div src="nextPrevButtons"/>
+      <div src="flexyFileContent,gallery"/>
+    </div>
+    <div src="nextPrevButtons"/>
+    <div id="footer" src="file"/>
   </bodycontent>
 </layout>

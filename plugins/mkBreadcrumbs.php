@@ -39,15 +39,10 @@ class mkBreadcrumbs extends plugin
                 $base .= '/';
             if ($dirs[$i] != null)
             {
-                /*
-                  if($i %2 == 0)
-                  $breadcrumbs .= '<a class="breadcrumbsEven" href="';
-                  else
-                  $breadcrumbs .= '<a class="breadcrumbsOdd" href="';
-                 */
-                $breadcrumbs .= '<a href="';
+                $breadcrumbs .= '<a class="breadcrumbs" href="';
 
-                $linkLabel = preg_replace("/-|_/", " ", $dirs[$i]);
+                //$linkLabel = preg_replace("/-|_/", " ", $dirs[$i]);
+                $linkLabel = preg_replace("/^.*_/", "", $dirs[$i]);
                 if ($i < $cnt - 1)
                     $breadcrumbs .= $_SERVER['PHP_SELF'] . '?robopage=' . trim($base) . '">' . $linkLabel . '/</a>';
                 else
@@ -55,7 +50,7 @@ class mkBreadcrumbs extends plugin
             }
         }
 
-        $ret = '<a href="' . $who . '"></a><b class="nav">' . $breadcrumbs . '</b>' . "\n";
+        $ret = '<a class="breadcrumbs" href="' . $who . '"></a><b class="nav">' . $breadcrumbs . '</b>' . "\n";
         return $ret;
     }
 

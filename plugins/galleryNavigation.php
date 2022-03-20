@@ -21,10 +21,10 @@ class galleryNavigation extends dynamicNavigation
     function findFirstJpg($dir)
     {
        $ret = '';
-       $dh = opendir($dir);
+       $dh = @opendir($dir);
       
        //echo "findFirstJpg dir: " . $dir . "<br/>"; 
-       while ($file = readdir($dh)) 
+       while ($dh && $file = readdir($dh)) 
        {
            if ($file != "." && $file != "..") 
            {

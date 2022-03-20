@@ -11,18 +11,15 @@
   <cssfiles>
     <file>css/robo.css</file>
   </cssfiles>
-  <jsfiles></jsfiles>
+  <jsfiles/>
   <bodycontent>
     <div id="wrapper" src="container">
-      <div klass=headerbanner src="container">
-        <div id="bannerlinks" src="file" />
-        <div klass="mkBreadcrumbs" src="mkBreadcrumbs" />
+      <div klass="headerbanner" src="container">
+        <div id="bannerlinks" src="file"/>
+        <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/>
       </div>
-      <div id="main-content" src="container">
-        <div id="slideshow" src="lazyLoadSlideshow" />
-      </div>
-      <!-- end main-content -->
-      <div id="footer" src="file" />
+      <div id="slideshow" src="lazyLoadSlideshow"/>
+      <div id="footer" src="file"/>
     </div>
   </bodycontent>
 </layout>

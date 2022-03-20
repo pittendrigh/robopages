@@ -97,7 +97,7 @@ class blog extends plugin
         }
        
 
-        $ret = '';
+        $ret = '<div class="blog">';
         $ret .= '<h2> '.$blogtitle.' </h2>';
         $ret .= $this->ggetOutput('');
         $ret .= '</div>';

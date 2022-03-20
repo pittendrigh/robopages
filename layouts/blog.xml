@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
   <plugins>
-      <file>plugins/dynamicNavigation.php</file>
-      <file>plugins/flexyFileContent.php</file>
-      <file>plugins/mkBreadcrumbs.php</file>
-      <file>plugins/file.php</file>
-      <file>plugins/blog.php</file>
-      <file>plugins/longColumn.php</file>
+    <file>plugins/dynamicNavigation.php</file>
+    <file>plugins/flexyFileContent.php</file>
+    <file>plugins/mkBreadcrumbs.php</file>
+    <file>plugins/file.php</file>
+    <file>plugins/blog.php</file>
+    <file>plugins/longColumn.php</file>
   </plugins>
   <jsfiles>
     <file>js/roboLib.js</file>
@@ -15,17 +15,15 @@
     <file>css/robo.css</file>
   </cssfiles>
   <bodycontent>
-   <div id="wrapper" src="container">
-        <div klass="toc" src="dynamicNavigation" />
-        <div klass="headerbanner" src="container">
-           <div klass="bannerlinks" src="file" />
-           <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/> 
-        </div>
-        <div klass="main-content" src="container">
-             <div id="blog" src="blog" />
-             <div id="longColumn" src="longColumn" /> 
-        </div>
-        <div id="footer" src="file" />
-   </div>
+    <div id="wrapper" src="container">
+      <div klass="toc" src="dynamicNavigation"/>
+      <div klass="headerbanner" src="container">
+        <div klass="bannerlinks" src="file"/>
+        <div klass="mkBreadcrumbs" src="mkBreadcrumbs"/>
+      </div>
+      <div id="blog" src="blog"/>
+      <div id="longColumn" src="longColumn"/>
+      <div id="footer" src="file"/>
+    </div>
   </bodycontent>
 </layout>
