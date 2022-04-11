@@ -1,7 +1,7 @@
 <?php
 @session_start();
 
-include_once("plugin.php");
+include_once("plugins/plugin.php");
 
 //ini_set('error_reporting',0);
 

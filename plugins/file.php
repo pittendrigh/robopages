@@ -1,7 +1,7 @@
 <?php
 @session_start();
-include_once("plugin.php");
-include_once("processBackTics.class.php");
+include_once("plugins/plugin.php");
+include_once("plugins/processBackTics.class.php");
 
 class file extends plugin
 {

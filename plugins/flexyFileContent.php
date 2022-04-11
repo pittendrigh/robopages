@@ -1,15 +1,13 @@
 <?php
-include_once("roboPather.class.php");
-include_once("Link.php");
-include_once("processBackTics.class.php");
-include_once("roboMimeTyper.php");
-include_once("displayCard.php");
+include_once("plugins/roboPather.class.php");
+include_once("plugins/Link.php");
+include_once("plugins/processBackTics.class.php");
+include_once("plugins/roboMimeTyper.php");
+include_once("plugins/displayCard.php");
+include_once("conf/globals.php");
+include_once("plugins/plugin.php");
 
 @session_start();
-
-include_once("conf/globals.php");
-include_once("plugin.php");
-
 class flexyFileContent extends plugin
 {
     protected

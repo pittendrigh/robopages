@@ -1,7 +1,7 @@
 <?php
 @session_start();
 
-include_once("plugin.interface.php");
+include_once("plugins/plugin.interface.php");
 
 class plugin implements pluginInterface
 {

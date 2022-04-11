@@ -1,9 +1,9 @@
 <?php
 
   @session_start();
-  include_once("plugin.php");
-  include_once("roboMimeTyper.php");
-  include_once("p2nHandler.php");
+  include_once("plugins/plugin.php");
+  include_once("plugins/roboMimeTyper.php");
+  include_once("plugins/p2nHandler.php");
 
   class nextPrevButtons extends plugin
   {

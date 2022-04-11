@@ -1,7 +1,7 @@
 <?php
 
 @session_start();
-include_once("roboMimeTyper.php");
+include_once("plugins/roboMimeTyper.php");
 include_once("conf/globals.php");
 
 class lazyLoadSlideShow extends plugin {

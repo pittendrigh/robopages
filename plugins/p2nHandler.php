@@ -1,6 +1,6 @@
 <?php
 
-  include_once("LinkedList.php");
+  include_once("plugins/LinkedList.php");
 
   class p2nHandler
   {
