@@ -28,18 +28,10 @@ class dynamicNavigation extends plugin
     function init()
     {
         //echo "dynamicNavigation init <br/>";
-        $this->linkshash = null;
         $this->linkshash = array();
-
-        $this->fileKeys = null;
         $this->fileKeys = array();
-
-        $this->imageKeys = null;
         $this->imageKeys = array();
-
-        $this->dirKeys = null;
         $this->dirKeys = array();
-
         $this->mimer = new roboMimeTyper();
 
         $this->currentDirPath = $_SESSION['currentDirPath'];
@@ -80,7 +72,7 @@ class dynamicNavigation extends plugin
 
         if ($linkTargetType == 'dir')
         {
-            $linklbl = '<i class="material-icons" style="font-size: 80%; ">folder</i> ' .  $linklbl;
+            $linklbl = '<i class="material-icons">folder</i> ' .  $linklbl;
         }
         else if ($linkTargetType == 'label')
         {
@@ -143,8 +135,6 @@ class dynamicNavigation extends plugin
         $indexHref = '';
 
         $ret = '';
-        //$ret .= $this->currentDirPath . "<br/>";
-        //$ret .= $this->getDirLinksPath() . "<br/>";
 
         $cnt = count($this->linkshash);
 
@@ -215,17 +205,14 @@ foreach($allOfEm as $aKey)
 
     function gatherLinks()
     {
-        // dirlinks often 
         $this->read_dirlinks_file();
         $this->find_additional_filenames();
-
     }
 
 
     function getDirlinksPath()
     {
       $path = $this->currentDirPath . "dirlinks";
-      //echo "getDirlinksPath: ", $path, "<br/>";
       return $path;
     }
 
@@ -267,8 +254,7 @@ foreach($allOfEm as $aKey)
                 $this->imageKeys[] = $ordered_hrefKey;
             else
                 $this->fileKeys[] = $ordered_hrefKey;
-
-            //echo "reading ", $ordered_hrefKey, "<br/>"; 
+ 
             $this->linkshash[$ordered_hrefKey] = $link;
         }
         
@@ -346,16 +332,6 @@ foreach($allOfEm as $aKey)
                 // Now test if already already exists from a pre-existing dirlinks file
                 // If not we'll add this link, which must be a file added since dirlinks was created
                 $atest = @$this->linkshash[$hrefKey];
-                //echo "finding ", $hrefKey, "<br/>"; 
-/*
-
-                if(isset($akey))
-                   echo "||$hrefKey ---- $atest->href <br/>";
-                else{
-                   echo " &nbsp; &nbsp; &nbsp; $hrefKey no atest->href <br/>";
-                   //foreach (array_keys($this->linkshash) as $akey) { print "$akey <br/>"; }
-                }
-*/
                 if (!isset($atest) || $atest == null)
                 {
                     $rline = $hrefKey . '::' . $file . "::$linkTargetType";

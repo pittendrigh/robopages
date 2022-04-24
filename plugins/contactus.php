@@ -1,7 +1,7 @@
 <?php
 @session_start();
 
-include_once("plugins/plugin.php");
+include_once("plugin.php");
 
 //ini_set('error_reporting',0);
 
@@ -82,17 +82,17 @@ class contactus extends plugin
         $ret .= '<form action="' . $_SERVER['PHP_SELF'] . '?layout=contactus"  method="post" enctype="multipart/form-data">';
 
         $ret .= '
-         <p style="margin: 0.5em;">  Your Name <input type="text" size="32" name="fromname"/></p>
-         <p style="margin: 0.5em;"> <span style="color: red; font-weight: bold"> 
-                Return email address <input type="text"  size="32" name="fromaddress"/> required! </span> </p>
-         <p style="margin: 0 0.5em;"> Subject <input type="text"  size="32"  name="subject"/></p>';
+         <p>  Your Name <input type="text" size="32" name="fromname"/></p>
+         <p>  
+                Return email address <input type="text"  size="32" name="fromaddress"/> required! </p>
+         <p> Subject <input type="text"  size="32"  name="subject"/></p>';
 
-        $ret .= '<p style="margin: 0.5em;">   Send the following message to ' . $this->mkToSelect() . '</p>';
+        $ret .= '<p>   Send the following message to ' . $this->mkToSelect() . '</p>';
 
         $ret .= '
-       <div><textarea style="width: 80%; min-height: 10em;" name="message" cols="50" rows="10"></textarea></div>
+       <div><textarea name="message" cols="50" rows="10"></textarea></div>
        <p> <input type="hidden" name="layout" value="contactus"/>   
-       <p style="display: none;"> Tags <input type="text" name="keywords" value=""/>  </p>
+       <p> Tags <input type="text" name="keywords" value=""/>  </p>
        <input type="submit" name="submit" value="Send"/>  
        <input type="button" name="cancel" value="Cancel" onclick="window.history.back()"/>
        </p>
@@ -196,7 +196,6 @@ class contactus extends plugin
         {
             if (!isset($_POST['fromaddress']) || $_POST['fromaddress'] == null || strlen($_POST['fromaddress']) < 2)
             {
-                //$ret .= '<h1 style="clear: both;">Your return email address is required!</h1>';
                 $ret .= '<h1>Your return email address is required!</h1>';
                 $ret .= '<h2><a href="' . $_SERVER['PHP_SELF'] . '?layout=contactus" >Try again......</a></h2>';
             }

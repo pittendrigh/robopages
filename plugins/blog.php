@@ -89,16 +89,8 @@ class blog extends plugin
     }
 
     function getOutput($divid)
-    {   
-        global $sys_blog_title;
-        $blogtitle = 'Blog';
-        if(isset($sys_blog_title) && $sys_blog_title != null){
-            $blogtitle = $sys_blog_title;
-        }
-       
-
-        $ret = '<div class="blog">';
-        $ret .= '<h2> '.$blogtitle.' </h2>';
+    {   $ret = '';
+        $ret .= '<h2> MRBoats Blog </h2>';
         $ret .= $this->ggetOutput('');
         $ret .= '</div>';
         return ($ret);
@@ -176,7 +168,7 @@ class blog extends plugin
 
             $lcl .= $dateMeme;
             //$lcl .= '<div class="blogEntry">';
-            $lcl .= trim(file_get_contents($this->blogFilesDirPath.$ablogFile));
+            $lcl .= trim(file_get_contents($this->blogFilesDirPath . $ablogFile));
             //$lcl .= '</div>' . "\n";
             $cnt++;
             $buff .= $lcl;

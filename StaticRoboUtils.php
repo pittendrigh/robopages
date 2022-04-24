@@ -252,7 +252,7 @@ class StaticRoboUtils
 
     public static function ouch($str)
     {
-        $fp = fopen($_SERVER['DOCUMENT_ROOT'] . "LOGS/error.log", "a");
+        $fp = fopen($_SERVER['DOCUMENT_ROOT'] . "/LOGS/error.log", "a");
         $stamp = time();
         $dadate = localtime($stamp);
         $min = $dadate[1];

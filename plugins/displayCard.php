@@ -1,8 +1,8 @@
 <?php
 
 @session_start();
-include_once("plugins/plugin.php");
-include_once("plugins/Link.php");
+include_once("plugin.php");
+include_once("Link.php");
 include_once("StaticRoboUtils.php");
 
 class displayCard extends plugin {

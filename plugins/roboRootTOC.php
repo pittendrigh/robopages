@@ -1,9 +1,9 @@
 <?php
 @session_start();
 include_once("conf/globals.php");
-include_once("plugins/Link.php");
-include_once("plugins/navCard.php");
-include_once("plugins/dynamicNavigation.php");
+include_once("Link.php");
+include_once("navCard.php");
+include_once("dynamicNavigation.php");
 
 class roboRootTOC  extends dynamicNavigation
 {

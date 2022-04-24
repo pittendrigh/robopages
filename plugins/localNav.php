@@ -1,8 +1,8 @@
 <?php
 @session_start();
 include_once("conf/globals.php");
-include_once("plugins/Link.php");
-include_once("plugins/dynamicNavigation.php");
+include_once("Link.php");
+include_once("dynamicNavigation.php");
 
 class localNav extends dynamicNavigation
 {

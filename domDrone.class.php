@@ -1,8 +1,8 @@
 <?php
 @session_start();
 
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+//error_reporting(E_ALL);
+//ini_set("display_errors", 0);
 
 include_once("conf/globals.php");
 require_once("StaticRoboUtils.php");
@@ -22,30 +22,19 @@ class domDrone
     protected $layoutXML;
     protected $dirlayouts;
 
-    /*
-    ** We have page specific layouts (in the local ./roboresources dir)
-    ** ...if and only if $_GET['robopage'] is defined.
-    ** What about a missing and assumed index.htm or index.jpg?
-    ** ...when we want the main page to have a custom layout?
-    ** Passing an optional layout to the ctor is ugly but it works
-    */
-    function __construct($layout=null)
+    function __construct()
     {
-        $layout = trim($layout);
         $this->mimer = new roboMimeTyper();
         $this->cssfiles = null;
         $this->jsfiles = null;
-        $this->definitionFile = null;
-        $this->definitionFile = 'layouts/robo.xml';
-        if(isset($layout) && $layout != null){
-          $this->definitionFile = 'layouts/'.$layout.'.xml';
-        }
- 
         $this->init();
+        $this->readDefinitionFile();
     }
 
     function init()
     {
+        global $sys_layout;
+
         StaticRoboUtils::getpostClean();
 
         if (isset($_GET['dbg']))
@@ -55,71 +44,35 @@ class domDrone
         $_SESSION['prgrmUrlRoot'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', getcwd() . '/');
 
         $this->setPathAndUrlParms();
-        $this->determineTitle();
-
-        // this->definitionFile should be set to a default
-        // ...however, determinLayout() may override that default
-        //
         $this->determineLayout();
-        $this->readDefinitionFile();
+        $this->determineTitle();
         if ($this->dbg)
             $this->dbg();
     }
 
     function determineLayout()
     {
-        // if we get this far we know a layout was not passed to the ctor
         global $sys_layout;
 
-if(!isset($this->definitionFile)) {
+
         $this->definitionFile = 'layouts/robo.xml';
         if (isset($sys_layout) && $sys_layout != null)
             $this->definitionFile = 'layouts/' . $sys_layout . '.xml';
-}
-        // perhaps a relevant conf/dirlayouts.ini entry exists
-        // this layout override method is useful for all files in a directory
-        if (isset($_GET['robopage'])) {
-            $dirlayoutLines = file("conf/dirlayouts.ini");
-            $dlcnt = count($dirlayoutLines);
-            /*
-              Fly-Tying/Sandy-Pittendrigh/BestOf|gallery
-              Birds|gallery
-             */
-            for ($i = 0; $i < $dlcnt; $i++)
-            {
-                if (trim($dirlayoutLines[$i]) == '')
-                    continue;
-                $tmp = explode("|", trim($dirlayoutLines[$i]));
-                // make a hash for subsequent comparison
-                $this->dirlayouts[$tmp[0]] = $tmp[1];
-            }
 
-         $test = $_SESSION['prgrmDocRoot'] . $_GET['robopage'];
-         if(isset($this->dirlayouts)){
-            foreach (array_keys($this->dirlayouts) as $akey)
-            {
-                if (strstr($test, $akey))
-                {
-                    $this->definitionFile = 'layouts/' . $this->dirlayouts[$akey] . '.xml';
-                }
-            }
-          }
-           
-        }
-
-        // perhaps a current directory wide override exists, as  '/roboresources/layout'
-        // ...this could conceivably override conf/layouts.ini
+        // a default layout is set. Now perhaps to change it with a local roboresources/layout file
+        // which would apply to all files in $_SESSION['currentDirPath']
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/layout'))
         {
-            //echo "b<br/>";
-            $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath'] . 'roboresources/layout')) . '.xml';
+          if($this->dbg)
+            echo "b layout file <br/>";
+          $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath'] . 'roboresources/layout')) . '.xml';
         }
 
-        // perhaps a page-specific override exists, which takes precedence even over diredctory wide
-        // ...this would also override conf/layouts.ini
+        // perhaps a page-specific override exists, which takes precedence even over diredctory wide setting
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/' . $_GET['robopage'] . '-layout'))
         {
-            //echo "c<br/>";
+            if($this->dbg)
+               echo "c page specific<br/>";
             $this->definitionFile = 'layouts/' . trim(@file_get_contents($_SESSION['currentDirPath']
                                     . 'roboresources/' . $_GET['robopage'] . '-layout')) . '.xml';
         }
@@ -127,7 +80,8 @@ if(!isset($this->definitionFile)) {
         // perhaps $_GET['layout'] exists, which takes precedence over all the above
         if (isset($_GET['layout']) && file_exists("layouts/" . $_GET['layout'] . '.xml'))
         {
-            //echo "d<br/>";
+            if($this->dbg)
+               echo "d get layout br/>";
             $this->definitionFile = 'layouts/' . $_GET['layout'] . '.xml';
         }
 
@@ -143,7 +97,7 @@ if(!isset($this->definitionFile)) {
         if (@stat($_SESSION['currentDirPath'] . 'roboresources/title-' . basename($_SESSION['currentDisplay'])))
         {
 //echo "a";
-            $overridefile = $_SESSION['currentDirPath'].'roboresources/title-'.$_SESSION['currentDisplay'];
+            $overridefile = $_SESSION['currentDirPath'] . 'roboresources/title-' . $_SESSION['currentDisplay'];
             $title = @file_get_contents($overridefile);
         }
         // or perhaps override with locally defined direcdtory level title
@@ -570,7 +524,6 @@ if(!isset($this->definitionFile)) {
         //<META name="verify-admitad" content="xxxx" />
 
         $title = $_SESSION['title'];
-  //<META http-equiv="content-language" content="en"/> 
         $ret = '';
         $ret .= <<<ENDO
 <!DOCTYPE html>
@@ -734,10 +687,6 @@ ENDO;
         foreach (array_keys($_POST) as $akey)
         {
             print " $akey p= <b>$_POST[$akey]</b><br/>";
-        }
-        foreach (array_keys($_COOKIE) as $akey)
-        {
-            print " $akey c= <b>$_COOKIE[$akey]</b><br/>";
         }
     }
 

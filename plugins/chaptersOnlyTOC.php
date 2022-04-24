@@ -1,14 +1,15 @@
 <?php
 
 @session_start();
-include_once("plugins/plugin.php");
-include_once("plugins/roboMimeTyper.php");
-include_once("plugins/p2nHandler.php");
+include_once("plugin.php");
+include_once("roboMimeTyper.php");
+
+include_once("p2nHandler.php");
 
 class chaptersOnlyTOC extends plugin
 {
   public   $mimer;
-  public   $p2nHandler;
+  public   $p3nHandler;
   public   $nextPrevButtons;
   
   function _construct()
@@ -28,7 +29,7 @@ class chaptersOnlyTOC extends plugin
   function getOutput($divid)
   {
       $ret = '';
-      $state = 'toc';
+      $state = 'TOC';
 
       if (isset($_COOKIE['buttonState']) 
           && in_array($_COOKIE['buttonState'], ['toc', 'TOC'])) {

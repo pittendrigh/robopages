@@ -1,9 +1,9 @@
 <?php
 @session_start();
 include_once("conf/globals.php");
-include_once("plugins/Link.php");
-include_once("plugins/navCard.php");
-include_once("plugins/dynamicNavigation.php");
+include_once("Link.php");
+include_once("navCard.php");
+include_once("dynamicNavigation.php");
 
 class galleryNavigation extends dynamicNavigation
 {
@@ -21,10 +21,10 @@ class galleryNavigation extends dynamicNavigation
     function findFirstJpg($dir)
     {
        $ret = '';
-       $dh = @opendir($dir);
+       $dh = opendir($dir);
       
        //echo "findFirstJpg dir: " . $dir . "<br/>"; 
-       while ($dh && $file = readdir($dh)) 
+       while ($file = readdir($dh)) 
        {
            if ($file != "." && $file != "..") 
            {
@@ -148,7 +148,7 @@ if ($linkTargetType  == 'dir')
         {
            $body = '<img src="' . $partPath . '" alt="'. $label. '" loading="lazy"/>';
         }
-        $label = '<i class="material-icons" style="font-size: 80%; ">folder</i> '  . $label;
+        $label = '<i class="material-icons">folder</i> '  . $label;
         $card = new navcard($href,$body, $label);
 }
 else 

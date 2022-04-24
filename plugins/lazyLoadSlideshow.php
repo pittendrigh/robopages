@@ -1,7 +1,7 @@
 <?php
 
 @session_start();
-include_once("plugins/roboMimeTyper.php");
+include_once("roboMimeTyper.php");
 include_once("conf/globals.php");
 
 class lazyLoadSlideShow extends plugin {
@@ -25,7 +25,7 @@ class lazyLoadSlideShow extends plugin {
    <input type="button" value="next" id="ntoggle" onclick="nextImage()"/>
    <input type="button" value="prev" id="ptoggle" onclick="prevImage()"/>
    &nbsp; &nbsp; &nbsp; '."\n".'<b> Frame Rate </b><input type="button" value="-" onclick="decInterval()"/> 
-   <p style="display: inline;" id="incrementDisplay">' . $intervalDisplay . '</p>
+   <p>' . $intervalDisplay . '</p>
    <input type="button" value="+" onclick="incInterval()"/> 
 </div>
                ';

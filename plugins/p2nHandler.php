@@ -1,6 +1,6 @@
 <?php
 
-  include_once("plugins/LinkedList.php");
+  include_once("LinkedList.php");
 
   class p2nHandler
   {
@@ -89,7 +89,7 @@
 
     function U2pDbg()
     {
-      echo '<table style="margin-left: 2rem; font-size: 75%;">';
+      echo '<table>';
       echo '<tr><th> Prev </th><th> This </th><th> Next </th></tr>';
       foreach (array_keys($this->url2PageNodeHash) as $akey)
       {

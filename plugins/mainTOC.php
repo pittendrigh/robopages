@@ -1,10 +1,10 @@
 <?php
 
   @session_start();
-  include_once("plugins/plugin.php");
-  include_once("plugins/nextPrevButtons.php");
-  include_once("plugins/roboMimeTyper.php");
-  include_once("plugins/p2nHandler.php");
+  include_once("plugin.php");
+  include_once("nextPrevButtons.php");
+  include_once("roboMimeTyper.php");
+  include_once("p2nHandler.php");
 
   class mainTOC extends plugin
   {
@@ -68,9 +68,11 @@
         $cnt = count($this->p2nHandler->localChapterLinks);
         $bottom .= '<h4 class="roboBookThisChapter"> -- ' . $this->p2nHandler->getThisChapter() . " -- </h4>";
 
+        //echo "localChapterLinks cnt: ", count($this->p2nHandler->localChapterLinks), "<br/>";
         foreach (array_keys($this->p2nHandler->localChapterLinks) as $akey)
         {
           $link = $this->p2nHandler->localChapterLinks[$akey];
+          //echo "mainTOC: ", htmlentities($link), "<br/>"; 
           $bottom .= $link;
         }
         $bottom .= '</div>';

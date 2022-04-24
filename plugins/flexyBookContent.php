@@ -1,7 +1,7 @@
 <?php @session_start();
 
-include_once("plugins/plugin.php");
-include_once("plugins/flexyFileContent.php");
+include_once("plugin.php");
+include_once("flexyFileContent.php");
 
 class flexyBookContent extends flexyFileContent 
 {

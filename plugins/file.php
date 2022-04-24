@@ -1,7 +1,7 @@
 <?php
 @session_start();
-include_once("plugins/plugin.php");
-include_once("plugins/processBackTics.class.php");
+include_once("plugin.php");
+include_once("processBackTics.class.php");
 
 class file extends plugin
 {
@@ -44,7 +44,7 @@ class file extends plugin
 /*
   RE> processBackTics() above.
   a default boilerplate fragment file like
-  ....../fragments/roboresources/bottombannerlinks.frag
+  ....../fragments/roboresources/bannerlinks.frag
   might have:
   <a href="?layout=contactus"> Contact - </a>
   but that URL will only work if Robopages installed inside the server DOCUMENT_ROOT
