@@ -1,11 +1,11 @@
-
+(as it downloads from https://github.com/pittendrigh/robopages)
 <h3> Mission Statement </h3>
 Robopages is a small footprint mostly files-based CMS geared primarily toward unix-savvy developers. Database content generators are not prohited, but mostly avoided. If you are familiar with ssh, scp, bash and  with terminal emulators--Robopages is fast and bug snot slick.
 <br/><br/>
 
 <h3> Static Output </h3>
 Robopages can now produce (optional) static output.  The details are in the documentation. 
-To write out a whole site I traverse a development domain on localhost with <b> wget -r </b>. Robopages still produces dynamic output, which then gets manipulated by php DOM routines. A hierarchical file system containing static HTML is written out on localhost with all hyperlinks and image src attributes adjusted so they work with relative paths. Scp -r then pushes that static output up to a real server.
+To write out a whole site I traverse a development domain on localhost with <b> wget -r </b>. Robopages still produces dynamic output, which then gets manipulated by php DOM routines. A hierarchical file system containing static HTML is written out on localhost, where all hyperlinks and image src attributes adjusted so they work with relative paths. Scp -r then pushes that static output up to a real server.
 
 <!--
 <h3> Server Side Epub3 </h3>
@@ -23,7 +23,7 @@ path/path/MyEbook|book (should probably rename this roboEpub instead of book)<br
 epub3 display is useful but new content has to be edited with something like sigil, on your desktop, and then uploaded to the server.
 --> 
 <h3> Galleries </h3>
-Robopages supports image galleries with a main display image is surrounded by clickable thumbnails. All hyperlinks are automatically generated.  In order to add new images to the gallery you simply copy them into the gallery.  A clickable slideshow link is also automatially generated.
+Robopages supports image galleries where a main display image is surrounded by clickable thumbnails. All hyperlinks are automatically generated.  In order to add new images to the gallery you simply copy them into the gallery.  A clickable slideshow link is also automatially generated.
 
 <h3> roboBook </h3>
 roboBook is a layout option that uses directories populated with HTML fragment files to present chapters and pages in a familiar book-like fashion, complete with TOC (collapsable table of contents), NextPage, PrevPage and LastReadPage buttons, presented in a configuralble sequential order.
