@@ -1,11 +1,13 @@
 
 <h3> Mission Statement </h3>
-Robopages is a small footprint rapid-application CMS without graphical or content complexity limitations of any kind, geared primarily toward unix-savvy developers. Most Content Management Systems seek to make development "easier" for non-professionals.  Robopages concedes that market, targeting professionals instead. This does not mean Robopages is difficult. Quite the contrary. If you are familiar with ssh, scp, bash, sed, perl, php, css and most of all with terminal windows and the keyboard, you can mock up a complex website faster--with Robopages--than with any other system. Robopages, among other things, seeks to limit the use of databases as much as possible. There used to be an aministration GUI. It's gone now.  Develop on localhost.  Then push the content up with scp.
+Robopages is a small footprint mostly files-based CMS geared primarily toward unix-savvy developers. Database content generators are not prohited, but mostly avoided. If you are familiar with ssh, scp, bash and  with terminal emulators--Robopages is fast and bug snot slick.
 <br/><br/>
 
 <h3> Static Output </h3>
-Robopages can now produce (optional) static output.  The details are in the documentation. You might want to make static output on localhost and then scp to a domain. I made it (the static output generator) as a hobby exercise. I worked flawlessly on a big site I used for test purposes, and then never used it again.  What I do is a bit different than other systems.  I use php dom parsing to make a list of all links and another list of all images, and then wrote php codes to transform those urls. The system then writes to a file. To write out a whole site I use a bash script (on localhost) to traverse the entire site with <b> wget -r </b>.  If you do that with robopages set to static mode (conf/globals.php) a hierarchical file system is created, with static HTML for every page, with all hyperlinks and images adjusted so they work with relative paths.
+Robopages can now produce (optional) static output.  The details are in the documentation. 
+To write out a whole site I traverse a development domain on localhost with <b> wget -r </b>. Robopages still produces dynamic output, which then gets manipulated by php DOM routines. A hierarchical file system is containging static HTML is written out on localhost, with all hyperlinks and image src attributes adjusted so they work with relative paths. Scp -r then pushes that static output up to a real server.
 
+<!--
 <h3> Server Side Epub3 </h3>
 The Epub3 display layout is now an at least temporarily abandoned project.
 I was able to get it work reliably on output saved in epub3 format from a proprietary
@@ -18,40 +20,26 @@ that can be edited in place width scp, bash, sed, awk, imagemagick and vi
 To try to get an Epub to work unzip an epub3 in the document root. Edit conf/dirlayouts.ini so it has a line:<br/>
 path/path/MyEbook|book (should probably rename this roboEpub instead of book)<br/>
 ...away it sort of goes, in some cases but not all.
- 
-<h3> roboBook </h3>
 epub3 display is useful but new content has to be edited with something like sigil, on your desktop, and then uploaded to the server.
-<br/><br/>
-roboBook is pure hand-edited HTML fragments and/or images (and other mime types, in robopages fashion, in nested, hierarchical directories) presented in book-like fashion.
-For each book (in fragments/Library/) there is a top-level collection of directories treated as "book chapters." Links to those top-level chapters appear in a table of contents on all pages.  Chapters can be further nested. Each chapter contains *.htm fragments and/or image or other mime type files or further directory nesting. "Pages" stored inside "chapter" directories can be accessed with Next and Previous buttons as well as with traditional dynamically-generated links inside a visible TOC (table of contents). roboBook makes it easy to edit on the fly, usually but not necessarily on localhost, without using a GUI-driven editor like sigil, so you can instantly see the changes. 
+--> 
+<h3> Galleries </h3>
+Robopages supports image galleries with a main display image is surrounded by clickable thumbnails. All hyperlinks are automatically generated.  In order to add new images to the gallery you simply copy them into the gallery.  A clickable slideshow link is also automatially generated.
 
-<br/><br/>
-The TOContents has "Next Page" and "Prev Page" buttons.
-Next and Prev depend on the presence of a "p2n" file (page url to page number hash) inside the top-level chapters directory. Look at the existing p2n for an example.  commandLineTools/tocit.py makes a p2n file automatically, that can then be edited to reorder page sequencing.  tocit.py needs work.  It will now destroy and previously hand-edited changes.
-fixing that is a project in the works (so it leaves existing ordering in place, while inserting any new files or directories at strategic points that do not destroy previous hand-edited page orderings.
+<h3> roboBook </h3>
+roboBook is a layout option that uses directories populated with HTML fragment files to present chapters and pages in a familiar book-like fashion, complete with TOC (collapsable table of contents), NextPage, PrevPage and LastReadPage buttons, presented in a configuralble sequential order.
+The Documentation section, for instance, uses a roboBook layout.
 
+<h3>Layouts</h3>
+Layouts are defined by editing an XML file (in layouts/*.xml) and by editing or adding CSS. Dynamic content, on a block element by block element basis, is generated from a plugin module in the plugins directory. Layhout XML files marry each individual block element to one or more plugin generators, that populate that particular element.
 
-<h4> Ground rule Assumptions</h4>
-<br/><br/>
-Most website pages consist of repetitive boilerplate HTML fragments (headers, footers and repeated navigation lists) combined with one or two (but usually one) main display area whose content is sometimes but not always complex enough to require help from a database server. Shopping carts, blogs and discussion forums need to be serviced by backend database systems. So far so good. But making database queries to find CSS files, JavaScript codes and repetitive boilerplate HTML is like driving and 18 wheeled tractor trailer truck to the corner grocery store when all you need is a quart of milk.
-
-<h4>Layouts</h4>
-Robopages is a rapid application way to quickly mock up a site and to make <i>continuous</i> structural and content modifications--until you get what you want. Once visually complete you want you may or may not want to export it into a more cumbersome system like Drupal or Word-press. Any layout is possible. There are no restrictions. There is no faster way to develop a new layout and to fine tune the content for a proposed new website.
-<br/><br/>
-
-Layouts are defined by editing an XML file in layouts/*.xml and by editing or adding CSS. Dynamic content must be generated from a plugin module in the plugins directory. Existing plugins include (file.php, contactus.php, mkBreadcrumbs.php and a few others as examples.
 <br/><br/>
 
 The simplest plugin module is file.php which sucks in the contents of an html fragment file.  Html fragments, images and downloadable files can be arranged in an organized system of nested file directories. 
+
 <br/><br/>
 
-<h4>Plugins</h4> The boilerplate look and feel of the website is determined by an XML layout file combined with its matching CSS. Once the boilerplate is defined content can be added quickly and easily. If you make use of the dynamicNavigation.php and flexyFileContent.php plugins, no links need to be edited and very little work needs to done in order to add new pages. If you upload a file it automatically becomes part of the website. 
-<br/><br/>
-
+<h3> Plugins </h3>
 Robopages&apos; plugins operate on a per-block element level. The XML mentioned in the paragraph above defines the ID names of the major block elements of a page, their tree-like nesting structure and the plugin class that supplies their dynamic contents.
-<br/><br/>
-
-After unpacking the zip file you do need to make the conf directory writable by the webserver. If you want to install robopages in a public_html home directory on a unix system you will have to navigate through several extra steps--as outlined in the documentation.
 <br/><br/>
 
 The following is robo.xml, the layout definition that results in the current page:
