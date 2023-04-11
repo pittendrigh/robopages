@@ -1,7 +1,7 @@
 <?php
 @session_start();
 include_once("plugin.php");
-include_once("processBackTics.class.php");
+//include_once("processBackTics.class.php");
 
 class file extends plugin
 {
@@ -29,13 +29,14 @@ class file extends plugin
             $ret = file_get_contents($defaultSrc);
         }
 
-//echo htmlentities($ret), "<br/>";
-
+/*
+        //echo htmlentities($ret), "<br/>";
         if (strstr($ret, '`'))
         {
             $backTicker = new processBackTics();
             $ret = $backTicker->evalBackTics($ret);
         }
+ */
 
         return ($ret);
     }
