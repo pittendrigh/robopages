@@ -1,27 +1,12 @@
 (as it downloads from https://github.com/pittendrigh/robopages)
 <h3> Mission Statement </h3>
-Robopages is a small footprint mostly files-based CMS geared primarily toward unix-savvy developers. Database content generators are not prohited, but mostly avoided. If you are familiar with ssh, scp, bash and  with terminal emulators--Robopages is fast and bug snot slick.
+Robopages is a small footprint CMS geared primarily toward unix-savvy developers. Database content generators are not prohited, but mostly avoided. If you are familiar with ssh, scp, bash and with terminal emulators--Robopages is fast way to mock up a site. All output comes form plugins. All layouts, default or otherwise, are defined in XML files. Any layout is possible.
 <br/><br/>
 
 <h3> Static Output </h3>
 Robopages can now produce (optional) static output.  The details are in the documentation. 
 To write out a whole site I traverse a development domain on localhost with <b> wget -r </b>. Robopages still produces dynamic output, which then gets manipulated by php DOM routines. A hierarchical file system containing static HTML is written out on localhost, where all hyperlinks and image src attributes adjusted so they work with relative paths. Scp -r then pushes that static output up to a real server.
 
-<!--
-<h3> Server Side Epub3 </h3>
-The Epub3 display layout is now an at least temporarily abandoned project.
-I was able to get it work reliably on output saved in epub3 format from a proprietary
-epub editor named Jutoh, and from most but not all sigils. <br/><br/>
-I have since lost interest in this project because content relies on a desktop editor like sigil.
-It's here if you want to work on it.
-I'm now more interested in the following roboBook layout, which is dynamic HTML 
-that can be edited in place width scp, bash, sed, awk, imagemagick and vi 
-<br/><br/> 
-To try to get an Epub to work unzip an epub3 in the document root. Edit conf/dirlayouts.ini so it has a line:<br/>
-path/path/MyEbook|book (should probably rename this roboEpub instead of book)<br/>
-...away it sort of goes, in some cases but not all.
-epub3 display is useful but new content has to be edited with something like sigil, on your desktop, and then uploaded to the server.
---> 
 <h3> Galleries </h3>
 Robopages supports image galleries where a main display image is surrounded by clickable thumbnails. All hyperlinks are automatically generated.  In order to add new images to the gallery you simply copy them into the gallery.  A clickable slideshow link is also automatially generated.
 
